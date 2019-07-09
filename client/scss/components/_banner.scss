@@ -1,0 +1,138 @@
+[role=banner] {
+  background-color: var(--white);
+  bottom: var(--gutter);
+  font-family: 'Source Code Pro', monospace;
+  left: var(--gutter);
+  min-width: var(--banner-width);
+  position: absolute;
+  text-transform: uppercase;
+  top: var(--gutter);
+  transform: translateX(calc(-100% - var(--gutter)));
+  transition-duration: 0.2s;
+  transition-property: transform;
+  z-index: 1;
+
+  %anchor-hover-styles {
+    background-color: var(--brand-primary);
+    color: var(--white);
+    outline: none;
+    width: calc(100%);
+  }
+
+  %label-hover-styles {
+    &:after {
+      border-top-color: var(--white);
+    }
+  }
+
+  [for='banner-control'] {
+    font-size: 2em;
+    left: calc(100% + var(--gutter));
+    position: absolute;
+    top: 0;
+    width: auto;
+
+    svg:not(:first-child) {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  nav {
+    a, label {
+      align-items: center;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
+      color: var(--dark-grey);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      padding: var(--gutter);
+      transform: scale(1);
+      transition-duration: 0.2s;
+      transition-property:
+        background-color,
+        box-shadow,
+        color,
+        transform;
+      width: 100%;
+
+      &:focus,
+      &:hover {
+        @extend %anchor-hover-styles;
+
+        box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+        transform: scale(1.2);
+        z-index: 1;
+      }
+    }
+
+    label {
+      &:after {
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0.5rem;
+        border-bottom-width: 0;
+        border-top-color: var(--dark-grey);
+        content: '';
+        height: 0;
+        margin-left: calc(var(--gutter));
+        transform: rotate(0);
+        transition-duration: 0.2s;
+        transition-property: border-top-color, transform;
+        width: 0;
+      }
+
+      &:hover,
+      &:focus {
+        @extend %label-hover-styles;
+      }
+    }
+
+    li {
+      position: relative;
+
+      &:focus,
+      &:hover {
+        > a,
+        > label {
+          @extend %anchor-hover-styles;
+        }
+      }
+    }
+  }
+
+  .subnav {
+    background-color: var(--white);
+    left: 100%;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition-duration: 0.2s;
+    transition-property: max-height, opacity;
+  }
+
+  [name='subnav']:checked {
+    ~ .subnav {
+      max-height: 100vh;
+      opacity: 1;
+      pointer-events: initial;
+    }
+
+    ~ a,
+    ~ label {
+      @extend %anchor-hover-styles;
+      @extend %label-hover-styles;
+
+      box-shadow: none;
+      transform: scale(1);
+
+      &:after {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+a {
+  position: relative;
+  text-decoration: none;
+
+  &,
+  &:active,
+  &:visited {
+    color: var(--brand-primary);
+  }
+
+  &:after {
+    content: '';
+    height: 0.1rem;
+    position: absolute;
+    top: calc(100% + 0.1rem);
+    transition-duration: 0.2s;
+    transition-property: width;
+    width: 0;
+  }
+
+  &:focus,
+  &:hover {
+    &:after {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+main {
+  background-color: var(--white);
+  box-shadow: 0 0 1rem 0 var(--dark-grey);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: relative;
+  transform: scale(1) translateX(0);
+  transform-origin: right center;
+  transition-duration: 0.2s;
+  transition-property: transform;
+
+  &:after {
+    background-color: var(--dark-grey);
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition-duration: 0.2s;
+    transition-property: opacity;
+  }
+}
