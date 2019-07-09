@@ -1,7 +1,6 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
-import Router from 'next/router'
 
 
 
@@ -9,6 +8,8 @@ import Router from 'next/router'
 
 // Component imports
 import { Link } from '../routes'
+import handleRouterEvent from '../effects/handleRouterEvent'
+import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
 
 
@@ -23,29 +24,12 @@ const Banner = () => {
     setIsOpen(false)
   }
 
-  const handleEscapeKey = ({ key }) => {
+  useEffect(handleRouterEvent('routeChangeComplete', close))
+  useEffect(handleKeyboardEvent('keyup', ({ key }) => {
     if (key.toLowerCase() === 'escape') {
       close()
     }
-  }
-
-  useEffect(() => {
-    Router.events.on('routeChangeComplete', close)
-
-    return () => Router.events.off('routeChangeComplete', close)
-  })
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keyup', handleEscapeKey)
-    }
-
-    return () => {
-      if (isOpen) {
-        document.removeEventListener('keyup', handleEscapeKey)
-      }
-    }
-  })
+  }), [isOpen])
 
   return (
     <>
