@@ -1,6 +1,6 @@
 {
   "name": "trezy.com",
-  "version": "2.7.0",
+  "version": "0.0.0",
   "main": "server/server.js",
   "license": "BSD-3-Clause",
   "scripts": {
@@ -37,6 +37,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "firebase": "^6.2.4",
     "glob": "^7.1.4",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
@@ -60,6 +61,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-spring": "^8.0.27",
+    "react-with-firebase-auth": "^1.0.3",
     "redux": "^4.0.3",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
