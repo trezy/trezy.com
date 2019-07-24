@@ -19,7 +19,7 @@ const {
   CIRCLE_BRANCH,
   CIRCLE_BUILD_NUM,
   CIRCLE_SHA1,
-  TRAVIS_COMMIT_RANGE,
+  TMDB_API_KEY,
 } = process.env
 const DEFAULT_PORT = 3000
 const COMMIT_HASH_LENGTH = 10
@@ -36,7 +36,14 @@ module.exports = withSass({
       : `DEV_${crypto.randomBytes(DEV_BUILD_ID_LENGTH).toString('hex').toLowerCase()}`
   ),
 
-  publicRuntimeConfig: {},
+  publicRuntimeConfig: {
+    apis: {
+      tmdb: {
+        apiKey: TMDB_API_KEY,
+        url: 'https://api.themoviedb.org/3',
+      }
+    },
+  },
 
   webpack: (config, data) => {
     if (ANALYZE) {
@@ -53,7 +60,7 @@ module.exports = withSass({
       $BUILD_BRANCH: JSON.stringify(CIRCLE_BRANCH || 'develop'),
       $BUILD_COMMIT: JSON.stringify((CIRCLE_SHA1 && CIRCLE_SHA1.slice(0, COMMIT_HASH_LENGTH)) || CIRCLE_BRANCH || 'develop'),
       $BUILD_COMMIT_HASH: JSON.stringify(CIRCLE_SHA1),
-      $BUILD_COMMIT_RANGE: JSON.stringify(TRAVIS_COMMIT_RANGE),
+      // $BUILD_COMMIT_RANGE: JSON.stringify(TRAVIS_COMMIT_RANGE),
       $BUILD_DATE: JSON.stringify((new Date()).toISOString()),
       $BUILD_ID: JSON.stringify(CIRCLE_BUILD_NUM),
       $NEXT_BUILD_ID: JSON.stringify(data.buildId),

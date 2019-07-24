@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
 import articles from './articles'
+import currentUserID from './currentUserID'
+import movies from './movies'
+import moviesSearchResults from './moviesSearchResults'
+import users from './users'
 
 
 
@@ -7,4 +11,8 @@ import articles from './articles'
 
 export default combineReducers({
   articles,
+  currentUserID,
+  movies,
+  moviesSearchResults,
+  users,
 })

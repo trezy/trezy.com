@@ -24,6 +24,10 @@ const domainWhitelist = [
   'https://securetoken.googleapis.com',
   'https://www.googleapis.com',
   'https://googleapis.com',
+
+  // TMDb
+  'https://api.themoviedb.org',
+  'https://image.tmdb.org',
 ]
 
 

@@ -28,6 +28,11 @@ const navItems = [
     route: 'about',
   },
   {
+    key: 'dashboard',
+    title: 'Dashboard',
+    route: 'dashboard',
+  },
+  {
     key: 'social',
     title: 'Social',
     subnav: [
