@@ -38,6 +38,7 @@ const Subnav = props => {
 
       <label
         htmlFor={key}
+        onClick={() => setIsOpen(!isOpen)}
         onKeyUp={event => ['enter', ' '].includes(event.key.toLowerCase()) && setIsOpen(!isOpen)}
         role="button"
         tabIndex={isFocusable ? 0 : -1}>
