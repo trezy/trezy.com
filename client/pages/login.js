@@ -1,27 +1,15 @@
 // Module imports
-import * as firebase from 'firebase/app'
-import 'firebase/auth' /* eslint-disable-line import/no-unassigned-import */
-
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import withFirebaseAuth from 'react-with-firebase-auth'
 
 
 
 
 
 // Component imports
-import firebaseConfig from '../../firebase.config'
-import PageWrapper from '../components/PageWrapper'
 import { Router } from '../routes'
-
-
-
-
-
-// Local constants
-const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(firebaseConfig)
-const firebaseAppAuth = firebaseApp.auth()
+import PageWrapper from '../components/PageWrapper'
+import withFirebaseAuth from '../components/withFirebaseAuth'
 
 
 
@@ -31,6 +19,7 @@ const Login = props => {
   const {
     signInWithGithub,
     signInWithGoogle,
+    signInWithTwitter,
     signOut,
     user,
   } = props
@@ -40,8 +29,6 @@ const Login = props => {
       Router.push('/dashboard')
     }
   })
-
-  console.log(props)
 
   return (
     <PageWrapper title="Login">
@@ -61,6 +48,12 @@ const Login = props => {
                 onClick={signInWithGithub}
                 type="button">
                 Sign in with Github
+              </button>
+
+              <button
+                onClick={signInWithTwitter}
+                type="button">
+                Sign in with Twitter
               </button>
             </menu>
           )}
@@ -87,6 +80,7 @@ Login.defaultProps = {
 Login.propTypes = {
   signInWithGithub: PropTypes.func.isRequired,
   signInWithGoogle: PropTypes.func.isRequired,
+  signInWithTwitter: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   user: PropTypes.object,
 }
@@ -95,10 +89,4 @@ Login.propTypes = {
 
 
 
-export default withFirebaseAuth({
-  firebaseAppAuth,
-  providers: {
-    githubProvider: new firebase.auth.GithubAuthProvider(),
-    googleProvider: new firebase.auth.GoogleAuthProvider(),
-  },
-})(Login)
+export default withFirebaseAuth(Login)

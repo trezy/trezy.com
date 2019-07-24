@@ -16,7 +16,14 @@ const headerKeys = [
 ]
 
 const domainWhitelist = [
+  // Firebase
+  'https://trezy-core.firebaseapp.com',
+
+  // Google APIs
   'https://fonts.googleapis.com',
+  'https://securetoken.googleapis.com',
+  'https://www.googleapis.com',
+  'https://googleapis.com',
 ]
 
 
@@ -33,6 +40,7 @@ module.exports = isDev => async (ctx, next) => {
       defaultSrc: ["'self'", ...domainWhitelist],
       connectSrc: [
         "'self'",
+        ...domainWhitelist,
         ...(isDev ? ['webpack://*'] : []),
       ],
       baseUri: ["'none'"],
