@@ -14,16 +14,32 @@
   Animations
 \******************************************************************************/
 
+@import 'animations/sequential-delay';
+
 @import 'animations/animate';
-@import 'animations/fade-in-from-bottom';
-@import 'animations/fade-in-from-top';
 @import 'animations/fade-in';
 @import 'animations/fade-out';
 @import 'animations/full-pulse';
 @import 'animations/pulse';
 @import 'animations/slide-in-from-bottom';
+@import 'animations/slide-in-from-bottom-small';
+@import 'animations/slide-in-from-left';
+@import 'animations/slide-in-from-left-small';
+@import 'animations/slide-in-from-right';
+@import 'animations/slide-in-from-right-small';
 @import 'animations/slide-in-from-top';
+@import 'animations/slide-in-from-top-small';
 @import 'animations/wiggle';
+
+// Aggregate animations
+@import 'animations/fade-in-from-bottom';
+@import 'animations/fade-in-from-bottom-small';
+@import 'animations/fade-in-from-left';
+@import 'animations/fade-in-from-left-small';
+@import 'animations/fade-in-from-right';
+@import 'animations/fade-in-from-right-small';
+@import 'animations/fade-in-from-top';
+@import 'animations/fade-in-from-top-small';
 
 
 
@@ -37,10 +53,16 @@
 
 @import 'core/a';
 @import 'core/button';
+@import 'core/fieldset';
 @import 'core/headings';
+@import 'core/img';
+@import 'core/inline';
 @import 'core/lists';
 @import 'core/main';
+@import 'core/p';
+@import 'core/pre';
 @import 'core/section';
+@import 'core/strong';
 @import 'core/table';
 
 
@@ -52,9 +74,12 @@
 \******************************************************************************/
 
 @import 'components/application';
+@import 'components/badge';
 @import 'components/banner';
 @import 'components/banner-control';
+@import 'components/card';
 @import 'components/hero';
+@import 'components/movie-list';
 
 
 
@@ -63,6 +88,8 @@
 /******************************************************************************\
   Pages
 \******************************************************************************/
+
+@import 'pages/about';
 
 
 

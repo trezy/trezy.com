@@ -1,0 +1,8 @@
+pre {
+  background-color: var(--text-color);
+  color: var(--white);
+  max-height: 30rem;
+  overflow: auto;
+  padding: var(--gutter);
+  white-space: pre-wrap;
+}

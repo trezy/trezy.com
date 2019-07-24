@@ -1,0 +1,35 @@
+.card {
+  display: grid;
+  grid-template-areas:
+    'image header'
+    'image content';
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto 1fr;
+
+  > img {
+    grid-area: image;
+    max-width: 20vw;
+  }
+
+  > header {
+    background-color: var(--dark-grey);
+    color: var(--background-color);
+    font-size: 2em;
+    grid-area: header;
+    margin-bottom: var(--gutter);
+    padding: var(--gutter);
+
+    sub {
+      color: var(--dim-white);
+      display: block;
+      font-size: 0.6em;
+    }
+  }
+
+  .content {
+    grid-area: content;
+    margin-left: var(--gutter);
+    margin-right: var(--gutter);
+    padding-bottom: var(--gutter);
+  }
+}

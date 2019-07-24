@@ -6,7 +6,12 @@ $white: white;
   --black: black;
   --blue: #0092c7;
   --dark-grey: #1a1a1a;
+  --dim-white: #b7b7b7;
+  --transparent: transparent;
   --white: white;
 
   --brand-primary: var(--blue);
+
+  --background-color: var(--white);
+  --text-color: var(--dark-grey);
 }

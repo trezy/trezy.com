@@ -1,0 +1,13 @@
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+[data-animation='slide-in-from-right'] {
+  animation-name: slide-in-from-right;
+}

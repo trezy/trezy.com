@@ -1,0 +1,7 @@
+[data-animation-sequential-delay] {
+  @for $i from 1 through 100 {
+    > *:nth-child(#{$i}) {
+      animation-delay: #{$i * 200}ms;
+    }
+  }
+}

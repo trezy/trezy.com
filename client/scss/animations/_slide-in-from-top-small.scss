@@ -1,0 +1,13 @@
+@keyframes slide-in-from-top-small {
+  from {
+    transform: translateY(-50px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+[data-animation='slide-in-from-top-small'] {
+  animation-name: slide-in-from-top-small;
+}

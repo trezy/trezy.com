@@ -1,6 +1,9 @@
 a {
   position: relative;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition-duration: 0.2s;
+  transition-property: text-decoration-color;
 
   &,
   &:active,
@@ -8,20 +11,8 @@ a {
     color: var(--brand-primary);
   }
 
-  &:after {
-    content: '';
-    height: 0.1rem;
-    position: absolute;
-    top: calc(100% + 0.1rem);
-    transition-duration: 0.2s;
-    transition-property: width;
-    width: 0;
-  }
-
   &:focus,
   &:hover {
-    &:after {
-      width: 100%;
-    }
+    text-decoration-color: var(--brand-primary);
   }
 }

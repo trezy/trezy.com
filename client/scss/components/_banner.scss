@@ -1,5 +1,5 @@
 [role=banner] {
-  background-color: var(--white);
+  background-color: var(--background-color);
   bottom: var(--gutter);
   font-family: 'Source Code Pro', monospace;
   left: var(--gutter);
@@ -44,7 +44,7 @@
     a, label {
       align-items: center;
       box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
-      color: var(--dark-grey);
+      color: var(--text-color);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -74,7 +74,7 @@
         border-style: solid;
         border-width: 0.5rem;
         border-bottom-width: 0;
-        border-top-color: var(--dark-grey);
+        border-top-color: var(--text-color);
         content: '';
         height: 0;
         margin-left: calc(var(--gutter));
@@ -91,6 +91,7 @@
     }
 
     li {
+      display: flex;
       position: relative;
 
       &:focus,
@@ -104,7 +105,7 @@
   }
 
   .subnav {
-    background-color: var(--white);
+    background-color: var(--background-color);
     left: 100%;
     max-height: 0;
     opacity: 0;

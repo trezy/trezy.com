@@ -1,0 +1,8 @@
+// This is a special core file, specifically intended to handle the way block
+// level elements with inline content interact with each other.
+
+p {
+  + p {
+    margin-top: var(--gutter);
+  }
+}

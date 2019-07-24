@@ -1,0 +1,8 @@
+.movie-list {
+  display: grid;
+  grid-gap: var(--gutter);
+
+  .movie {
+    background-size: cover;
+  }
+}

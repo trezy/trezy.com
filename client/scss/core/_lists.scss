@@ -1,0 +1,20 @@
+ol, ul {
+  li {
+    display: inline-block;
+  }
+
+  &.comma-separated {
+    > li:not(:last-child):after {
+      content: ', ';
+      margin-right: 0.5em;
+    }
+  }
+
+  &.inline {
+    display: inline-block;
+
+    li {
+      margin-right: 0.5em;
+    }
+  }
+}

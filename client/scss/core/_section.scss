@@ -1,6 +1,8 @@
 section {
   margin-left: auto;
   margin-right: auto;
+  min-height: 100vh;
   max-width: calc(100rem - (var(--gutter) * 2));
   padding: var(--gutter);
+  width: 100%;
 }
