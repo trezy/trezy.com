@@ -20,7 +20,12 @@ const Banner = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const close = () => {
-    document.querySelector('[role=banner] *:focus').blur()
+    const focusedElement = document.querySelector('[role=banner] *:focus')
+
+    if (focusedElement) {
+      focusedElement.blur()
+    }
+
     setIsOpen(false)
   }
 
