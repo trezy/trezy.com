@@ -1,0 +1,15 @@
+const firebaseConfig = {
+  apiKey: 'abcdefghijklmnopqrstuvwxyz',
+  authDomain: 'blep.firebaseapp.com',
+  databaseURL: 'https://blep.firebaseio.com',
+  projectId: 'blep',
+  storageBucket: 'blep.appspot.com',
+  messagingSenderId: '1234567890',
+  appId: '1:1234567890:web:1234567890abcdefghijklmnopqrstuvwxyz',
+}
+
+
+
+
+
+export default firebaseConfig

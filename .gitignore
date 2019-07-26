@@ -1,5 +1,6 @@
 .DS_Store
 .next
 .env
+firebase.config.js
 node_modules/
 logs/
