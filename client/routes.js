@@ -13,6 +13,12 @@ routes.add('home', '/', '/index')
 // About
 routes.add('about', '/about', '/about')
 
+// Dashboard
+routes.add('dashboard', '/dashboard', '/dashboard')
+
+// Login
+routes.add('login', '/login', '/login')
+
 
 
 
