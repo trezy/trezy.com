@@ -1,28 +1,11 @@
 export {
-  faArrowLeft,
-  faArrowRight,
   faBars,
-  faBook,
-  faCheck,
-  faCheckCircle,
-  faClock,
-  faCodeBranch,
-  faExclamationTriangle,
-  faEye,
-  faEyeSlash,
-  faFolder,
-  faHandsHelping,
-  faInfoCircle,
-  faMoneyBill,
-  faShoppingCart,
-  faSpaceShuttle,
-  faSpinner,
+  faHome,
+  faSignInAlt,
+  faSignOutAlt,
+  faTachometerAlt,
   faTimes,
-  faTimesCircle,
-  faTruck,
-  faUndo,
   faUser,
-  faUserSecret,
 } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -31,7 +14,6 @@ export {
 
 export {
   faTwitter,
-  faRedditAlien,
   faTwitch,
   faGithub,
 } from '@fortawesome/free-brands-svg-icons'

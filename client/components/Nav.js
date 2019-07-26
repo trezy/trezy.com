@@ -15,59 +15,20 @@ import Subnav from './Subnav'
 
 
 
-// Constants
-const navItems = [
-  {
-    key: 'home',
-    title: 'Home',
-    route: 'home',
-  },
-  {
-    key: 'about',
-    title: 'About',
-    route: 'about',
-  },
-  {
-    key: 'dashboard',
-    title: 'Dashboard',
-    route: 'dashboard',
-  },
-  {
-    key: 'social',
-    title: 'Social',
-    subnav: [
-      {
-        key: 'twitter',
-        title: 'Twitter',
-        href: 'https://twitter.com/TrezyCodes',
-      },
-      {
-        key: 'twitch',
-        title: 'Twitch',
-        href: 'https://twitch.tv/TrezyCodes',
-      },
-      {
-        key: 'github',
-        title: 'Github',
-        href: 'https://github.com/trezy',
-      },
-    ],
-  },
-]
-
-
-
-
-
 const Nav = props => {
-  const { isOpen } = props
+  const {
+    className,
+    isOpen,
+    items,
+  } = props
 
   return (
     <nav
       aria-expanded={isOpen}
-      aria-hidden={!isOpen}>
+      aria-hidden={!isOpen}
+      className={className}>
       <ul>
-        {navItems.map(item => {
+        {items.map(item => {
           const {
             condition,
             title,
@@ -82,12 +43,14 @@ const Nav = props => {
             <li key={title}>
               {subnav && (
                 <Subnav
+                  {...props}
                   {...item}
                   isFocusable={isOpen} />
               )}
 
               {!subnav && (
                 <NavLink
+                  {...props}
                   {...item}
                   isFocusable={isOpen}
                   title={renderNavItemTitle(item, title)} />
@@ -101,11 +64,14 @@ const Nav = props => {
 }
 
 Nav.defaultProps = {
+  className: '',
   isOpen: true,
 }
 
 Nav.propTypes = {
+  className: PropTypes.string,
   isOpen: PropTypes.bool,
+  items: PropTypes.array.isRequired,
 }
 
 

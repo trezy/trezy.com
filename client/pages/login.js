@@ -15,18 +15,31 @@ import withFirebaseAuth from '../components/withFirebaseAuth'
 
 
 
+// Local variables
+let redirectStarted = false
+
+
+
+
+
 const Login = props => {
   const {
     signInWithGithub,
     signInWithGoogle,
     signInWithTwitter,
-    signOut,
-    user,
+    query,
+    user: currentUser,
   } = props
 
   useEffect(() => {
-    if (user) {
-      Router.push('/dashboard')
+    if (currentUser && !redirectStarted) {
+      const startRedirect = () => {
+        redirectStarted = false
+        Router.events.off('routeChangeComplete', startRedirect)
+      }
+      redirectStarted = true
+      Router.replace(query.destination || '/dashboard')
+      Router.events.on('routeChangeComplete', startRedirect)
     }
   })
 
@@ -36,37 +49,25 @@ const Login = props => {
         <div>
           <h2>Login</h2>
 
-          {!user && (
-            <menu type="toolbar">
-              <button
-                onClick={signInWithGoogle}
-                type="button">
-                Sign in with Google
-              </button>
+          <menu type="toolbar">
+            <button
+              onClick={signInWithGoogle}
+              type="button">
+              Sign in with Google
+            </button>
 
-              <button
-                onClick={signInWithGithub}
-                type="button">
-                Sign in with Github
-              </button>
+            <button
+              onClick={signInWithGithub}
+              type="button">
+              Sign in with Github
+            </button>
 
-              <button
-                onClick={signInWithTwitter}
-                type="button">
-                Sign in with Twitter
-              </button>
-            </menu>
-          )}
-
-          {user && (
-            <menu type="toolbar">
-              <button
-                onClick={signOut}
-                type="button">
-                Sign out
-              </button>
-            </menu>
-          )}
+            <button
+              onClick={signInWithTwitter}
+              type="button">
+              Sign in with Twitter
+            </button>
+          </menu>
         </div>
       </section>
     </PageWrapper>
@@ -78,10 +79,10 @@ Login.defaultProps = {
 }
 
 Login.propTypes = {
+  query: PropTypes.object.isRequired,
   signInWithGithub: PropTypes.func.isRequired,
   signInWithGoogle: PropTypes.func.isRequired,
   signInWithTwitter: PropTypes.func.isRequired,
-  signOut: PropTypes.func.isRequired,
   user: PropTypes.object,
 }
 

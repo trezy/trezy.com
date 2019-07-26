@@ -1,22 +1,112 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState, useEffect } from 'react'
+import React, {
+  useState,
+  useEffect,
+} from 'react'
+import PropTypes from 'prop-types'
 
 
 
 
 
 // Component imports
-import { Link } from '../routes'
+import { Router } from '../routes'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
+import withFirebaseAuth from './withFirebaseAuth'
 
 
 
 
 
-const Banner = () => {
+// Local constants
+const navItems = [
+  {
+    icon: 'home',
+    key: 'home',
+    title: 'Home',
+    route: 'home',
+  },
+  {
+    icon: 'user',
+    key: 'about',
+    title: 'About',
+    route: 'about',
+  },
+
+  // Only while logged out
+  {
+    icon: 'sign-in-alt',
+    key: 'login',
+    title: 'Login',
+    route: 'login',
+    condition: ({ currentUser }) => !currentUser,
+  },
+
+  // Only while logged in
+  {
+    icon: 'tachometer-alt',
+    key: 'dashboard',
+    title: 'Dashboard',
+    route: 'dashboard',
+    condition: ({ currentUser }) => Boolean(currentUser),
+  },
+  {
+    icon: 'sign-out-alt',
+    key: 'logout',
+    title: 'Logout',
+    condition: ({ currentUser }) => Boolean(currentUser),
+    onClick: (event, {
+      close,
+      signOut,
+    }) => {
+      signOut()
+      close()
+      Router.push('/login')
+    },
+  },
+]
+const socialItems = [
+  {
+    icon: 'github',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'github',
+    title: 'Github',
+    href: 'https://github.com/trezy',
+  },
+  {
+    icon: 'twitter',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'twitter',
+    title: 'Twitter',
+    href: 'https://twitter.com/TrezyCodes',
+  },
+  {
+    icon: 'twitch',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'twitch',
+    title: 'Twitch',
+    href: 'https://twitch.tv/TrezyCodes',
+  },
+]
+
+
+
+
+
+const Banner = props => {
+  const {
+    firebaseApp,
+    signOut,
+  } = props
+
+  const { currentUser } = firebaseApp.auth()
+
   const [isOpen, setIsOpen] = useState(false)
 
   const close = () => {
@@ -70,26 +160,31 @@ const Banner = () => {
             icon="times" />
         </label>
 
-        <Link href="/">
-          {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
-          <a
-            className="brand"
-            route="home"
-            tabIndex={isOpen ? null : '-1'}
-            title="Home">
-            Brand!
-          </a>
-          {/* eslint-enable */}
-        </Link>
+        <span className="brand">&lt;trezy-who/&gt;</span>
 
-        <Nav isOpen={isOpen} />
+        <Nav
+          close={close}
+          isOpen={isOpen}
+          items={navItems}
+          signOut={signOut}
+          currentUser={currentUser} />
+
+        <Nav
+          className="social"
+          isOpen={isOpen}
+          items={socialItems} />
       </header>
     </>
   )
+}
+
+Banner.propTypes = {
+  firebaseApp: PropTypes.object.isRequired,
+  signOut: PropTypes.func.isRequired,
 }
 
 
 
 
 
-export default Banner
+export default withFirebaseAuth(Banner)

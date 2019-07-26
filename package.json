@@ -50,6 +50,7 @@
     "koa-send": "^5.0.0",
     "language-tags": "^1.0.5",
     "localforage": "^1.7.3",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "next": "^9.0.0",
     "next-redux-wrapper": "3.0.0-alpha.3",

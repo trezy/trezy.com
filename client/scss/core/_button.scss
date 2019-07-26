@@ -1,18 +1,26 @@
 button, .button {
+  background-color: transparent;
+  border: none;
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0);
   cursor: pointer;
   display: inline-block;
+  font-family: inherit;
   font-size: inherit;
   line-height: 1;
-  padding: 1rem;
+  padding: var(--gutter);
   opacity: 0.8;
   transform: scale(1);
   transition-duration: 0.2s;
-  transition-property: opacity, transform;
+  transition-property:
+    box-shadow,
+    opacity,
+    transform;
 
   &:focus,
   &:hover {
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
     opacity: 1;
+    outline: none;
     transform: scale(1.2);
   }
 
