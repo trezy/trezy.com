@@ -3,6 +3,15 @@
   -webkit-font-smoothing: antialiased;
   text-overflow: ellipsis;
   text-rendering: optimizeLegibility;
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &:after,
+    &:before {
+      animation-duration: 0.0001s !important;
+      transition-duration: 0.0001s !important;
+    }
+  }
 }
 
 html,
