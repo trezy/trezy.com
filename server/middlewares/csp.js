@@ -59,7 +59,7 @@ module.exports = isDev => async (ctx, next) => {
       imgSrc: ["'self'", ...domainWhitelist],
       mediaSrc: ["'self'"],
       objectSrc: ["'self'"],
-      fontSrc: ["'self'", 'fonts.gstatic.com'],
+      fontSrc: ["'self'", 'fonts.gstatic.com', 'data:'],
     },
   })
 
