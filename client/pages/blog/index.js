@@ -23,11 +23,11 @@ import getArticlesSelector from '../../store/selectors/getArticlesSelector'
 
 
 const Blog = () => {
-  const articles = useSelector(getArticlesSelector)
+  const articles = useSelector(getArticlesSelector())
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(actions.connectCollection('articles', { orderBy: 'publishedAt' }))
+    dispatch(actions.connectCollection('articles'))
 
     return () => dispatch(actions.disconnectCollection('articles'))
   })

@@ -15,13 +15,9 @@ const actionTypeCreator = (action, entityType) => `${action}_${entityType}`.toUp
 
 
 
-export const connectCollection = (collectionName, options = {}) => dispatch => {
+export const connectCollection = collectionName => dispatch => {
   if (!connectionManager.find(collectionName)) {
-    let collection = database.collection(collectionName)
-
-    if (options.orderBy) {
-      collection = collection.orderBy(options.orderBy, options.orderByDirection || 'desc')
-    }
+    const collection = database.collection(collectionName)
 
     const unsubscribe = collection.onSnapshot(snapshot => {
       const data = {}

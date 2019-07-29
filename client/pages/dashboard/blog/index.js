@@ -23,7 +23,7 @@ import getArticlesSelector from '../../../store/selectors/getArticlesSelector'
 
 
 const BlogDashboard = () => {
-  const articles = useSelector(getArticlesSelector)
+  const articles = useSelector(getArticlesSelector())
   const dispatch = useDispatch()
 
   useEffect(() => {
