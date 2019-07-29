@@ -61,7 +61,7 @@ const MovieSearch = () => {
 
       <input
         id={id}
-        onInput={({ target: { value } }) => setQuery(value)}
+        onChange={({ target: { value } }) => setQuery(value)}
         type="search"
         value={query} />
 
