@@ -14,6 +14,7 @@ import moment from 'moment'
 
 // Component imports
 import { actions } from '../../store'
+import { firebase } from '../../helpers/firebase'
 import { Link } from '../../routes'
 import PageWrapper from '../../components/PageWrapper'
 import getArticlesSelector from '../../store/selectors/getArticlesSelector'
@@ -27,7 +28,11 @@ const Blog = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(actions.connectCollection('articles'))
+    dispatch(actions.connectCollection('articles', {
+      where: [
+        ['publishedAt', '>', firebase.firestore.Timestamp.fromDate(new Date(0))],
+      ],
+    }))
 
     return () => dispatch(actions.disconnectCollection('articles'))
   })
@@ -56,7 +61,7 @@ const Blog = () => {
                 </header>
 
                 <div className="meta">
-                  Published {moment(publishedAt.seconds * 1000).format('D MMMM, Y')}
+                  <span>Published {moment(publishedAt.seconds * 1000).format('D MMMM, Y')}</span>
                 </div>
               </article>
             </li>
