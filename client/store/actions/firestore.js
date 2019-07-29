@@ -15,9 +15,16 @@ const actionTypeCreator = (action, entityType) => `${action}_${entityType}`.toUp
 
 
 
-export const connectCollection = collectionName => dispatch => {
+export const connectCollection = (collectionName, options = {}) => dispatch => {
   if (!connectionManager.find(collectionName)) {
-    const collection = database.collection(collectionName)
+    let collection = database.collection(collectionName)
+
+    if (options.where) {
+      options.where.forEach(query => {
+        console.log(query)
+        collection = collection.where(...query)
+      })
+    }
 
     const unsubscribe = collection.onSnapshot(snapshot => {
       const data = {}
