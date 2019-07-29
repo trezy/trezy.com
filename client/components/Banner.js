@@ -37,13 +37,13 @@ const navItems = [
   },
 
   // Only while logged out
-  {
-    icon: 'sign-in-alt',
-    key: 'login',
-    title: 'Login',
-    route: 'login',
-    condition: ({ currentUser }) => !currentUser,
-  },
+  // {
+  //   icon: 'sign-in-alt',
+  //   key: 'login',
+  //   title: 'Login',
+  //   route: 'login',
+  //   condition: ({ currentUser }) => !currentUser,
+  // },
 
   // Only while logged in
   {
