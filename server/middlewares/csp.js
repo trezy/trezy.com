@@ -2,7 +2,7 @@
 
 // Module imports
 const buildCSP = require('content-security-policy-builder')
-const uuidv4 = require('uuid/v4')
+const uuid = require('uuid/v4')
 
 
 
@@ -18,6 +18,7 @@ const headerKeys = [
 const domainWhitelist = [
   // Firebase
   'https://trezy-core.firebaseapp.com',
+  'https://firestore.googleapis.com',
 
   // Google APIs
   'https://fonts.googleapis.com',
@@ -35,7 +36,7 @@ const domainWhitelist = [
 
 
 module.exports = isDev => async (ctx, next) => {
-  const nonce = uuidv4()
+  const nonce = uuid()
 
   ctx.res.nonce = nonce /* eslint-disable-line no-param-reassign */
 

@@ -18,7 +18,7 @@ const Dashboard = () => (
   <PageWrapper title="Dashboard">
     <section>
       <header>
-        <h2>Dashboard!</h2>
+        <h2>Dashboard</h2>
       </header>
 
       <MovieSearch />

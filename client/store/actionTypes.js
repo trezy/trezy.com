@@ -5,6 +5,7 @@ const actionTypes = [
   'GET_CURRENT_USER',
   'GET_MOVIES',
   'GET_USERS',
+  'SAVE_ARTICLE',
 ].reduce((acc, actionType) => ({
   ...acc,
   [actionType]: actionType,

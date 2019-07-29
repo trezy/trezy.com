@@ -1,6 +1,7 @@
 export {
   faBars,
   faHome,
+  faPencilAlt,
   faSignInAlt,
   faSignOutAlt,
   faTachometerAlt,

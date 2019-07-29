@@ -11,10 +11,19 @@ const routes = require('next-routes')()
 routes.add('home', '/', '/index')
 
 // About
-routes.add('about', '/about', '/about')
+routes.add('about')
 
 // Dashboard
-routes.add('dashboard', '/dashboard', '/dashboard')
+routes.add('dashboard')
+
+// Dashboard / Blog
+routes.add('blog')
+routes.add('view article', '/blog/:id', '/blog/article')
+
+// Dashboard / Blog
+routes.add('blog dashboard', '/dashboard/blog', '/dashboard/blog')
+routes.add('new article', '/dashboard/blog/edit/new', '/dashboard/blog/edit')
+routes.add('edit article', '/dashboard/blog/edit/:id', '/dashboard/blog/edit')
 
 // Login
 routes.add('login', '/login', '/login')

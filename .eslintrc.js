@@ -3,6 +3,10 @@ module.exports = {
   extends: '@fuelrats/eslint-config-react',
   rules: {
     'arrow-parens': ['error', 'as-needed'],
-    'max-len': ['warn', { ignoreStrings: true }],
+    'max-len': ['off'],
+    'new-parens': ['error', 'never'],
+
+    // jsx-a11y
+    'jsx-a11y/control-has-associated-label': ['off'],
   },
 }

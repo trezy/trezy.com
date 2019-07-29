@@ -13,9 +13,10 @@ import '../scss/app.scss'
 import { library as faLibrary, config as faConfig } from '@fortawesome/fontawesome-svg-core'
 import { Provider } from 'react-redux'
 import NextApp, { Container } from 'next/app'
+import LocalForage from 'localforage'
+import marked from 'marked'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
-import LocalForage from 'localforage'
 
 
 
@@ -47,6 +48,21 @@ class App extends NextApp {
       name: 'Trezy.com',
       storeName: 'webStore',
     })
+
+    const markdownRenderer = new marked.Renderer
+
+    markdownRenderer.heading = (text, level) => {
+      const escapedText = text.toLowerCase().replace(/[^\w]+/gu, '-')
+
+      return `
+              <h${level + 1}>
+                <a name="${escapedText}" class="anchor" href="#${escapedText}"></a>
+
+                ${text}
+              </h${level + 1}>`
+    }
+
+    marked.setOptions({ renderer: markdownRenderer })
   }
 
   static getInitialProps (appProps) {

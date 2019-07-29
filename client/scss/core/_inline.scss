@@ -1,8 +1,14 @@
 // This is a special core file, specifically intended to handle the way block
 // level elements with inline content interact with each other.
 
-p {
-  + p {
+blockquote,
+h2, h3, h4, h5, h6,
+ol,
+p,
+pre,
+ul,
+.code-toolbar {
+  & + & {
     margin-top: var(--gutter);
   }
 }

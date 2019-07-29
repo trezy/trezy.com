@@ -29,6 +29,12 @@ const navItems = [
     title: 'About',
     route: 'home',
   },
+  {
+    icon: 'pencil-alt',
+    key: 'blog',
+    title: 'Blog',
+    route: 'blog',
+  },
 
   // Only while logged out
   {
@@ -154,7 +160,7 @@ const Banner = props => {
             icon="times" />
         </label>
 
-        <span className="brand">&lt;trezy-who/&gt;</span>
+        <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
         <Nav
           close={close}

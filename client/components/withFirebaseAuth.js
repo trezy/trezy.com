@@ -1,7 +1,4 @@
 // Module imports
-import * as firebase from 'firebase/app'
-import 'firebase/auth' /* eslint-disable-line import/no-unassigned-import */
-
 import React, {
   useEffect,
 } from 'react'
@@ -15,14 +12,16 @@ import withFirebaseAuth from 'react-with-firebase-auth'
 
 // Component imports
 import { actions } from '../store'
-import firebaseConfig from '../../firebase.config'
+import {
+  firebaseApp,
+  providers,
+} from '../helpers/firebase'
 
 
 
 
 
 // Local constants
-const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(firebaseConfig)
 let previousUser = null
 
 
@@ -62,11 +61,7 @@ const withFirebaseAuthWrapper = Component => {
 
   return withFirebaseAuth({
     firebaseAppAuth: firebaseApp.auth(),
-    providers: {
-      githubProvider: new firebase.auth.GithubAuthProvider(),
-      googleProvider: new firebase.auth.GoogleAuthProvider(),
-      twitterProvider: new firebase.auth.TwitterAuthProvider(),
-    },
+    providers,
   })(ComponentWithFirebaseAuth)
 }
 

@@ -6,6 +6,7 @@ const glob = require('glob')
 const path = require('path')
 const crypto = require('crypto')
 const webpack = require('webpack')
+const withCSS = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
 
 
@@ -29,7 +30,7 @@ const DEV_BUILD_ID_LENGTH = 16
 
 
 
-module.exports = withSass({
+module.exports = withSass(withCSS({
   generateBuildId: () => (
     CIRCLECI
       ? CIRCLE_SHA1.toLowerCase()
@@ -83,4 +84,4 @@ module.exports = withSass({
       .map((dir) => glob.sync(dir))
       .reduce((acc, dir) => acc.concat(dir), []),
   },
-})
+}))

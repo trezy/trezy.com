@@ -52,11 +52,17 @@
 @import 'core/root';
 
 @import 'core/a';
+@import 'core/article';
+@import 'core/blockquote';
 @import 'core/button';
+@import 'core/code';
+@import 'core/contenteditable';
 @import 'core/fieldset';
+@import 'core/form';
 @import 'core/headings';
 @import 'core/img';
 @import 'core/inline';
+@import 'core/input';
 @import 'core/lists';
 @import 'core/main';
 @import 'core/p';
@@ -74,6 +80,7 @@
 \******************************************************************************/
 
 @import 'components/application';
+@import 'components/article-list';
 @import 'components/badge';
 @import 'components/banner';
 @import 'components/banner-control';

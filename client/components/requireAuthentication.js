@@ -23,12 +23,8 @@ const requireAuthentication = Component => {
     if (!redirectInProgress && !currentUser) {
       redirectInProgress = true
 
-      Router.replace({
-        as: '/login',
-        pathname: '/login',
-        query: {
-          destination: location.href.replace(location.origin, ''), // eslint-disable-line no-restricted-globals
-        },
+      Router.replaceRoute('login', {
+        destination: location.href.replace(location.origin, ''), // eslint-disable-line no-restricted-globals
       })
 
       return null
