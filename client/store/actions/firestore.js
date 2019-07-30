@@ -21,9 +21,16 @@ export const connectCollection = (collectionName, options = {}) => dispatch => {
 
     if (options.where) {
       options.where.forEach(query => {
-        console.log(query)
         collection = collection.where(...query)
       })
+    }
+
+    if (options.orderBy) {
+      collection = collection.orderBy(...options.orderBy)
+    }
+
+    if (options.limit) {
+      collection = collection.limit(options.limit)
     }
 
     const unsubscribe = collection.onSnapshot(snapshot => {

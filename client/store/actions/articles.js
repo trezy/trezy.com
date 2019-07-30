@@ -32,6 +32,72 @@ export const getArticle = id => async dispatch => {
   })
 }
 
+
+
+
+
+export const getArticles = (limit = false, includeDrafts = false) => async dispatch => {
+  const results = {}
+  let collection = database.collection('articles')
+
+  if (!includeDrafts) {
+    collection = collection.where('publishedAt', '>', firebase.firestore.Timestamp.fromDate(new Date(0)))
+  }
+
+  collection = collection.orderBy('publishedAt', 'desc')
+
+  if (limit) {
+    collection = collection.limit(limit)
+  }
+
+  const querySnapshot = await collection.get()
+
+  querySnapshot.forEach(doc => {
+    results[doc.id] = {
+      ...doc.data(),
+      id: doc.id,
+    }
+  })
+
+  dispatch({
+    payload: results,
+    status: 'success',
+    type: actionTypes.GET_ARTICLES,
+  })
+}
+
+
+
+
+
+export const getLatestArticle = (includeDrafts = false) => async dispatch => {
+  let collection = database.collection('articles')
+
+  if (!includeDrafts) {
+    collection = collection.where('publishedAt', '>', firebase.firestore.Timestamp.fromDate(new Date(0)))
+  }
+
+  collection = collection.orderBy('publishedAt', 'desc')
+  collection = collection.limit(1)
+
+  const querySnapshot = await collection.get()
+  const data = querySnapshot.docs[0].data()
+  const [{ id }] = querySnapshot.docs
+
+  dispatch({
+    payload: {
+      ...data,
+      id,
+    },
+    status: 'success',
+    type: actionTypes.GET_ARTICLE,
+  })
+}
+
+
+
+
+
 export const saveArticle = (article, publish = false) => async dispatch => {
   const collection = database.collection('articles')
   const serializedArticle = { ...article }

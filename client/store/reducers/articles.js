@@ -18,7 +18,6 @@ export default function articlesReducer (state = initialState.articles, action) 
       switch (status) {
         case 'success':
           return {
-            ...state,
             ...payload,
           }
 
