@@ -24,10 +24,16 @@ import withFirebaseAuth from './withFirebaseAuth'
 // Local constants
 const navItems = [
   {
+    icon: 'home',
+    key: 'home',
+    title: 'Home',
+    route: 'home',
+  },
+  {
     icon: 'user',
     key: 'about',
     title: 'About',
-    route: 'home',
+    route: 'about',
   },
   {
     icon: 'pencil-alt',
