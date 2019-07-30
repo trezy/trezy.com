@@ -68,6 +68,12 @@ module.exports = withSass(withCSS({
       $NODE_VERSION: JSON.stringify(process.version),
     }))
 
+    config.module.rules.push({
+      exclude: /node_modules/,
+      test: /\.svg$/,
+      loader: 'raw-loader',
+    })
+
     config.module.rules.unshift({
       enforce: 'pre',
       exclude: /node_modules/u,

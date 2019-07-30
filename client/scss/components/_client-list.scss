@@ -1,0 +1,28 @@
+.client-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+
+  a {
+    display: block;
+  }
+
+  img {
+    max-width: 100%;
+    min-height: 100%;
+  }
+
+  svg {
+    fill: var(--dark-grey);
+    margin: var(--gutter);
+    max-height: 5rem;
+    opacity: 0.5;
+    transition-duration: 0.2s;
+    transition-property: opacity;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
