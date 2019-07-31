@@ -54,6 +54,11 @@ const clients = [
     url: 'https://marvel.com',
   },
   {
+    logo: 'mobile-doorman.svg',
+    name: 'Mobile Doorman',
+    url: 'https://mobiledoorman.com',
+  },
+  {
     logo: 'moxe.svg',
     name: 'Moxe Health',
     url: 'https://moxehealth.com',
@@ -82,6 +87,7 @@ const ClientList = () => (
             accessibilityLabel={`Logo for ${name}`}
             className="amazon logo"
             cleanup
+            component="div"
             svg={logo} />
 
           <span className="screen-reader-only">

@@ -2,10 +2,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: var(--gutter);
   width: 100%;
 
   a {
-    display: block;
+    display: flex;
+
+    > * {
+      display: flex;
+    }
   }
 
   img {
@@ -17,12 +22,24 @@
     fill: var(--dark-grey);
     margin: var(--gutter);
     max-height: 5rem;
-    opacity: 0.5;
     transition-duration: 0.2s;
     transition-property: opacity;
 
+    &:focus,
     &:hover {
       opacity: 1;
+    }
+  }
+
+  &:focus-within,
+  &:hover {
+    svg {
+      opacity: 0.5;
+
+      &:focus,
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
