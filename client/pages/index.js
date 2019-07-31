@@ -17,7 +17,7 @@ import PageWrapper from '../components/PageWrapper'
 
 const Home = () => (
   <PageWrapper title="Home">
-    <section className="hero">
+    <section className="branded hero">
       <header>
         &lt;trezy-who /&gt;
       </header>
@@ -27,7 +27,9 @@ const Home = () => (
 
     <section>
       <div>
-        <header>Latest articles</header>
+        <header>
+          <h2>Latest articles</h2>
+        </header>
 
         <ArticleList limit={3} />
 
@@ -38,7 +40,7 @@ const Home = () => (
     </section>
 
     <section className="center">
-      <p>As a software consultant, I've been lucky to work with some of the coolest teams from well-known brands on products that make the world a better place.</p>
+      <p>As a software consultant, I've been lucky to work with some of the best teams from well-known brands on products that make the world a better place.</p>
 
       <ClientList />
     </section>
