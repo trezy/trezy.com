@@ -1,0 +1,25 @@
+.hero {
+  min-height: 100vh;
+  width: 100vw;
+
+  &.branded {
+    --white-overlay: rgba(255, 255, 255, 0.9);
+
+    background-image:
+      linear-gradient(
+        var(--white-overlay),
+        var(--white-overlay)
+      ),
+      url(/static/logos/trezy.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow:
+      0 0.1rem var(--white),
+      0.1rem 0 var(--white),
+      0.1rem 0.1rem var(--white);
+  }
+
+  > header {
+    font-size: 3em;
+  }
+}

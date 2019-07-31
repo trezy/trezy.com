@@ -32,13 +32,4 @@ section {
     align-items: center;
     justify-content: center;
   }
-
-  &.hero {
-    min-height: 100vh;
-    width: 100vw;
-
-    > header {
-      font-size: 3em;
-    }
-  }
 }

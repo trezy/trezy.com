@@ -143,13 +143,14 @@ const Banner = props => {
         type="checkbox" />
 
       <header role="banner">
+        {/* eslint-disable jsx-a11y/tabindex-no-positive */}
         <label
           aria-pressed={isOpen ? 'true' : 'false'}
           className="button primary"
           htmlFor="banner-control"
           onKeyUp={({ key }) => ['enter', ' '].includes(key.toLowerCase()) && setIsOpen(!isOpen)}
           role="button"
-          tabIndex="0"
+          tabIndex="1"
           title="Expand/Collapse Menu">
           <FontAwesomeIcon
             data-animate
@@ -164,7 +165,10 @@ const Banner = props => {
             data-animation-duration="0.2s"
             fixedWidth
             icon="times" />
+
+          <span className="screen-reader-only">Menu</span>
         </label>
+        {/* eslint-disable jsx-a11y/tabindex-no-positive */}
 
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
