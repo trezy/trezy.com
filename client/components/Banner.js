@@ -30,16 +30,16 @@ const navItems = [
     route: 'home',
   },
   {
+    icon: 'book',
+    key: 'blog',
+    title: 'Blog',
+    route: 'blog',
+  },
+  {
     icon: 'user',
     key: 'about',
     title: 'About',
     route: 'about',
-  },
-  {
-    icon: 'pencil-alt',
-    key: 'blog',
-    title: 'Blog',
-    route: 'blog',
   },
 
   // Only while logged out
