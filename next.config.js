@@ -20,6 +20,13 @@ const {
   CIRCLE_BRANCH,
   CIRCLE_BUILD_NUM,
   CIRCLE_SHA1,
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
   TMDB_API_KEY,
 } = process.env
 const DEFAULT_PORT = 3000
@@ -39,10 +46,20 @@ module.exports = withSass(withCSS({
 
   publicRuntimeConfig: {
     apis: {
+      firebase: {
+        apiKey: FIREBASE_API_KEY, //: 'AIzaSyCozYBMTuOV2NClusvArj1ZcOqADCQpJZk',
+        authDomain: FIREBASE_AUTH_DOMAIN, //: 'trezy-core.firebaseapp.com',
+        databaseURL: FIREBASE_DATABASE_URL, //: 'https://trezy-core.firebaseio.com',
+        projectId: FIREBASE_PROJECT_ID, //: 'trezy-core',
+        storageBucket: FIREBASE_STORAGE_BUCKET, //: 'trezy-core.appspot.com',
+        messagingSenderId: FIREBASE_MESSAGING_SENDER_ID, //: '898557015763',
+        appId: FIREBASE_APP_ID, //: '1:898557015763:web:95167d435b06b425',
+      },
+
       tmdb: {
         apiKey: TMDB_API_KEY,
         url: 'https://api.themoviedb.org/3',
-      }
+      },
     },
   },
 
