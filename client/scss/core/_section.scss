@@ -4,8 +4,41 @@ section {
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  min-height: 100vh;
   max-width: calc(100rem - (var(--gutter) * 2));
-  padding: var(--gutter);
+  padding: 10rem var(--gutter);
+  position: relative;
   width: 100%;
+
+  &:after {
+    background-image: radial-gradient(
+      closest-side,
+      rgba(0, 0, 0, 0.2),
+      var(--transparent)
+    );
+    background-position-y: -100%;
+    background-size: 100% 200%;
+    content: '';
+    display: block;
+    height: 1rem;
+    left: 50%;
+    position: absolute;
+    top: 100%;
+    transform: translateX(-50%);
+    width: 100vw;
+  }
+
+  &.center,
+  &.hero {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.hero {
+    min-height: 100vh;
+    width: 100vw;
+
+    > header {
+      font-size: 3em;
+    }
+  }
 }

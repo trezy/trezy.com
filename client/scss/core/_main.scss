@@ -5,6 +5,7 @@ main {
   flex-direction: column;
   min-height: 100vh;
   min-width: 100vw;
+  overflow: hidden;
   position: relative;
   transform: scale(1) translateX(0);
   transform-origin: right center;
