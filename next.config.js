@@ -47,13 +47,13 @@ module.exports = withSass(withCSS({
   publicRuntimeConfig: {
     apis: {
       firebase: {
-        apiKey: FIREBASE_API_KEY, //: 'AIzaSyCozYBMTuOV2NClusvArj1ZcOqADCQpJZk',
-        authDomain: FIREBASE_AUTH_DOMAIN, //: 'trezy-core.firebaseapp.com',
-        databaseURL: FIREBASE_DATABASE_URL, //: 'https://trezy-core.firebaseio.com',
-        projectId: FIREBASE_PROJECT_ID, //: 'trezy-core',
-        storageBucket: FIREBASE_STORAGE_BUCKET, //: 'trezy-core.appspot.com',
-        messagingSenderId: FIREBASE_MESSAGING_SENDER_ID, //: '898557015763',
-        appId: FIREBASE_APP_ID, //: '1:898557015763:web:95167d435b06b425',
+        apiKey: FIREBASE_API_KEY,
+        authDomain: FIREBASE_AUTH_DOMAIN,
+        databaseURL: FIREBASE_DATABASE_URL,
+        projectId: FIREBASE_PROJECT_ID,
+        storageBucket: FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+        appId: FIREBASE_APP_ID,
       },
 
       tmdb: {
