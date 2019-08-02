@@ -13,6 +13,13 @@ const withSass = require('@zeit/next-sass')
 
 
 
+// Import variables from .env file.
+require('dotenv').config()
+
+
+
+
+
 // Component constants
 const {
   ANALYZE,
