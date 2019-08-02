@@ -18,8 +18,7 @@ import parseUserFromFirebase from '../helpers/parseUserFromFirebase'
 
 // Local constants
 const { publicRuntimeConfig } = getConfig()
-const firebaseConfig = publicRuntimeConfig.apis.firebase
-const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(firebaseConfig)
+const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(publicRuntimeConfig.apis.firebase)
 const firebaseAppAuth = firebaseApp.auth()
 
 
