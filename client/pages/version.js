@@ -1,7 +1,6 @@
 /* globals
      $BUILD_BRANCH:false
      $BUILD_COMMIT_HASH:false
-     $BUILD_COMMIT_RANGE:false
      $BUILD_DATE:false
      $BUILD_ID:false
      $NODE_VERSION:false
@@ -69,7 +68,7 @@ const Version = () => (
             </td>
           </tr>
 
-          <tr>
+          {/* <tr>
             <th>Commit</th>
 
             <td>
@@ -77,7 +76,7 @@ const Version = () => (
                 {BUILD_COMMIT_HASH || 'null'}
               </a>
             </td>
-          </tr>
+          </tr> */}
 
           <tr>
             <th>Node Version</th>
