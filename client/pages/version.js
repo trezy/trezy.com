@@ -24,7 +24,7 @@ import PageWrapper from '../components/PageWrapper'
 // Component Constants
 const BUILD_BRANCH = $BUILD_BRANCH
 const BUILD_COMMIT_HASH = $BUILD_COMMIT_HASH
-const BUILD_COMMIT_RANGE = $BUILD_COMMIT_RANGE
+// const BUILD_COMMIT_RANGE = $BUILD_COMMIT_RANGE
 const BUILD_DATE = $BUILD_DATE
 const BUILD_ID = $BUILD_ID
 const NODE_VERSION = $NODE_VERSION
