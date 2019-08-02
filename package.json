@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 next build",
-    "build": "next build client",
+    "build": "NODE_ENV=production next build client",
     "dev": "node --inspect server/server.js",
     "postinstall": "npm rebuild node-sass"
   },
