@@ -20,7 +20,6 @@ import reducer from './reducers'
 
 // Action imports
 import * as articlesActions from './actions/articles'
-import * as firestoreActions from './actions/firestore'
 import * as moviesActions from './actions/movies'
 import * as usersActions from './actions/users'
 
@@ -30,7 +29,6 @@ import * as usersActions from './actions/users'
 
 const actions = {
   ...articlesActions,
-  ...firestoreActions,
   ...moviesActions,
   ...usersActions,
 }

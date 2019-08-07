@@ -17,8 +17,8 @@ const sortArticles = (articleA, articleB) => {
     return 0
   }
 
-  const publishDateA = moment(articleA.publishedAt.seconds * 1000)
-  const publishDateB = moment(articleB.publishedAt.seconds * 1000)
+  const publishDateA = moment(articleA.publishedAt * 1000)
+  const publishDateB = moment(articleB.publishedAt * 1000)
 
   if (publishDateA < publishDateB) {
     return 1

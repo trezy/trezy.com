@@ -31,7 +31,9 @@ const Home = () => (
           <h2>Latest articles</h2>
         </header>
 
-        <ArticleList limit={3} />
+        <ArticleList
+          className="latest-articles"
+          limit={3} />
 
         <Link route="blog">
           <a>See more</a>

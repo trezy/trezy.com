@@ -1,3 +1,36 @@
 article {
-  padding: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &.summary {
+    height: 50vh;
+  }
+
+  .meta {
+    border-bottom-color: var(--brand-primary);
+    border-bottom-style: solid;
+    border-bottom-width: 0.1rem;
+    border-top-color: var(--brand-primary);
+    border-top-style: solid;
+    border-top-width: 0.1rem;
+    display: flex;
+    font-size: 0.8em;
+    margin-bottom: var(--gutter);
+    margin-top: var(--gutter);
+
+    > *:not(:last-child):after {
+      content: '|';
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+  }
+
+  menu {
+    border-top-color: var(--brand-primary);
+    border-top-style: solid;
+    border-top-width: 0.1rem;
+    margin-top: var(--gutter);
+    padding-top: var(--gutter);
+  }
 }

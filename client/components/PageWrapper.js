@@ -69,7 +69,7 @@ class PageWrapper extends React.Component {
         <TransitionContextConsumer>
           {style => (
             <animated.main
-              className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-'))}
+              className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}
               style={style}>
               {children}
             </animated.main>

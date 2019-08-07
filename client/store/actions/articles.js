@@ -1,30 +1,49 @@
+// Module imports
+import moment from 'moment'
+import uuid from 'uuid/v4'
+
+
+
+
+
 // Local imports
 import actionTypes from '../actionTypes'
-import {
-  firebase,
-  firebaseApp,
-} from '../../helpers/firebase'
+import { firebaseApp } from '../../helpers/firebase'
 
 
 
 
 
 // Local constants
-const database = firebaseApp.firestore()
+const articleDefaults = {
+  body: '',
+  id: null,
+  publishedAt: null,
+  title: '',
+}
+const database = firebaseApp.database()
+const defaultOptions = {
+  limit: false,
+  page: 1,
+  includeDrafts: false,
+}
 
 
 
 
 
-export const getArticle = id => async dispatch => {
-  const collection = database.collection('articles')
+export const getArticle = (id, includeDrafts = false) => async dispatch => {
+  let snapshot = await database.ref(`/articles/${id}`).once('value')
+  let result = snapshot.val()
 
-  const documentSnapshot = await collection.doc(id).get()
-  const data = await documentSnapshot.data()
+  if (!result && includeDrafts) {
+    snapshot = await database.ref(`/drafts/${id}`).once('value')
+    result = snapshot.val()
+  }
 
   dispatch({
     payload: {
-      ...data,
+      ...snapshot.val(),
       id,
     },
     status: 'success',
@@ -36,26 +55,47 @@ export const getArticle = id => async dispatch => {
 
 
 
-export const getArticles = (limit = false, includeDrafts = false) => async dispatch => {
+export const getArticles = (options = {}) => async dispatch => {
+  const {
+    limit,
+    page,
+    includeDrafts,
+  } = { ...defaultOptions, ...options }
   const results = {}
-  let collection = database.collection('articles')
 
-  if (!includeDrafts) {
-    collection = collection.where('publishedAt', '>', firebase.firestore.Timestamp.fromDate(new Date(0)))
+  const processQuery = async (collection, index) => {
+    let query = database.ref(`/${collection}`)
+
+    query = query.orderByChild(index)
+
+    if (page && (page > 1)) {
+      query = query.endAt((page - 1) * limit)
+    }
+
+    if (limit) {
+      query = query.limitToLast(limit)
+    }
+
+    const snapshot = await query.once('value')
+
+    return snapshot.val()
   }
 
-  collection = collection.orderBy('publishedAt', 'desc')
+  let articles = await processQuery('articles', 'publishedAt')
 
-  if (limit) {
-    collection = collection.limit(limit)
+  if (includeDrafts) {
+    const drafts = await processQuery('drafts', 'createdAt')
+
+    articles = {
+      ...articles,
+      ...drafts,
+    }
   }
 
-  const querySnapshot = await collection.get()
-
-  querySnapshot.forEach(doc => {
-    results[doc.id] = {
-      ...doc.data(),
-      id: doc.id,
+  Object.entries(articles || {}).forEach(([key, value]) => {
+    results[key] = {
+      ...articleDefaults,
+      ...value,
     }
   })
 
@@ -70,51 +110,36 @@ export const getArticles = (limit = false, includeDrafts = false) => async dispa
 
 
 
-export const getLatestArticle = (includeDrafts = false) => async dispatch => {
-  let collection = database.collection('articles')
-
-  if (!includeDrafts) {
-    collection = collection.where('publishedAt', '>', firebase.firestore.Timestamp.fromDate(new Date(0)))
-  }
-
-  collection = collection.orderBy('publishedAt', 'desc')
-  collection = collection.limit(1)
-
-  const querySnapshot = await collection.get()
-  const data = querySnapshot.docs[0].data()
-  const [{ id }] = querySnapshot.docs
-
-  dispatch({
-    payload: {
-      ...data,
-      id,
-    },
-    status: 'success',
-    type: actionTypes.GET_ARTICLE,
-  })
-}
-
-
-
-
-
 export const saveArticle = (article, publish = false) => async dispatch => {
-  const collection = database.collection('articles')
+  const now = moment.utc().valueOf()
   const serializedArticle = { ...article }
-  const { id } = article
+  let collection = 'drafts'
+  let {
+    id,
+    publishedAt,
+  } = article
+
+  serializedArticle.updatedAt = now
 
   if (publish) {
-    serializedArticle.publishedAt = firebase.firestore.FieldValue.serverTimestamp()
-  } else {
-    delete serializedArticle.publishedAt
+    serializedArticle.publishedAt = now
+  }
+
+  if (publish || (!publish && publishedAt)) {
+    collection = 'articles'
   }
 
   if (id) {
-    delete serializedArticle.id
-    await collection.doc(id).set(serializedArticle, { merge: true })
+    await database.ref(`/${collection}/${id}`).update(serializedArticle)
+
+    if (publish) {
+      await database.ref(`/drafts/${id}`).remove()
+    }
   } else {
-    const documentReference = await collection.add(serializedArticle)
-    serializedArticle.id = documentReference.id
+    serializedArticle.createdAt = now
+    id = uuid()
+    serializedArticle.id = id
+    await database.ref(`/${collection}/${id}`).set(serializedArticle)
   }
 
   dispatch({

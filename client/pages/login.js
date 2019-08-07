@@ -51,18 +51,21 @@ const Login = props => {
 
           <menu type="toolbar">
             <button
+              className="primary"
               onClick={signInWithGoogle}
               type="button">
               Sign in with Google
             </button>
 
             <button
+              className="primary"
               onClick={signInWithGithub}
               type="button">
               Sign in with Github
             </button>
 
             <button
+              className="primary"
               onClick={signInWithTwitter}
               type="button">
               Sign in with Twitter

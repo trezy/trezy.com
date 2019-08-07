@@ -1,8 +1,8 @@
 // Module imports
 import * as firebase from 'firebase/app'
 /* eslint-disable import/no-unassigned-import */
-import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/database'
 /* eslint-enable */
 
 import getConfig from 'next/config'

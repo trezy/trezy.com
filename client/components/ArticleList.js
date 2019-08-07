@@ -7,7 +7,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux'
-import moment from 'moment'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 
@@ -16,14 +16,14 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import { actions } from '../store'
-import { Link } from '../routes'
+import Article from './Article'
 import getArticlesSelector from '../store/selectors/getArticlesSelector'
 
 
 
 
 
-const ArticleList = ({ limit }) => {
+const ArticleList = ({ className, editMode, includeDrafts, limit }) => {
   const articles = useSelector(getArticlesSelector())
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
@@ -31,7 +31,10 @@ const ArticleList = ({ limit }) => {
 
   const getArticles = async () => {
     setIsLoading(true)
-    await dispatch(actions.getArticles(limit))
+    await dispatch(actions.getArticles({
+      includeDrafts,
+      limit,
+    }))
     setIsLoaded(true)
     setIsLoading(false)
   }
@@ -47,26 +50,13 @@ const ArticleList = ({ limit }) => {
   }
 
   return (
-    <ol className="article-list">
-      {articles.map(({ id, publishedAt, title }) => (
-        <li key={id}>
-          <article>
-            <header>
-              <h3>
-                <Link
-                  params={{ id }}
-                  route="view article">
-                  <a>
-                    {title}
-                  </a>
-                </Link>
-              </h3>
-            </header>
-
-            <div className="meta">
-              <span>Published {moment(publishedAt.seconds * 1000).format('D MMMM, Y')}</span>
-            </div>
-          </article>
+    <ol className={classnames('article-list', className)}>
+      {articles.map(article => (
+        <li key={article.id}>
+          <Article
+            article={article}
+            editMode={editMode}
+            summarize />
         </li>
       ))}
     </ol>
@@ -74,10 +64,16 @@ const ArticleList = ({ limit }) => {
 }
 
 ArticleList.defaultProps = {
+  className: '',
+  editMode: false,
+  includeDrafts: false,
   limit: false,
 }
 
 ArticleList.propTypes = {
+  className: PropTypes.string,
+  editMode: PropTypes.bool,
+  includeDrafts: PropTypes.bool,
   limit: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
 }
 

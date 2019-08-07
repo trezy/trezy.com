@@ -7,8 +7,6 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import marked from 'marked'
-import Prism from 'prismjs'
 import PropTypes from 'prop-types'
 
 
@@ -18,13 +16,14 @@ import PropTypes from 'prop-types'
 // Component imports
 import { actions } from '../../store'
 import getArticle from '../../store/selectors/getArticleSelector'
+import Article from '../../components/Article'
 import PageWrapper from '../../components/PageWrapper'
 
 
 
 
 
-const Article = ({ query: { id } }) => {
+const ArticlePage = ({ query: { id } }) => {
   const article = useSelector(getArticle(id))
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
@@ -41,10 +40,6 @@ const Article = ({ query: { id } }) => {
     }
   })
 
-  useEffect(() => {
-    setTimeout(() => Prism.highlightAll(), 0)
-  }, [article])
-
   return (
     <PageWrapper title={article ? article.title : 'Loading...'}>
       <section>
@@ -54,14 +49,7 @@ const Article = ({ query: { id } }) => {
           )}
 
           {(article && !isLoading) && (
-            <>
-              <header>
-                <h2>{article.title}</h2>
-              </header>
-
-              {/* eslint-disable-next-line react/no-danger */}
-              <div dangerouslySetInnerHTML={{ __html: marked(article.body) }} />
-            </>
+            <Article article={article} />
           )}
         </article>
       </section>
@@ -69,7 +57,7 @@ const Article = ({ query: { id } }) => {
   )
 }
 
-Article.propTypes = {
+ArticlePage.propTypes = {
   query: PropTypes.object.isRequired,
 }
 
@@ -77,4 +65,4 @@ Article.propTypes = {
 
 
 
-export default Article
+export default ArticlePage

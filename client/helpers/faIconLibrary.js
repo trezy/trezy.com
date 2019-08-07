@@ -1,9 +1,11 @@
 export {
   faBars,
   faBook,
+  faClock,
   faHome,
   faSignInAlt,
   faSignOutAlt,
+  faSpinner,
   faTachometerAlt,
   faTimes,
   faUser,

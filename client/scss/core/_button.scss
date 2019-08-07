@@ -7,7 +7,7 @@ button, .button {
   font-family: inherit;
   font-size: inherit;
   line-height: 1;
-  padding: var(--gutter);
+  padding: var(--gutter) calc(var(--gutter) * 2);
   opacity: 0.8;
   transform: scale(1);
   transition-duration: 0.2s;
@@ -22,6 +22,10 @@ button, .button {
     opacity: 1;
     outline: none;
     transform: scale(1.2);
+  }
+
+  &.iconic {
+    padding: var(--gutter);
   }
 
   &.primary {

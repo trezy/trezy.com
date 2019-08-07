@@ -8,7 +8,7 @@ import ConnectionManager from '../../helpers/connectionManager'
 
 // Local constants
 const connectionManager = new ConnectionManager
-const database = firebaseApp.firestore()
+const database = firebaseApp.database()
 const actionTypeCreator = (action, entityType) => `${action}_${entityType}`.toUpperCase()
 
 
