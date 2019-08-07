@@ -18,7 +18,8 @@ const headerKeys = [
 const domainWhitelist = [
   // Firebase
   'https://trezy-core.firebaseapp.com',
-  'https://firestore.googleapis.com',
+  'https://*.firebaseio.com',
+  'wss://*.firebaseio.com',
 
   // Google APIs
   'https://fonts.googleapis.com',
