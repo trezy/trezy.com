@@ -16,7 +16,16 @@ export {
 
 
 export {
+  faCodepen,
+  faDev,
+  faDiscord,
+  faGithub,
+  faInstagram,
+  faLinkedin,
+  faNpm,
+  faPatreon,
+  faSoundcloud,
+  faSpeakerDeck,
   faTwitter,
   faTwitch,
-  faGithub,
 } from '@fortawesome/free-brands-svg-icons'

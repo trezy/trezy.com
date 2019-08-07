@@ -76,14 +76,6 @@ const navItems = [
 ]
 const socialItems = [
   {
-    icon: 'github',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    key: 'github',
-    title: 'Github',
-    href: 'https://github.com/trezy',
-  },
-  {
     icon: 'twitter',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -92,12 +84,92 @@ const socialItems = [
     href: 'https://twitter.com/TrezyCodes',
   },
   {
+    icon: 'instagram',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'instagram',
+    title: 'Instagram',
+    href: 'https://instagram.com/TrezyCodes',
+  },
+  {
+    icon: 'linkedin',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'linkedin',
+    title: 'LinkedIn',
+    href: 'https://linkedin.com/in/trezy',
+  },
+  {
     icon: 'twitch',
     iconOnly: true,
     iconPrefix: 'fab',
     key: 'twitch',
     title: 'Twitch',
     href: 'https://twitch.tv/TrezyCodes',
+  },
+  {
+    icon: 'discord',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'discord',
+    title: 'Discord',
+    href: 'https://discord.gg/k3bth3f',
+  },
+  {
+    icon: 'patreon',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'patreon',
+    title: 'Patreon',
+    href: 'https://www.patreon.com/trezy',
+  },
+  {
+    icon: 'github',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'github',
+    title: 'Github',
+    href: 'https://github.com/trezy',
+  },
+  {
+    icon: 'codepen',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'codepen',
+    title: 'Codepen',
+    href: 'https://codepen.io/trezy',
+  },
+  {
+    icon: 'npm',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'npm',
+    title: 'npm',
+    href: 'https://npmjs.com/~trezy',
+  },
+  {
+    icon: 'dev',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'dev',
+    title: 'DEV Community',
+    href: 'https://dev.to/trezy',
+  },
+  {
+    icon: 'speaker-deck',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'speakerdeck',
+    title: 'speakerdeck',
+    href: 'https://speakerdeck.com/trezy',
+  },
+  {
+    icon: 'soundcloud',
+    iconOnly: true,
+    iconPrefix: 'fab',
+    key: 'soundcloud',
+    title: 'SoundCloud',
+    href: 'https://soundcloud.com/TrezyCodes',
   },
 ]
 
@@ -146,7 +218,7 @@ const Banner = props => {
         {/* eslint-disable jsx-a11y/tabindex-no-positive */}
         <label
           aria-pressed={isOpen ? 'true' : 'false'}
-          className="button primary"
+          className="button iconic primary"
           htmlFor="banner-control"
           onKeyUp={({ key }) => ['enter', ' '].includes(key.toLowerCase()) && setIsOpen(!isOpen)}
           role="button"
