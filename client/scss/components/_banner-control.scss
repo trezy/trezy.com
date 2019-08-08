@@ -10,7 +10,7 @@
     }
 
     ~ main {
-      transform: scale(0.8);
+      transform: scale(0.8) translateY(20vh);
 
       &:after {
         pointer-events: initial;
