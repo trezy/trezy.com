@@ -108,6 +108,10 @@ jobs:
       - add_ssh_keys
 
       - run:
+          name: Install rsync
+          command: apt-get update && apt-get install rsync -y
+
+      - run:
           name: Keyscan (HACK)
           command: ssh-keyscan -H $DEV_DEPLOY_HOST >> ~/.ssh/known_hosts
 
@@ -123,6 +127,10 @@ jobs:
           at: .
 
       - add_ssh_keys
+
+      - run:
+          name: Install rsync
+          command: apt-get update && apt-get install rsync -y
 
       - run:
           name: Keyscan (HACK)
