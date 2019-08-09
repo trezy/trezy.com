@@ -1,9 +1,12 @@
 .client-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   margin-top: var(--gutter);
   width: 100%;
+
+  li {
+    margin: var(--gutter);
+  }
 
   a {
     display: flex;
@@ -13,17 +16,16 @@
     }
   }
 
-  img {
-    max-width: 100%;
-    min-height: 100%;
+  .logo {
+    width: 100%;
   }
 
   svg {
     fill: var(--dark-grey);
-    margin: var(--gutter);
     max-height: 5rem;
     transition-duration: 0.2s;
     transition-property: opacity;
+    width: 100%;
 
     &:focus,
     &:hover {
