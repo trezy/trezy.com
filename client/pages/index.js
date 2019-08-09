@@ -19,7 +19,7 @@ const Home = () => (
   <PageWrapper title="Home">
     <section className="branded hero">
       <header>
-        &lt;trezy-who /&gt;
+        &lt;trezy-who/&gt;
       </header>
 
       <p>Software engineer, UX designer, and <a href="https://a11yproject.com">#a11y</a>.</p>
