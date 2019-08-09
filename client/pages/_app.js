@@ -51,15 +51,24 @@ class App extends NextApp {
 
     const markdownRenderer = new marked.Renderer
 
+    markdownRenderer.list = (text, ordered) => {
+      const elementType = ordered ? 'ol' : 'ul'
+
+      return `
+        <${elementType} class="${ordered ? 'numbered' : 'bulleted'}">
+          ${text}
+        </${elementType}>`
+    }
+
     markdownRenderer.heading = (text, level) => {
       const escapedText = text.toLowerCase().replace(/[^\w]+/gu, '-')
 
       return `
-              <h${level + 1}>
-                <a name="${escapedText}" class="anchor" href="#${escapedText}"></a>
+        <h${level + 1}>
+          <a name="${escapedText}" class="anchor" href="#${escapedText}"></a>
 
-                ${text}
-              </h${level + 1}>`
+          ${text}
+        </h${level + 1}>`
     }
 
     marked.setOptions({ renderer: markdownRenderer })

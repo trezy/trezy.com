@@ -1,8 +1,4 @@
 ol, ul {
-  li {
-    display: inline-block;
-  }
-
   &.comma-separated {
     > li:not(:last-child):after {
       content: ', ';
@@ -10,11 +6,35 @@ ol, ul {
     }
   }
 
+  &.bulleted,
+  &.numbered {
+    list-style-position: outside;
+    padding-left: 2rem;
+  }
+
+  &.bulleted {
+    list-style-type: square;
+  }
+
+  &.gapless li {
+    margin-top: 0;
+  }
+
   &.inline {
     display: inline-block;
 
     li {
+      display: inline-block;
       margin-right: 0.5em;
     }
+  }
+
+  &.numbered {
+    list-style-type: georgian;
+  }
+
+  &.two-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
