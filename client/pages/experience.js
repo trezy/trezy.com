@@ -1,5 +1,6 @@
 // Module imports
 import marked from 'marked'
+import moment from 'moment'
 import React from 'react'
 import uuid from 'uuid/v4'
 
@@ -257,6 +258,17 @@ const data = [
 
 const Experience = () => (
   <PageWrapper title="Experience">
+    <section className="hero">
+      <div>
+        <header>
+          <h2>Experience</h2>
+        </header>
+
+        {/* eslint-disable-next-line no-magic-numbers */}
+        <p>As a software engineer for over {moment(new Date('1 1 1999')).fromNow(true)}, I've got a pretty extensive resume. Unfortunately, hiring managers are rarely interested in long resumes. To account for that, I keep a full list of my work experience right here on my website. If you're looking for your next Front End Developer, Developer Advocate, or Accessibility Engineer, make sure to connect. <span aria-label="Grinning Emoji" role="img">😁</span></p>
+      </div>
+    </section>
+
     {data.map(datum => {
       const {
         employer,
