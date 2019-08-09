@@ -3,9 +3,7 @@ main {
   box-shadow: 0 0 1rem 0 var(--text-color);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-width: 100vw;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   transform: scale(1) translateY(0);
   transform-origin: right top;
@@ -24,5 +22,10 @@ main {
     top: 0;
     transition-duration: 0.2s;
     transition-property: opacity;
+  }
+
+  @media (max-width: 1300px) {
+    min-height: 100vh;
+    min-width: 100vw;
   }
 }

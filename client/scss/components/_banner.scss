@@ -1,17 +1,12 @@
 [role=banner] {
   background-color: var(--background-color);
-  bottom: var(--gutter);
   display: flex;
   flex-direction: column;
   font-family: 'Source Code Pro', monospace;
-  left: var(--gutter);
   min-width: var(--banner-width);
-  position: absolute;
-  top: var(--gutter);
-  transform: translateX(calc(-100% - var(--gutter)));
+  position: relative;
   transition-duration: 0.2s;
   transition-property: transform;
-  z-index: 1;
 
   %anchor-hover-styles {
     background-color: var(--brand-primary);
@@ -29,8 +24,11 @@
   [for='banner-control'] {
     font-size: 2em;
     left: calc(100% + var(--gutter));
+    opacity: 1;
     position: absolute;
     top: 0;
+    transition-duration: 0.2s;
+    transition-property: opacity;
     width: auto;
 
     svg:not(:first-child) {
@@ -38,6 +36,11 @@
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    @media (min-width: 1300px) {
+      opacity: 0;
+      pointer-events: none;
     }
   }
 
@@ -152,5 +155,19 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  @media (max-width: 1300px) {
+    bottom: var(--gutter);
+    left: var(--gutter);
+    position: absolute;
+    transform: translateX(calc(-100% - var(--gutter)));
+    left: var(--gutter);
+    top: var(--gutter);
+    z-index: 1;
+  }
+
+  @media (min-width: 1300px) {
+
   }
 }
