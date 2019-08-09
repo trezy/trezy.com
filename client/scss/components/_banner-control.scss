@@ -10,6 +10,7 @@
     }
 
     ~ main {
+      pointer-events: none;
       transform: scale(0.8) translateY(20vh);
 
       &:after {
