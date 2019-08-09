@@ -6,6 +6,13 @@ import SVG from 'react-svg-inline'
 
 
 
+// Local imports
+import ExternalLink from './ExternalLink'
+
+
+
+
+
 // Local constants
 const clients = [
   {
@@ -81,7 +88,7 @@ const ClientList = () => (
   <ul className="client-list">
     {clients.map(({ logo, name, url }) => (
       <li key={name}>
-        <a href={url}>
+        <ExternalLink href={url}>
           {/* eslint-disable-next-line react/jsx-pascal-case */}
           <SVG
             accessibilityLabel={`Logo for ${name}`}
@@ -93,7 +100,7 @@ const ClientList = () => (
           <span className="screen-reader-only">
             {name}
           </span>
-        </a>
+        </ExternalLink>
       </li>
     ))}
   </ul>
