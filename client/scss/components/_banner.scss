@@ -4,7 +4,6 @@
   flex-direction: column;
   font-family: 'Source Code Pro', monospace;
   min-width: var(--banner-width);
-  position: relative;
   transition-duration: 0.2s;
   transition-property: transform;
 
@@ -160,7 +159,7 @@
   @media (max-width: 1300px) {
     bottom: var(--gutter);
     left: var(--gutter);
-    position: absolute;
+    position: fixed;
     transform: translateX(calc(-100% - var(--gutter)));
     left: var(--gutter);
     top: var(--gutter);
@@ -168,6 +167,8 @@
   }
 
   @media (min-width: 1300px) {
-
+    max-height: calc(100vh - (var(--gutter) * 2));
+    position: sticky;
+    top: var(--gutter);
   }
 }

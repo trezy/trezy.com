@@ -29,6 +29,7 @@ main {
   }
 
   @media (min-width: 1300px) {
-    overflow: auto;
+    margin-left: var(--gutter);
+    flex-grow: 1;
   }
 }

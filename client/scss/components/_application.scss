@@ -1,16 +1,13 @@
 [role=application] {
   background-color: var(--text-color);
   font-family: 'Source Code Pro', monospace;
-  height: 100vh;
   line-height: 2;
-  width: 100vw;
-  overflow: auto;
+  min-height: 100vh;
   width: 100vw;
 
   @media (min-width: 1300px) {
-    display: grid;
-    grid-template-columns: min-content auto;
-    overflow: hidden;
+    align-items: flex-start;
+    display: flex;
     padding: var(--gutter);
   }
 }
