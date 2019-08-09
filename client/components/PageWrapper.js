@@ -61,6 +61,7 @@ class PageWrapper extends React.Component {
           <meta property="og:title" content={title} />
           <meta property="og:type" content="website" />
           <meta property="twitter:card" content="summary" />
+          <meta property="twitter:site" content="@TrezyCodes" />
           <meta property="twitter:creator" content="@TrezyCodes" />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
