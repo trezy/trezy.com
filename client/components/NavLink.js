@@ -37,6 +37,7 @@ const NavLink = props => {
   if (onClick) {
     return (
       <button
+        className={classnames({ iconic: iconOnly })}
         disabled={disabled}
         onClick={event => onClick(event, props)}
         tabIndex={isFocusable ? null : '-1'}
@@ -67,7 +68,10 @@ const NavLink = props => {
   return (
     <Link {...linkProps}>
       <a
-        className={disabled ? 'disabled' : ''}
+        className={classnames('button', {
+          disabled,
+          iconic: iconOnly,
+        })}
         target={/https?:\/\//gui.test(href) ? '_blank' : null}
         tabIndex={isFocusable ? null : '-1'}> {/* eslint-disable-line jsx-a11y/no-noninteractive-tabindex */}
         {icon && (

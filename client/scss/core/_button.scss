@@ -25,6 +25,7 @@ button, .button {
   }
 
   &.iconic {
+    justify-content: center;
     padding: var(--gutter);
   }
 
