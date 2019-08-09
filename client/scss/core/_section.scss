@@ -9,7 +9,7 @@ section {
   position: relative;
   width: 100%;
 
-  &:after {
+  &:not(:last-child):after {
     background-image: radial-gradient(
       closest-side,
       rgba(0, 0, 0, 0.2),
