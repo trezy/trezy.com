@@ -1,6 +1,6 @@
 .client-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 15rem));
   margin-top: var(--gutter);
   width: 100%;
 
@@ -43,5 +43,9 @@
         opacity: 1;
       }
     }
+  }
+
+  @media (min-width: 1300px) {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 20rem));
   }
 }
