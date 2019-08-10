@@ -1,0 +1,66 @@
+.stream-badge.live .live-indicator {
+  @keyframes radar1 {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
+
+  @keyframes radar2 {
+    20% {
+      opacity: 0;
+      transform: scale(1);
+    }
+
+    40% {
+      opacity: 0;
+    }
+
+    40% {
+      opacity: 0.8;
+    }
+
+    80% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  color: red;
+  line-height: 1;
+  position: relative;
+
+  svg {
+    &:nth-child(n + 1) {
+      animation-duration: 1.5s;
+      animation-iteration-count: infinite;
+    }
+
+    &:nth-child(2) {
+      animation-name: radar1;
+    }
+
+    &:nth-child(3) {
+      animation-name: radar2;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    svg {
+      animation: none !important;
+    }
+  }
+}

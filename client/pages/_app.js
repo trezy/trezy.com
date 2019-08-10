@@ -24,7 +24,9 @@ import withRedux from 'next-redux-wrapper'
 
 // Component imports
 import { initStore } from '../store'
-import * as faIcons from '../helpers/faIconLibrary'
+import * as fasIcons from '../helpers/fasIconLibrary'
+import * as fabIcons from '../helpers/fabIconLibrary'
+import * as farIcons from '../helpers/farIconLibrary'
 import AppLayout from '../components/AppLayout'
 
 
@@ -33,7 +35,9 @@ import AppLayout from '../components/AppLayout'
 
 // Configure and populate FontAwesome library
 faConfig.autoAddCss = false
-faLibrary.add(faIcons)
+faLibrary.add(fasIcons)
+faLibrary.add(fabIcons)
+faLibrary.add(farIcons)
 
 
 

@@ -8,7 +8,6 @@ import React from 'react'
 
 // Component imports
 import NavLink from './NavLink'
-import renderNavItemTitle from '../helpers/renderNavItemTitle'
 import Subnav from './Subnav'
 
 
@@ -52,8 +51,7 @@ const Nav = props => {
                 <NavLink
                   {...props}
                   {...item}
-                  isFocusable={isOpen}
-                  title={renderNavItemTitle(item, title)} />
+                  isFocusable={isOpen} />
               )}
             </li>
           )
