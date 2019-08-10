@@ -1,18 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 
 // Module imports
-import { animated } from 'react-spring/renderprops.cjs'
 import classnames from 'classnames'
 import NextHead from 'next/head'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-
-
-
-
-// Component imports
-import { TransitionContextConsumer } from './AppLayout'
 
 
 
@@ -67,15 +60,9 @@ class PageWrapper extends React.Component {
           <meta property="twitter:description" content={description} />
         </NextHead>
 
-        <TransitionContextConsumer>
-          {style => (
-            <animated.main
-              className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}
-              style={style}>
-              {children}
-            </animated.main>
-          )}
-        </TransitionContextConsumer>
+        <main className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}>
+          {children}
+        </main>
       </>
     )
   }

@@ -1,5 +1,4 @@
 // Module imports
-import { Transition } from 'react-spring/renderprops.cjs'
 import NextHead from 'next/head'
 import NextError from 'next/error'
 import NProgress from 'nprogress'
@@ -90,7 +89,6 @@ class AppLayout extends React.Component {
       isServer,
       pageProps,
       renderLayout,
-      router,
       statusCode,
     } = this.props
 
@@ -106,34 +104,8 @@ class AppLayout extends React.Component {
           <Banner isServer={isServer} />
         )}
 
-        {statusCode === httpStatus.OK && (
-          <Transition
-            native
-            from={{
-              opacity: 0,
-            }}
-            enter={{
-              opacity: 1,
-            }}
-            leave={{
-              opacity: 0,
-            }}
-            config={{
-              tension: 350,
-              friction: 12,
-              clamp: true,
-            }}
-            items={{
-              Item: Component,
-              itemProps: pageProps,
-            }}
-            keys={router.asPath}>
-            {({ Item, itemProps }) => props => (
-              <TransitionContext.Provider value={props}>
-                <Item {...itemProps} />
-              </TransitionContext.Provider>
-            )}
-          </Transition>
+        {(statusCode === httpStatus.OK) && (
+          <Component {...pageProps} />
         )}
 
         {statusCode !== httpStatus.OK && (
