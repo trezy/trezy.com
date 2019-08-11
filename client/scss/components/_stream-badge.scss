@@ -5,6 +5,11 @@
       transform: scale(1);
     }
 
+    25% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
     50% {
       opacity: 1;
     }
@@ -47,6 +52,13 @@
     &:nth-child(n + 1) {
       animation-duration: 1.5s;
       animation-iteration-count: infinite;
+    }
+
+    &:nth-child(1) {
+      animation-delay: -0.75s;
+      animation-direction: alternate;
+      animation-duration: 0.75s;
+      animation-name: pulse;
     }
 
     &:nth-child(2) {
