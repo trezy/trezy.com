@@ -3,7 +3,6 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
-import marked from 'marked'
 import Prism from 'prismjs'
 import PropTypes from 'prop-types'
 
@@ -25,6 +24,7 @@ const Article = ({ article, editMode, summarize }) => {
     createdAt,
     id,
     publishedAt,
+    subtitle,
     title,
     updatedAt,
   } = article
@@ -37,6 +37,7 @@ const Article = ({ article, editMode, summarize }) => {
     <article className={classnames({ summary: summarize })}>
       <ArticleHeader {...{
         id,
+        subtitle,
         summarize,
         title,
       }} />
@@ -46,19 +47,6 @@ const Article = ({ article, editMode, summarize }) => {
         publishedAt,
         updatedAt,
       }} />
-
-      {(summarize && !article.excerpt) && (
-        <div>
-          Uuuuuuuugh... Trezy didn't enter an excerpt for this article. You should harass him into fixing it.
-        </div>
-      )}
-
-      {(!summarize || (summarize && article.excerpt)) && (
-        <>
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: marked(summarize ? (article.excerpt || '') : article.body) }} />
-        </>
-      )}
 
       {editMode && (
         <menu type="toolbar">

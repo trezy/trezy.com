@@ -13,7 +13,7 @@ import { Link } from '../routes'
 
 
 
-const ArticleHeader = ({ id, summarize, title }) => (
+const ArticleHeader = ({ id, subtitle, summarize, title }) => (
   <header>
     {summarize && (
       <h3>
@@ -28,16 +28,24 @@ const ArticleHeader = ({ id, summarize, title }) => (
     {!summarize && (
       <h2>{title}</h2>
     )}
+
+    {subtitle && (
+      <span className="subtitle">
+        {subtitle}
+      </span>
+    )}
   </header>
 )
 
 ArticleHeader.defaultProps = {
   id: null,
+  subtitle: '',
   summarize: false,
 }
 
 ArticleHeader.propTypes = {
   id: PropTypes.string,
+  subtitle: PropTypes.string,
   summarize: PropTypes.bool,
   title: PropTypes.string.isRequired,
 }

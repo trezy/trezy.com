@@ -1,8 +1,8 @@
 const articleDefaults = {
   body: '',
-  excerpt: '',
   createdAt: null,
   publishedAt: null,
+  subtitle: '',
   title: '',
   updatedAt: null,
 }

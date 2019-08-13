@@ -6,12 +6,4 @@ article {
   &.summary {
     min-height: 50vh;
   }
-
-  menu {
-    border-top-color: var(--brand-primary);
-    border-top-style: solid;
-    border-top-width: 0.1rem;
-    margin-top: var(--gutter);
-    padding-top: var(--gutter);
-  }
 }

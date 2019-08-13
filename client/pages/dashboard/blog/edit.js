@@ -35,7 +35,7 @@ const BlogEditor = ({ query: { id } }) => {
   const isDraft = !article.publishedAt
 
   const [body, setBody] = useState(article.body)
-  const [excerpt, setExcerpt] = useState(article.excerpt)
+  const [subtitle, setSubtitle] = useState(article.subtitle)
   const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const [title, setTitle] = useState(article.title)
@@ -46,7 +46,7 @@ const BlogEditor = ({ query: { id } }) => {
     const newArticle = await dispatch(actions.saveArticle({
       ...article,
       body,
-      excerpt,
+      subtitle,
       title,
     }, publish))
 
@@ -84,10 +84,10 @@ const BlogEditor = ({ query: { id } }) => {
         <form onSubmit={event => event.preventDefault()}>
           <fieldset>
             <textarea
-              aria-label="Excerpt"
-              onChange={({ target: { value } }) => setExcerpt(value)}
-              placeholder="Excerpt"
-              value={excerpt} />
+              aria-label="Subtitle"
+              onChange={({ target: { value } }) => setSubtitle(value)}
+              placeholder="Subtitle"
+              value={subtitle} />
           </fieldset>
 
           <fieldset>
