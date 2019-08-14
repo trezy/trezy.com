@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 
 
 
-// Component imports
+// Local imports
 import { Router } from '../routes'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
@@ -43,40 +43,23 @@ const navItems = [
     className: ({ isLive }) => classnames('stream-badge', {
       live: isLive,
     }),
+    condition: ({ isLive }) => isLive,
     /* eslint-disable-next-line react/prop-types */
-    iconComponent: ({ isLive }) => {
-      if (isLive) {
-        return (
-          <span className="fa-layers fa-fw live-indicator">
-            <FontAwesomeIcon
-              aria-hidden
-              icon="circle" />
-
-            <FontAwesomeIcon
-              aria-hidden
-              icon={['far', 'circle']} />
-
-            <FontAwesomeIcon
-              aria-hidden
-              icon={['far', 'circle']} />
-          </span>
-        )
-      }
-
-      return (
+    iconComponent: () => (
+      <span className="fa-layers fa-fw live-indicator">
         <FontAwesomeIcon
           aria-hidden
-          fixedWidth
-          icon="minus-circle" />
-      )
-    },
-    // icon: ({ isLive }) => {
-    //   if (isLive) {
-    //     return 'circle'
-    //   }
+          icon="circle" />
 
-    //   return 'minus-circle'
-    // },
+        <FontAwesomeIcon
+          aria-hidden
+          icon={['far', 'circle']} />
+
+        <FontAwesomeIcon
+          aria-hidden
+          icon={['far', 'circle']} />
+      </span>
+    ),
     title: ({ isLive }) => {
       if (isLive) {
         return 'Trezy is live!'
@@ -215,6 +198,7 @@ const Banner = props => {
 
   const { currentUser } = firebaseApp.auth()
 
+  const [isLive, setIsLive] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
   const close = () => {
@@ -233,6 +217,13 @@ const Banner = props => {
       close()
     }
   }), [isOpen])
+  useEffect(() => {
+    const ref = firebaseApp.database().ref('/app-data/stream/online')
+
+    ref.on('value', snapshot => setIsLive(snapshot.val()))
+
+    return () => ref.off('value')
+  })
 
   return (
     <>
@@ -276,7 +267,7 @@ const Banner = props => {
 
         <Nav
           close={close}
-          isLive
+          isLive={isLive}
           isOpen={isOpen}
           items={navItems}
           signOut={signOut}
