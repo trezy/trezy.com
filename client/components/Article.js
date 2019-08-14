@@ -3,6 +3,7 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
+import marked from 'marked'
 import Prism from 'prismjs'
 import PropTypes from 'prop-types'
 
@@ -47,6 +48,13 @@ const Article = ({ article, editMode, summarize }) => {
         publishedAt,
         updatedAt,
       }} />
+
+      {!summarize && (
+        <>
+          {/* eslint-disable-next-line react/no-danger */}
+          <div dangerouslySetInnerHTML={{ __html: marked(article.body) }} />
+        </>
+      )}
 
       {editMode && (
         <menu type="toolbar">
