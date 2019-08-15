@@ -4,13 +4,14 @@ import React, {
   useState,
   useEffect,
 } from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 
 
 
 
-// Component imports
+// Local imports
 import { Router } from '../routes'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
@@ -25,27 +26,53 @@ import withFirebaseAuth from './withFirebaseAuth'
 const navItems = [
   {
     icon: 'home',
-    key: 'home',
     title: 'Home',
     route: 'home',
   },
   {
     icon: 'book',
-    key: 'blog',
     title: 'Blog',
     route: 'blog',
   },
   {
     icon: 'user',
-    key: 'about',
     title: 'About',
     route: 'about',
+  },
+  {
+    className: ({ isLive }) => classnames('stream-badge', {
+      live: isLive,
+    }),
+    condition: ({ isLive }) => isLive,
+    /* eslint-disable-next-line react/prop-types */
+    iconComponent: () => (
+      <span className="fa-layers fa-fw live-indicator">
+        <FontAwesomeIcon
+          aria-hidden
+          icon="circle" />
+
+        <FontAwesomeIcon
+          aria-hidden
+          icon={['far', 'circle']} />
+
+        <FontAwesomeIcon
+          aria-hidden
+          icon={['far', 'circle']} />
+      </span>
+    ),
+    title: ({ isLive }) => {
+      if (isLive) {
+        return 'Trezy is live!'
+      }
+
+      return 'Trezy is offline'
+    },
+    href: 'https://twitch.tv/TrezyCodes',
   },
 
   // Only while logged out
   // {
   //   icon: 'sign-in-alt',
-  //   key: 'login',
   //   title: 'Login',
   //   route: 'login',
   //   condition: ({ currentUser }) => !currentUser,
@@ -54,14 +81,12 @@ const navItems = [
   // Only while logged in
   {
     icon: 'tachometer-alt',
-    key: 'dashboard',
     title: 'Dashboard',
     route: 'dashboard',
     condition: ({ currentUser }) => Boolean(currentUser),
   },
   {
     icon: 'sign-out-alt',
-    key: 'logout',
     title: 'Logout',
     condition: ({ currentUser }) => Boolean(currentUser),
     onClick: (event, {
@@ -79,7 +104,6 @@ const socialItems = [
     icon: 'twitter',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'twitter',
     title: 'Twitter',
     href: 'https://twitter.com/TrezyCodes',
   },
@@ -87,7 +111,6 @@ const socialItems = [
     icon: 'instagram',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'instagram',
     title: 'Instagram',
     href: 'https://instagram.com/TrezyCodes',
   },
@@ -95,7 +118,6 @@ const socialItems = [
     icon: 'linkedin',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'linkedin',
     title: 'LinkedIn',
     href: 'https://linkedin.com/in/trezy',
   },
@@ -103,7 +125,6 @@ const socialItems = [
     icon: 'twitch',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'twitch',
     title: 'Twitch',
     href: 'https://twitch.tv/TrezyCodes',
   },
@@ -111,7 +132,6 @@ const socialItems = [
     icon: 'discord',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'discord',
     title: 'Discord',
     href: 'https://discord.gg/k3bth3f',
   },
@@ -119,7 +139,6 @@ const socialItems = [
     icon: 'patreon',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'patreon',
     title: 'Patreon',
     href: 'https://www.patreon.com/trezy',
   },
@@ -127,7 +146,6 @@ const socialItems = [
     icon: 'github',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'github',
     title: 'Github',
     href: 'https://github.com/trezy',
   },
@@ -135,7 +153,6 @@ const socialItems = [
     icon: 'codepen',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'codepen',
     title: 'Codepen',
     href: 'https://codepen.io/trezy',
   },
@@ -143,7 +160,6 @@ const socialItems = [
     icon: 'npm',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'npm',
     title: 'npm',
     href: 'https://npmjs.com/~trezy',
   },
@@ -151,7 +167,6 @@ const socialItems = [
     icon: 'dev',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'dev',
     title: 'DEV Community',
     href: 'https://dev.to/trezy',
   },
@@ -159,7 +174,6 @@ const socialItems = [
     icon: 'speaker-deck',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'speakerdeck',
     title: 'speakerdeck',
     href: 'https://speakerdeck.com/trezy',
   },
@@ -167,7 +181,6 @@ const socialItems = [
     icon: 'soundcloud',
     iconOnly: true,
     iconPrefix: 'fab',
-    key: 'soundcloud',
     title: 'SoundCloud',
     href: 'https://soundcloud.com/TrezyCodes',
   },
@@ -185,6 +198,7 @@ const Banner = props => {
 
   const { currentUser } = firebaseApp.auth()
 
+  const [isLive, setIsLive] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
   const close = () => {
@@ -203,6 +217,13 @@ const Banner = props => {
       close()
     }
   }), [isOpen])
+  useEffect(() => {
+    const ref = firebaseApp.database().ref('/app-data/stream/online')
+
+    ref.on('value', snapshot => setIsLive(snapshot.val()))
+
+    return () => ref.off('value')
+  })
 
   return (
     <>
@@ -246,6 +267,7 @@ const Banner = props => {
 
         <Nav
           close={close}
+          isLive={isLive}
           isOpen={isOpen}
           items={navItems}
           signOut={signOut}

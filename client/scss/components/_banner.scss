@@ -73,8 +73,11 @@
         z-index: 1;
       }
 
-      [data-icon] + span {
-        margin-left: var(--gutter);
+      [data-icon],
+      .fa-layers {
+        + span {
+          margin-left: var(--gutter);
+        }
       }
     }
 
@@ -170,5 +173,9 @@
     max-height: calc(100vh - (var(--gutter) * 2));
     position: sticky;
     top: var(--gutter);
+
+    .social {
+      margin-top: var(--gutter);
+    }
   }
 }
