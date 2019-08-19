@@ -18,7 +18,7 @@ const permanentRedirect = (path) => async (ctx) => {
   await ctx.redirect(path)
 }
 
-const sendFile = (path) => async (ctx) => {
+const sendFile = path => async ctx => {
   await send(ctx, path)
 }
 
@@ -58,9 +58,34 @@ module.exports = (nextApp, koaServer) => {
   \***************************************************************************/
 
   const nextRoutesHandler = routes.getRequestHandler(nextApp)
-  router.get('*', async (ctx) => {
+  router.get(/^\/(?!robots\.txt).*/gui, async (ctx) => {
     ctx.respond = false
     await nextRoutesHandler(ctx.req, ctx.res)
+  })
+
+
+
+
+
+  /***************************************************************************\
+    robots.txt
+  \***************************************************************************/
+
+  router.get('/robots.txt', ctx => {
+    const robotsTxt = new Set
+
+    robotsTxt.add('User-agent: *')
+    robotsTxt.add('Disallow: /')
+
+    routes.routes.forEach(({ hidden, pattern }) => {
+      if (!hidden) {
+        let parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/, '')
+
+        robotsTxt.add(`Allow: ${parsedPattern}`)
+      }
+    })
+
+    ctx.response.body = Array.from(robotsTxt).join('\n')
   })
 
 

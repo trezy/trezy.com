@@ -4,29 +4,54 @@ const routes = require('next-routes')()
 
 
 
-// 'NAME', 'ROUTE', 'PATH'
-// Ordered in general page group priority. Priority is determined by general amount of use of the set of pages.
+const routeDefinitions = [
+  {
+    name: 'home',
+    page: '/',
+    pattern: '/index',
+  },
+  {
+    name: 'about',
+  },
+  {
+    name: 'blog',
+  },
+  {
+    name: 'view article',
+    page: '/blog/:id',
+    pattern: '/blog/article',
+  },
+  {
+    hidden: true,
+    name: 'dashboard',
+  },
+  {
+    hidden: true,
+    name: 'blog dashboard',
+    page: '/dashboard/blog',
+  },
+  {
+    hidden: true,
+    name: 'new article',
+    page: '/dashboard/blog/edit/new',
+    pattern: '/dashboard/blog/edit',
+  },
+  {
+    hidden: true,
+    name: 'edit article',
+    page: '/dashboard/blog/edit/:id',
+    pattern: '/dashboard/blog/edit',
+  },
+  {
+    hidden: true,
+    name: 'login',
+  },
+]
 
-// Home
-routes.add('home', '/', '/index')
-
-// About
-routes.add('about')
-
-// Dashboard
-routes.add('dashboard')
-
-// Dashboard / Blog
-routes.add('blog')
-routes.add('view article', '/blog/:id', '/blog/article')
-
-// Dashboard / Blog
-routes.add('blog dashboard', '/dashboard/blog', '/dashboard/blog')
-routes.add('new article', '/dashboard/blog/edit/new', '/dashboard/blog/edit')
-routes.add('edit article', '/dashboard/blog/edit/:id', '/dashboard/blog/edit')
-
-// Login
-routes.add('login', '/login', '/login')
+routeDefinitions.forEach(routeDefinition => {
+  routes.add(routeDefinition)
+  routes.routes[routes.routes.length - 1].hidden = Boolean(routeDefinition.hidden)
+})
 
 
 
