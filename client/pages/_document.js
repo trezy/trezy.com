@@ -61,6 +61,9 @@ class Document extends NextDocument {
 
           <link rel="manifest" href="/manifest.json" />
           <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+
+          <link rel="webmention" href="https://webmention.io/trezy.com/webmention" />
+          <link rel="pingback" href="https://webmention.io/trezy.com/xmlrpc" />
         </Head>
 
         <body>
