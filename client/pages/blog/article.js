@@ -1,12 +1,8 @@
 // Module imports
 import {
-  useDispatch,
   useSelector,
 } from 'react-redux'
-import React, {
-  useEffect,
-  useState,
-} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -25,36 +21,24 @@ import PageWrapper from '../../components/PageWrapper'
 
 const ArticlePage = ({ query: { id } }) => {
   const article = useSelector(getArticle(id))
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const loadArticle = async () => {
-    await dispatch(actions.getArticle(id))
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    if (!article && !isLoading) {
-      setIsLoading(true)
-      loadArticle()
-    }
-  })
 
   return (
     <PageWrapper title={article ? article.title : 'Loading...'}>
       <section>
         <article className="line-numbers">
-          {isLoading && (
-            <span>Loading...</span>
-          )}
-
-          {(article && !isLoading) && (
+          {article && (
             <Article article={article} />
           )}
+
+          {!article && 'Article not found'}
         </article>
       </section>
     </PageWrapper>
   )
+}
+
+ArticlePage.getInitialProps = async ({ query, store }) => {
+  await store.dispatch(actions.getArticle(query.id))
 }
 
 ArticlePage.propTypes = {
