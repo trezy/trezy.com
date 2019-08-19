@@ -10,6 +10,7 @@ import React from 'react'
 
 // Component imports
 import { Link } from '../routes'
+import ExternalLink from './ExternalLink'
 
 
 
@@ -90,6 +91,24 @@ const NavLink = props => {
     return accumulator
   }, {})
 
+
+  if (/https?:\/\//gui.test(href)) {
+    return (
+      <ExternalLink
+        {...extraProps}
+        {...linkProps}
+        className={classnames(className, 'button', {
+          disabled,
+          iconic: iconOnly,
+        })}
+        tabIndex={isFocusable ? null : '-1'}>
+        {iconComponent}
+
+        {titleComponent}
+      </ExternalLink>
+    )
+  }
+
   return (
     <Link {...linkProps}>
       <a
@@ -98,7 +117,6 @@ const NavLink = props => {
           disabled,
           iconic: iconOnly,
         })}
-        target={/https?:\/\//gui.test(href) ? '_blank' : null}
         tabIndex={isFocusable ? null : '-1'}> {/* eslint-disable-line jsx-a11y/no-noninteractive-tabindex */}
         {iconComponent}
 
