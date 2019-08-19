@@ -24,6 +24,7 @@ const allowedLinkKeys = ['href', 'params', 'route', 'target']
 
 const NavLink = props => {
   const {
+    extraProps,
     iconOnly,
     isFocusable,
     onClick,
@@ -68,6 +69,7 @@ const NavLink = props => {
   if (onClick) {
     return (
       <button
+        {...extraProps}
         className={classnames(className, { iconic: iconOnly })}
         disabled={disabled}
         onClick={event => onClick(event, props)}
@@ -91,6 +93,7 @@ const NavLink = props => {
   return (
     <Link {...linkProps}>
       <a
+        {...extraProps}
         className={classnames(className, 'button', {
           disabled,
           iconic: iconOnly,
@@ -108,6 +111,7 @@ const NavLink = props => {
 NavLink.defaultProps = {
   className: '',
   disabled: false,
+  extraProps: {},
   href: null,
   icon: null,
   iconComponent: null,
@@ -126,6 +130,7 @@ NavLink.propTypes = {
     PropTypes.bool,
     PropTypes.func,
   ]),
+  extraProps: PropTypes.object,
   href: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,
