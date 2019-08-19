@@ -6,6 +6,7 @@ import React from 'react'
 
 
 // Component imports
+import { actions } from '../../../store'
 import { Link } from '../../../routes'
 import ArticleList from '../../../components/ArticleList'
 import PageWrapper from '../../../components/PageWrapper'
@@ -28,12 +29,14 @@ const BlogDashboard = () => (
         </Link>
       </header>
 
-      <ArticleList
-        editMode
-        includeDrafts />
+      <ArticleList />
     </section>
   </PageWrapper>
 )
+
+BlogDashboard.getInitialProps = async ({ store }) => {
+  await store.dispatch(actions.getArticles())
+}
 
 
 

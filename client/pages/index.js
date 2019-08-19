@@ -6,6 +6,7 @@ import React from 'react'
 
 
 // Component imports
+import { actions } from '../store'
 import { Link } from '../routes'
 import ArticleList from '../components/ArticleList'
 import ClientList from '../components/ClientList'
@@ -31,9 +32,7 @@ const Home = () => (
           <h2>Latest articles</h2>
         </header>
 
-        <ArticleList
-          className="latest-articles"
-          limit={3} />
+        <ArticleList className="latest-articles" />
 
         <Link route="blog">
           <a>See more</a>
@@ -48,6 +47,10 @@ const Home = () => (
     </section>
   </PageWrapper>
 )
+
+Home.getInitialProps = async ({ store }) => {
+  await store.dispatch(actions.getArticles({ limit: 3 }))
+}
 
 
 
