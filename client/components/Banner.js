@@ -101,6 +101,7 @@ const navItems = [
 ]
 const socialItems = [
   {
+    extraProps: { rel: 'me' },
     icon: 'twitter',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -108,6 +109,7 @@ const socialItems = [
     href: 'https://twitter.com/TrezyCodes',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'instagram',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -115,6 +117,7 @@ const socialItems = [
     href: 'https://instagram.com/TrezyCodes',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'linkedin',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -122,6 +125,7 @@ const socialItems = [
     href: 'https://linkedin.com/in/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'twitch',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -129,6 +133,7 @@ const socialItems = [
     href: 'https://twitch.tv/TrezyCodes',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'discord',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -136,6 +141,7 @@ const socialItems = [
     href: 'https://discord.gg/k3bth3f',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'patreon',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -143,6 +149,7 @@ const socialItems = [
     href: 'https://www.patreon.com/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'github',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -150,6 +157,7 @@ const socialItems = [
     href: 'https://github.com/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'codepen',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -157,6 +165,7 @@ const socialItems = [
     href: 'https://codepen.io/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'npm',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -164,6 +173,7 @@ const socialItems = [
     href: 'https://npmjs.com/~trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'dev',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -171,6 +181,7 @@ const socialItems = [
     href: 'https://dev.to/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'speaker-deck',
     iconOnly: true,
     iconPrefix: 'fab',
@@ -178,6 +189,7 @@ const socialItems = [
     href: 'https://speakerdeck.com/trezy',
   },
   {
+    extraProps: { rel: 'me' },
     icon: 'soundcloud',
     iconOnly: true,
     iconPrefix: 'fab',
