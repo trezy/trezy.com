@@ -14,7 +14,9 @@ import PageWrapper from '../components/PageWrapper'
 
 
 const About = () => (
-  <PageWrapper title="About">
+  <PageWrapper
+    description="Trezy has been called a software engineer, a wannabe cyborg, and an international man of mystery. Learn more about the story behind the man."
+    title="About">
     <section className="hero">
       <div>
         <img

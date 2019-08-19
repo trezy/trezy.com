@@ -21,9 +21,15 @@ import PageWrapper from '../../components/PageWrapper'
 
 const ArticlePage = ({ query: { id } }) => {
   const article = useSelector(getArticle(id))
+  const {
+    subtitle,
+    title,
+  } = article
 
   return (
-    <PageWrapper title={article ? article.title : 'Loading...'}>
+    <PageWrapper
+      description={article ? subtitle : 'Article not found'}
+      title={article ? title : 'Article not found'}>
       <section>
         <article className="line-numbers">
           {article && (

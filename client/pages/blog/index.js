@@ -15,7 +15,9 @@ import PageWrapper from '../../components/PageWrapper'
 
 
 const Blog = () => (
-  <PageWrapper title="Blog">
+  <PageWrapper
+    description="New ideas, old ideas, and regular ideas can all be found below the titles of Trezy's titular technological tidings."
+    title="Blog">
     <section>
       <header>
         <h2>Blog</h2>
