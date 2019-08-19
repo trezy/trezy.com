@@ -9,17 +9,22 @@ import React from 'react'
 const ExternalLink = props => (
   <a
     {...props}
-    rel="noopener noreferrer"
+    rel={`noopener noreferrer ${props.rel}`}
     target="_blank">
     {props.children}
   </a>
 )
+
+ExternalLink.defaultProps = {
+  rel: '',
+}
 
 ExternalLink.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]).isRequired,
+  rel: PropTypes.string,
 }
 
 
