@@ -7,8 +7,8 @@ const routes = require('next-routes')()
 const routeDefinitions = [
   {
     name: 'home',
-    page: '/',
-    pattern: '/index',
+    page: '/index',
+    pattern: '/',
   },
   {
     name: 'about',
@@ -18,8 +18,8 @@ const routeDefinitions = [
   },
   {
     name: 'view article',
-    page: '/blog/:id',
-    pattern: '/blog/article',
+    page: '/blog/article',
+    pattern: '/blog/:id',
   },
   {
     hidden: true,
@@ -28,19 +28,19 @@ const routeDefinitions = [
   {
     hidden: true,
     name: 'blog dashboard',
-    page: '/dashboard/blog',
+    pattern: '/dashboard/blog',
   },
   {
     hidden: true,
     name: 'new article',
-    page: '/dashboard/blog/edit/new',
-    pattern: '/dashboard/blog/edit',
+    page: '/dashboard/blog/edit',
+    pattern: '/dashboard/blog/edit/new',
   },
   {
     hidden: true,
     name: 'edit article',
-    page: '/dashboard/blog/edit/:id',
-    pattern: '/dashboard/blog/edit',
+    page: '/dashboard/blog/edit',
+    pattern: '/dashboard/blog/edit/:id',
   },
   {
     hidden: true,
