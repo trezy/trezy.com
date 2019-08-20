@@ -76,6 +76,7 @@ module.exports = (nextApp, koaServer) => {
 
     robotsTxt.add('User-agent: *')
     robotsTxt.add('Disallow: /')
+    robotsTxt.add('Allow: /static')
 
     routes.routes.forEach(({ hidden, pattern }) => {
       if (!hidden) {
