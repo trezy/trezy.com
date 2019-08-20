@@ -71,7 +71,7 @@
     "react-spring": "^8.0.27",
     "react-svg-inline": "^2.1.1",
     "react-with-firebase-auth": "^1.0.3",
-    "redux": "^4.0.3",
+    "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "transform-string-case": "^1.1.0",
