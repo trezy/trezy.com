@@ -28,6 +28,7 @@
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-prismjs": "^1.1.1",
+    "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "content-security-policy-builder": "^2.1.0",
     "convert-object-keys": "^1.0.0",
