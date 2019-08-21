@@ -1,3 +1,6 @@
+/* eslint-env node */
+/* eslint-disable strict, global-require */
+
 // Module imports
 const router = require('koa-router')()
 const send = require('koa-send')
@@ -6,18 +9,18 @@ const send = require('koa-send')
 
 
 
-// Component imports
+// Local imports
 const routes = require('../../client/routes')
 
 
 
 
 
-const permanentRedirect = (path) => async (ctx) => {
+// Local constants
+const permanentRedirect = path => async ctx => {
   ctx.status = 301
   await ctx.redirect(path)
 }
-
 const sendFile = path => async ctx => {
   await send(ctx, path)
 }
@@ -80,7 +83,7 @@ module.exports = (nextApp, koaServer) => {
 
     routes.routes.forEach(({ hidden, pattern }) => {
       if (!hidden) {
-        let parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/, '')
+        const parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/u, '')
 
         robotsTxt.add(`Allow: ${parsedPattern}`)
       }
