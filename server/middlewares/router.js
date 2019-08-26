@@ -116,7 +116,8 @@ module.exports = (nextApp, koaServer) => {
       const {
         id,
         updatedAt,
-      }
+      } = article
+
       sitemap('urlset').append(`
         <url>
           <loc>${PUBLIC_URL}/articles/${id}</loc>
