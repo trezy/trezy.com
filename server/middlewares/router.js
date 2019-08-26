@@ -105,6 +105,7 @@ module.exports = (nextApp, koaServer) => {
       </sitemap>
       </sitemapindex>
     `
+    ctx.type = 'text/xml; charset=utf-8'
   })
 
   router.get('/sitemap-articles.xml', async ctx => {
@@ -129,6 +130,7 @@ module.exports = (nextApp, koaServer) => {
     })
 
     ctx.response.body = sitemap.xml()
+    ctx.type = 'text/xml; charset=utf-8'
   })
 
   router.get('/sitemap-pages.xml', ctx => {
@@ -163,6 +165,7 @@ module.exports = (nextApp, koaServer) => {
     })
 
     ctx.response.body = sitemap.xml()
+    ctx.type = 'text/xml; charset=utf-8'
   })
 
 
