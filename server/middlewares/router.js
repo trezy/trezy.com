@@ -58,20 +58,6 @@ module.exports = (nextApp, koaServer) => {
 
 
   /***************************************************************************\
-    Next-Routes passthrough
-  \***************************************************************************/
-
-  const nextRoutesHandler = routes.getRequestHandler(nextApp)
-  router.get(/^\/(?!robots\.txt|sitemap\.xml).*/gui, async ctx => {
-    ctx.respond = false
-    await nextRoutesHandler(ctx.req, ctx.res)
-  })
-
-
-
-
-
-  /***************************************************************************\
     robots.txt
   \***************************************************************************/
 
@@ -80,7 +66,7 @@ module.exports = (nextApp, koaServer) => {
 
     robotsTxt.add('User-agent: *')
     robotsTxt.add('Disallow: /')
-    robotsTxt.add('Allow: /static')
+    robotsTxt.add('Allow: /_next')
 
     routes.routes.forEach(({ hidden, pattern }) => {
       if (!hidden) {
@@ -122,6 +108,20 @@ module.exports = (nextApp, koaServer) => {
     })
 
     ctx.response.body = sitemap.xml()
+  })
+
+
+
+
+
+  /***************************************************************************\
+    Next-Routes passthrough
+  \***************************************************************************/
+
+  const nextRoutesHandler = routes.getRequestHandler(nextApp)
+  router.get('*', async ctx => {
+    ctx.respond = false
+    await nextRoutesHandler(ctx.req, ctx.res)
   })
 
 
