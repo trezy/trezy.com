@@ -8,19 +8,22 @@ const routeDefinitions = [
   {
     changeFrequency: 'always',
     name: 'home',
+    priority: 0.5,
     page: '/index',
     pattern: '/',
   },
   {
     changeFrequency: 'monthly',
     name: 'about',
+    priority: 0.6,
   },
   {
     changeFrequency: 'daily',
     name: 'blog',
+    priority: 0.7,
   },
   {
-    changeFrequency: 'daily',
+    hidden: true,
     name: 'view article',
     page: '/blog/article',
     pattern: '/blog/:id',
@@ -54,7 +57,10 @@ const routeDefinitions = [
 
 if (typeof window === 'undefined') {
   routeDefinitions.forEach(routeDefinition => {
-    const replicateKeys = ['changeFrequency']
+    const replicateKeys = [
+      'changeFrequency',
+      'priority',
+    ]
 
     routes.add(routeDefinition)
 

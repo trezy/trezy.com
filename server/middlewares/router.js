@@ -3,6 +3,7 @@
 
 // Module imports
 const cheerio = require('cheerio')
+const moment = require('moment')
 const router = require('koa-router')()
 const send = require('koa-send')
 
@@ -26,6 +27,10 @@ const permanentRedirect = path => async ctx => {
 const sendFile = path => async ctx => {
   await send(ctx, path)
 }
+const sitemapDoc = `
+  <?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  </urlset>`
 
 
 
@@ -63,16 +68,23 @@ module.exports = (nextApp, koaServer) => {
 
   router.get('/robots.txt', ctx => {
     const robotsTxt = new Set
+    const routePatternCache = []
 
     robotsTxt.add('User-agent: *')
     robotsTxt.add('Disallow: /')
     robotsTxt.add('Allow: /_next')
 
     routes.routes.forEach(({ hidden, pattern }) => {
-      if (!hidden) {
-        const parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/u, '')
+      let parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/u, '')
+
+      if (!hidden && !routePatternCache.includes(parsedPattern)) {
+        try {
+          parsedPattern = route.toPath()
+        } catch (error) {}
 
         robotsTxt.add(`Allow: ${parsedPattern}`)
+
+        routePatternCache.push(parsedPattern)
       }
     })
 
@@ -80,30 +92,72 @@ module.exports = (nextApp, koaServer) => {
   })
 
   router.get('/sitemap.xml', ctx => {
-    const sitemapDoc = `
+    ctx.response.body = `
       <?xml version="1.0" encoding="UTF-8"?>
-      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      </urlset>`
+      <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <sitemap>
+        <loc>${PUBLIC_URL}/sitemap-pages.xml</loc>
+        <lastmod>${moment().toISOString()}</lastmod>
+      </sitemap>
+      <sitemap>
+        <loc>${PUBLIC_URL}/sitemap-articles.xml</loc>
+        <lastmod>${moment().toISOString()}</lastmod>
+      </sitemap>
+      </sitemapindex>
+    `
+  })
+
+  router.get('/sitemap-articles.xml', async ctx => {
     const sitemap = cheerio.load(sitemapDoc, { xml: { xmlMode: true } })
+    const firebaseApp = require('../helpers/firebase')()
+    const snapshot = await firebaseApp.database().ref('/articles').once('value')
+
+    Object.values(snapshot.val()).forEach(article => {
+      const {
+        id,
+        updatedAt,
+      }
+      sitemap('urlset').append(`
+        <url>
+          <loc>${PUBLIC_URL}/articles/${id}</loc>
+          <lastmod>${moment(updatedAt)}</lastmod>
+          <changefreq>monthly</changefreq>
+          <priority>1</priority>
+        </url>
+      `)
+    })
+
+    ctx.response.body = sitemap.xml()
+  })
+
+  router.get('/sitemap-pages.xml', ctx => {
+    const sitemap = cheerio.load(sitemapDoc, { xml: { xmlMode: true } })
+    const routePatternCache = []
 
     routes.routes.forEach(route => {
       const {
         changeFrequency,
         hidden,
-        // lastModifiedAt,
         pattern,
+        priority,
       } = route
-      const parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/u, '')
+      let parsedPattern = pattern.replace(/:\w*/gui, '').replace(/\/+/gui, '/').replace(/\/$/u, '')
 
-      if (!hidden) {
+      if (!hidden && !routePatternCache.includes(parsedPattern)) {
+        try {
+          parsedPattern = route.toPath()
+        } catch (error) {}
+
         sitemap('urlset').append(`
           <url>
             <loc>${PUBLIC_URL}${parsedPattern}</loc>
-            <lastmod>[WIP]</lastmod>
+            <lastmod>${moment().toISOString()}</lastmod>
             <changefreq>${changeFrequency}</changefreq>
-            <priority>[WIP]</priority>
+            <priority>${priority}</priority>
           </url>
         `)
+
+        routePatternCache.push(parsedPattern)
       }
     })
 
