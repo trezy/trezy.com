@@ -27,8 +27,7 @@ const permanentRedirect = path => async ctx => {
 const sendFile = path => async ctx => {
   await send(ctx, path)
 }
-const sitemapDoc = `
-  <?xml version="1.0" encoding="UTF-8"?>
+const sitemapDoc = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   </urlset>`
 
@@ -92,20 +91,20 @@ module.exports = (nextApp, koaServer) => {
   })
 
   router.get('/sitemap.xml', ctx => {
-    ctx.response.body = `
-      <?xml version="1.0" encoding="UTF-8"?>
+    ctx.response.body = `<?xml version="1.0" encoding="UTF-8"?>
       <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <sitemap>
-        <loc>${PUBLIC_URL}/sitemap-pages.xml</loc>
-        <lastmod>${moment().toISOString()}</lastmod>
-      </sitemap>
-      <sitemap>
-        <loc>${PUBLIC_URL}/sitemap-articles.xml</loc>
-        <lastmod>${moment().toISOString()}</lastmod>
-      </sitemap>
+        <sitemap>
+          <loc>${PUBLIC_URL}/sitemap-pages.xml</loc>
+          <lastmod>${moment().toISOString()}</lastmod>
+        </sitemap>
+
+        <sitemap>
+          <loc>${PUBLIC_URL}/sitemap-articles.xml</loc>
+          <lastmod>${moment().toISOString()}</lastmod>
+        </sitemap>
       </sitemapindex>
     `
-    ctx.type = 'text/xml; charset=utf-8'
+    ctx.type = 'application/xml; charset=utf-8'
   })
 
   router.get('/sitemap-articles.xml', async ctx => {
@@ -130,7 +129,7 @@ module.exports = (nextApp, koaServer) => {
     })
 
     ctx.response.body = sitemap.xml()
-    ctx.type = 'text/xml; charset=utf-8'
+    ctx.type = 'application/xml; charset=utf-8'
   })
 
   router.get('/sitemap-pages.xml', ctx => {
@@ -165,7 +164,7 @@ module.exports = (nextApp, koaServer) => {
     })
 
     ctx.response.body = sitemap.xml()
-    ctx.type = 'text/xml; charset=utf-8'
+    ctx.type = 'application/xml; charset=utf-8'
   })
 
 
