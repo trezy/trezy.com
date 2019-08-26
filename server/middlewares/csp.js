@@ -69,7 +69,7 @@ module.exports = isDev => async (ctx, next) => {
     },
   })
 
-  headerKeys.forEach((key) => {
+  headerKeys.forEach(key => {
     ctx.response.set(key, policyString)
   })
 

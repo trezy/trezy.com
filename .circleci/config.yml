@@ -137,7 +137,7 @@ jobs:
           command: ssh-keyscan -H $PROD_DEPLOY_HOST >> ~/.ssh/known_hosts
 
       - run:
-          name: Deploy to dev server
+          name: Deploy to prod server
           command: rsync -r --delete-after --quiet ~/app/ $PROD_DEPLOY_USER@$PROD_DEPLOY_HOST:$PROD_DEPLOY_FOLDER
 
 
