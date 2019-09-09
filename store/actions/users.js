@@ -1,12 +1,5 @@
-// Module imports
-import * as firebase from 'firebase/app'
-import 'firebase/auth' /* eslint-disable-line import/no-unassigned-import */
-
-
-
-
-
-// Component imports
+// Local imports
+import { firebaseApp } from '../../helpers/firebase'
 import actionTypes from '../actionTypes'
 import parseUserFromFirebase from '../../helpers/parseUserFromFirebase'
 
@@ -14,15 +7,7 @@ import parseUserFromFirebase from '../../helpers/parseUserFromFirebase'
 
 
 
-// Local imports
-import firebaseConfig from '../../firebase.config'
-
-
-
-
-
 // Local constants
-const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(firebaseConfig)
 const firebaseAppAuth = firebaseApp.auth()
 
 

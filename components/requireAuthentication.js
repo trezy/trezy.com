@@ -23,8 +23,6 @@ const requireAuthentication = Component => {
       } = componentContext.store.getState()
       const currentUser = users[currentUserID]
 
-      console.log(currentUser)
-
       if ((typeof window !== 'undefined') && !redirectInProgress && !currentUser) {
         redirectInProgress = true
 
