@@ -1,4 +1,5 @@
 // Module imports
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -7,7 +8,6 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../store'
-import { Link } from '../routes'
 import ArticleList from '../components/ArticleList'
 import ClientList from '../components/ClientList'
 import PageWrapper from '../components/PageWrapper'
@@ -36,7 +36,7 @@ const Home = () => (
 
         <ArticleList className="latest-articles" />
 
-        <Link route="blog">
+        <Link href="/blog">
           <a>See more</a>
         </Link>
       </div>

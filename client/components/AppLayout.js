@@ -4,6 +4,7 @@ import NextError from 'next/error'
 import NProgress from 'nprogress'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Router from 'next/router'
 
 
 
@@ -11,7 +12,6 @@ import React from 'react'
 
 // Local imports
 import { connect } from '../store'
-import { Router } from '../routes'
 import Banner from './Banner'
 import httpStatus from '../helpers/httpStatus'
 

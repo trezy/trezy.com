@@ -1,14 +1,6 @@
 // Module imports
-import { useSelector } from 'react-redux'
 import React from 'react'
-
-
-
-
-
-// Component imports
-import { Router } from '../routes'
-import getCurrentUserSelector from '../store/selectors/getCurrentUser'
+import Router from 'next/router'
 
 
 
@@ -17,22 +9,49 @@ import getCurrentUserSelector from '../store/selectors/getCurrentUser'
 const requireAuthentication = Component => {
   let redirectInProgress = false
 
-  return props => {
-    const currentUser = useSelector(getCurrentUserSelector)
+  return class WrappedComponent extends React.Component {
+    static displayName = `requireAuthentication(${Component.displayName || Component.name || 'Component'})`
 
-    if (!redirectInProgress && !currentUser) {
-      redirectInProgress = true
+    static async getInitialProps (componentContext) {
+      if (!componentContext) {
+        throw new Error('No app context')
+      }
 
-      Router.replaceRoute('login', {
-        destination: location.href.replace(location.origin, ''), // eslint-disable-line no-restricted-globals
-      })
+      const {
+        currentUserID,
+        users,
+      } = componentContext.store.getState()
+      const currentUser = users[currentUserID]
 
-      return null
+      console.log(currentUser)
+
+      if ((typeof window !== 'undefined') && !redirectInProgress && !currentUser) {
+        redirectInProgress = true
+
+        Router.replace({
+          pathname: '/login',
+          query: {
+            /* eslint-disable-next-line no-restricted-globals */
+            destination: location.href.replace(location.origin, ''),
+          },
+        })
+      }
+
+      let initialProps = {}
+
+      /* eslint-disable-next-line no-restricted-syntax */
+      if ('getInitialProps' in Component) {
+        initialProps = await Component.getInitialProps(componentContext)
+      }
+
+      return initialProps
     }
 
-    return (
-      <Component {...props} />
-    )
+    render () {
+      return (
+        <Component {...this.props} />
+      )
+    }
   }
 }
 

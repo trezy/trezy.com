@@ -1,6 +1,7 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -9,7 +10,6 @@ import React from 'react'
 
 
 // Component imports
-import { Link } from '../routes'
 import ExternalLink from './ExternalLink'
 
 

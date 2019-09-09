@@ -3,13 +3,13 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth' /* eslint-disable-line import/no-unassigned-import */
 
 import getConfig from 'next/config'
+import Router from 'next/router'
 
 
 
 
 
 // Component imports
-import { Router } from '../routes'
 import parseUserFromFirebase from '../helpers/parseUserFromFirebase'
 
 

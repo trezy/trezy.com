@@ -3,6 +3,7 @@ import React, {
   useEffect,
 } from 'react'
 import classnames from 'classnames'
+import Link from 'next/link'
 import marked from 'marked'
 import Prism from 'prismjs'
 import PropTypes from 'prop-types'
@@ -12,7 +13,6 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import { Link } from '../routes'
 import ArticleHeader from './ArticleHeader'
 import ArticleMeta from './ArticleMeta'
 
@@ -58,9 +58,7 @@ const Article = ({ article, editMode, summarize }) => {
 
       {editMode && (
         <menu type="toolbar">
-          <Link
-            params={{ id }}
-            route="edit article">
+          <Link href={`/dashboard/blog/edit/${id}`}>
             <a className="button primary">
               Edit
             </a>

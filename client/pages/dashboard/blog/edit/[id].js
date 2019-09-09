@@ -9,28 +9,25 @@ import {
 } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 
 
 
 
 // Component imports
-import { actions } from '../../../store'
-import { Router } from '../../../routes'
-import articleDefaults from '../../../models/article'
-import getArticle from '../../../store/selectors/getArticleSelector'
-import PageWrapper from '../../../components/PageWrapper'
-import requireAuthentication from '../../../components/requireAuthentication'
+import { actions } from '../../../../store'
+import articleDefaults from '../../../../models/article'
+import getArticle from '../../../../store/selectors/getArticleSelector'
+import PageWrapper from '../../../../components/PageWrapper'
+import requireAuthentication from '../../../../components/requireAuthentication'
 
 
 
 
 
 const BlogEditor = ({ query: { id } }) => {
-  const article = {
-    ...articleDefaults,
-    ...(useSelector(getArticle(id)) || {}),
-  }
+  const article = useSelector(getArticle(id)) || { ...articleDefaults }
   const dispatch = useDispatch()
   const isDraft = !article.publishedAt
 
@@ -50,24 +47,31 @@ const BlogEditor = ({ query: { id } }) => {
       title,
     }, publish))
 
-    if (!id) {
-      Router.replaceRoute('edit article', { id: newArticle.id }, { shallow: true })
+    if (id === 'new') {
+      Router.replace({
+        pathname: `/dashboard/blog/edit/${newArticle.id}`,
+        query: {
+          destination: location.href.replace(location.origin, ''), // eslint-disable-line no-restricted-globals
+        },
+      }, { shallow: true })
     }
 
     setIsUpdating(false)
   }
 
-  const loadArticle = async () => {
-    await dispatch(actions.getArticle(id, true))
-    setIsLoading(false)
-  }
+  useEffect(() => {
+    setIsLoading(true)
+    ;(async () => {
+      await dispatch(actions.getArticle(id, true))
+      setIsLoading(false)
+    })()
+  }, [])
 
   useEffect(() => {
-    if (!article && !isLoading) {
-      setIsLoading(true)
-      loadArticle()
-    }
-  })
+    setBody(article.body)
+    setSubtitle(article.subtitle)
+    setTitle(article.title)
+  }, [article])
 
   return (
     <PageWrapper title={`Editing Article: ${title}`}>
@@ -75,6 +79,7 @@ const BlogEditor = ({ query: { id } }) => {
         <header>
           <h2>
             <input
+              disabled={isLoading || isUpdating}
               onChange={({ target: { value } }) => setTitle(value)}
               placeholder="Title"
               value={title} />
@@ -83,8 +88,9 @@ const BlogEditor = ({ query: { id } }) => {
 
         <form onSubmit={event => event.preventDefault()}>
           <fieldset>
-            <textarea
+            <input
               aria-label="Subtitle"
+              disabled={isLoading || isUpdating}
               onChange={({ target: { value } }) => setSubtitle(value)}
               placeholder="Subtitle"
               value={subtitle} />
@@ -93,6 +99,7 @@ const BlogEditor = ({ query: { id } }) => {
           <fieldset>
             <textarea
               aria-label="Body"
+              disabled={isLoading || isUpdating}
               onChange={({ target: { value } }) => setBody(value)}
               placeholder="Body"
               value={body} />

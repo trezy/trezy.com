@@ -5,6 +5,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'max-len': ['off'],
     'new-parens': ['error', 'never'],
+    'semi-style': ['off'],
 
     // jsx-a11y
     'jsx-a11y/control-has-associated-label': ['off'],

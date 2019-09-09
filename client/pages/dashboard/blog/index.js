@@ -1,4 +1,5 @@
 // Module imports
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -7,7 +8,6 @@ import React from 'react'
 
 // Component imports
 import { actions } from '../../../store'
-import { Link } from '../../../routes'
 import ArticleList from '../../../components/ArticleList'
 import PageWrapper from '../../../components/PageWrapper'
 import requireAuthentication from '../../../components/requireAuthentication'
@@ -22,14 +22,14 @@ const BlogDashboard = () => (
       <header className="page-header">
         <h2>Dashboard / Blog</h2>
 
-        <Link route="new article">
+        <Link href="/dashboard/blog/edit/new">
           <a className="button primary">
             New Article
           </a>
         </Link>
       </header>
 
-      <ArticleList />
+      <ArticleList editMode />
     </section>
   </PageWrapper>
 )

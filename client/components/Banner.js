@@ -6,13 +6,13 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 
 
 
 
 // Local imports
-import { Router } from '../routes'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
@@ -25,19 +25,19 @@ import withFirebaseAuth from './withFirebaseAuth'
 // Local constants
 const navItems = [
   {
+    href: '/',
     icon: 'home',
     title: 'Home',
-    route: 'home',
   },
   {
+    href: '/blog',
     icon: 'book',
     title: 'Blog',
-    route: 'blog',
   },
   {
+    href: '/about',
     icon: 'user',
     title: 'About',
-    route: 'about',
   },
   {
     className: ({ isLive }) => classnames('stream-badge', {
@@ -80,9 +80,9 @@ const navItems = [
 
   // Only while logged in
   {
+    href: '/dashboard',
     icon: 'tachometer-alt',
     title: 'Dashboard',
-    route: 'dashboard',
     condition: ({ currentUser }) => Boolean(currentUser),
   },
   {

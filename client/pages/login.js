@@ -1,13 +1,13 @@
 // Module imports
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 
 
 
 
 // Component imports
-import { Router } from '../routes'
 import PageWrapper from '../components/PageWrapper'
 import withFirebaseAuth from '../components/withFirebaseAuth'
 
@@ -38,7 +38,7 @@ const Login = props => {
         Router.events.off('routeChangeComplete', startRedirect)
       }
       redirectStarted = true
-      Router.replaceRoute(query.destination || 'dashboard')
+      Router.replace(query.destination || '/dashboard')
       Router.events.on('routeChangeComplete', startRedirect)
     }
   })

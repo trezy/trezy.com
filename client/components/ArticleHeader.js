@@ -1,13 +1,7 @@
 // Module imports
-import React from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
-
-
-
-
-
-// Local imports
-import { Link } from '../routes'
+import React from 'react'
 
 
 
@@ -17,9 +11,7 @@ const ArticleHeader = ({ id, subtitle, summarize, title }) => (
   <header>
     {summarize && (
       <h3>
-        <Link
-          params={{ id }}
-          route="view article">
+        <Link href={`/blog/${id}`}>
           <a>{title}</a>
         </Link>
       </h3>

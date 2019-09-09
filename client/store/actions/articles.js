@@ -129,17 +129,17 @@ export const saveArticle = (article, publish = false) => async dispatch => {
     collection = 'articles'
   }
 
-  if (id) {
+  if (id === 'new') {
+    serializedArticle.createdAt = now
+    id = uuid()
+    serializedArticle.id = id
+    await database.ref(`/${collection}/${id}`).set(serializedArticle)
+  } else {
     await database.ref(`/${collection}/${id}`).update(serializedArticle)
 
     if (publish) {
       await database.ref(`/drafts/${id}`).remove()
     }
-  } else {
-    serializedArticle.createdAt = now
-    id = uuid()
-    serializedArticle.id = id
-    await database.ref(`/${collection}/${id}`).set(serializedArticle)
   }
 
   dispatch({
