@@ -4,9 +4,8 @@
   "main": "server/server.js",
   "license": "BSD-3-Clause",
   "scripts": {
-    "analyze": "cross-env ANALYZE=1 next build",
-    "build": "NODE_ENV=production next build client",
-    "dev": "node --inspect server/server.js",
+    "build": "next build client",
+    "dev": "next client",
     "postinstall": "npm rebuild node-sass"
   },
   "dependencies": {

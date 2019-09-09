@@ -1,7 +1,7 @@
+/* eslint-env node */
 // Module imports
 import { CancelToken } from 'axios'
 import convertObjectKeys from 'convert-object-keys'
-import getConfig from 'next/config'
 import transformStringCase from 'transform-string-case'
 
 
@@ -17,9 +17,7 @@ import tmdbService from '../../services/tmdb'
 
 
 // Local constants
-const { publicRuntimeConfig } = getConfig()
 const cancelTokenSource = CancelToken.source()
-const tmdbAPIConfig = publicRuntimeConfig.apis.tmdb
 
 
 
@@ -31,7 +29,7 @@ export const findMovies = query => async dispatch => {
   try {
     const { data } = await tmdbService().get('/search/movie', {
       params: {
-        api_key: tmdbAPIConfig.apiKey, /* eslint-disable-line camelcase */
+        api_key: process.env.tMDBAPIKey, /* eslint-disable-line camelcase */
         cancelToken: cancelTokenSource.token,
         query,
       },

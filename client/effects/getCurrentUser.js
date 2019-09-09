@@ -2,7 +2,6 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth' /* eslint-disable-line import/no-unassigned-import */
 
-import getConfig from 'next/config'
 import Router from 'next/router'
 
 
@@ -16,9 +15,15 @@ import parseUserFromFirebase from '../helpers/parseUserFromFirebase'
 
 
 
+// Local imports
+import firebaseConfig from '../firebase.config'
+
+
+
+
+
 // Local constants
-const { publicRuntimeConfig } = getConfig()
-const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(publicRuntimeConfig.apis.firebase)
+const firebaseApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(firebaseConfig)
 const firebaseAppAuth = firebaseApp.auth()
 
 

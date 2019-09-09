@@ -5,15 +5,12 @@ import 'firebase/auth'
 import 'firebase/database'
 /* eslint-enable */
 
-import getConfig from 'next/config'
 
 
 
 
-
-// Local constants
-const { publicRuntimeConfig } = getConfig()
-const firebaseConfig = publicRuntimeConfig.apis.firebase
+// Local imports
+import firebaseConfig from '../firebase.config'
 
 
 
