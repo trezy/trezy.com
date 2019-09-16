@@ -67,8 +67,6 @@ class Document extends NextDocument {
         </Head>
 
         <body>
-          <noscript>Javascript is required to view this site.</noscript>
-
           <Main className="next-wrapper" />
 
           <NextScript nonce={nonce} />
