@@ -31,7 +31,6 @@
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-prismjs": "^1.1.1",
-    "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "content-security-policy-builder": "^2.1.0",
     "convert-object-keys": "^1.0.0",
@@ -48,14 +47,6 @@
     "firebase": "^6.2.4",
     "firebase-admin": "^8.3.0",
     "glob": "^7.1.4",
-    "koa": "^2.8.1",
-    "koa-body": "^4.1.0",
-    "koa-compress": "^3.0.0",
-    "koa-logger": "^3.2.0",
-    "koa-no-trailing-slash": "^2.1.0",
-    "koa-proxies": "^0.8.1",
-    "koa-router": "^7.4.0",
-    "koa-send": "^5.0.0",
     "language-tags": "^1.0.5",
     "localforage": "^1.7.3",
     "marked": "^0.7.0",
@@ -73,7 +64,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
-    "react-spring": "^8.0.27",
     "react-svg-inline": "^2.1.1",
     "react-with-firebase-auth": "^1.0.3",
     "redux": "^4.0.4",
@@ -81,7 +71,6 @@
     "redux-thunk": "^2.3.0",
     "transform-string-case": "^1.1.0",
     "uuid": "^3.3.3",
-    "webpack": "^4.35.3",
-    "webpack-bundle-analyzer": "^3.3.2"
+    "webpack": "^4.35.3"
   }
 }
