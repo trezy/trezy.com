@@ -6647,10 +6647,10 @@ react-svg-inline@^2.1.1:
     classnames "^2.2.1"
     prop-types "^15.5.8"
 
-react-with-firebase-auth@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-with-firebase-auth/-/react-with-firebase-auth-1.0.3.tgz#945b8a33721bef8f2bcd14105bd3a547f9afeab6"
-  integrity sha512-1xWopcDUCqkBA+DTBIWoaCk07u350e8CGLcKcSRYRdNtp1DCyI0ckEeui6MHAV3IHxSVCLaEuPS8/KfHfjq6Hg==
+react-with-firebase-auth@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-with-firebase-auth/-/react-with-firebase-auth-1.0.4.tgz#4b777a05f04192dd04aac04872f9fcf39cdad0a9"
+  integrity sha512-sh+pnm1ELV2Qs7iZWooEjmF4ENkefjzPGcie75YdT0G8BZV44bWrPAZzEaXcz6GvR1jrC04oiB3Tupcc+1RNqQ==
 
 react@^16.8.6:
   version "16.8.6"
