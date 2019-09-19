@@ -19,6 +19,41 @@ import NextDocument, {
 
 
 // Local constants
+const additionalHeaders = {
+  'Feature-Policy': {
+    'ambient-light-sensor': [
+      "'self'",
+      'https://google.com',
+    ],
+    autoplay: "'none'",
+    accelerometer: "'none'",
+    camera: "'none'",
+    'display-capture': "'none'",
+    'document-domain': "'none'",
+    'encrypted-media': "'none'",
+    fullscreen: "'none'",
+    geolocation: "'none'",
+    gyroscope: "'none'",
+    magnetometer: "'none'",
+    microphone: "'none'",
+    midi: "'none'",
+    payment: "'none'",
+    'picture-in-picture': "'none'",
+    speaker: "'none'",
+    'sync-xhr': "'none'",
+    usb: "'none'",
+    'wake-lock': "'none'",
+    webauthn: "'none'",
+    vr: "'none'",
+    xr: "'none'",
+  },
+  'X-Content-Type-Options': 'nosniff',
+  'X-XSS-Protection': [
+    '1',
+    'mode=block',
+  ],
+  'X-Frame-Options': 'DENY',
+}
 const cspHeaderKeys = [
   'Content-Security-Policy',
   'X-Content-Security-Policy',
@@ -114,6 +149,23 @@ class Document extends NextDocument {
 
     const policyString = buildCSP({ directives: cspDirectives })
     cspHeaderKeys.forEach(key => ctx.res.setHeader(key, policyString))
+
+    Object.entries(additionalHeaders).forEach(([header, value]) => {
+      let valueString = value
+
+      if (typeof value === 'object') {
+        const arrayifiedObject = Object.entries(valueString)
+        const mapper = ([entry, list]) => `${entry} ${Array.isArray(list) ? list.join(' ') : list}`
+
+        valueString = arrayifiedObject.map(mapper)
+      }
+
+      if (Array.isArray(valueString)) {
+        valueString = valueString.join('; ')
+      }
+
+      ctx.res.setHeader(header, valueString)
+    })
 
     return { ...initialProps, nonce }
   }
