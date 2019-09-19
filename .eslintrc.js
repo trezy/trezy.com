@@ -9,5 +9,8 @@ module.exports = {
 
     // jsx-a11y
     'jsx-a11y/control-has-associated-label': ['off'],
+
+    // react-hooks
+    'react-hooks/exhaustive-deps': ['off'],
   },
 }
