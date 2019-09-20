@@ -39,6 +39,7 @@ const NewCharacterForm = ({ onSubmit }) => {
       </fieldset>
 
       <button
+        className="primary"
         disabled={!name}
         type="submit">
         Start
