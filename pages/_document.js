@@ -47,6 +47,7 @@ const additionalHeaders = {
     vr: "'none'",
     xr: "'none'",
   },
+  'Referrer-Policy': 'no-referrer',
   'X-Content-Type-Options': 'nosniff',
   'X-XSS-Protection': [
     '1',
