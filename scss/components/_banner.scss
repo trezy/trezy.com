@@ -2,6 +2,7 @@
   background-color: var(--background-color);
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   font-family: 'Source Code Pro', monospace;
   min-width: var(--banner-width);
   transition-duration: 0.2s;
