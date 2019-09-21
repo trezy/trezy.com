@@ -1,0 +1,23 @@
+.character-select {
+  .character-list > .character {
+    align-items: center;
+    background-color: var(--transparent);
+    display: flex;
+    margin-bottom: 2rem;
+    transition-duration: 0.2s;
+    transition-property: background-color;
+
+    &:hover {
+      background-color: var(--dim-white);
+    }
+
+    menu {
+      margin-left: auto;
+      padding: 2rem;
+    }
+  }
+
+  .character-preview {
+    margin-right: 2rem;
+  }
+}

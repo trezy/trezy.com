@@ -9,7 +9,7 @@ import Router from 'next/router'
 
 // Component imports
 import PageWrapper from '../components/PageWrapper'
-import withFirebaseAuth from '../components/withFirebaseAuth'
+import withFirebase from '../components/withFirebase'
 
 
 
@@ -93,4 +93,4 @@ Login.propTypes = {
 
 
 
-export default withFirebaseAuth(Login)
+export default withFirebase(Login)

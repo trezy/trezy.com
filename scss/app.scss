@@ -57,6 +57,7 @@
 @import 'core/button';
 @import 'core/code';
 @import 'core/contenteditable';
+@import 'core/dialog';
 @import 'core/fieldset';
 @import 'core/form';
 @import 'core/headings';
@@ -81,12 +82,14 @@
 
 @import 'components/application';
 @import 'components/article-list';
-@import 'components/client-list';
 @import 'components/badge';
 @import 'components/banner';
 @import 'components/banner-control';
 @import 'components/brand';
 @import 'components/card';
+@import 'components/character-preview';
+@import 'components/character-select';
+@import 'components/client-list';
 @import 'components/hero';
 @import 'components/meta';
 @import 'components/movie-list';

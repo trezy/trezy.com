@@ -1,7 +1,5 @@
 // Module imports
-import React, {
-  useEffect,
-} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import withFirebaseAuth from 'react-with-firebase-auth'
@@ -28,8 +26,8 @@ let previousUser = null
 
 
 
-const withFirebaseAuthWrapper = Component => {
-  const ComponentWithFirebaseAuth = props => {
+const withFirebaseWrapper = Component => {
+  const ComponentWithFirebase = props => {
     const dispatch = useDispatch()
 
     const { user: currentUser } = props
@@ -47,22 +45,23 @@ const withFirebaseAuthWrapper = Component => {
     return (
       <Component
         {...props}
+        currentUser={currentUser}
         firebaseApp={firebaseApp} />
     )
   }
 
-  ComponentWithFirebaseAuth.defaultProps = {
+  ComponentWithFirebase.defaultProps = {
     user: null,
   }
 
-  ComponentWithFirebaseAuth.propTypes = {
+  ComponentWithFirebase.propTypes = {
     user: PropTypes.object,
   }
 
   return withFirebaseAuth({
     firebaseAppAuth: firebaseApp.auth(),
     providers,
-  })(ComponentWithFirebaseAuth)
+  })(ComponentWithFirebase)
 }
 
-export default withFirebaseAuthWrapper
+export default withFirebaseWrapper

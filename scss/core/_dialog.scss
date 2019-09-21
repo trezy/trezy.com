@@ -1,0 +1,10 @@
+dialog {
+  left: 50%;
+  margin: 0;
+  max-height: 90vh;
+  max-width: 90vh;
+  overflow: auto;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

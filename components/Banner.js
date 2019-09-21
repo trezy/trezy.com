@@ -16,7 +16,7 @@ import Router from 'next/router'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
-import withFirebaseAuth from './withFirebaseAuth'
+import withFirebase from './withFirebase'
 
 
 
@@ -303,4 +303,4 @@ Banner.propTypes = {
 
 
 
-export default withFirebaseAuth(Banner)
+export default withFirebase(Banner)
