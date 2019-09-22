@@ -178,7 +178,7 @@ const Game = ({
   return (
     <PageWrapper
       description="The MMOment you've all been waiting for..."
-      title="The Nature of Monsters">
+      title="A Monster's Nature">
 
       {!currentUser && (
         <section>Loading...</section>
