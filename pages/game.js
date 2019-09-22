@@ -204,6 +204,8 @@ const Game = ({
   )
 }
 
+Game.getInitialProps = (props, setLayoutProps) => setLayoutProps({ renderLayout: false })
+
 Game.defaultProps = {
   currentUser: null,
 }

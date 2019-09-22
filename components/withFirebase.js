@@ -34,10 +34,16 @@ const withFirebaseWrapper = Component => {
     user: PropTypes.object,
   }
 
-  return withFirebaseAuth({
+  const WrappedComponent = withFirebaseAuth({
     firebaseAppAuth: firebaseApp.auth(),
     providers,
   })(ComponentWithFirebase)
+
+  if (Component.getInitialProps) {
+    WrappedComponent.getInitialProps = Component.getInitialProps
+  }
+
+  return WrappedComponent
 }
 
 export default withFirebaseWrapper

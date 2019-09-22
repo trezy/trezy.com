@@ -72,13 +72,15 @@ const requireAuthentication = Component => {
   }
 
   ComponentRequiresAuthentication.defaultProps = {
-    // firebase: null,
     firebaseApp: null,
   }
 
   ComponentRequiresAuthentication.propTypes = {
-    // firebase: PropTypes.object,
     firebaseApp: PropTypes.object,
+  }
+
+  if (Component.getInitialProps) {
+    ComponentRequiresAuthentication.getInitialProps = Component.getInitialProps
   }
 
   return withFirebase(ComponentRequiresAuthentication)
