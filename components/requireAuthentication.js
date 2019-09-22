@@ -1,6 +1,17 @@
 // Module imports
-import React from 'react'
+import React, {
+  useEffect,
+  useState,
+} from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
+
+
+
+
+
+// Local imports
+import withFirebase from './withFirebase'
 
 
 
@@ -9,21 +20,26 @@ import Router from 'next/router'
 const requireAuthentication = Component => {
   let redirectInProgress = false
 
-  return class WrappedComponent extends React.Component {
-    static displayName = `requireAuthentication(${Component.displayName || Component.name || 'Component'})`
+  Router.events.on('routeChangeComplete', () => {
+    redirectInProgress = false
+  })
 
-    static async getInitialProps (componentContext) {
-      if (!componentContext) {
-        throw new Error('No app context')
-      }
+  const ComponentRequiresAuthentication = props => {
+    const { firebaseApp } = props
+    const firebaseAppAuth = firebaseApp.auth()
 
-      const {
-        currentUserID,
-        users,
-      } = componentContext.store.getState()
-      const currentUser = users[currentUserID]
+    const [currentUser, setCurrentUser] = useState(firebaseAppAuth.currentUser)
+    const [isLoadingCurrentUser, setIsLoadingCurrentUser] = useState(Boolean(currentUser))
 
-      if ((typeof window !== 'undefined') && !redirectInProgress && !currentUser) {
+    useEffect(() => {
+      firebaseAppAuth.onAuthStateChanged(user => {
+        setCurrentUser(user)
+        setIsLoadingCurrentUser(false)
+      })
+    }, [])
+
+    useEffect(() => {
+      if ((typeof window !== 'undefined') && !currentUser && !isLoadingCurrentUser && !redirectInProgress) {
         redirectInProgress = true
 
         Router.replace({
@@ -34,23 +50,38 @@ const requireAuthentication = Component => {
           },
         })
       }
+    }, [currentUser && isLoadingCurrentUser])
 
-      let initialProps = {}
-
-      /* eslint-disable-next-line no-restricted-syntax */
-      if ('getInitialProps' in Component) {
-        initialProps = await Component.getInitialProps(componentContext)
-      }
-
-      return initialProps
-    }
-
-    render () {
+    if (!currentUser && isLoadingCurrentUser) {
       return (
-        <Component {...this.props} />
+        <span>Loading current user...</span>
       )
     }
+
+    if (!currentUser && !isLoadingCurrentUser) {
+      return (
+        <span>Not logged in; Redirecting...</span>
+      )
+    }
+
+    return (
+      <Component
+        {...props}
+        currentUser={currentUser} />
+    )
   }
+
+  ComponentRequiresAuthentication.defaultProps = {
+    // firebase: null,
+    firebaseApp: null,
+  }
+
+  ComponentRequiresAuthentication.propTypes = {
+    // firebase: PropTypes.object,
+    firebaseApp: PropTypes.object,
+  }
+
+  return withFirebase(ComponentRequiresAuthentication)
 }
 
 

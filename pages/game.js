@@ -19,7 +19,6 @@ import { actions } from '../store'
 import CharacterSelect from '../components/game/CharacterSelect'
 import PageWrapper from '../components/PageWrapper'
 import requireAuthentication from '../components/requireAuthentication'
-import withFirebase from '../components/withFirebase'
 
 
 
@@ -218,4 +217,4 @@ Game.propTypes = {
 
 
 
-export default requireAuthentication(withFirebase(Game))
+export default requireAuthentication(Game)
