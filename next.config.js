@@ -30,7 +30,7 @@ module.exports = withSass(withCSS({
     publicDirectory: true,
   },
 
-  target: 'serverless',
+  // target: 'serverless',
 
   env: {
     firebaseAPIKey: process.env.FIREBASE_API_KEY,
