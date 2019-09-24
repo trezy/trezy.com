@@ -1,14 +1,16 @@
 // Module imports
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import uuid from 'uuid/v4'
 
 
 
 
 
 // Local imports
-import { firebaseApp } from '../../helpers/firebase'
+import {
+  firebase,
+  firebaseApp,
+} from '../../helpers/firebase'
 import CharacterPreview from './CharacterPreview'
 
 
@@ -17,6 +19,7 @@ import CharacterPreview from './CharacterPreview'
 
 /* eslint-disable id-length,no-magic-numbers,no-param-reassign,react-hooks/rules-of-hooks */
 const CharacterCreator = ({ onSubmit, ownerID }) => {
+  const [profession, setProfession] = useState('')
   const [color, setColor] = useState('#ffffff')
   const [name, setName] = useState('')
   const [isCreatingCharacter, setIsCreatingCharacter] = useState(false)
@@ -25,16 +28,27 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
     event.preventDefault()
 
     const database = firebaseApp.database()
-    const id = uuid()
+
+    const firestore = firebaseApp.firestore()
+    const characterCollection = firestore.collection('characters')
 
     setIsCreatingCharacter(true)
 
-    await database.ref(`game/characters/${id}`).set({
+    const characterDoc = await characterCollection.add({
+      profession,
       color,
-      id,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       name,
       ownerID,
       size: 'medium',
+    })
+
+    const { id } = characterDoc
+
+    await database.ref(`game/characters/${id}`).set({
+      id,
+      ownerID,
       x: 0,
       y: 0,
     })
@@ -55,6 +69,21 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
             placeholder="e.g. Jon Snow"
             type="text"
             value={name} />
+        </fieldset>
+
+        <fieldset>
+          <label>Class</label>
+
+          <select
+            onChange={({ target: { value } }) => setProfession(value)}
+            value={profession}>
+            <option>Select your class...</option>
+            <option value="cleric">Cleric</option>
+            <option value="ranger">Ranger</option>
+            <option value="rogue">Rogue</option>
+            <option value="warrior">Warrior</option>
+            <option value="wizard">Wizard</option>
+          </select>
         </fieldset>
 
         <fieldset>

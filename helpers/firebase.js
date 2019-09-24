@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app'
 /* eslint-disable import/no-unassigned-import */
 import 'firebase/auth'
 import 'firebase/database'
+import 'firebase/firestore'
 /* eslint-enable */
 
 

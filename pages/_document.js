@@ -80,6 +80,7 @@ class Document extends NextDocument {
     const whitelist = {
       connect: [
         "'self'",
+        'https://firestore.googleapis.com',
         'https://securetoken.googleapis.com',
         'https://www.googleapis.com',
         'https://api.themoviedb.org',
