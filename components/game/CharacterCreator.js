@@ -42,6 +42,8 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
       name,
       ownerID,
       size: 'medium',
+      x: 0,
+      y: 0,
     })
 
     const { id } = characterDoc
