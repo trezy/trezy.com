@@ -59,14 +59,6 @@ const CharacterPreview = ({ character, mini }) => {
 
           context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
-          context.fillStyle = character.color
-          context.fillRect(
-            0,
-            0,
-            characterSpriteSize,
-            characterSpriteSize,
-          )
-
           context.drawImage(
             sprite.container,
             sourceOffsetX,

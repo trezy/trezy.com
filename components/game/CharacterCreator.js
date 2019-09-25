@@ -19,7 +19,6 @@ import CharacterPreview from './CharacterPreview'
 
 /* eslint-disable id-length,no-magic-numbers,no-param-reassign,react-hooks/rules-of-hooks */
 const CharacterCreator = ({ onSubmit, ownerID }) => {
-  const [color, setColor] = useState('#ffffff')
   const [gender, setGender] = useState('')
   const [isCreatingCharacter, setIsCreatingCharacter] = useState(false)
   const [name, setName] = useState('')
@@ -37,7 +36,6 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
 
     const characterDoc = await characterCollection.add({
       profession,
-      color,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       gender,
       name,
@@ -102,15 +100,6 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
           </select>
         </fieldset>
 
-        <fieldset>
-          <label>Color</label>
-
-          <input
-            onChange={({ target: { value } }) => setColor(value)}
-            type="color"
-            value={color} />
-        </fieldset>
-
         <button
           className="primary"
           disabled={!name || isCreatingCharacter}
@@ -126,7 +115,6 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
       </form>
 
       <CharacterPreview character={{
-        color,
         gender,
         name,
         profession,

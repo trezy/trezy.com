@@ -12,6 +12,7 @@ import Router from 'next/router'
 
 
 // Local imports
+import getSprite from '../../helpers/getSprite'
 import PageWrapper from '../../components/PageWrapper'
 import requireAuthentication from '../../components/requireAuthentication'
 
@@ -82,11 +83,30 @@ const Game = ({
 
     if (character) {
       unsubscribe = characterCollection.onSnapshot(snapshot => {
-        snapshot.forEach(characterDoc => {
-          characters[characterDoc.id] = {
-            id: characterDoc.id,
-            ...(characters[characterDoc.id] || {}),
-            ...characterDoc.data(),
+        snapshot.docChanges().forEach(change => {
+          const characterDoc = change.doc
+
+          /* eslint-disable-next-line default-case */
+          switch (change.type) {
+            case 'added':
+              characters[characterDoc.id] = {
+                id: characterDoc.id,
+                ...characterDoc.data(),
+                currentFrame: 0,
+                sprite: null,
+              }
+              break
+
+            case 'modified':
+              characters[characterDoc.id] = {
+                ...characters[characterDoc.id],
+                ...characterDoc.data(),
+              }
+              break
+
+            case 'removed':
+              delete characters[characterDoc.id]
+              break
           }
         })
       })
@@ -96,31 +116,50 @@ const Game = ({
   }, [character])
 
   useEffect(() => {
+    const characterSpriteSize = 64
+    const framesPerSecond = 30
+    const totalFrames = 10
+    const framesPerFrame = 60 / framesPerSecond
+
     const drawCharacter = (context, characterData) => {
-      context.fillStyle = characterData.color
-      context.lineWidth = 4
-      context.strokeStyle = 'black'
+      if (!characterData.sprite) {
+        characterData.sprite = getSprite('characters', characterData.profession).then(sprite => {
+          characterData.sprite = sprite
+        }).catch(error => {
+          console.log(error)
+        })
+      } else if (!(characterData.sprite instanceof Promise)) {
+        const sourceOffsetY = (characterData.gender === 'male') ? 0 : characterSpriteSize * 5
 
-      context.fillRect(
-        Math.floor(characterData.x),
-        Math.floor(characterData.y),
-        100,
-        100,
-      )
-      context.strokeRect(
-        Math.floor(characterData.x),
-        Math.floor(characterData.y),
-        100,
-        100,
-      )
+        let sourceOffsetX = 0
 
-      context.font = '1em serif'
-      context.fillStyle = 'black'
-      context.fillText(
-        characterData.name,
-        Math.floor(characterData.x),
-        Math.floor(characterData.y - 5),
-      )
+        if (characterData.currentFrame >= (totalFrames * framesPerFrame)) {
+          characterData.currentFrame = 0
+        } else if (Math.random() > 0.5) {
+          characterData.currentFrame += 1
+        }
+
+        sourceOffsetX = characterSpriteSize * Math.floor((characterData.currentFrame / framesPerFrame) % 10)
+
+        context.font = '1em serif'
+        context.fillStyle = 'black'
+        context.fillText(
+          characterData.name.substring(0, 20),
+          Math.floor(characterData.x),
+          Math.floor(characterData.y - 5),
+        )
+        context.drawImage(
+          characterData.sprite.container,
+          sourceOffsetX,
+          sourceOffsetY,
+          characterSpriteSize,
+          characterSpriteSize,
+          Math.floor(characterData.x),
+          Math.floor(characterData.y),
+          characterSpriteSize,
+          characterSpriteSize,
+        )
+      }
     }
 
     const handleKeydownEvent = ({ key }) => {
