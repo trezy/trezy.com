@@ -68,6 +68,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
           <label>Name</label>
 
           <input
+            maxlength="100"
             onChange={({ target: { value } }) => setName(value)}
             placeholder="e.g. Jon Snow"
             type="text"
