@@ -27,7 +27,7 @@ const getSprite = async (type, name) => {
         resolve()
       }
 
-      container.src = `${spritePath}.png`
+      container.src = `/game/${spritePath}.png`
     })
   }
 
