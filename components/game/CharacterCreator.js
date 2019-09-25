@@ -48,8 +48,11 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
     const { id } = characterDoc
 
     await database.ref(`game/characters/${id}`).set({
+      active: false,
+      direction: 'right',
       id,
       ownerID,
+      updatedAt: firebase.database.ServerValue.TIMESTAMP,
       x: 0,
       y: 0,
     })

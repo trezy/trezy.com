@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
@@ -37,7 +38,7 @@ let character = null
 /* eslint-disable id-length,no-magic-numbers,no-param-reassign,react-hooks/rules-of-hooks */
 const Game = ({
   characterID,
-  // currentUser,
+  firebase,
   firebaseApp,
 }) => {
   if (typeof window === 'undefined') {
@@ -52,10 +53,11 @@ const Game = ({
     width: window.innerWidth,
   })
 
-  // const database = firebaseApp.database()
+  const database = firebaseApp.database()
   const firestore = firebaseApp.firestore()
 
   const characterCollection = firestore.collection('characters')
+  const characterRTCollection = database.ref('game/characters')
 
   useEffect(() => {
     if (!characterID) {
@@ -63,10 +65,11 @@ const Game = ({
     }
   }, [])
 
-  /* eslint-disable-next-line consistent-return */
   useEffect(() => {
+    let unsubscribe = () => {}
+
     if (characterID && !character) {
-      return characterCollection.doc(characterID).onSnapshot(characterDoc => {
+      unsubscribe = characterCollection.doc(characterID).onSnapshot(characterDoc => {
         character = {
           id: characterID,
           ...(character || {}),
@@ -76,31 +79,56 @@ const Game = ({
         setIsCharacterLoaded(true)
       })
     }
+
+    return unsubscribe
   }, [])
 
   useEffect(() => {
-    let unsubscribe = () => {}
+    const unsubscribes = []
 
     if (character) {
-      unsubscribe = characterCollection.onSnapshot(snapshot => {
+      unsubscribes.push(database.ref('.info/connected').on('value', snapshot => {
+        if (snapshot.val() === false) {
+          return
+        }
+
+        const characterStatusRef = database.ref(`game/characters/${characterID}`)
+
+        characterStatusRef.onDisconnect().update({
+          active: 'offline',
+          updatedAt: firebase.database.ServerValue.TIMESTAMP,
+        }).then(() => {
+          characterStatusRef.update({
+            active: 'online',
+            updatedAt: firebase.database.ServerValue.TIMESTAMP,
+          })
+        })
+      }))
+
+      unsubscribes.push(characterCollection.onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           const characterDoc = change.doc
+          const characterData = characterDoc.data()
+          const originalCharacterData = characters[characterDoc.id]
 
           /* eslint-disable-next-line default-case */
           switch (change.type) {
             case 'added':
               characters[characterDoc.id] = {
-                id: characterDoc.id,
-                ...characterDoc.data(),
+                ...characterData,
                 currentFrame: 0,
+                id: characterDoc.id,
+                isMoving: false,
                 sprite: null,
+                previousX: characterData.x,
+                previousY: characterData.y,
               }
               break
 
             case 'modified':
               characters[characterDoc.id] = {
-                ...characters[characterDoc.id],
-                ...characterDoc.data(),
+                ...originalCharacterData,
+                ...characterData,
               }
               break
 
@@ -109,17 +137,36 @@ const Game = ({
               break
           }
         })
-      })
+      }))
+
+      unsubscribes.push(characterRTCollection.on('child_changed', characterDoc => {
+        const characterData = characterDoc.val()
+        const originalCharacterData = characters[characterDoc.key]
+
+        characters[characterDoc.key] = {
+          ...characters[characterDoc.key],
+          direction: characterData.direction,
+          isMoving: (originalCharacterData.x !== characterData.x) || (originalCharacterData.y !== characterData.y),
+          previousX: originalCharacterData.x,
+          previousY: originalCharacterData.y,
+          x: characterData.x,
+          y: characterData.y,
+        }
+      }))
     }
 
-    return unsubscribe
+    return () => unsubscribes.forEach(unsubscribe => unsubscribe())
   }, [character])
 
   useEffect(() => {
     const characterSpriteSize = 64
-    const framesPerSecond = 30
+    const framesPerSecond = 20
     const totalFrames = 10
     const framesPerFrame = 60 / framesPerSecond
+    const moveSpeed = 5
+    const stopMoving = debounce(characterData => {
+      characterData.isMoving = false
+    })
 
     const drawCharacter = (context, characterData) => {
       if (!characterData.sprite) {
@@ -129,17 +176,29 @@ const Game = ({
           console.log(error)
         })
       } else if (!(characterData.sprite instanceof Promise)) {
-        const sourceOffsetY = (characterData.gender === 'male') ? 0 : characterSpriteSize * 5
+        let sourceOffsetY = (characterData.gender === 'male') ? 0 : characterSpriteSize * 5
 
-        let sourceOffsetX = 0
+        if (characterData.isMoving) {
+          sourceOffsetY += characterSpriteSize * 2
+
+          if ((characterData.previousX === characterData.x) && (characterData.previousY === characterData.y)) {
+            stopMoving(characterData)
+          }
+          characterData.previousX = characterData.x
+          characterData.previousY = characterData.y
+        }
+
+        let sourceOffsetX = characterSpriteSize * Math.floor((characterData.currentFrame / framesPerFrame) % 10)
+
+        if (characterData.direction === 'left') {
+          sourceOffsetX += 640
+        }
 
         if (characterData.currentFrame >= (totalFrames * framesPerFrame)) {
           characterData.currentFrame = 0
         } else if (Math.random() > 0.5) {
           characterData.currentFrame += 1
         }
-
-        sourceOffsetX = characterSpriteSize * Math.floor((characterData.currentFrame / framesPerFrame) % 10)
 
         context.font = '1em serif'
         context.fillStyle = 'black'
@@ -189,31 +248,30 @@ const Game = ({
 
             context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
-            Object.values(characters).forEach(characterData => {
-              drawCharacter(context, characterData)
-            })
+            Object.values(characters).forEach(characterData => drawCharacter(context, characterData))
 
             let newX = myCharacter.x
             let newY = myCharacter.y
 
             if (keysPressed.w) {
-              newY -= 10
+              newY -= moveSpeed
             }
 
             if (keysPressed.s) {
-              newY += 10
+              newY += moveSpeed
             }
 
             if (keysPressed.a) {
-              newX -= 10
+              newX -= moveSpeed
             }
 
             if (keysPressed.d) {
-              newX += 10
+              newX += moveSpeed
             }
 
             if ((newY !== myCharacter.y) || (newX !== myCharacter.x)) {
-              characterCollection.doc(characterID).update({
+              database.ref(`game/characters/${characterID}`).update({
+                direction: (newX > myCharacter.x) ? 'right' : 'left',
                 x: newX,
                 y: newY,
               })
@@ -264,6 +322,7 @@ Game.defaultProps = {
 Game.propTypes = {
   characterID: PropTypes.string,
   // currentUser: PropTypes.object,
+  firebase: PropTypes.object.isRequired,
   firebaseApp: PropTypes.object.isRequired,
 }
 
