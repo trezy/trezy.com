@@ -10,12 +10,15 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import getSprite from '../../helpers/getSprite'
+
+
+
+
+
 // Local constants
-const characterSizes = {
-  small: 50,
-  medium: 100,
-  large: 200,
-}
+const characterSpriteSize = 64
 
 
 
@@ -28,11 +31,14 @@ const CharacterPreview = ({ character, mini }) => {
   }
 
   const canvasElement = useRef(null)
-  const characterSize = characterSizes[character.size]
-  // const previewSize = mini ? (characterSize / 2) : characterSize
-  const previewSize = characterSize
 
   useEffect(() => {
+    const framesPerSecond = 30
+    const totalFrames = 10
+    const framesPerFrame = (60 / framesPerSecond)
+
+    let currentFrame = 0
+    let sprite = null
     let stop = false
 
     const renderLoop = () => {
@@ -40,14 +46,36 @@ const CharacterPreview = ({ character, mini }) => {
         if (canvasElement.current) {
           const context = canvasElement.current.getContext('2d')
 
+          let sourceOffset = 0
+
+          if (currentFrame >= (totalFrames * framesPerFrame)) {
+            currentFrame = 0
+          } else if (Math.random() > 0.5) {
+            currentFrame += 1
+          }
+
+          sourceOffset = characterSpriteSize * Math.floor((currentFrame / framesPerFrame) % 10)
+
           context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
           context.fillStyle = character.color
           context.fillRect(
             0,
             0,
-            previewSize,
-            previewSize,
+            characterSpriteSize,
+            characterSpriteSize,
+          )
+
+          context.drawImage(
+            sprite.container,
+            sourceOffset,
+            0,
+            characterSpriteSize,
+            characterSpriteSize,
+            0,
+            0,
+            characterSpriteSize,
+            characterSpriteSize,
           )
         }
 
@@ -55,7 +83,11 @@ const CharacterPreview = ({ character, mini }) => {
       }
     }
 
-    renderLoop()
+    ;(async () => {
+      sprite = await getSprite('characters', character.profession)
+
+      renderLoop()
+    })()
 
     return () => {
       stop = true
@@ -72,9 +104,9 @@ const CharacterPreview = ({ character, mini }) => {
       </aside>
 
       <canvas
-        height={previewSize}
+        height={characterSpriteSize}
         ref={canvasElement}
-        width={previewSize} />
+        width={characterSpriteSize} />
     </div>
   )
 }

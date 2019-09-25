@@ -41,7 +41,6 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       name,
       ownerID,
-      size: 'medium',
       x: 0,
       y: 0,
     })
@@ -114,7 +113,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
       <CharacterPreview character={{
         color,
         name,
-        size: 'medium',
+        profession,
       }} />
     </>
   )
