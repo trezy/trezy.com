@@ -105,7 +105,7 @@ const Game = ({
         })
       }))
 
-      unsubscribes.push(characterCollection.onSnapshot(snapshot => {
+      unsubscribes.push(characterCollection.where('active', '==', true).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           const characterDoc = change.doc
           const characterData = characterDoc.data()
@@ -118,11 +118,24 @@ const Game = ({
                 ...characterData,
                 currentFrame: 0,
                 id: characterDoc.id,
+                isLoading: true,
                 isMoving: false,
                 sprite: null,
-                previousX: characterData.x,
-                previousY: characterData.y,
               }
+
+              database.ref(`game/characters/${characterDoc.id}`).once('value').then(positionDataSnapshot => {
+                const positionData = positionDataSnapshot.val()
+
+                characters[characterDoc.id] = {
+                  ...characters[characterDoc.id],
+                  isLoading: false,
+                  previousX: positionData.x,
+                  previousY: positionData.y,
+                  x: positionData.x,
+                  y: positionData.y,
+                }
+              })
+
               break
 
             case 'modified':
@@ -140,17 +153,19 @@ const Game = ({
       }))
 
       unsubscribes.push(characterRTCollection.on('child_changed', characterDoc => {
-        const characterData = characterDoc.val()
         const originalCharacterData = characters[characterDoc.key]
 
-        characters[characterDoc.key] = {
-          ...characters[characterDoc.key],
-          direction: characterData.direction,
-          isMoving: (originalCharacterData.x !== characterData.x) || (originalCharacterData.y !== characterData.y),
-          previousX: originalCharacterData.x,
-          previousY: originalCharacterData.y,
-          x: characterData.x,
-          y: characterData.y,
+        if (originalCharacterData) {
+          const characterData = characterDoc.val()
+          characters[characterDoc.key] = {
+            ...characters[characterDoc.key],
+            direction: characterData.direction,
+            isMoving: (originalCharacterData.x !== characterData.x) || (originalCharacterData.y !== characterData.y),
+            previousX: originalCharacterData.x,
+            previousY: originalCharacterData.y,
+            x: characterData.x,
+            y: characterData.y,
+          }
         }
       }))
     }
@@ -175,7 +190,7 @@ const Game = ({
         }).catch(error => {
           console.log(error)
         })
-      } else if (!(characterData.sprite instanceof Promise)) {
+      } else if (!characterData.isLoading && !(characterData.sprite instanceof Promise)) {
         let sourceOffsetY = (characterData.gender === 'male') ? 0 : characterSpriteSize * 5
 
         if (characterData.isMoving) {
