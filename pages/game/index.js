@@ -92,14 +92,14 @@ const Game = ({
           return
         }
 
-        const characterStatusRef = database.ref(`game/characters/${characterID}`)
+        const characterStatusRef = database.ref(`game/characters/${characterID}/status`)
 
         characterStatusRef.onDisconnect().update({
-          active: 'offline',
+          active: false,
           updatedAt: firebase.database.ServerValue.TIMESTAMP,
         }).then(() => {
           characterStatusRef.update({
-            active: 'online',
+            active: true,
             updatedAt: firebase.database.ServerValue.TIMESTAMP,
           })
         })

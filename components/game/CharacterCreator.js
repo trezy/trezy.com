@@ -35,8 +35,9 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
     setIsCreatingCharacter(true)
 
     const characterDoc = await characterCollection.add({
-      profession,
+      active: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      profession,
       gender,
       name,
       ownerID,
@@ -48,11 +49,13 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
     const { id } = characterDoc
 
     await database.ref(`game/characters/${id}`).set({
-      active: false,
       direction: 'right',
       id,
       ownerID,
-      updatedAt: firebase.database.ServerValue.TIMESTAMP,
+      status: {
+        active: false,
+        updatedAt: firebase.database.ServerValue.TIMESTAMP,
+      },
       x: 0,
       y: 0,
     })
