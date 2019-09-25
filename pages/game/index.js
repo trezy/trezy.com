@@ -248,7 +248,8 @@ const Game = ({
 
             context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
-            Object.values(characters).forEach(characterData => drawCharacter(context, characterData))
+            const sortedCharacters = Object.values(characters).sort((a, b) => ((a.y > b.y) ? 1 : -1))
+            sortedCharacters.forEach(characterData => drawCharacter(context, characterData))
 
             let newX = myCharacter.x
             let newY = myCharacter.y
