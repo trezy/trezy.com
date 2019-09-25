@@ -19,10 +19,11 @@ import CharacterPreview from './CharacterPreview'
 
 /* eslint-disable id-length,no-magic-numbers,no-param-reassign,react-hooks/rules-of-hooks */
 const CharacterCreator = ({ onSubmit, ownerID }) => {
-  const [profession, setProfession] = useState('')
   const [color, setColor] = useState('#ffffff')
-  const [name, setName] = useState('')
+  const [gender, setGender] = useState('')
   const [isCreatingCharacter, setIsCreatingCharacter] = useState(false)
+  const [name, setName] = useState('')
+  const [profession, setProfession] = useState('')
 
   const _onSubmit = async event => {
     event.preventDefault()
@@ -73,6 +74,18 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
         </fieldset>
 
         <fieldset>
+          <label>Gender</label>
+
+          <select
+            onChange={({ target: { value } }) => setGender(value)}
+            value={gender}>
+            <option>Select your class...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
           <label>Class</label>
 
           <select
@@ -112,6 +125,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
 
       <CharacterPreview character={{
         color,
+        gender,
         name,
         profession,
       }} />

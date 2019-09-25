@@ -45,8 +45,9 @@ const CharacterPreview = ({ character, mini }) => {
       if (!stop) {
         if (canvasElement.current) {
           const context = canvasElement.current.getContext('2d')
+          const sourceOffsetY = (character.gender === 'male') ? 0 : characterSpriteSize * 5
 
-          let sourceOffset = 0
+          let sourceOffsetX = 0
 
           if (currentFrame >= (totalFrames * framesPerFrame)) {
             currentFrame = 0
@@ -54,7 +55,7 @@ const CharacterPreview = ({ character, mini }) => {
             currentFrame += 1
           }
 
-          sourceOffset = characterSpriteSize * Math.floor((currentFrame / framesPerFrame) % 10)
+          sourceOffsetX = characterSpriteSize * Math.floor((currentFrame / framesPerFrame) % 10)
 
           context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
@@ -68,8 +69,8 @@ const CharacterPreview = ({ character, mini }) => {
 
           context.drawImage(
             sprite.container,
-            sourceOffset,
-            0,
+            sourceOffsetX,
+            sourceOffsetY,
             characterSpriteSize,
             characterSpriteSize,
             0,
