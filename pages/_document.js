@@ -99,9 +99,11 @@ class Document extends NextDocument {
         "'self'",
         'https://fonts.googleapis.com',
       ],
-      // media: [],
-      // object: [],
-      // script: [],
+      media: [],
+      object: [],
+      script: [
+        "'self'",
+      ],
     }
 
     let baseUri = null
