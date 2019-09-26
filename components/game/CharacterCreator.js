@@ -24,45 +24,47 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
   const [name, setName] = useState('')
   const [profession, setProfession] = useState('')
 
+  const isValid = name && gender && profession
+
   const _onSubmit = async event => {
     event.preventDefault()
 
-    const database = firebaseApp.database()
+    if (isValid) {
+      const database = firebaseApp.database()
 
-    const firestore = firebaseApp.firestore()
-    const characterCollection = firestore.collection('characters')
+      const firestore = firebaseApp.firestore()
+      const characterCollection = firestore.collection('characters')
 
-    setIsCreatingCharacter(true)
+      setIsCreatingCharacter(true)
 
-    const characterDoc = await characterCollection.add({
-      active: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      profession,
-      gender,
-      name,
-      ownerID,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      x: 0,
-      y: 0,
-    })
-
-    const { id } = characterDoc
-
-    await database.ref(`game/characters/${id}`).set({
-      direction: 'right',
-      id,
-      ownerID,
-      status: {
+      const characterDoc = await characterCollection.add({
         active: false,
-        updatedAt: firebase.database.ServerValue.TIMESTAMP,
-      },
-      x: 0,
-      y: 0,
-    })
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        profession,
+        gender,
+        name,
+        ownerID,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
 
-    setIsCreatingCharacter(false)
+      const { id } = characterDoc
 
-    setTimeout(() => onSubmit(), 500)
+      await database.ref(`game/characters/${id}`).set({
+        direction: 'right',
+        id,
+        ownerID,
+        status: {
+          active: false,
+          updatedAt: firebase.database.ServerValue.TIMESTAMP,
+        },
+        x: 0,
+        y: 0,
+      })
+
+      setIsCreatingCharacter(false)
+
+      setTimeout(() => onSubmit(), 500)
+    }
   }
 
   return (
@@ -75,6 +77,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
             maxLength="100"
             onChange={({ target: { value } }) => setName(value)}
             placeholder="e.g. Jon Snow"
+            required
             type="text"
             value={name} />
         </fieldset>
@@ -84,6 +87,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
 
           <select
             onChange={({ target: { value } }) => setGender(value)}
+            required
             value={gender}>
             <option>Select your class...</option>
             <option value="male">Male</option>
@@ -96,6 +100,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
 
           <select
             onChange={({ target: { value } }) => setProfession(value)}
+            required
             value={profession}>
             <option>Select your class...</option>
             <option value="cleric">Cleric</option>
@@ -108,7 +113,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
 
         <button
           className="primary"
-          disabled={!name || isCreatingCharacter}
+          disabled={!isValid || isCreatingCharacter}
           type="submit">
           {!isCreatingCharacter && (
             <span>Create</span>
