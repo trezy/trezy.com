@@ -196,22 +196,20 @@ class Document extends NextDocument {
           <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.png" />
 
           <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/favicon/apple-touch-icon-57x57.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.png" />
           <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/static/favicon/apple-touch-icon-60x60.png" />
-          <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.png" />
+          <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.png" />
           <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/favicon/apple-touch-icon-76x76.png" />
+          <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.png" />
+          <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.png" />
+          <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.png" />
           <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/favicon/apple-touch-icon-152x152.png" />
 
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-196.png" sizes="196x196" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-96.png" sizes="96x96" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-32.png" sizes="32x32" />
           <link rel="icon" type="image/png" href="/static/favicon/favicon-16.png" sizes="16x16" />
-          <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
+          <link rel="icon" type="image/png" href="/static/favicon/favicon-32.png" sizes="32x32" />
+          <link rel="icon" type="image/png" href="/static/favicon/favicon-96.png" sizes="96x96" />
 
           <link rel="manifest" href="/manifest.json" />
-          <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon/favicon.ico" />
 
           <link rel="webmention" href="https://webmention.io/trezy.com/webmention" />
           <link rel="pingback" href="https://webmention.io/trezy.com/xmlrpc" />
