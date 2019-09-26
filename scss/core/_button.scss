@@ -16,12 +16,19 @@ button, .button {
     opacity,
     transform;
 
-  &:focus,
-  &:hover {
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
-    opacity: 1;
-    outline: none;
-    transform: scale(1.2);
+  &:not(:disabled) {
+    &:focus,
+    &:hover {
+      box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+      opacity: 1;
+      outline: none;
+      transform: scale(1.2);
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 
   &.iconic {
