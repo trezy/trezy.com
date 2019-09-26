@@ -5,5 +5,9 @@ form {
 
   fieldset {
     flex-grow: 1;
+
+    &:not(:last-child) {
+      margin-bottom: var(--gutter);
+    }
   }
 }

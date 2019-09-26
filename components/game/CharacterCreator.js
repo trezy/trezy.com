@@ -68,7 +68,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
   }
 
   return (
-    <>
+    <section className="character-creator">
       <form onSubmit={_onSubmit}>
         <fieldset>
           <label>Name</label>
@@ -130,7 +130,7 @@ const CharacterCreator = ({ onSubmit, ownerID }) => {
         name,
         profession,
       }} />
-    </>
+    </section>
   )
 }
 

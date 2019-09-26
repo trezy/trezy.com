@@ -44,7 +44,7 @@ const CharacterPreview = ({ character, mini }) => {
     const renderLoop = () => {
       if (!stop) {
         if (canvasElement.current) {
-          const context = canvasElement.current.getContext('2d')
+          const context = canvasElement.current.getContext('2d', { alpha: true })
           const sourceOffsetY = (character.gender === 'male') ? 0 : characterSpriteSize * 5
 
           let sourceOffsetX = 0

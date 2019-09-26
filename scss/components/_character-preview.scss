@@ -1,6 +1,5 @@
 .character-preview {
   align-items: center;
-  background-color: var(--text-color);
   flex-grow: 0;
   flex-shrink: 1;
   justify-content: center;
@@ -17,7 +16,6 @@
   }
 
   aside {
-    background-color: var(--background-color);
     left: 2rem;
     display: none;
     opacity: 0.2;
