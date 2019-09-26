@@ -77,7 +77,7 @@ const clients = [
   },
 ].map(client => ({
   ...client,
-  logo: require(`../static/images/logos/${client.logo}`).default, // eslint-disable-line global-require,import/no-dynamic-require
+  logo: require(`../public/images/logos/${client.logo}`).default, // eslint-disable-line global-require,import/no-dynamic-require
 }))
 
 

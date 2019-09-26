@@ -25,7 +25,7 @@ const About = () => (
           data-animate
           data-animation="fade-in-from-left"
           data-animation-duration="1s"
-          src="/static/images/casual-headshot.png" />
+          src="/images/casual-headshot.png" />
 
         <h2>
           <span
