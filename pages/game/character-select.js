@@ -96,7 +96,9 @@ const CharacterSelect = ({
                   character={character}
                   mini />
 
-                {character.name}
+                <span className="name">
+                  {character.name}
+                </span>
 
                 <menu type="toolbar">
                   <Link as="/game" href={`/game?characterID=${character.id}`}>

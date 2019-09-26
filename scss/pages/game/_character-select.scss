@@ -15,6 +15,12 @@
       margin-left: auto;
       padding: 2rem;
     }
+
+    .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .character-preview {
