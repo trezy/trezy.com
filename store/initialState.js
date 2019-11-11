@@ -3,10 +3,6 @@ const initialState = {
 
   currentUserID: null,
 
-  game: {
-    characters: {},
-  },
-
   movies: {},
 
   moviesSearchResults: {
