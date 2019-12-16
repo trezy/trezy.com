@@ -73,6 +73,6 @@
     "redux-thunk": "^2.3.0",
     "transform-string-case": "^1.1.0",
     "uuid": "^3.3.3",
-    "webpack": "^4.35.3"
+    "webpack": "^4.41.3"
   }
 }
