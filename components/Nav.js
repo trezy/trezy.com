@@ -75,7 +75,7 @@ const Nav = props => {
                   {...item}
                   id={key}
                   isFocusable={isOpen}
-                  isOpen={subnavOpenStates[key]}
+                  isOpen={isOpen && subnavOpenStates[key]}
                   onClose={() => {
                     subnavOpenStates[key] = false
                     setSubnavOpenStates({ ...subnavOpenStates })

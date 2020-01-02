@@ -39,8 +39,10 @@
     }
 
     @media (min-width: 1300px) {
-      opacity: 0;
-      pointer-events: none;
+      &, &:focus {
+        opacity: 0;
+        pointer-events: none;
+      }
     }
   }
 

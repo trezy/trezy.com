@@ -127,6 +127,15 @@ const navItems = [
     },
   },
 ]
+const resizeBreakpoint = 1300
+
+
+
+
+
+// Local variables
+let currentWidth = (typeof window === 'undefined') ? 0 : window.innerWidth
+let previousWidth = currentWidth
 
 
 
@@ -136,7 +145,7 @@ const Banner = () => {
   const firebase = useFirebase()
   const auth = useSelector(state => state.firebase.auth)
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(previousWidth >= resizeBreakpoint)
 
   const close = () => {
     const focusedElement = document.querySelector('[role=banner] *:focus')
@@ -148,16 +157,39 @@ const Banner = () => {
     setIsOpen(false)
   }
 
+  const handleResize = () => {
+    currentWidth = window.innerWidth
+
+    if (Math.max(currentWidth, previousWidth) <= resizeBreakpoint) {
+      return
+    }
+
+    if (Math.min(currentWidth, previousWidth) >= resizeBreakpoint) {
+      return
+    }
+
+    setIsOpen(currentWidth >= resizeBreakpoint)
+
+    previousWidth = currentWidth
+  }
+
   useFirebaseConnect([
     { path: 'app-data' },
   ])
 
   useEffect(handleRouterEvent('routeChangeComplete', close))
+
   useEffect(handleKeyboardEvent('keyup', ({ key }) => {
     if (key.toLowerCase() === 'escape') {
       close()
     }
   }), [isOpen])
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  })
 
   const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
 

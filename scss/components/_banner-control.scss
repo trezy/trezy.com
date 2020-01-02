@@ -4,18 +4,20 @@
     opacity: 0;
   }
 
-  &:checked {
-    ~ [role=banner] {
-      transform: translateX(0);
-    }
+  @media (max-width: 1300px) {
+    &:checked {
+      ~ [role=banner] {
+        transform: translateX(0);
+      }
 
-    ~ main {
-      pointer-events: none;
-      transform: scale(0.8) translateY(20vh);
+      ~ main {
+        pointer-events: none;
+        transform: scale(0.8) translateY(20vh);
 
-      &:after {
-        pointer-events: initial;
-        opacity: 0.4;
+        &:after {
+          pointer-events: initial;
+          opacity: 0.4;
+        }
       }
     }
   }
