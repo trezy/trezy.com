@@ -36,7 +36,7 @@ const BlogDashboard = () => (
   </PageWrapper>
 )
 
-BlogDashboard.getInitialProps = async ({ store }) => {
+BlogDashboard.getInitialProps = async () => {
   await getFirebase().promiseEvents([
     {
       path: 'articles',
