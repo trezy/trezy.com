@@ -1,18 +1,23 @@
+// Module imports
 import { combineReducers } from 'redux'
-import articles from './articles'
-import currentUserID from './currentUserID'
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
+
+
+
+
+
+// Local imports
 import movies from './movies'
 import moviesSearchResults from './moviesSearchResults'
-import users from './users'
 
 
 
 
 
 export default combineReducers({
-  articles,
-  currentUserID,
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
   movies,
   moviesSearchResults,
-  users,
 })

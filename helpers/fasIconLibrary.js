@@ -3,6 +3,7 @@ export {
   faBook,
   faCircle,
   faClock,
+  faFilm,
   faHome,
   faMinusCircle,
   faSignInAlt,
@@ -10,5 +11,7 @@ export {
   faSpinner,
   faTachometerAlt,
   faTimes,
+  faTools,
   faUser,
+  faUserShield,
 } from '@fortawesome/free-solid-svg-icons'

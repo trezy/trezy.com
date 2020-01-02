@@ -1,5 +1,9 @@
 // Module imports
-import React, { useEffect } from 'react'
+import React, {
+  useEffect,
+} from 'react'
+import { useFirebase } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
@@ -9,7 +13,6 @@ import Router from 'next/router'
 
 // Component imports
 import PageWrapper from '../components/PageWrapper'
-import withFirebase from '../components/withFirebase'
 
 
 
@@ -23,16 +26,13 @@ let redirectStarted = false
 
 
 const Login = props => {
-  const {
-    signInWithGithub,
-    signInWithGoogle,
-    signInWithTwitter,
-    query,
-    user: currentUser,
-  } = props
+  const { query } = props
+
+  const firebase = useFirebase()
+  const auth = useSelector(state => state.firebase.auth)
 
   useEffect(() => {
-    if (currentUser && !redirectStarted) {
+    if (auth.isLoaded && !auth.isEmpty && !redirectStarted) {
       const startRedirect = () => {
         redirectStarted = false
         Router.events.off('routeChangeComplete', startRedirect)
@@ -52,21 +52,30 @@ const Login = props => {
           <menu type="toolbar">
             <button
               className="primary"
-              onClick={signInWithGoogle}
+              onClick={() => firebase.login({
+                provider: 'google',
+                type: 'popup',
+              })}
               type="button">
               Sign in with Google
             </button>
 
             <button
               className="primary"
-              onClick={signInWithGithub}
+              onClick={() => firebase.login({
+                provider: 'github',
+                type: 'popup',
+              })}
               type="button">
               Sign in with Github
             </button>
 
             <button
               className="primary"
-              onClick={signInWithTwitter}
+              onClick={() => firebase.login({
+                provider: 'twitter',
+                type: 'popup',
+              })}
               type="button">
               Sign in with Twitter
             </button>
@@ -77,20 +86,10 @@ const Login = props => {
   )
 }
 
-Login.defaultProps = {
-  user: null,
-}
-
-Login.propTypes = {
-  query: PropTypes.object.isRequired,
-  signInWithGithub: PropTypes.func.isRequired,
-  signInWithGoogle: PropTypes.func.isRequired,
-  signInWithTwitter: PropTypes.func.isRequired,
-  user: PropTypes.object,
-}
+Login.propTypes = { query: PropTypes.object.isRequired }
 
 
 
 
 
-export default withFirebase(Login)
+export default Login

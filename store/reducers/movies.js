@@ -5,7 +5,7 @@ import initialState from '../initialState'
 
 
 
-export default function moviesReducer (state = initialState.users, action) {
+export default function moviesReducer (state = initialState.movies, action) {
   const {
     payload,
     status,

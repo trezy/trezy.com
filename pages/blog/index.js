@@ -1,4 +1,5 @@
 // Module imports
+import { getFirebase } from 'react-redux-firebase'
 import React from 'react'
 
 
@@ -6,7 +7,6 @@ import React from 'react'
 
 
 // Component imports
-import { actions } from '../../store'
 import ArticleList from '../../components/ArticleList'
 import PageWrapper from '../../components/PageWrapper'
 
@@ -28,8 +28,13 @@ const Blog = () => (
   </PageWrapper>
 )
 
-Blog.getInitialProps = async ({ store }) => {
-  await store.dispatch(actions.getArticles())
+Blog.getInitialProps = async () => {
+  await getFirebase().promiseEvents([
+    {
+      path: 'articles',
+      queryParams: ['orderByChild=createdAt'],
+    },
+  ])
 }
 
 

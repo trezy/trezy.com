@@ -1,11 +1,16 @@
 // Module imports
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, {
   useState,
   useEffect,
 } from 'react'
+import {
+  isEmpty,
+  useFirebase,
+  useFirebaseConnect,
+} from 'react-redux-firebase'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
 import Router from 'next/router'
 
 
@@ -16,7 +21,7 @@ import Router from 'next/router'
 import handleRouterEvent from '../effects/handleRouterEvent'
 import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
-import withFirebase from './withFirebase'
+import SocialNav from './SocialNav'
 
 
 
@@ -75,142 +80,62 @@ const navItems = [
   //   icon: 'sign-in-alt',
   //   title: 'Login',
   //   route: 'login',
-  //   condition: ({ currentUser }) => !currentUser,
+  //   condition: ({ auth }) => !auth,
   // },
 
   // Only while logged in
   {
-    href: '/dashboard',
-    icon: 'tachometer-alt',
-    title: 'Dashboard',
-    condition: ({ currentUser }) => Boolean(currentUser),
+    icon: 'tools',
+    title: 'Tools',
+    condition: ({ auth }) => !isEmpty(auth),
+    subnav: [
+      {
+        href: '/tools/movie-list',
+        icon: 'film',
+        title: 'Movie List',
+      },
+    ],
+  },
+  {
+    icon: 'user-shield',
+    title: 'Admin',
+    condition: ({ auth }) => !isEmpty(auth),
+    subnav: [
+      {
+        href: '/dashboard',
+        icon: 'tachometer-alt',
+        title: 'Dashboard',
+      },
+      {
+        href: '/dashboard/blog',
+        icon: 'book',
+        title: 'Blog',
+      },
+    ],
   },
   {
     icon: 'sign-out-alt',
     title: 'Logout',
-    condition: ({ currentUser }) => Boolean(currentUser),
+    condition: ({ auth }) => !isEmpty(auth),
     onClick: (event, {
       close,
-      signOut,
+      logout,
     }) => {
-      signOut()
+      logout()
       close()
       Router.push('/login')
     },
   },
 ]
-const socialItems = [
-  {
-    extraProps: { rel: 'me' },
-    icon: 'twitter',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Twitter',
-    href: 'https://twitter.com/TrezyCodes',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'instagram',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Instagram',
-    href: 'https://instagram.com/TrezyCodes',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'linkedin',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'LinkedIn',
-    href: 'https://linkedin.com/in/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'twitch',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Twitch',
-    href: 'https://twitch.tv/TrezyCodes',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'discord',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Discord',
-    href: 'https://discord.gg/k3bth3f',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'patreon',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Patreon',
-    href: 'https://www.patreon.com/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'github',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Github',
-    href: 'https://github.com/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'codepen',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'Codepen',
-    href: 'https://codepen.io/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'npm',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'npm',
-    href: 'https://npmjs.com/~trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'dev',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'DEV Community',
-    href: 'https://dev.to/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'speaker-deck',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'speakerdeck',
-    href: 'https://speakerdeck.com/trezy',
-  },
-  {
-    extraProps: { rel: 'me' },
-    icon: 'soundcloud',
-    iconOnly: true,
-    iconPrefix: 'fab',
-    title: 'SoundCloud',
-    href: 'https://soundcloud.com/TrezyCodes',
-  },
-]
 
 
 
 
 
-const Banner = props => {
-  const {
-    firebaseApp,
-    signOut,
-  } = props
+const Banner = () => {
+  const firebase = useFirebase()
+  const auth = useSelector(state => state.firebase.auth)
 
-  const { currentUser } = firebaseApp.auth()
-
-  const [isLive, setIsLive] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
   const close = () => {
@@ -223,19 +148,18 @@ const Banner = props => {
     setIsOpen(false)
   }
 
+  useFirebaseConnect([
+    { path: 'app-data' },
+  ])
+
   useEffect(handleRouterEvent('routeChangeComplete', close))
   useEffect(handleKeyboardEvent('keyup', ({ key }) => {
     if (key.toLowerCase() === 'escape') {
       close()
     }
   }), [isOpen])
-  useEffect(() => {
-    const ref = firebaseApp.database().ref('/app-data/stream/online')
 
-    ref.on('value', snapshot => setIsLive(snapshot.val()))
-
-    return () => ref.off('value')
-  })
+  const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
 
   return (
     <>
@@ -282,25 +206,17 @@ const Banner = props => {
           isLive={isLive}
           isOpen={isOpen}
           items={navItems}
-          signOut={signOut}
-          currentUser={currentUser} />
+          logout={firebase.logout}
+          auth={auth} />
 
-        <Nav
-          className="social"
-          isOpen={isOpen}
-          items={socialItems} />
+        <SocialNav isOpen={isOpen} />
       </header>
     </>
   )
 }
 
-Banner.propTypes = {
-  firebaseApp: PropTypes.object.isRequired,
-  signOut: PropTypes.func.isRequired,
-}
 
 
 
 
-
-export default withFirebase(Banner)
+export default Banner

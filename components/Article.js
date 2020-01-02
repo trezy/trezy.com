@@ -2,6 +2,12 @@
 import React, {
   useEffect,
 } from 'react'
+import {
+  isEmpty,
+  isLoaded,
+  useFirebaseConnect,
+} from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import Link from 'next/link'
 import marked from 'marked'
@@ -20,19 +26,60 @@ import ArticleMeta from './ArticleMeta'
 
 
 
-const Article = ({ article, editMode, summarize }) => {
+const Article = props => {
+  const {
+    editMode,
+    id,
+    shouldLoad,
+    summarize,
+  } = props
+
+  let collectionsToLoad = []
+
+  if (shouldLoad) {
+    collectionsToLoad = [
+      {
+        path: 'articles',
+        queryParams: [id],
+      },
+      {
+        path: 'drafts',
+        queryParams: [id],
+      },
+    ]
+  }
+
+  useFirebaseConnect(collectionsToLoad)
+
+  const article = useSelector(state => {
+    let result = state.firebase.data.drafts?.[id]
+
+    if (!result) {
+      result = state.firebase.data.articles?.[id]
+    }
+
+    return result
+  })
+
+  useEffect(() => {
+    if (isLoaded(article) && !isEmpty(article)) {
+      setTimeout(() => Prism.highlightAll(), 0)
+    }
+  }, [article])
+
+  if (!isLoaded(article)) {
+    return (
+      <div>Loading...</div>
+    )
+  }
+
   const {
     createdAt,
-    id,
     publishedAt,
     subtitle,
     title,
     updatedAt,
   } = article
-
-  useEffect(() => {
-    setTimeout(() => Prism.highlightAll(), 0)
-  }, [])
 
   return (
     <article className={classnames({ summary: summarize })}>
@@ -71,12 +118,15 @@ const Article = ({ article, editMode, summarize }) => {
 
 Article.defaultProps = {
   editMode: false,
+  id: null,
+  shouldLoad: true,
   summarize: false,
 }
 
 Article.propTypes = {
-  article: PropTypes.object.isRequired,
   editMode: PropTypes.bool,
+  id: PropTypes.string,
+  shouldLoad: PropTypes.bool,
   summarize: PropTypes.bool,
 }
 

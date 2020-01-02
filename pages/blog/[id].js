@@ -1,4 +1,9 @@
 // Module imports
+import {
+  getFirebase,
+  isLoaded,
+  useFirebaseConnect,
+} from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -8,8 +13,6 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import { actions } from '../../store'
-import getArticle from '../../store/selectors/getArticleSelector'
 import Article from '../../components/Article'
 import PageWrapper from '../../components/PageWrapper'
 
@@ -18,7 +21,23 @@ import PageWrapper from '../../components/PageWrapper'
 
 
 const ArticlePage = ({ query: { id } }) => {
-  const article = useSelector(getArticle(id))
+  useFirebaseConnect([
+    {
+      path: 'articles',
+      queryParams: [id],
+    },
+  ])
+
+  const article = useSelector(state => state.firebase.data.articles?.[id])
+
+  if (!isLoaded(article)) {
+    return (
+      <PageWrapper title="Loading...">
+        <section>Loading...</section>
+      </PageWrapper>
+    )
+  }
+
   const {
     subtitle,
     title,
@@ -31,7 +50,7 @@ const ArticlePage = ({ query: { id } }) => {
       <section>
         <article className="line-numbers">
           {article && (
-            <Article article={article} />
+            <Article id={id} />
           )}
 
           {!article && 'Article not found'}
@@ -41,12 +60,13 @@ const ArticlePage = ({ query: { id } }) => {
   )
 }
 
-ArticlePage.getInitialProps = async ({ query, store }) => {
-  await store.dispatch(actions.getArticle(query.id))
+ArticlePage.getInitialProps = async ({ query }) => {
+  await getFirebase().promiseEvents([
+    { path: `articles/${query.id}` },
+  ])
 }
 
 ArticlePage.propTypes = {
-  /* eslint-disable-next-line react/no-unused-prop-types */
   query: PropTypes.object.isRequired,
 }
 

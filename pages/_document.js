@@ -84,6 +84,8 @@ class Document extends NextDocument {
         'https://securetoken.googleapis.com',
         'https://www.googleapis.com',
         'https://api.themoviedb.org',
+        'https://apis.google.com',
+        'https://*.firebaseio.com',
         'wss://*.firebaseio.com',
       ],
       default: [

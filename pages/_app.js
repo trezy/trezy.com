@@ -11,8 +11,16 @@ import '../scss/app.scss'
 
 // Module imports
 import { library as faLibrary, config as faConfig } from '@fortawesome/fontawesome-svg-core'
+import { createFirestoreInstance } from 'redux-firestore'
+import firebase from 'firebase/app'
+/* eslint-disable import/no-unassigned-import */
+import 'firebase/auth'
+import 'firebase/database'
+import 'firebase/firestore'
+/* eslint-enable import/no-unassigned-import */
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { Provider } from 'react-redux'
-import NextApp, { Container } from 'next/app'
+import NextApp from 'next/app'
 import LocalForage from 'localforage'
 import marked from 'marked'
 import React from 'react'
@@ -22,16 +30,24 @@ import withRedux from 'next-redux-wrapper'
 
 
 
-// Component imports
+// Local imports
 import { initStore } from '../store'
 import * as fasIcons from '../helpers/fasIconLibrary'
 import * as fabIcons from '../helpers/fabIconLibrary'
 import * as farIcons from '../helpers/farIconLibrary'
 import AppLayout from '../components/AppLayout'
+import firebaseConfig from '../firebase.config'
 
 
 
 
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+  firebase.database()
+  firebase.firestore()
+}
 
 // Configure and populate FontAwesome library
 faConfig.autoAddCss = false
@@ -88,12 +104,23 @@ class App extends NextApp {
       ...layoutProps
     } = this.props
 
+    const rrfProps = {
+      firebase,
+      config: {
+        presence: 'presence',
+        sessions: 'sessions',
+        userProfile: 'users',
+      },
+      dispatch: store.dispatch,
+      createFirestoreInstance,
+    }
+
     return (
-      <Container>
-        <Provider store={store}>
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
           <AppLayout {...layoutProps} />
-        </Provider>
-      </Container>
+        </ReactReduxFirebaseProvider>
+      </Provider>
     )
   }
 }

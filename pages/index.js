@@ -1,4 +1,5 @@
 // Module imports
+import { getFirebase } from 'react-redux-firebase'
 import Link from 'next/link'
 import React from 'react'
 
@@ -7,7 +8,6 @@ import React from 'react'
 
 
 // Component imports
-import { actions } from '../store'
 import ArticleList from '../components/ArticleList'
 import ClientList from '../components/ClientList'
 import PageWrapper from '../components/PageWrapper'
@@ -34,7 +34,9 @@ const Home = () => (
           <h2>Latest articles</h2>
         </header>
 
-        <ArticleList className="latest-articles" />
+        <ArticleList
+          className="latest-articles"
+          limit={3} />
 
         <Link href="/blog">
           <a>See more</a>
@@ -50,8 +52,13 @@ const Home = () => (
   </PageWrapper>
 )
 
-Home.getInitialProps = async ({ store }) => {
-  await store.dispatch(actions.getArticles({ limit: 3 }))
+Home.getInitialProps = async () => {
+  await getFirebase().promiseEvents([
+    {
+      path: 'articles',
+      queryParams: ['orderByChild=createdAt'],
+    },
+  ])
 }
 
 

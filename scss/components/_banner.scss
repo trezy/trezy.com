@@ -62,6 +62,7 @@
         background-color,
         box-shadow,
         color,
+        padding,
         transform;
       width: 100%;
 
@@ -131,9 +132,9 @@
   }
 
   [name='subnav']:checked {
-    ~ .subnav {
-      max-height: 100vh;
-      opacity: 1;
+    ~ ul.subnav {
+      max-height: 100vh !important;
+      opacity: 1 !important;
       pointer-events: initial;
     }
 
@@ -174,9 +175,28 @@
     max-height: calc(100vh - (var(--gutter) * 2));
     position: sticky;
     top: var(--gutter);
+    z-index: 1;
 
     .social {
       margin-top: var(--gutter);
+    }
+  }
+
+  @media (max-height: 700px) {
+    .social {
+      display: none;
+    }
+  }
+
+  @media (max-height: 470px) {
+    nav {
+      a,
+      button,
+      label {
+        --vertical-padding: calc(var(--gutter) / 2);
+        padding-bottom: var(--vertical-padding);
+        padding-top: var(--vertical-padding);
+      }
     }
   }
 }

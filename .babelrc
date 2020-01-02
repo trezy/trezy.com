@@ -7,6 +7,8 @@
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-object-rest-spread",
     "@babel/plugin-proposal-do-expressions",
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-private-methods",
     ["prismjs", {
       "languages": [
         "css",

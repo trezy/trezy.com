@@ -6,8 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import ArticleList from '../../components/ArticleList'
-// import MovieSearch from '../../components/MovieSearch'
+import MovieSearch from '../../components/MovieSearch'
 import PageWrapper from '../../components/PageWrapper'
 import RequireAuthentication from '../../components/RequireAuthentication'
 
@@ -15,20 +14,15 @@ import RequireAuthentication from '../../components/RequireAuthentication'
 
 
 
-const Dashboard = () => (
-  <PageWrapper title="Dashboard">
+const MovieList = () => (
+  <PageWrapper title="Movie List">
     <RequireAuthentication>
       <section>
         <header>
           <h2>Recent Articles</h2>
         </header>
 
-        <ArticleList
-          editMode
-          includeDraft
-          limit={3} />
-
-        {/* <MovieSearch /> */}
+        <MovieSearch />
       </section>
     </RequireAuthentication>
   </PageWrapper>
@@ -38,4 +32,4 @@ const Dashboard = () => (
 
 
 
-export default Dashboard
+export default MovieList

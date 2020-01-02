@@ -52,7 +52,7 @@ const About = () => (
           data-animation="fade-in-from-bottom-small"
           data-animation-delay="1.5s"
           data-animation-duration="1s">
-          I'm a software engineer and a wannabe cyborg. I was born in the flatlands of Texas, raised among the luscious forests of the Shawnee National Forest, and I eventually found my way to the rolling hills of Wisconsin. My mother bought me my first technology book, <cite><ExternalLink href="https://www.amazon.com/dp/0764585304">CliffsNotes: Creating Web Pages with HTML</ExternalLink></cite>, when I was 12 and I used it to build my very first Pokémon-based choose-your-own-adventure website. I've been writing code ever since. Thanks, <ExternalLink href="https://twitter.com/ChildofKi">mom</ExternalLink>. <span aria-label="Heart emoji" role="img">❤️</span>
+          I'm a software engineer and a wannabe cyborg. I was born in the flatlands of Texas, raised among the luscious forests of the Shawnee National Forest, and I eventually found my way to the rolling hills of Wisconsin. My mother bought me my first technology book, <cite><ExternalLink href="https://www.amazon.com/dp/0764585304">CliffsNotes: Creating Web Pages with HTML</ExternalLink></cite>, when I was 12 and I used it to build my very first website: a Pokémon-themed choose-your-own-adventure. I've been writing code ever since. Thanks, <ExternalLink href="https://twitter.com/ChildofKi">mom</ExternalLink>. <span aria-label="Heart emoji" role="img">❤️</span>
         </p>
 
         <p

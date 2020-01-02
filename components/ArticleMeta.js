@@ -48,12 +48,13 @@ const ArticleMeta = ({ createdAt, publishedAt, updatedAt }) => {
 
 ArticleMeta.defaultProps = {
   publishedAt: null,
+  updatedAt: null,
 }
 
 ArticleMeta.propTypes = {
   createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   publishedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  updatedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  updatedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 
