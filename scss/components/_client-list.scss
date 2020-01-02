@@ -1,11 +1,17 @@
 .client-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5rem, 15rem));
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
   margin-top: var(--gutter);
   width: 100%;
 
   li {
+    align-items: center;
+    display: flex;
+    justify-content: center;
     margin: var(--gutter);
+    max-height: 5rem;
+    max-width: 15rem;
   }
 
   a {
