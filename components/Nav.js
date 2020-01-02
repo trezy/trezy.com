@@ -1,6 +1,9 @@
 // Module imports
+import React, {
+  useState,
+} from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
+import uuid from 'uuid/v4'
 
 
 
@@ -14,6 +17,18 @@ import Subnav from './Subnav'
 
 
 
+// Local constants
+const subnavOpenStates = {}
+const closeAllSubnavs = () => {
+  Object.keys(subnavOpenStates).forEach(id => {
+    subnavOpenStates[id] = false
+  })
+}
+
+
+
+
+
 const Nav = props => {
   const {
     className,
@@ -21,34 +36,60 @@ const Nav = props => {
     items,
   } = props
 
+  const [itemKeys] = useState({})
+  const [, setSubnavOpenStates] = useState(subnavOpenStates)
+
   return (
     <nav
       aria-expanded={isOpen}
       aria-hidden={!isOpen}
       className={className}>
       <ul>
-        {items.map(item => {
+        {items.map((item, index) => {
           const {
             condition,
             title,
             subnav,
           } = item
+          let key = item.key || itemKeys[index]
 
           if (condition && !condition(props)) {
             return null
+          }
+
+          if (!key) {
+            itemKeys[index] = uuid()
+            key = itemKeys[index]
+          }
+
+          if (subnav && !subnavOpenStates[key]) {
+            subnavOpenStates[key] = false
           }
 
           return (
             <li key={title}>
               {subnav && (
                 <Subnav
+                  key={key}
                   {...props}
                   {...item}
-                  isFocusable={isOpen} />
+                  id={key}
+                  isFocusable={isOpen}
+                  isOpen={subnavOpenStates[key]}
+                  onClose={() => {
+                    subnavOpenStates[key] = false
+                    setSubnavOpenStates({ ...subnavOpenStates })
+                  }}
+                  onOpen={() => {
+                    closeAllSubnavs()
+                    subnavOpenStates[key] = true
+                    setSubnavOpenStates({ ...subnavOpenStates })
+                  }} />
               )}
 
               {!subnav && (
                 <NavLink
+                  key={key}
                   {...props}
                   {...item}
                   isFocusable={isOpen} />
