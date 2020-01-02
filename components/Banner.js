@@ -90,7 +90,7 @@ const navItems = [
     condition: ({ auth }) => !isEmpty(auth),
     subnav: [
       {
-        href: '/tools/movie-list',
+        href: '/tools/movie-buddy',
         icon: 'film',
         title: 'Movie List',
       },

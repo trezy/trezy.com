@@ -19,7 +19,7 @@ const MovieList = () => (
     <RequireAuthentication>
       <section>
         <header>
-          <h2>Recent Articles</h2>
+          <h2>Movie Buddy</h2>
         </header>
 
         <MovieSearch />
