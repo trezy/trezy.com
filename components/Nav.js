@@ -18,12 +18,8 @@ import Subnav from './Subnav'
 
 
 // Local constants
+const hoverIntentTimeout = 2000
 const subnavOpenStates = {}
-const closeAllSubnavs = () => {
-  Object.keys(subnavOpenStates).forEach(id => {
-    subnavOpenStates[id] = false
-  })
-}
 
 
 
@@ -39,11 +35,44 @@ const Nav = props => {
   const [itemKeys] = useState({})
   const [, setSubnavOpenStates] = useState(subnavOpenStates)
 
+  let timeoutID = null
+
+  const closeAllSubnavs = (options = {}) => {
+    const {
+      forceUpdate = false,
+    } = options
+
+    Object.keys(subnavOpenStates).forEach(id => {
+      subnavOpenStates[id] = false
+    })
+
+    if (forceUpdate) {
+      setSubnavOpenStates({ ...subnavOpenStates })
+    }
+  }
+
+  const handleEnterIntent = () => {
+    timeoutID = setTimeout(() => {
+      closeAllSubnavs({ forceUpdate: true })
+    }, hoverIntentTimeout)
+  }
+
+  const handleLeaveIntent = () => {
+    if (timeoutID) {
+      clearTimeout(timeoutID)
+      timeoutID = null
+    }
+  }
+
   return (
     <nav
       aria-expanded={isOpen}
       aria-hidden={!isOpen}
-      className={className}>
+      className={className}
+      onBlur={handleEnterIntent}
+      onFocus={handleLeaveIntent}
+      onMouseOver={handleLeaveIntent}
+      onMouseOut={handleEnterIntent}>
       <ul>
         {items.map((item, index) => {
           const {
@@ -77,8 +106,7 @@ const Nav = props => {
                   isFocusable={isOpen}
                   isOpen={isOpen && subnavOpenStates[key]}
                   onClose={() => {
-                    subnavOpenStates[key] = false
-                    setSubnavOpenStates({ ...subnavOpenStates })
+                    closeAllSubnavs({ forceUpdate: true })
                   }}
                   onOpen={() => {
                     closeAllSubnavs()
