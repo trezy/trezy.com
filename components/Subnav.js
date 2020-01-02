@@ -118,8 +118,7 @@ const Subnav = props => {
             <NavLink
               {...item}
               isFocusable={isOpen}
-              key={subkey}
-              title={title} />
+              key={subkey} />
           )
         })}
       </ul>
