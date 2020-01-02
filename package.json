@@ -77,6 +77,6 @@
     "swr": "^0.1.16",
     "transform-string-case": "^1.1.0",
     "uuid": "^3.3.3",
-    "webpack": "^4.35.3"
+    "webpack": "^4.41.5"
   }
 }
