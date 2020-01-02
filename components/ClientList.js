@@ -75,6 +75,11 @@ const clients = [
     name: 'SkyBell',
     url: 'https://skybell.com',
   },
+  {
+    logo: 'webflow.svg',
+    name: 'Webflow',
+    url: 'https://webflow.com',
+  },
 ].map(client => ({
   ...client,
   logo: require(`../public/images/logos/${client.logo}`).default, // eslint-disable-line global-require,import/no-dynamic-require
