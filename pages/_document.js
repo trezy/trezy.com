@@ -144,11 +144,17 @@ class Document extends NextDocument {
         cspDirectives.defaultSrc.unshift(allowance)
       } else if (Array.isArray(value)) {
         value.forEach(srcType => {
-          if (!cspDirectives[`${srcType}Src`]) {
-            cspDirectives[`${srcType}Src`] = []
+          const srcKey = `${srcType}Src`
+
+          if (!cspDirectives[srcKey]) {
+            cspDirectives[srcKey] = []
           }
 
-          cspDirectives[`${srcType}Src`].unshift(allowance)
+          if ((allowance === "'strict-dynamic'") && cspDirectives[srcKey].includes("'self'")) {
+            cspDirectives[srcKey] = cspDirectives[srcKey].filter(xAllowance => (xAllowance !== "'self'"))
+          }
+
+          cspDirectives[srcKey].unshift(allowance)
         })
       }
     })
