@@ -11,7 +11,9 @@ const ArticleHeader = ({ id, subtitle, summarize, title }) => (
   <header>
     {summarize && (
       <h3>
-        <Link href={`/blog/${id}`}>
+        <Link
+          as={`/blog/${id}`}
+          href="/blog/[id]">
           <a>{title}</a>
         </Link>
       </h3>
