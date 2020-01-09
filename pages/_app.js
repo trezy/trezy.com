@@ -10,19 +10,17 @@ import '../scss/app.scss'
 
 
 // Module imports
-import { library as faLibrary, config as faConfig } from '@fortawesome/fontawesome-svg-core'
+import {
+  config as faConfig,
+  library as faLibrary,
+} from '@fortawesome/fontawesome-svg-core'
 import { createFirestoreInstance } from 'redux-firestore'
-import firebase from 'firebase/app'
-/* eslint-disable import/no-unassigned-import */
-import 'firebase/auth'
-import 'firebase/database'
-import 'firebase/firestore'
-/* eslint-enable import/no-unassigned-import */
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { Provider } from 'react-redux'
-import NextApp from 'next/app'
 import LocalForage from 'localforage'
 import marked from 'marked'
+import NextApp from 'next/app'
+import NextHead from 'next/head'
 import React from 'react'
 import withRedux from 'next-redux-wrapper'
 
@@ -35,19 +33,12 @@ import { initStore } from '../store'
 import * as fasIcons from '../helpers/fasIconLibrary'
 import * as fabIcons from '../helpers/fabIconLibrary'
 import * as farIcons from '../helpers/farIconLibrary'
-import AppLayout from '../components/AppLayout'
-import firebaseConfig from '../firebase.config'
+import Banner from '../components/Banner'
+import firebase from '../helpers/firebase'
 
 
 
 
-
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
-  firebase.database()
-  firebase.firestore()
-}
 
 // Configure and populate FontAwesome library
 faConfig.autoAddCss = false
@@ -94,16 +85,12 @@ class App extends NextApp {
     marked.setOptions({ renderer: markdownRenderer })
   }
 
-  static getInitialProps (appProps) {
-    return AppLayout.getInitialProps(appProps)
-  }
-
   render () {
     const {
+      Component,
+      isServer,
       store,
-      ...layoutProps
     } = this.props
-
     const rrfProps = {
       firebase,
       config: {
@@ -115,10 +102,33 @@ class App extends NextApp {
       createFirestoreInstance,
     }
 
+    const pageProps = Object.entries(this.props.pageProps).reduce((accumulator, [key, value]) => {
+      const blocklist = [
+        'res',
+        'req',
+      ]
+
+      if (!blocklist.includes(key)) {
+        accumulator[key] = value
+      }
+
+      return accumulator
+    }, {})
+
     return (
       <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
-          <AppLayout {...layoutProps} />
+          <div role="application">
+            <NextHead>
+              <link
+                href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+                rel="stylesheet" />
+            </NextHead>
+
+            <Banner isServer={isServer} />
+
+            <Component {...pageProps} />
+          </div>
         </ReactReduxFirebaseProvider>
       </Provider>
     )
