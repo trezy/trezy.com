@@ -85,6 +85,7 @@ const Subnav = props => {
         readOnly
         type="radio" />
 
+      {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
       <label
         className={className}
         htmlFor={id}
@@ -102,6 +103,7 @@ const Subnav = props => {
           {titleComponent}
         </span>
       </label>
+      {/* eslint-enable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
 
       <ul
         aria-expanded={isOpen ? 'true' : 'false'}

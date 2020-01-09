@@ -204,7 +204,7 @@ const Banner = () => {
         type="checkbox" />
 
       <header role="banner">
-        {/* eslint-disable jsx-a11y/tabindex-no-positive */}
+        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
         <label
           aria-pressed={isOpen ? 'true' : 'false'}
           className="button iconic primary"
@@ -229,7 +229,7 @@ const Banner = () => {
 
           <span className="screen-reader-only">Menu</span>
         </label>
-        {/* eslint-disable jsx-a11y/tabindex-no-positive */}
+        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
 
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 

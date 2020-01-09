@@ -12,5 +12,8 @@ module.exports = {
 
     // react-hooks
     'react-hooks/exhaustive-deps': ['off'],
+
+    // import
+    'import/order': ['off'],
   },
 }
