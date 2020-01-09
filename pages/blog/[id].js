@@ -1,9 +1,9 @@
 // Module imports
 import {
-  getFirebase,
   isLoaded,
-  useFirebaseConnect,
+  useFirestoreConnect,
 } from 'react-redux-firebase'
+import { getFirestore } from 'redux-firestore'
 import { useSelector } from 'react-redux'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -20,15 +20,15 @@ import PageWrapper from '../../components/PageWrapper'
 
 
 
-const ArticlePage = ({ query: { id } }) => {
-  useFirebaseConnect([
+const ArticlePage = ({ id }) => {
+  useFirestoreConnect([
     {
-      path: 'articles',
-      queryParams: [id],
+      collection: 'articles',
+      doc: id,
     },
   ])
 
-  const article = useSelector(state => state.firebase.data.articles?.[id])
+  const article = useSelector(state => state.firestore.data.articles?.[id])
 
   if (!isLoaded(article)) {
     return (
@@ -61,13 +61,22 @@ const ArticlePage = ({ query: { id } }) => {
 }
 
 ArticlePage.getInitialProps = async ({ query }) => {
-  await getFirebase().promiseEvents([
-    { path: `articles/${query.id}` },
-  ])
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'articles',
+    doc: query.id,
+    orderBy: ['publishedAt', 'desc'],
+    where: ['isDraft', '==', false],
+  })
+
+  return {
+    id: query.id,
+  }
 }
 
 ArticlePage.propTypes = {
-  query: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
 }
 
 

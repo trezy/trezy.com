@@ -8,12 +8,18 @@ import PropTypes from 'prop-types'
 
 
 
-const ArticleMeta = ({ createdAt, publishedAt, updatedAt }) => {
-  const primaryDate = publishedAt || createdAt
+const ArticleMeta = props => {
+  const { isDraft } = props
+
+  const createdAt = moment(props.createdAt?.seconds * 1000)
+  const publishedAt = moment(props.publishedAt?.seconds * 1000)
+  const updatedAt = moment(props.updatedAt?.seconds * 1000)
+
+  const primaryDate = isDraft ? publishedAt : createdAt
 
   return (
     <div className="meta">
-      {publishedAt && (
+      {!isDraft && (
         <span>
           <FontAwesomeIcon
             fixedWidth
@@ -23,7 +29,7 @@ const ArticleMeta = ({ createdAt, publishedAt, updatedAt }) => {
         </span>
       )}
 
-      {!publishedAt && (
+      {isDraft && (
         <span>
           <FontAwesomeIcon
             fixedWidth
@@ -52,9 +58,10 @@ ArticleMeta.defaultProps = {
 }
 
 ArticleMeta.propTypes = {
-  createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  publishedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  updatedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  createdAt: PropTypes.object.isRequired,
+  isDraft: PropTypes.bool.isRequired,
+  publishedAt: PropTypes.object,
+  updatedAt: PropTypes.object,
 }
 
 

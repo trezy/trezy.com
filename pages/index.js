@@ -1,5 +1,5 @@
 // Module imports
-import { getFirebase } from 'react-redux-firebase'
+import { getFirestore } from 'redux-firestore'
 import Link from 'next/link'
 import React from 'react'
 
@@ -53,12 +53,15 @@ const Home = () => (
 )
 
 Home.getInitialProps = async () => {
-  await getFirebase().promiseEvents([
-    {
-      path: 'articles',
-      queryParams: ['orderByChild=createdAt'],
-    },
-  ])
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'articles',
+    orderBy: ['publishedAt', 'desc'],
+    where: ['isDraft', '==', false],
+  })
+
+  return {}
 }
 
 

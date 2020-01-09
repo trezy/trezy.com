@@ -5,7 +5,6 @@ import React, {
 import {
   isEmpty,
   isLoaded,
-  useFirebaseConnect,
 } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
@@ -30,36 +29,10 @@ const Article = props => {
   const {
     editMode,
     id,
-    shouldLoad,
     summarize,
   } = props
 
-  let collectionsToLoad = []
-
-  if (shouldLoad) {
-    collectionsToLoad = [
-      {
-        path: 'articles',
-        queryParams: [id],
-      },
-      {
-        path: 'drafts',
-        queryParams: [id],
-      },
-    ]
-  }
-
-  useFirebaseConnect(collectionsToLoad)
-
-  const article = useSelector(state => {
-    let result = state.firebase.data.drafts?.[id]
-
-    if (!result) {
-      result = state.firebase.data.articles?.[id]
-    }
-
-    return result
-  })
+  const article = useSelector(state => state.firestore.data.articles?.[id])
 
   useEffect(() => {
     if (isLoaded(article) && !isEmpty(article)) {
@@ -75,6 +48,7 @@ const Article = props => {
 
   const {
     createdAt,
+    isDraft,
     publishedAt,
     subtitle,
     title,
@@ -92,6 +66,7 @@ const Article = props => {
 
       <ArticleMeta {...{
         createdAt,
+        isDraft,
         publishedAt,
         updatedAt,
       }} />
@@ -119,14 +94,12 @@ const Article = props => {
 Article.defaultProps = {
   editMode: false,
   id: null,
-  shouldLoad: true,
   summarize: false,
 }
 
 Article.propTypes = {
   editMode: PropTypes.bool,
   id: PropTypes.string,
-  shouldLoad: PropTypes.bool,
   summarize: PropTypes.bool,
 }
 

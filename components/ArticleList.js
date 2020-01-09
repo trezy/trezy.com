@@ -1,7 +1,7 @@
 // Module imports
 import {
   isLoaded,
-  useFirebaseConnect,
+  useFirestoreConnect,
 } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import React from 'react'
@@ -28,66 +28,33 @@ const ArticleList = props => {
     limit,
   } = props
 
-  const collectionsToLoad = []
-  const collectionQueryParams = ['orderByChild=createdAt']
+  const queryObject = { collection: 'articles' }
+
+  if (!includeDraft) {
+    queryObject.where = ['isDraft', '==', false]
+  }
+
+  if (!includePublished) {
+    queryObject.where = ['isDraft', '==', true]
+  }
+
+  if (includePublished && includeDraft) {
+    queryObject.orderBy = ['createdAt', 'desc']
+  } else if (includePublished) {
+    queryObject.orderBy = ['publishedAt', 'desc']
+  } else { // includeDraft
+    queryObject.orderBy = ['updatedAt', 'desc']
+  }
 
   if (limit) {
-    collectionQueryParams.push(`limitToFirst=${limit}`)
+    queryObject.limit = limit
   }
 
-  if (includeDraft) {
-    collectionsToLoad.push({
-      path: 'drafts',
-      queryParams: collectionQueryParams,
-    })
-  }
+  const articles = useSelector(state => state.firestore.ordered.articles)
 
-  if (includePublished) {
-    collectionsToLoad.push({
-      path: 'articles',
-      queryParams: collectionQueryParams,
-    })
-  }
+  useFirestoreConnect([queryObject])
 
-  useFirebaseConnect(collectionsToLoad)
-
-  const articles = useSelector(state => {
-    if (!includePublished) {
-      return []
-    }
-
-    return state.firebase.ordered.articles
-  }) || []
-  const drafts = useSelector(state => {
-    if (!includeDraft) {
-      return []
-    }
-
-    return state.firebase.ordered.drafts
-  }) || []
-
-  let allArticles = [
-    ...articles,
-    ...drafts,
-  ]
-
-  allArticles.sort(({ value: articleA }, { value: articleB }) => {
-    if (articleA.createdAt < articleB.createdAt) {
-      return 1
-    }
-
-    if (articleA.createdAt > articleB.createdAt) {
-      return -1
-    }
-
-    return 0
-  })
-
-  if (limit) {
-    allArticles = allArticles.slice(0, limit)
-  }
-
-  if ((includePublished && !isLoaded(articles)) || (includeDraft && !isLoaded(drafts))) {
+  if (!isLoaded(articles)) {
     return (
       <div>Loading...</div>
     )
@@ -95,11 +62,11 @@ const ArticleList = props => {
 
   return (
     <ol className={classnames('article-list', className)}>
-      {allArticles.map(({ key }) => (
-        <li key={key}>
+      {articles.map(({ id }) => (
+        <li key={id}>
           <Article
             editMode={editMode}
-            id={key}
+            id={id}
             shouldLoad={false}
             summarize />
         </li>
