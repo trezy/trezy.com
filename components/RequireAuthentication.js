@@ -7,7 +7,7 @@ import {
   isLoaded,
 } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 
 
@@ -15,20 +15,13 @@ import Router from 'next/router'
 
 // Local imports
 const RequireAuthentication = ({ children }) => {
+  const Router = useRouter()
   const auth = useSelector(state => state.firebase.auth)
-  let redirectInProgress = false
 
   useEffect(() => {
     if ((typeof window !== 'undefined') && isLoaded(auth) && isEmpty(auth)) {
-      redirectInProgress = true
-
-      Router.replace({
-        pathname: '/login',
-        query: {
-          /* eslint-disable-next-line no-restricted-globals */
-          destination: location.href.replace(location.origin, ''),
-        },
-      })
+      /* eslint-disable-next-line no-restricted-globals */
+      Router.push(`/login?destination=${Router.asPath}`)
     }
   }, [auth])
 
@@ -38,7 +31,7 @@ const RequireAuthentication = ({ children }) => {
     )
   }
 
-  if (redirectInProgress) {
+  if (isEmpty(auth)) {
     return (
       <span>Not logged in; Redirecting...</span>
     )

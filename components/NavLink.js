@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -30,6 +31,8 @@ const NavLink = props => {
     isFocusable,
     onClick,
   } = props
+
+  const Router = useRouter()
 
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const disabled = typeof props.disabled === 'function' ? props.disabled(props) : props.disabled
@@ -73,7 +76,10 @@ const NavLink = props => {
         {...extraProps}
         className={classnames(className, { iconic: iconOnly })}
         disabled={disabled}
-        onClick={event => onClick(event, props)}
+        onClick={event => onClick(event, {
+          ...props,
+          Router,
+        })}
         tabIndex={isFocusable ? null : '-1'}
         type="button">
         {iconComponent}

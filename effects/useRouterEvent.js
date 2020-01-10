@@ -4,7 +4,7 @@ import Router from 'next/router'
 
 
 
-const handleRouterEvent = (eventType, handler) => () => {
+const useRouterEvent = (eventType, handler) => () => {
   Router.events.on(eventType, handler)
 
   return () => Router.events.off(eventType, handler)
@@ -14,4 +14,4 @@ const handleRouterEvent = (eventType, handler) => () => {
 
 
 
-export default handleRouterEvent
+export default useRouterEvent

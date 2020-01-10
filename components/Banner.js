@@ -11,17 +11,16 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
-import Router from 'next/router'
 
 
 
 
 
 // Local imports
-import handleRouterEvent from '../effects/handleRouterEvent'
-import handleKeyboardEvent from '../effects/handleKeyboardEvent'
 import Nav from './Nav'
 import SocialNav from './SocialNav'
+import useKeyboardEvent from '../effects/useKeyboardEvent'
+import useRouterEvent from '../effects/useRouterEvent'
 
 
 
@@ -120,6 +119,7 @@ const navItems = [
     onClick: (event, {
       close,
       logout,
+      Router,
     }) => {
       logout()
       close()
@@ -177,10 +177,10 @@ const Banner = () => {
     { path: 'app-data' },
   ])
 
-  useEffect(handleRouterEvent('routeChangeComplete', close))
 
-  useEffect(handleKeyboardEvent('keyup', ({ key }) => {
+  useEffect(useKeyboardEvent('keyup', ({ key }) => {
     if (key.toLowerCase() === 'escape') {
+      useEffect(useRouterEvent('routeChangeComplete', close))
       close()
     }
   }), [isOpen])

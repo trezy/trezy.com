@@ -1,4 +1,4 @@
-const handleKeyboardEvent = (eventType, handler) => () => {
+const useKeyboardEvent = (eventType, handler) => () => {
   document.addEventListener(eventType, handler)
 
   return () => {
@@ -10,4 +10,4 @@ const handleKeyboardEvent = (eventType, handler) => () => {
 
 
 
-export default handleKeyboardEvent
+export default useKeyboardEvent
