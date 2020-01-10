@@ -21,7 +21,9 @@ import LocalForage from 'localforage'
 import marked from 'marked'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
+import NProgress from 'nprogress'
 import React from 'react'
+import Router from 'next/router'
 import withRedux from 'next-redux-wrapper'
 
 
@@ -45,6 +47,12 @@ faConfig.autoAddCss = false
 faLibrary.add(fasIcons)
 faLibrary.add(fabIcons)
 faLibrary.add(farIcons)
+
+// Setup NProgress
+NProgress.configure({ showSpinner: false })
+Router.events.on('routeChangeStart', () => NProgress.start())
+Router.events.on('routeChangeError', () => NProgress.done())
+Router.events.on('routeChangeComplete', () => NProgress.done())
 
 
 
