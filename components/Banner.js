@@ -19,7 +19,7 @@ import classnames from 'classnames'
 // Local imports
 import Nav from './Nav'
 import SocialNav from './SocialNav'
-import useKeyboardEvent from '../effects/useKeyboardEvent'
+import useDocumentEvent from '../effects/useDocumentEvent'
 import useRouterEvent from '../effects/useRouterEvent'
 
 
@@ -178,12 +178,13 @@ const Banner = () => {
   ])
 
 
-  useEffect(useKeyboardEvent('keyup', ({ key }) => {
-    if (key.toLowerCase() === 'escape') {
-      useEffect(useRouterEvent('routeChangeComplete', close))
+  useDocumentEvent('keyup', ({ key }) => {
+    if (isOpen && (key.toLowerCase() === 'escape')) {
       close()
     }
-  }), [isOpen])
+  }, [isOpen])
+
+  useRouterEvent('routeChangeComplete', close)
 
   useEffect(() => {
     window.addEventListener('resize', handleResize)

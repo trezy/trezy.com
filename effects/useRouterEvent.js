@@ -1,13 +1,18 @@
-import Router from 'next/router'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 
 
 
 
-const useRouterEvent = (eventType, handler) => () => {
-  Router.events.on(eventType, handler)
+const useRouterEvent = (eventType, handler, dependencies = []) => {
+  const Router = useRouter()
 
-  return () => Router.events.off(eventType, handler)
+  useEffect(() => {
+    Router.events.on(eventType, handler)
+
+    return () => Router.events.off(eventType, handler)
+  }, dependencies)
 }
 
 
