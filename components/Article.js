@@ -80,7 +80,9 @@ const Article = props => {
 
       {editMode && (
         <menu type="toolbar">
-          <Link href={`/dashboard/blog/edit/${id}`}>
+          <Link
+            as={`/dashboard/blog/edit/${id}`}
+            href="/dashboard/blog/edit/[id]">
             <a className="button primary">
               Edit
             </a>

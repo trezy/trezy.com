@@ -1,6 +1,7 @@
 const articleDefaults = {
   body: '',
   createdAt: null,
+  isDraft: true,
   publishedAt: null,
   subtitle: '',
   title: '',

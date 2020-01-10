@@ -1,5 +1,5 @@
 // Module imports
-import { getFirebase } from 'react-redux-firebase'
+import { getFirestore } from 'redux-firestore'
 import Link from 'next/link'
 import React from 'react'
 
@@ -23,26 +23,36 @@ const BlogDashboard = () => (
         <header className="page-header">
           <h2>Dashboard / Blog</h2>
 
-          <Link href="/dashboard/blog/edit/new">
+
+          <Link
+            as="/dashboard/blog/edit/new"
+            href="/dashboard/blog/edit/[id]">
             <a className="button primary">
               New Article
             </a>
           </Link>
         </header>
 
-        <ArticleList editMode />
+        <ArticleList
+          editMode
+          includeDraft />
       </section>
     </RequireAuthentication>
   </PageWrapper>
 )
 
 BlogDashboard.getInitialProps = async () => {
-  await getFirebase().promiseEvents([
-    {
-      path: 'articles',
-      queryParams: ['orderByChild=createdAt'],
-    },
-  ])
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'articles',
+    orderBy: [
+      ['createdAt', 'desc'],
+      ['publishedAt', 'desc'],
+    ],
+  })
+
+  return {}
 }
 
 

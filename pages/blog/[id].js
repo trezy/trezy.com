@@ -66,8 +66,6 @@ ArticlePage.getInitialProps = async ({ query }) => {
   await firestore.get({
     collection: 'articles',
     doc: query.id,
-    orderBy: ['publishedAt', 'desc'],
-    where: ['isDraft', '==', false],
   })
 
   return {

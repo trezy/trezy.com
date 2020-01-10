@@ -5,14 +5,14 @@ import React, {
 } from 'react'
 import {
   isLoaded,
-  useFirebase,
-  useFirebaseConnect,
+  useFirestoreConnect,
 } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getFirestore } from 'redux-firestore'
+import { useSelector } from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
 
 
@@ -28,37 +28,19 @@ import RequireAuthentication from '../../../../components/RequireAuthentication'
 
 
 
-const BlogEditor = ({ query: { id } }) => {
-  const firebase = useFirebase()
+const BlogEditor = ({ id }) => {
+  const firestore = getFirestore()
+  const Router = useRouter()
 
-  let collectionsToLoad = []
+  useFirestoreConnect([
+    {
+      collection: 'articles',
+      doc: id,
+    },
+  ])
 
-  if (id !== 'new') {
-    collectionsToLoad = [
-      {
-        path: 'articles',
-        queryParams: [id],
-      },
-      {
-        path: 'drafts',
-        queryParams: [id],
-      },
-    ]
-  }
-
-  useFirebaseConnect(collectionsToLoad)
-
-  const article = useSelector(state => {
-    let result = state.firebase.data.drafts?.[id]
-
-    if (!result) {
-      result = state.firebase.data.articles?.[id]
-    }
-
-    return result
-  }) || { ...articleDefaults }
-
-  const isDraft = !article.publishedAt
+  const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
+  const { isDraft } = article
 
   const [body, setBody] = useState(article.body)
   const [subtitle, setSubtitle] = useState(article.subtitle)
@@ -68,7 +50,7 @@ const BlogEditor = ({ query: { id } }) => {
   const saveArticle = async (publish = false) => {
     setIsUpdating(true)
 
-    const now = moment.utc().valueOf()
+    const now = firestore.Timestamp.fromDate(moment().toDate())
     const serializedArticle = {
       ...article,
       body,
@@ -76,51 +58,40 @@ const BlogEditor = ({ query: { id } }) => {
       title,
     }
 
-    let collection = 'drafts'
-
     serializedArticle.updatedAt = now
 
     if (publish) {
-      serializedArticle.publishedAt = now
+      serializedArticle.isDraft = false
     }
-
-    if (publish || (!publish && article.publishedAt)) {
-      collection = 'articles'
-    }
-
-    const newID = uuid()
-    const promises = []
 
     if (id === 'new') {
       serializedArticle.createdAt = now
-      serializedArticle.id = newID
-      promises.push(firebase.ref(`/${collection}/${newID}`).set(serializedArticle))
-    } else {
-      promises.push(firebase.ref(`/${collection}/${id}`).update(serializedArticle))
-
-      if (publish) {
-        promises.push(firebase.ref(`/drafts/${id}`).remove())
-      }
+      serializedArticle.id = uuid()
     }
 
-    await Promise.all(promises)
+    await firestore.set({ collection: 'articles', doc: serializedArticle.id }, serializedArticle)
 
     if (id === 'new') {
-      Router.replace({
-        pathname: `/dashboard/blog/edit/${(id === 'new') ? newID : id}`,
-        query: {
-          destination: location.href.replace(location.origin, ''), // eslint-disable-line no-restricted-globals
-        },
-      }, { shallow: true })
+      const href = '/dashboard/blog/edit/[id]'
+      const as = `/dashboard/blog/edit/${serializedArticle.id}`
+      const options = { shallow: true }
+
+      Router.replace(href, as, options)
     }
 
     setIsUpdating(false)
   }
 
   useEffect(() => {
-    setBody(article.body)
-    setSubtitle(article.subtitle)
-    setTitle(article.title)
+    const bodyHasChanged = body && (body !== article.body)
+    const subtitleHasChanged = subtitle && (subtitle !== article.subtitle)
+    const titleHasChanged = title && (title !== article.title)
+
+    if (!bodyHasChanged && !subtitleHasChanged && !titleHasChanged) {
+      setBody(article.body)
+      setSubtitle(article.subtitle)
+      setTitle(article.title)
+    }
   }, [article])
 
   const isLoading = !isLoaded(article)
@@ -193,8 +164,21 @@ const BlogEditor = ({ query: { id } }) => {
   )
 }
 
+BlogEditor.getInitialProps = async ({ query }) => {
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'articles',
+    doc: query.id,
+  })
+
+  return {
+    id: query.id,
+  }
+}
+
 BlogEditor.propTypes = {
-  query: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
 }
 
 

@@ -1,4 +1,5 @@
 // Module imports
+import { getFirestore } from 'redux-firestore'
 import React from 'react'
 
 
@@ -15,6 +16,13 @@ import RequireAuthentication from '../../components/RequireAuthentication'
 
 
 
+// Local constants
+const ARTICLE_LIMIT = 3
+
+
+
+
+
 const Dashboard = () => (
   <PageWrapper title="Dashboard">
     <RequireAuthentication>
@@ -26,13 +34,26 @@ const Dashboard = () => (
         <ArticleList
           editMode
           includeDraft
-          limit={3} />
+          limit={ARTICLE_LIMIT} />
 
         {/* <MovieSearch /> */}
       </section>
     </RequireAuthentication>
   </PageWrapper>
 )
+
+Dashboard.getInitialProps = async () => {
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'articles',
+    limit: ARTICLE_LIMIT,
+    orderBy: ['publishedAt', 'desc'],
+    where: ['isDraft', '==', false],
+  })
+
+  return {}
+}
 
 
 
