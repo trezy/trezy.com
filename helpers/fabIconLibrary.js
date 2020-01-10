@@ -11,4 +11,5 @@ export {
   faSpeakerDeck,
   faTwitter,
   faTwitch,
+  faUsb,
 } from '@fortawesome/free-brands-svg-icons'
