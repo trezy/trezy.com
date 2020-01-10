@@ -1,5 +1,6 @@
 // Module imports
 import React, {
+  useEffect,
   useState,
 } from 'react'
 import {
@@ -7,6 +8,7 @@ import {
   useFirebase,
   useFirebaseConnect,
 } from 'react-redux-firebase'
+import { debounce } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
@@ -27,6 +29,8 @@ import useWindowEvent from '../effects/useWindowEvent'
 
 
 // Local constants
+const RESIZE_BREAKPOINT = 1300
+const RESIZE_DEBOUNCE_TIME = 500
 const navItems = [
   {
     href: '/',
@@ -127,15 +131,6 @@ const navItems = [
     },
   },
 ]
-const resizeBreakpoint = 1300
-
-
-
-
-
-// Local variables
-let currentWidth = (typeof window === 'undefined') ? 0 : window.innerWidth
-let previousWidth = currentWidth
 
 
 
@@ -146,7 +141,8 @@ const Banner = () => {
   const auth = useSelector(state => state.firebase.auth)
   const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
 
-  const [isOpen, setIsOpen] = useState(previousWidth >= resizeBreakpoint)
+  const [currentWidth, setCurrentWidth] = useState((typeof window === 'undefined') ? 0 : window.innerWidth)
+  const [isOpen, setIsOpen] = useState(currentWidth <= RESIZE_BREAKPOINT)
 
   const close = () => {
     const focusedElement = document.querySelector('[role=banner] *:focus')
@@ -158,34 +154,32 @@ const Banner = () => {
     setIsOpen(false)
   }
 
-  const handleResize = () => {
-    currentWidth = window.innerWidth
-
-    if (Math.max(currentWidth, previousWidth) <= resizeBreakpoint) {
-      return
+  const updateOpenStateFromWindowSize = () => {
+    if (isOpen && (currentWidth <= RESIZE_BREAKPOINT)) {
+      close()
+    } else {
+      setIsOpen(true)
     }
-
-    if (Math.min(currentWidth, previousWidth) >= resizeBreakpoint) {
-      return
-    }
-
-    setIsOpen(currentWidth >= resizeBreakpoint)
-
-    previousWidth = currentWidth
   }
 
   useFirebaseConnect([
     { path: 'app-data' },
   ])
 
-
   useDocumentEvent('keyup', ({ key }) => {
     if (isOpen && (key.toLowerCase() === 'escape')) {
       close()
     }
   }, [isOpen])
-  useRouterEvent('routeChangeComplete', close)
-  useWindowEvent('resize', handleResize)
+  useRouterEvent('routeChangeComplete', updateOpenStateFromWindowSize)
+  useRouterEvent('routeChangeError', updateOpenStateFromWindowSize)
+  useEffect(updateOpenStateFromWindowSize, [currentWidth])
+
+  useWindowEvent('resize', debounce(() => {
+    if (window.innerWidth !== currentWidth) {
+      setCurrentWidth(window.innerWidth)
+    }
+  }, RESIZE_DEBOUNCE_TIME))
 
   return (
     <>
