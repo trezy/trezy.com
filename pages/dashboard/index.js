@@ -48,8 +48,8 @@ Dashboard.getInitialProps = async () => {
   await firestore.get({
     collection: 'articles',
     limit: ARTICLE_LIMIT,
-    orderBy: ['publishedAt', 'desc'],
-    where: ['isDraft', '==', false],
+    orderBy: ['updatedAt', 'desc'],
+    where: ['isDraft', '==', true],
   })
 
   return {}
