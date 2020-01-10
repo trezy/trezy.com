@@ -1,7 +1,6 @@
 // Module imports
 import React, {
   useState,
-  useEffect,
 } from 'react'
 import {
   isEmpty,
@@ -21,6 +20,7 @@ import Nav from './Nav'
 import SocialNav from './SocialNav'
 import useDocumentEvent from '../effects/useDocumentEvent'
 import useRouterEvent from '../effects/useRouterEvent'
+import useWindowEvent from '../effects/useWindowEvent'
 
 
 
@@ -144,6 +144,7 @@ let previousWidth = currentWidth
 const Banner = () => {
   const firebase = useFirebase()
   const auth = useSelector(state => state.firebase.auth)
+  const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
 
   const [isOpen, setIsOpen] = useState(previousWidth >= resizeBreakpoint)
 
@@ -183,16 +184,8 @@ const Banner = () => {
       close()
     }
   }, [isOpen])
-
   useRouterEvent('routeChangeComplete', close)
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-
-    return () => window.removeEventListener('resize', handleResize)
-  })
-
-  const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
+  useWindowEvent('resize', handleResize)
 
   return (
     <>
