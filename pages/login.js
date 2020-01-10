@@ -26,7 +26,7 @@ let redirectStarted = false
 
 
 const Login = props => {
-  const { query } = props
+  const { destination } = props
 
   const firebase = useFirebase()
   const auth = useSelector(state => state.firebase.auth)
@@ -38,7 +38,7 @@ const Login = props => {
         Router.events.off('routeChangeComplete', startRedirect)
       }
       redirectStarted = true
-      Router.replace(query.destination || '/dashboard')
+      Router.replace(destination || '/dashboard')
       Router.events.on('routeChangeComplete', startRedirect)
     }
   })
@@ -86,7 +86,17 @@ const Login = props => {
   )
 }
 
-Login.propTypes = { query: PropTypes.object.isRequired }
+Login.getInitialProps = ({ query }) => ({
+  destination: query.destination,
+})
+
+Login.defaultProps = {
+  destination: '',
+}
+
+Login.propTypes = {
+  destination: PropTypes.string,
+}
 
 
 
