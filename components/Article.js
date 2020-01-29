@@ -51,6 +51,7 @@ const Article = props => {
     isDraft,
     publishedAt,
     subtitle,
+    synopsis,
     title,
     updatedAt,
   } = article
@@ -70,6 +71,12 @@ const Article = props => {
         publishedAt,
         updatedAt,
       }} />
+
+      {synopsis && (
+        <span className="synopsis">
+          {synopsis}
+        </span>
+      )}
 
       {!summarize && (
         <>

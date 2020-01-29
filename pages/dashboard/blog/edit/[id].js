@@ -9,10 +9,10 @@ import {
 } from 'react-redux-firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
 
 
@@ -40,10 +40,12 @@ const BlogEditor = ({ id }) => {
   ])
 
   const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
+  const { uid: currentUserID } = useSelector(state => state.firebase.auth)
   const { isDraft } = article
 
   const [body, setBody] = useState(article.body)
   const [subtitle, setSubtitle] = useState(article.subtitle)
+  const [synopsis, setSynopsis] = useState(article.synopsis)
   const [isUpdating, setIsUpdating] = useState(false)
   const [title, setTitle] = useState(article.title)
 
@@ -53,8 +55,10 @@ const BlogEditor = ({ id }) => {
     const now = firestore.Timestamp.fromDate(moment().toDate())
     const serializedArticle = {
       ...article,
+      authorID: article.authorID || currentUserID,
       body,
       subtitle,
+      synopsis,
       title,
     }
 
@@ -118,6 +122,15 @@ const BlogEditor = ({ id }) => {
                 onChange={({ target: { value } }) => setSubtitle(value)}
                 placeholder="Subtitle"
                 value={subtitle} />
+            </fieldset>
+
+            <fieldset>
+              <input
+                aria-label="Synopsis"
+                disabled={isLoading || isUpdating}
+                onChange={({ target: { value } }) => setSynopsis(value)}
+                placeholder="Synopsis"
+                value={synopsis} />
             </fieldset>
 
             <fieldset>
