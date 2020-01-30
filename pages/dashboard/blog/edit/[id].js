@@ -21,6 +21,8 @@ import uuid from 'uuid/v4'
 
 // Component imports
 import articleDefaults from '../../../../models/article'
+import createSlugFromTitleString from '../../../../helpers/createSlugFromTitleString'
+import createTitleStringFromArticle from '../../../../helpers/createTitleStringFromArticle'
 import PageWrapper from '../../../../components/PageWrapper'
 import RequireAuthentication from '../../../../components/RequireAuthentication'
 
@@ -43,9 +45,9 @@ const BlogEditor = ({ id }) => {
   const { uid: currentUserID } = useSelector(state => state.firebase.auth)
   const { isDraft } = article
 
-  const [body, setBody] = useState(article.body)
-  const [subtitle, setSubtitle] = useState(article.subtitle)
-  const [synopsis, setSynopsis] = useState(article.synopsis)
+  const [body, setBody] = useState(article.body || '')
+  const [subtitle, setSubtitle] = useState(article.subtitle || '')
+  const [synopsis, setSynopsis] = useState(article.synopsis || '')
   const [isUpdating, setIsUpdating] = useState(false)
   const [title, setTitle] = useState(article.title)
 
@@ -63,14 +65,17 @@ const BlogEditor = ({ id }) => {
     }
 
     serializedArticle.updatedAt = now
+    serializedArticle.slug = createSlugFromTitleString(createTitleStringFromArticle(serializedArticle))
 
     if (publish) {
       serializedArticle.isDraft = false
+      serializedArticle.publishedAt = now
     }
 
     if (id === 'new') {
       serializedArticle.createdAt = now
       serializedArticle.id = uuid()
+      serializedArticle.oldSlugs = []
     }
 
     await firestore.set({ collection: 'articles', doc: serializedArticle.id }, serializedArticle)
@@ -110,6 +115,7 @@ const BlogEditor = ({ id }) => {
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setTitle(value)}
                 placeholder="Title"
+                type="text"
                 value={title} />
             </h2>
           </header>
@@ -121,11 +127,12 @@ const BlogEditor = ({ id }) => {
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setSubtitle(value)}
                 placeholder="Subtitle"
+                type="text"
                 value={subtitle} />
             </fieldset>
 
             <fieldset>
-              <input
+              <textarea
                 aria-label="Synopsis"
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setSynopsis(value)}

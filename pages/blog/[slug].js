@@ -14,21 +14,23 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import Article from '../../components/Article'
+import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle'
 import PageWrapper from '../../components/PageWrapper'
+import useArticle from '../../store/selectors/useArticle'
 
 
 
 
 
-const ArticlePage = ({ id }) => {
+const ArticlePage = ({ slug }) => {
   useFirestoreConnect([
     {
       collection: 'articles',
-      doc: id,
+      where: ['slug', '==', slug],
     },
   ])
 
-  const article = useSelector(state => state.firestore.data.articles?.[id])
+  const article = useSelector(useArticle(slug))
 
   if (!isLoaded(article)) {
     return (
@@ -39,14 +41,14 @@ const ArticlePage = ({ id }) => {
   }
 
   const {
-    subtitle,
-    title,
+    id,
+    synopsis,
   } = article
 
   return (
     <PageWrapper
-      description={article ? subtitle : 'Article not found'}
-      title={article ? title : 'Article not found'}>
+      description={article ? synopsis : 'Article not found'}
+      title={article ? createTitleStringFromArticle(article) : 'Article not found'}>
       <section>
         <article className="line-numbers">
           {article && (
@@ -65,16 +67,16 @@ ArticlePage.getInitialProps = async ({ query }) => {
 
   await firestore.get({
     collection: 'articles',
-    doc: query.id,
+    where: ['slug', '==', query.slug],
   })
 
   return {
-    id: query.id,
+    slug: query.slug,
   }
 }
 
 ArticlePage.propTypes = {
-  id: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
 }
 
 

@@ -7,13 +7,13 @@ import React from 'react'
 
 
 
-const ArticleHeader = ({ id, subtitle, summarize, title }) => (
+const ArticleHeader = ({ slug, subtitle, summarize, title }) => (
   <header>
     {summarize && (
       <h3>
         <Link
-          as={`/blog/${id}`}
-          href="/blog/[id]">
+          as={`/blog/${slug}`}
+          href="/blog/[slug]">
           <a>{title}</a>
         </Link>
       </h3>
@@ -32,13 +32,12 @@ const ArticleHeader = ({ id, subtitle, summarize, title }) => (
 )
 
 ArticleHeader.defaultProps = {
-  id: null,
   subtitle: '',
   summarize: false,
 }
 
 ArticleHeader.propTypes = {
-  id: PropTypes.string,
+  slug: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   summarize: PropTypes.bool,
   title: PropTypes.string.isRequired,

@@ -4,9 +4,9 @@ import {
   useFirestoreConnect,
 } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
-import React from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 

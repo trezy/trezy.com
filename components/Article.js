@@ -50,6 +50,7 @@ const Article = props => {
     createdAt,
     isDraft,
     publishedAt,
+    slug,
     subtitle,
     synopsis,
     title,
@@ -59,7 +60,7 @@ const Article = props => {
   return (
     <article className={classnames({ summary: summarize })}>
       <ArticleHeader {...{
-        id,
+        slug,
         subtitle,
         summarize,
         title,

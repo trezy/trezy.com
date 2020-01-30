@@ -33,8 +33,8 @@ Blog.getInitialProps = async () => {
 
   await firestore.get({
     collection: 'articles',
-    orderBy: ['publishedAt', 'desc'],
     where: ['isDraft', '==', false],
+    orderBy: ['publishedAt', 'desc'],
   })
 
   return {}
