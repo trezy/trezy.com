@@ -20,6 +20,7 @@ import NavLink from './NavLink'
 
 const Subnav = props => {
   const {
+    condition,
     iconOnly,
     id,
     isFocusable,
@@ -28,6 +29,13 @@ const Subnav = props => {
     onOpen,
     subnav,
   } = props
+
+  const [subkeys] = useState({})
+
+  if (condition && !condition(props)) {
+    return null
+  }
+  console.log('blerg', props)
 
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
@@ -62,8 +70,6 @@ const Subnav = props => {
       </span>
     )
   }
-
-  const [subkeys] = useState({})
 
   const onStateChange = () => {
     if (isOpen) {
@@ -109,6 +115,10 @@ const Subnav = props => {
         aria-expanded={isOpen ? 'true' : 'false'}
         className="subnav">
         {subnav.map((item, index) => {
+          if (item.condition && !item.condition(props)) {
+            return null
+          }
+
           let subkey = item.key || subkeys[index]
 
           if (!subkey) {
@@ -130,6 +140,7 @@ const Subnav = props => {
 
 Subnav.defaultProps = {
   className: '',
+  condition: null,
   icon: null,
   iconComponent: null,
   iconOnly: false,
@@ -144,6 +155,7 @@ Subnav.propTypes = {
     PropTypes.func,
     PropTypes.string,
   ]),
+  condition: PropTypes.func,
   icon: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,

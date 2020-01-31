@@ -20,6 +20,8 @@ import classnames from 'classnames'
 // Local imports
 import Nav from './Nav'
 import SocialNav from './SocialNav'
+import useAuthSelector from '../store/selectors/useAuthSelector'
+import useClaimsSelector from '../store/selectors/useClaimsSelector'
 import useDocumentEvent from '../effects/useDocumentEvent'
 import useRouterEvent from '../effects/useRouterEvent'
 import useWindowEvent from '../effects/useWindowEvent'
@@ -90,7 +92,7 @@ const navItems = [
   {
     icon: 'tools',
     title: 'Tools',
-    condition: ({ auth }) => !isEmpty(auth),
+    condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.tools'],
     subnav: [
       {
         href: '/tools/movie-buddy',
@@ -102,17 +104,19 @@ const navItems = [
   {
     icon: 'user-shield',
     title: 'Admin',
-    condition: ({ auth }) => !isEmpty(auth),
+    condition: ({ auth, claims }) => !isEmpty(auth) && (claims['views.dashboard'] || claims['views.dashboard.blog']),
     subnav: [
       {
         href: '/dashboard',
         icon: 'tachometer-alt',
         title: 'Dashboard',
+        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard'],
       },
       {
         href: '/dashboard/blog',
         icon: 'book',
         title: 'Blog',
+        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard.blog'],
       },
     ],
   },
@@ -138,7 +142,8 @@ const navItems = [
 
 const Banner = () => {
   const firebase = useFirebase()
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useAuthSelector()
+  const claims = useClaimsSelector()
   const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
 
   const [currentWidth, setCurrentWidth] = useState((typeof window === 'undefined') ? 0 : window.innerWidth)
@@ -222,12 +227,13 @@ const Banner = () => {
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
         <Nav
+          auth={auth}
+          claims={claims}
           close={close}
           isLive={isLive}
           isOpen={isOpen}
           items={navItems}
-          logout={firebase.logout}
-          auth={auth} />
+          logout={firebase.logout} />
 
         <SocialNav isOpen={isOpen} />
       </header>
