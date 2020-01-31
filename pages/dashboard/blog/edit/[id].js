@@ -33,13 +33,16 @@ import RequireAuthentication from '../../../../components/RequireAuthentication'
 const BlogEditor = ({ id }) => {
   const firestore = getFirestore()
   const Router = useRouter()
+  const connections = []
 
-  useFirestoreConnect([
-    {
+  if (id !== 'new') {
+    connections.push({
       collection: 'articles',
       doc: id,
-    },
-  ])
+    })
+  }
+
+  useFirestoreConnect(connections)
 
   const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
   const { uid: currentUserID } = useSelector(state => state.firebase.auth)
