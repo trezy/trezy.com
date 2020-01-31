@@ -184,18 +184,7 @@ const BlogEditor = ({ id }) => {
   )
 }
 
-BlogEditor.getInitialProps = async ({ query }) => {
-  const firestore = getFirestore()
-
-  await firestore.get({
-    collection: 'articles',
-    doc: query.id,
-  })
-
-  return {
-    id: query.id,
-  }
-}
+BlogEditor.getInitialProps = ({ query: { id } }) => ({ id })
 
 BlogEditor.propTypes = {
   id: PropTypes.string.isRequired,
