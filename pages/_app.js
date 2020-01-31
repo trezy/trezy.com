@@ -102,12 +102,14 @@ class App extends NextApp {
     const rrfProps = {
       firebase,
       config: {
+        enableClaims: true,
         presence: 'presence',
         sessions: 'sessions',
+        useFirestoreForProfile: true,
         userProfile: 'users',
       },
-      dispatch: store.dispatch,
       createFirestoreInstance,
+      dispatch: store.dispatch,
     }
 
     const pageProps = Object.entries(this.props.pageProps).reduce((accumulator, [key, value]) => {
