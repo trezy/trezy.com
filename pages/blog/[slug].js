@@ -26,7 +26,10 @@ const ArticlePage = ({ slug }) => {
   useFirestoreConnect([
     {
       collection: 'articles',
-      where: ['slug', '==', slug],
+      where: [
+        ['isDraft', '==', false],
+        ['slug', '==', slug],
+      ],
     },
   ])
 
@@ -67,7 +70,10 @@ ArticlePage.getInitialProps = async ({ query }) => {
 
   await firestore.get({
     collection: 'articles',
-    where: ['slug', '==', query.slug],
+    where: [
+      ['isDraft', '==', false],
+      ['slug', '==', query.slug],
+    ],
   })
 
   return {
