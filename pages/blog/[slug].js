@@ -1,10 +1,10 @@
 // Module imports
 import {
+  isEmpty,
   isLoaded,
   useFirestoreConnect,
 } from 'react-redux-firebase'
 import { getFirestore } from 'redux-firestore'
-import { useSelector } from 'react-redux'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -16,29 +16,48 @@ import PropTypes from 'prop-types'
 import Article from '../../components/Article'
 import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle'
 import PageWrapper from '../../components/PageWrapper'
-import useArticle from '../../store/selectors/useArticle'
+import useArticleSelector from '../../store/selectors/useArticleSelector'
+import useClaimsSelector from '../../store/selectors/useClaimsSelector'
 
 
 
 
 
 const ArticlePage = ({ slug }) => {
+  const claims = useClaimsSelector()
+  const where = []
+
+  if (!claims['actions.article.viewDraft']) {
+    where.push(['isDraft', '==', false])
+  }
+
+  where.push(['slug', '==', slug])
+
   useFirestoreConnect([
     {
       collection: 'articles',
-      where: [
-        ['isDraft', '==', false],
-        ['slug', '==', slug],
-      ],
+      where,
     },
   ])
 
-  const article = useSelector(useArticle(slug))
+  const article = useArticleSelector(slug)
 
   if (!isLoaded(article)) {
     return (
       <PageWrapper title="Loading...">
         <section>Loading...</section>
+      </PageWrapper>
+    )
+  }
+
+  if (isEmpty(article)) {
+    return (
+      <PageWrapper
+        description="Article not found"
+        title="Article not found">
+        <section>
+          Article not found
+        </section>
       </PageWrapper>
     )
   }
@@ -50,15 +69,13 @@ const ArticlePage = ({ slug }) => {
 
   return (
     <PageWrapper
-      description={article ? synopsis : 'Article not found'}
-      title={article ? createTitleStringFromArticle(article) : 'Article not found'}>
+      description={synopsis}
+      title={createTitleStringFromArticle(article)}>
       <section>
         <article className="line-numbers">
           {article && (
             <Article id={id} />
           )}
-
-          {!article && 'Article not found'}
         </article>
       </section>
     </PageWrapper>
