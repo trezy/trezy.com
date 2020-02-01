@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux'
 
 
 const useArticleSelector = slug => useSelector(({ firestore }) => {
-  console.log('firestore.data.articles', firestore.data.articles)
-
   if (!firestore.data.articles) {
     return firestore.data.articles
   }

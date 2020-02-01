@@ -35,7 +35,6 @@ const Subnav = props => {
   if (condition && !condition(props)) {
     return null
   }
-  console.log('blerg', props)
 
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
