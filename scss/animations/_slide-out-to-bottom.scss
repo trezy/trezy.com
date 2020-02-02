@@ -1,0 +1,13 @@
+@keyframes slide-out-to-bottom {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+[data-animation='slide-out-to-bottom'] {
+  animation-name: slide-out-to-bottom;
+}

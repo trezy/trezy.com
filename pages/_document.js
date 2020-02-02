@@ -95,6 +95,8 @@ class Document extends NextDocument {
       font: 'https://fonts.gstatic.com',
       img: [
         "'self'",
+        'https://*.googleusercontent.com',
+        'https://generative-placeholders.glitch.me',
         'https://firebasestorage.googleapis.com',
         'https://image.tmdb.org',
       ],

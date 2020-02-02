@@ -25,6 +25,7 @@ import createSlugFromTitleString from '../../../../helpers/createSlugFromTitleSt
 import createTitleStringFromArticle from '../../../../helpers/createTitleStringFromArticle'
 import PageWrapper from '../../../../components/PageWrapper'
 import RequireAuthentication from '../../../../components/RequireAuthentication'
+import useCurrentUserIDSelector from '../../../../store/selectors/useCurrentUserIDSelector'
 
 
 
@@ -45,7 +46,7 @@ const BlogEditor = ({ id }) => {
   useFirestoreConnect(connections)
 
   const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
-  const { uid: currentUserID } = useSelector(state => state.firebase.auth)
+  const currentUserID = useCurrentUserIDSelector()
   const { isDraft } = article
 
   const [body, setBody] = useState(article.body || '')

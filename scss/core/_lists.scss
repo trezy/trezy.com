@@ -1,8 +1,25 @@
 ol, ul {
+  &.comma-separated,
+  &.pipe-separated {
+    li {
+      display: inline-block;
+    }
+
+    > li:not(:last-child):after {
+      margin-right: 0.5em;
+    }
+  }
+
   &.comma-separated {
     > li:not(:last-child):after {
       content: ', ';
-      margin-right: 0.5em;
+    }
+  }
+
+  &.pipe-separated {
+    > li:not(:last-child):after {
+      content: '|';
+      margin-left: 0.5em;
     }
   }
 

@@ -1,0 +1,34 @@
+.responses {
+  h2 {
+    position: sticky;
+    top: 10rem;
+  }
+
+  > li:not(:last-child) {
+    margin-bottom: var(--gutter);
+  }
+
+  .response {
+    padding: var(--gutter);
+    transition-duration: 0.5s;
+    transition-property: background-color;
+
+    &:hover {
+      background-color: var(--dim-white);
+    }
+
+    footer {
+      color: grey;
+      font-size: 0.8em;
+    }
+
+    img {
+      display: inline-block;
+      // margin-bottom: var(--gutter);
+      margin-right: 0.5em;
+      max-width: 2rem;
+      shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
+      vertical-align: middle;
+    }
+  }
+}

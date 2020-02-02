@@ -179,6 +179,7 @@
     max-height: calc(100vh - (var(--gutter) * 2));
     position: sticky;
     top: var(--gutter);
+    will-change: transform;
     z-index: 1;
 
     .social {

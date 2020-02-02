@@ -5,8 +5,8 @@ import {
   useFirestoreConnect,
 } from 'react-redux-firebase'
 import { getFirestore } from 'redux-firestore'
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import Article from '../../components/Article'
+import Responses from '../../components/Responses'
 import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle'
 import PageWrapper from '../../components/PageWrapper'
 import useArticleSelector from '../../store/selectors/useArticleSelector'
@@ -72,11 +73,12 @@ const ArticlePage = ({ slug }) => {
       description={synopsis}
       title={createTitleStringFromArticle(article)}>
       <section>
-        <article className="line-numbers">
-          {article && (
+        {article && (
+          <>
             <Article id={id} />
-          )}
-        </article>
+            <Responses articleID={id} />
+          </>
+        )}
       </section>
     </PageWrapper>
   )

@@ -1,0 +1,13 @@
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+[data-animation='slide-out-to-right'] {
+  animation-name: slide-out-to-right;
+}
