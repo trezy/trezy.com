@@ -46,7 +46,7 @@ const ResponseForm = props => {
   const auth = useAuthSelector()
   const currentUserID = useCurrentUserIDSelector()
 
-  const handleChange = value => {
+  const handleChange = ({ target: { value } }) => {
     if (!bodyHasChanged) {
       setBodyHasChanged(true)
     }
@@ -55,7 +55,7 @@ const ResponseForm = props => {
   }
 
   const handleFormClick = ({ target }) => {
-    if (target === formElement.current) {
+    if (formElement.current.contains(target)) {
       inputElement.current.focus()
     }
   }

@@ -23,6 +23,7 @@ import uuid from 'uuid/v4'
 import articleDefaults from '../../../../models/article'
 import createSlugFromTitleString from '../../../../helpers/createSlugFromTitleString'
 import createTitleStringFromArticle from '../../../../helpers/createTitleStringFromArticle'
+import MarkdownEditor from '../../../../components/MarkdownEditor'
 import PageWrapper from '../../../../components/PageWrapper'
 import RequireAuthentication from '../../../../components/RequireAuthentication'
 import useCurrentUserIDSelector from '../../../../store/selectors/useCurrentUserIDSelector'
@@ -50,6 +51,7 @@ const BlogEditor = ({ id }) => {
   const { isDraft } = article
 
   const [body, setBody] = useState(article.body || '')
+  const [previewMode, setPreviewMode] = useState(false)
   const [subtitle, setSubtitle] = useState(article.subtitle || '')
   const [synopsis, setSynopsis] = useState(article.synopsis || '')
   const [isUpdating, setIsUpdating] = useState(false)
@@ -136,24 +138,33 @@ const BlogEditor = ({ id }) => {
             </fieldset>
 
             <fieldset>
-              <textarea
+              <MarkdownEditor
                 aria-label="Synopsis"
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setSynopsis(value)}
                 placeholder="Synopsis"
+                previewMode={previewMode}
                 value={synopsis} />
             </fieldset>
 
             <fieldset>
-              <textarea
+              <MarkdownEditor
                 aria-label="Body"
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setBody(value)}
                 placeholder="Body"
+                previewMode={previewMode}
                 value={body} />
             </fieldset>
 
             <menu type="toolbar">
+              <button
+                disabled={isLoading || isUpdating}
+                onClick={() => setPreviewMode(!previewMode)}
+                type="button">
+                Preview
+              </button>
+
               <button
                 className="primary"
                 disabled={isLoading || isUpdating}
