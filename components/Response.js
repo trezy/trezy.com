@@ -1,6 +1,6 @@
 // Module imports
 import {
-  // isEmpty,
+  isEmpty,
   isLoaded,
   useFirestoreConnect,
 } from 'react-redux-firebase'
@@ -76,7 +76,7 @@ const Response = props => {
 
         <footer>
           <ul className="pipe-separated">
-            {isLoaded(author) && (
+            {(isLoaded(author) && !isEmpty(author)) && (
               <li>
                 <img
                   alt={`${author.displayName}'s avatar`}
