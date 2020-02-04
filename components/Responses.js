@@ -25,24 +25,60 @@ const Responses = props => {
   const { articleID } = props
   const auth = useAuthSelector()
   const responses = useResponsesSelector()
-
-  useFirestoreConnect([
+  const collections = [
     {
       collection: 'responses',
       orderBy: ['publishedAt', 'asc'],
-      where: ['articleID', '==', articleID],
+      where: [
+        ['articleID', '==', articleID],
+        ['isSpam', '==', false],
+        ['isPendingAkismetVerification', '==', false],
+        ['isPendingHumanVerification', '==', false],
+      ],
     },
-  ])
+  ]
+
+  if (!isEmpty(auth)) {
+    collections.push({
+      collection: 'responses',
+      orderBy: ['publishedAt', 'asc'],
+      storeAs: 'responsesPendingAkismetVerification',
+      where: [
+        ['articleID', '==', articleID],
+        ['authorID', '==', auth.uid],
+        ['isPendingAkismetVerification', '==', true],
+      ],
+    })
+
+    collections.push({
+      collection: 'responses',
+      orderBy: ['publishedAt', 'asc'],
+      storeAs: 'responsesPendingHumanVerification',
+      where: [
+        ['articleID', '==', articleID],
+        ['authorID', '==', auth.uid],
+        ['isPendingHumanVerification', '==', true],
+      ],
+    })
+  }
+
+  useFirestoreConnect(collections)
 
   return (
-    <aside className="responses">
+    <aside className="responses-container">
       <hr />
 
-      <h2>Responses</h2>
+      <h3>Responses</h3>
 
       <div>
+        {(isLoaded(responses) && isEmpty(responses)) && (
+          <div className="alert informational">
+            It doesn't look like there are any responses yet... Go ahead a slap a big old <strong>First!</strong> in that box! <span aria-label="Zany face emoji" role="img">🤪</span>
+          </div>
+        )}
+
         {(isLoaded(responses) && !isEmpty(responses)) && (
-          <ol>
+          <ol className="responses">
             {responses.map(response => (
               <li key={response.id}>
                 <Response {...response} />

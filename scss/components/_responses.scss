@@ -1,20 +1,30 @@
-.responses {
-  h2 {
+.responses-container {
+  h3 {
     position: sticky;
     top: 10rem;
+    z-index: 1;
   }
 
-  > li:not(:last-child) {
-    margin-bottom: var(--gutter);
+  .responses {
+    > li:not(:last-child) {
+      margin-bottom: var(--gutter);
+    }
   }
 
   .response {
+    border-left-color: var(--brand-primary);
+    border-left-style: solid;
+    border-left-width: 0.5rem;
     padding: var(--gutter);
     transition-duration: 0.5s;
     transition-property: background-color;
 
-    &:hover {
-      background-color: var(--dim-white);
+    &:not(:last-child) {
+      margin-bottom: var(--gutter);
+    }
+
+    &.pending {
+      opacity: 0.25;
     }
 
     footer {
@@ -24,7 +34,6 @@
 
     img {
       display: inline-block;
-      // margin-bottom: var(--gutter);
       margin-right: 0.5em;
       max-width: 2rem;
       shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;

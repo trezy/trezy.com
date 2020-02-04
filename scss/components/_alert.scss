@@ -1,0 +1,14 @@
+.alert {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  text-align: center;
+
+  &.warning {
+    background-color: yellow;
+  }
+
+  &.informational {
+    background-color: var(--blue);
+    color: var(--inverted-text-color);
+  }
+}

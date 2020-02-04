@@ -1,4 +1,5 @@
 // Module imports
+const { AkismetClient } = require('akismet-api')
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 const uuid = require('uuid')
@@ -14,6 +15,12 @@ admin.initializeApp()
 
 const auth = admin.auth()
 const firestore = admin.firestore()
+
+// Akismet setup
+const akismet = new AkismetClient({
+  blog: 'https://trezy.com',
+  key: functions.config().akismet.key,
+})
 
 
 
@@ -42,13 +49,63 @@ const updateUserClaims = async snapshot => {
   })
 
   if (!isEqual(customClaims, newClaims)) {
-    console.log(`Updating claims:`, newClaims)
     await auth.setCustomUserClaims(snapshot.id, newClaims)
     await firestore.collection('users').doc(snapshot.id).update({ refreshToken: uuid() })
-    console.log(`Done.`)
-  } else {
-    console.log(`Claims have not changed.`)
   }
+}
+
+const verifyResponseWithAkismet = async snapshot => {
+  const { id } = snapshot
+  const response = snapshot.data()
+  let isPendingHumanVerification = false
+
+  const author = await firestore.collection('users').doc(response.authorID).get()
+
+  const spamCheckData = {
+    content: response.body,
+    date: response.publishedAt.toDate(),
+    ip: response.spamCheck.ip,
+    useragent: response.spamCheck.useragent,
+  }
+
+  if (author.email) {
+    spamCheckData.email = author.email
+  }
+
+  if (author.displayName) {
+    spamCheckData.name = author.displayName
+  }
+
+  const isSpam = await akismet.checkSpam(spamCheckData)
+
+  await firestore.collection('responses').doc(id).update({
+    isPendingAkismetVerification: false,
+    isPendingHumanVerification: isSpam,
+  })
+}
+
+const verifyResponseWithHuman = async snapshot => {
+  const { id } = snapshot
+  const response = snapshot.data()
+
+  if (verifiedByID) {
+    const verifiedBy = await firestore.collection('users').doc(response.verifiedByID).get()
+
+    if (verifiedBy) {
+      delete response.spamCheck
+
+      return firestore.collection('responses').doc(id).set({
+        ...response,
+        isPendingHumanVerification: false,
+        isSpam: false,
+      })
+    }
+  }
+
+  return firestore.collection('responses').doc(id).update({
+    isPendingHumanVerification: false,
+    isSpam: true,
+  })
 }
 
 
@@ -56,6 +113,24 @@ const updateUserClaims = async snapshot => {
 
 
 // Handlers
+exports.onResponseCreate = functions.firestore.document('responses/{responseID}').onCreate(verifyResponseWithAkismet)
+
+exports.onResponseUpdate = functions.firestore.document('responses/{responseID}').onUpdate(async (snapshot, context) => {
+  const {
+    body,
+    isPendingHumanVerification,
+    isSpam,
+  } = snapshot.before.data()
+  const newData = snapshot.before.data()
+
+  if (newData.body !== body) {
+    await firestore.collection('responses').doc(snapshot.after.id).update({ isPendingAkismetVerification: true })
+    verifyResponseWithAkismet(snapshot.after)
+  } else if (isPendingHumanVerification) {
+    verifyResponseWithHuman(snapshot.after)
+  }
+})
+
 exports.onUserCreate = functions.firestore.document('users/{userID}').onCreate(updateUserClaims)
 
 exports.onUserUpdate = functions.firestore.document('users/{userID}').onUpdate((snapshot, context) => {

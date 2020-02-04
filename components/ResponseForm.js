@@ -57,13 +57,23 @@ const ResponseForm = props => {
 
     setIsPublishing(true)
 
+    const ipResponse = await fetch('https://api.ipify.org/?format=json')
+    const { ip } = await ipResponse.json()
+
     const now = firestore.Timestamp.now()
     const serializedResponse = {
       articleID,
       authorID: currentUserID,
       body,
       createdAt: now,
+      isPendingAkismetVerification: true,
+      isPendingHumanVerification: false,
+      isSpam: false,
       publishedAt: now,
+      spamCheck: {
+        ip,
+        useragent: navigator.userAgent,
+      },
       updatedAt: now,
     }
 
