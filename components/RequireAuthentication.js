@@ -20,7 +20,6 @@ const RequireAuthentication = ({ children }) => {
 
   useEffect(() => {
     if ((typeof window !== 'undefined') && isLoaded(auth) && isEmpty(auth)) {
-      /* eslint-disable-next-line no-restricted-globals */
       Router.push(`/login?destination=${Router.asPath}`)
     }
   }, [auth])
