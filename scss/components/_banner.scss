@@ -95,7 +95,7 @@
         border-top-color: var(--text-color);
         content: '';
         height: 0;
-        margin-left: calc(var(--gutter));
+        margin-left: auto;
         transform: rotate(0);
         transition-duration: 0.2s;
         transition-property: border-top-color, transform;

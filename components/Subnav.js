@@ -102,11 +102,8 @@ const Subnav = props => {
         }}
         role="button"
         tabIndex={isFocusable ? 0 : -1}>
-        <span>
-          {iconComponent}
-
-          {titleComponent}
-        </span>
+        {iconComponent}
+        {titleComponent}
       </label>
       {/* eslint-enable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
 
