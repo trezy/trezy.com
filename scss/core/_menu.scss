@@ -1,5 +1,12 @@
 menu {
+  align-items: stretch;
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
+
+  span {
+    align-self: center;
+    margin-left: var(--gutter);
+    margin-right: var(--gutter);
+  }
 }

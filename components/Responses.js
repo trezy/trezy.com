@@ -71,7 +71,13 @@ const Responses = props => {
       <h3>Responses</h3>
 
       <div>
-        {(isLoaded(responses) && isEmpty(responses)) && (
+        {(isLoaded(responses) && isEmpty(responses) && isEmpty(auth)) && (
+          <div className="alert informational">
+            No responses... yet. <span aria-label="Monocle face emoji" role="img">🧐</span>
+          </div>
+        )}
+
+        {(isLoaded(responses) && isEmpty(responses) && !isEmpty(auth)) && (
           <div className="alert informational">
             It doesn't look like there are any responses yet... Go ahead a slap a big old <strong>First!</strong> in that box! <span aria-label="Zany face emoji" role="img">🤪</span>
           </div>
@@ -87,9 +93,7 @@ const Responses = props => {
           </ol>
         )}
 
-        {(isLoaded(auth) && !isEmpty(auth)) && (
-          <ResponseForm articleID={articleID} />
-        )}
+        <ResponseForm articleID={articleID} />
       </div>
     </aside>
   )

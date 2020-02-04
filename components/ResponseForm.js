@@ -6,6 +6,8 @@ import React, {
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
+import { isEmpty } from 'react-redux-firebase'
+import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -15,6 +17,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import MarkdownEditor from './MarkdownEditor'
+import useAuthSelector from '../store/selectors/useAuthSelector'
 import useCurrentUserIDSelector from '../store/selectors/useCurrentUserIDSelector'
 
 
@@ -29,6 +32,7 @@ const PUBLISHED_MESSAGE_TIMEOUT = 5000
 
 
 const ResponseForm = props => {
+  const Router = useRouter()
   const firestore = getFirestore()
   const formElement = useRef(null)
   const inputElement = useRef(null)
@@ -39,6 +43,7 @@ const ResponseForm = props => {
   const [isPublished, setIsPublished] = useState(false)
   const [previewMode, setPreviewMode] = useState(false)
 
+  const auth = useAuthSelector()
   const currentUserID = useCurrentUserIDSelector()
 
   const handleChange = value => {
@@ -106,69 +111,87 @@ const ResponseForm = props => {
 
   return (
     <>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-      <form
-        className="response-form"
-        onClick={handleFormClick}
-        onSubmit={handleSubmit}
-        ref={formElement}>
+      {isEmpty(auth) && (
+        <div className="response-form">
+          <menu type="toolbar">
+            <span>Login to leave a response: </span>
 
-        <fieldset>
-          <MarkdownEditor
-            disabled={isPublishing || isPublished}
-            onChange={handleChange}
-            previewMode={previewMode}
-            placeholder="Write a response..."
-            ref={inputElement}
-            value={body} />
-        </fieldset>
-
-        <footer>
-          <small>
-            <FontAwesomeIcon
-              fixedWidth
-              icon={['fab', 'markdown']} />
-            Markdown supported
-          </small>
-
-          <menu
-            className={classnames({
-              'pointer-events-off': !body,
-            })}
-            data-animate
-            data-animation={classnames({
-              'fade-out-to-top-small': bodyHasChanged && !body,
-              'fade-in-from-top-small': !bodyHasChanged || body,
-            })}
-            data-animation-duration="0.5s"
-            data-animation-play-state={classnames({
-              running: bodyHasChanged,
-              paused: !bodyHasChanged,
-            })}
-            type="toolbar">
-            <button
-              onClick={() => setPreviewMode(!previewMode)}
-              type="button">
-              Preview
-            </button>
-
-            <button
-              className="primary"
-              disabled={!body || isPublishing || isPublished}
-              type="submit">
-              Publish
-            </button>
+            <a
+              href={`/login?destination=${Router.asPath}`}
+              className="button primary">
+              Login
+            </a>
           </menu>
-        </footer>
+        </div>
+      )}
 
-        {isPublished && (
-          <div
-            className="published-message"
-            data-animate>
-            <div>Published!</div>
-          </div>
-        )}
-      </form>
+      {!isEmpty(auth) && (
+        <>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+          <form
+            className="response-form"
+            onClick={handleFormClick}
+            onSubmit={handleSubmit}
+            ref={formElement}>
+
+            <fieldset>
+              <MarkdownEditor
+                disabled={isPublishing || isPublished}
+                onChange={handleChange}
+                previewMode={previewMode}
+                placeholder="Write a response..."
+                ref={inputElement}
+                value={body} />
+            </fieldset>
+
+            <footer>
+              <small>
+                <FontAwesomeIcon
+                  fixedWidth
+                  icon={['fab', 'markdown']} />
+                Markdown supported
+              </small>
+
+              <menu
+                className={classnames({
+                  'pointer-events-off': !body,
+                })}
+                data-animate
+                data-animation={classnames({
+                  'fade-out-to-top-small': bodyHasChanged && !body,
+                  'fade-in-from-top-small': !bodyHasChanged || body,
+                })}
+                data-animation-duration="0.5s"
+                data-animation-play-state={classnames({
+                  running: bodyHasChanged,
+                  paused: !bodyHasChanged,
+                })}
+                type="toolbar">
+                <button
+                  onClick={() => setPreviewMode(!previewMode)}
+                  type="button">
+                  Preview
+                </button>
+
+                <button
+                  className="primary"
+                  disabled={!body || isPublishing || isPublished}
+                  type="submit">
+                  Publish
+                </button>
+              </menu>
+            </footer>
+
+            {isPublished && (
+              <div
+                className="published-message"
+                data-animate>
+                <div>Published!</div>
+              </div>
+            )}
+          </form>
+        </>
+      )}
     </>
   )
 }
