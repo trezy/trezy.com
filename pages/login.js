@@ -39,7 +39,7 @@ const Login = props => {
         Router.events.off('routeChangeComplete', startRedirect)
       }
       redirectStarted = true
-      Router.replace(destination || '/dashboard')
+      Router.replace(destination || '/')
       Router.events.on('routeChangeComplete', startRedirect)
     }
   })
