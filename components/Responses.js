@@ -12,6 +12,7 @@ import React from 'react'
 
 
 // Component imports
+import Alert from './Alert'
 import Response from './Response'
 import ResponseForm from './ResponseForm'
 import useAuthSelector from '../store/selectors/useAuthSelector'
@@ -72,15 +73,15 @@ const Responses = props => {
 
       <div>
         {(isLoaded(responses) && isEmpty(responses) && isEmpty(auth)) && (
-          <div className="alert informational">
-            No responses... yet. <span aria-label="Monocle face emoji" role="img">🧐</span>
-          </div>
+          <Alert type="informational">
+            No responses... yet. <span aria-label="Eyes emoji" role="img">👀</span>
+          </Alert>
         )}
 
         {(isLoaded(responses) && isEmpty(responses) && !isEmpty(auth)) && (
-          <div className="alert informational">
+          <Alert type="informational">
             It doesn't look like there are any responses yet... Go ahead a slap a big old <strong>First!</strong> in that box! <span aria-label="Zany face emoji" role="img">🤪</span>
-          </div>
+          </Alert>
         )}
 
         {(isLoaded(responses) && !isEmpty(responses)) && (

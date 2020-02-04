@@ -1,0 +1,55 @@
+// Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
+
+
+
+
+
+const Alert = props => {
+  const {
+    children,
+    type,
+  } = props
+  let icon = null
+
+  switch (type) {
+    case 'danger':
+      icon = 'exclamation-triangle'
+      break
+
+    case 'warning':
+      icon = 'exclamation-circle'
+      break
+
+    default:
+      icon = 'info-circle'
+      break
+  }
+
+  return (
+    <div className={classnames('alert', type)}>
+      <FontAwesomeIcon
+        fixedWidth
+        icon={icon} />
+
+      {children}
+    </div>
+  )
+}
+
+Alert.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]).isRequired,
+  type: PropTypes.string.isRequired,
+}
+
+
+
+
+
+export default Alert

@@ -15,6 +15,7 @@ import React from 'react'
 
 
 // Local imports
+import Alert from './Alert'
 import useAuthorSelector from '../store/selectors/useAuthorSelector'
 
 
@@ -45,21 +46,21 @@ const Response = props => {
   return (
     <>
       {isPendingAkismetVerification && (
-        <div className="alert warning">
+        <Alert type="informational">
           This comment will be made public once it has passed our automated spam detection.
-        </div>
+        </Alert>
       )}
 
       {isPendingHumanVerification && (
-        <div className="alert warning">
+        <Alert type="warning">
           Our automated spam detection has marked this comment as spam. It is now awaiting review by a human.
-        </div>
+        </Alert>
       )}
 
       {isSpam && (
-        <div className="alert warning">
+        <Alert type="danger">
           This comment has been marked as spam and will not be made public.
-        </div>
+        </Alert>
       )}
 
       <article

@@ -1,14 +1,38 @@
 .alert {
-  padding-left: var(--gutter);
-  padding-right: var(--gutter);
-  text-align: center;
+  border-left-color: var(--text-color);
+  border-left-style: solid;
+  border-left-width: 0.5rem;
+  padding-left: calc(var(--gutter) / 2);
+
+  > [data-icon] {
+    color: var(--text-color);
+    margin-right: calc(var(--gutter) / 2);
+  }
+
+  &.danger {
+    background-color: hsla(var(--red-h), var(--red-s), var(--red-l), 0.1);
+    border-left-color: var(--red);
+
+    > [data-icon] {
+      color: var(--red);
+    }
+  }
 
   &.warning {
-    background-color: yellow;
+    background-color: hsla(var(--yellow-h), var(--yellow-s), var(--yellow-l), 0.2);
+    border-left-color: var(--orange);
+
+    > [data-icon] {
+      color: var(--orange);
+    }
   }
 
   &.informational {
-    background-color: var(--blue);
-    color: var(--inverted-text-color);
+    background-color: hsla(var(--blue-h), var(--blue-s), var(--blue-l), 0.1);
+    border-left-color: var(--blue);
+
+    > [data-icon] {
+      color: var(--blue);
+    }
   }
 }

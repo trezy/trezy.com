@@ -32,7 +32,10 @@
   // Generate individual hue, saturation, and lightness properties, as well as
   // full HSL and color props
   @include generateHSLCustomPropertiesFromColor(black);
+  @include generateHSLCustomPropertiesFromColor(orange);
+  @include generateHSLCustomPropertiesFromColor(red);
   @include generateHSLCustomPropertiesFromColor(white);
+  @include generateHSLCustomPropertiesFromColor(yellow);
 
   @include generateHSLCustomPropertiesFromHex(blue, #0092c7);
   @include generateHSLCustomPropertiesFromHex(dim-white, #b7b7b7);
