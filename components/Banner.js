@@ -81,14 +81,33 @@ const navItems = [
   },
 
   // Only while logged out
-  // {
-  //   icon: 'sign-in-alt',
-  //   title: 'Login',
-  //   route: 'login',
-  //   condition: ({ auth }) => !auth,
-  // },
+  {
+    href: ({ Router }) => `/login?destination=${Router.asPath}`,
+    icon: 'sign-in-alt',
+    title: 'Login',
+    condition: ({ auth }) => isEmpty(auth),
+  },
 
   // Only while logged in
+  {
+    href: '/dashboard',
+    icon: 'tachometer-alt',
+    title: 'Dashboard',
+    condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard'],
+  },
+  {
+    icon: 'user-shield',
+    title: 'Admin',
+    condition: ({ auth }) => !isEmpty(auth),
+    subnav: [
+      {
+        href: '/dashboard/blog',
+        icon: 'book',
+        title: 'Blog',
+        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard.blog'],
+      },
+    ],
+  },
   {
     icon: 'tools',
     title: 'Tools',
@@ -98,25 +117,6 @@ const navItems = [
         href: '/tools/movie-buddy',
         icon: 'film',
         title: 'Movie List',
-      },
-    ],
-  },
-  {
-    icon: 'user-shield',
-    title: 'Admin',
-    condition: ({ auth, claims }) => !isEmpty(auth) && (claims['views.dashboard'] || claims['views.dashboard.blog']),
-    subnav: [
-      {
-        href: '/dashboard',
-        icon: 'tachometer-alt',
-        title: 'Dashboard',
-        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard'],
-      },
-      {
-        href: '/dashboard/blog',
-        icon: 'book',
-        title: 'Blog',
-        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard.blog'],
       },
     ],
   },
