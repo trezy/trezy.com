@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
@@ -13,6 +14,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import MarkdownEditor from './MarkdownEditor'
 import useCurrentUserIDSelector from '../store/selectors/useCurrentUserIDSelector'
 
 
@@ -35,10 +37,11 @@ const ResponseForm = props => {
   const [bodyHasChanged, setBodyHasChanged] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
   const [isPublished, setIsPublished] = useState(false)
+  const [previewMode, setPreviewMode] = useState(false)
 
   const currentUserID = useCurrentUserIDSelector()
 
-  const handleChange = ({ target: { value } }) => {
+  const handleChange = value => {
     if (!bodyHasChanged) {
       setBodyHasChanged(true)
     }
@@ -109,30 +112,46 @@ const ResponseForm = props => {
         onClick={handleFormClick}
         onSubmit={handleSubmit}
         ref={formElement}>
+
         <fieldset>
-          <textarea
+          <MarkdownEditor
             disabled={isPublishing || isPublished}
             onChange={handleChange}
+            previewMode={previewMode}
             placeholder="Write a response..."
             ref={inputElement}
             value={body} />
         </fieldset>
 
-        <footer
-          className={classnames({
-            'pointer-events-off': !body,
-          })}
-          data-animate
-          data-animation={classnames({
-            'fade-out-to-top-small': bodyHasChanged && !body,
-            'fade-in-from-top-small': !bodyHasChanged || body,
-          })}
-          data-animation-duration="0.5s"
-          data-animation-play-state={classnames({
-            running: bodyHasChanged,
-            paused: !bodyHasChanged,
-          })}>
-          <menu type="toolbar">
+        <footer>
+          <small>
+            <FontAwesomeIcon
+              fixedWidth
+              icon={['fab', 'markdown']} />
+            Markdown supported
+          </small>
+
+          <menu
+            className={classnames({
+              'pointer-events-off': !body,
+            })}
+            data-animate
+            data-animation={classnames({
+              'fade-out-to-top-small': bodyHasChanged && !body,
+              'fade-in-from-top-small': !bodyHasChanged || body,
+            })}
+            data-animation-duration="0.5s"
+            data-animation-play-state={classnames({
+              running: bodyHasChanged,
+              paused: !bodyHasChanged,
+            })}
+            type="toolbar">
+            <button
+              onClick={() => setPreviewMode(!previewMode)}
+              type="button">
+              Preview
+            </button>
+
             <button
               className="primary"
               disabled={!body || isPublishing || isPublished}

@@ -5,6 +5,7 @@ export {
   faGithub,
   faInstagram,
   faLinkedin,
+  faMarkdown,
   faNpm,
   faPatreon,
   faSoundcloud,
