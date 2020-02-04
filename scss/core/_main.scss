@@ -21,6 +21,7 @@ main {
     top: 0;
     transition-duration: 0.2s;
     transition-property: opacity;
+    z-index: 1;
   }
 
   @media (max-width: 1300px) {
