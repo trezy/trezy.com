@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 import marked from 'marked'
 import PropTypes from 'prop-types'
+import TextareaAutosize from 'react-autosize-textarea'
 
 
 
@@ -30,7 +31,7 @@ const MarkdownEditor = forwardRef((props, ref) => {
 
   return (
     <div>
-      <textarea
+      <TextareaAutosize
         disabled={disabled}
         hidden={previewMode}
         onChange={_onChange}
