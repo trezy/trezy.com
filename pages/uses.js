@@ -160,7 +160,7 @@ const UsesPage = () => {
           data-animation="fade-in-from-top-small"
           data-animation-delay={`${getDelay()}s`}
           data-animation-duration={BASE_DURATION}>
-          I also carry an Apple <MagicKeyboardLink>Magic Keyboard</MagicKeyboardLink>, a <MagicTrackpadLink>Magic Trackpad 2</MagicTrackpadLink>, and a <LaptopStandLink>Jubor laptop stand</LaptopStandLink>. These prevent my back from hating me for hunching over a laptop for several hours. <span aria-label="Grinning Emoji" role="img">😁</span>
+          I also carry an Apple <MagicKeyboardLink>Magic Keyboard</MagicKeyboardLink>, a <MagicTrackpadLink>Magic Trackpad 2</MagicTrackpadLink>, and a <LaptopStandLink>Jubor laptop stand</LaptopStandLink>. These prevent my back from hating me for hunching over a laptop for several hours. <span aria-label="Grinning face emoji" role="img">😁</span>
         </p>
 
         <h3
