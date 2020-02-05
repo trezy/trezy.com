@@ -42,8 +42,12 @@ const Alert = props => {
 
 Alert.propTypes = {
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.arrayOf([
+      PropTypes.element,
+      PropTypes.node,
+    ]),
     PropTypes.element,
+    PropTypes.node,
   ]).isRequired,
   type: PropTypes.string.isRequired,
 }
