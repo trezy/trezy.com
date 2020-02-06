@@ -6349,10 +6349,10 @@ normalize-url@1.9.1:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-now@^16.7.0:
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/now/-/now-16.7.1.tgz#b936ee398588849d0374bb76196e43b8cbe14738"
-  integrity sha512-iAf6eUaVXc2phDUcM2kYCevhSmk10DRWEraRAUstwUChx14DJRB1Kb65M65Bk13qBXkHIjdfTAH2dR4s1y64+w==
+now@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/now/-/now-17.0.1.tgz#690df55367c3ed2d59938d13ffdadf7f0cb2ce9b"
+  integrity sha512-oDrfYT7FDYj+H5W6tHhtPYUN9vTRGVFOwewZNb9Cx6/Gsi1D+IwF8zCZOQ8g0Rb4Y8Mm7uDlDYNZunTSS5nH7w==
 
 npm-bundled@^1.0.1:
   version "1.1.1"
