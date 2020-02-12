@@ -26,10 +26,6 @@ const DEFAULT_PORT = 3000
 
 
 module.exports = withSass(withCSS({
-  experimental: {
-    publicDirectory: true,
-  },
-
   // target: 'serverless',
 
   env: {
