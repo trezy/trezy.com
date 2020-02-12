@@ -1,0 +1,47 @@
+[
+  {
+    "joke": {
+      "punchline": "He's socially perlward.",
+      "setup": "This Unix geek is more than socially awkward...",
+      "text": "This Unix geek is more than socially awkward... He's socially perlward."
+    },
+    "kr": {
+      "lm": "pun",
+      "ns": "riddle",
+      "so": [
+        "abnormal",
+        "possible"
+      ],
+      "ta": "unix users"
+    }
+  },
+
+  {
+    "joke": {
+      "punchline": "They dont know how to join tables!",
+      "setup": "Why do frontend devs always eat alone?",
+      "text": "Why do frontend devs always eat alone? They dont know how to join tables!"
+    },
+    "kr": {
+      "ns": "riddle",
+      "ta": "frontend developers"
+    }
+  },
+
+  {
+    "joke": {
+      "lines": [
+        "PM: Please write a parser for this language",
+        "Programmer: Sorry I can't, I have dyslexia."
+      ],
+      "text": "PM: Please write a parser for this language\nProgrammer: Sorry I can't, I have dyslexia."
+    },
+    "kr": {
+      "ns": "dialog",
+      "so": [
+        "normal",
+        "real"
+      ]
+    }
+  }
+]
