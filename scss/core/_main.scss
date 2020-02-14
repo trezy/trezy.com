@@ -1,5 +1,4 @@
 main {
-  background-color: var(--background-color);
   box-shadow: 0 0 1rem 0 var(--text-color);
   display: flex;
   flex-direction: column;
@@ -22,6 +21,15 @@ main {
     transition-duration: 0.2s;
     transition-property: opacity;
     z-index: 1;
+  }
+
+  > * {
+    background-color: var(--background-color);
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: var(--gutter);
+    }
   }
 
   @media (max-width: 1300px) {

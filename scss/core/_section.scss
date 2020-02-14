@@ -4,10 +4,14 @@ section {
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  max-width: calc(100rem - (var(--gutter) * 2));
-  padding: 10rem var(--gutter);
+  // max-width: calc(100rem - (var(--gutter) * 2));
+  padding: 10rem calc(50% - 50rem);
   position: relative;
   width: 100%;
+
+  &.no-pad {
+    padding: 0;
+  }
 
   &:not(:last-child):after {
     background-image: radial-gradient(

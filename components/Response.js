@@ -16,7 +16,7 @@ import React from 'react'
 
 // Local imports
 import Alert from './Alert'
-import useAuthorSelector from '../store/selectors/useAuthorSelector'
+import useUserSelector from '../store/selectors/useUserSelector'
 
 
 
@@ -33,7 +33,7 @@ const Response = props => {
     publishedAt,
   } = props
 
-  const author = useAuthorSelector(props)
+  const author = useUserSelector(props)
   const isPending = isPendingAkismetVerification || isPendingHumanVerification
 
   useFirestoreConnect([
@@ -80,6 +80,7 @@ const Response = props => {
               <li>
                 <img
                   alt={`${author.displayName}'s avatar`}
+                  className="avatar"
                   src={author.avatarUrl} />
                 <span>{author.displayName}</span>
               </li>
