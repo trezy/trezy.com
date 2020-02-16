@@ -97,6 +97,7 @@ class Document extends NextDocument {
       img: [
         "'self'",
         'https://*.googleusercontent.com',
+        'https://*.twimg.com',
         'https://generative-placeholders.glitch.me',
         'https://firebasestorage.googleapis.com',
         'https://image.tmdb.org',
