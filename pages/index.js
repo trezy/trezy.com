@@ -27,7 +27,7 @@ const Home = () => (
   <PageWrapper
     description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
     title="Home">
-    <section className="branded hero">
+    <section className="hero">
       <header>
         &lt;trezy-who/&gt;
       </header>
