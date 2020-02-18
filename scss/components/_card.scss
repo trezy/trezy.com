@@ -6,9 +6,11 @@
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto 1fr;
 
+  > .image-wrapper,
   > img {
     grid-area: image;
     max-width: 20vw;
+    min-width: 15rem;
   }
 
   > header {

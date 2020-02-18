@@ -13,6 +13,7 @@ import React from 'react'
 
 // Component imports
 import ArticleList from '../components/ArticleList'
+import Image from '../components/Image'
 import PageWrapper from '../components/PageWrapper'
 import RequireAuthentication from '../components/RequireAuthentication'
 import useAuthSelector from '../store/selectors/useAuthSelector'
@@ -59,9 +60,8 @@ const Profile = () => {
         {(isLoaded(user) && !isEmpty(user)) && (
           <>
             <header className="card no-pad user">
-              <img
+              <Image
                 alt={`${user.displayName}'s avatar`}
-                // className="avatar"
                 src={user.avatarUrl} />
 
               <header>
