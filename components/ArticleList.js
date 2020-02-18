@@ -1,5 +1,6 @@
 // Module imports
 import {
+  isEmpty,
   isLoaded,
   useFirestoreConnect,
 } from 'react-redux-firebase'
@@ -12,6 +13,7 @@ import React from 'react'
 
 
 // Component imports
+import Alert from './Alert'
 import Article from './Article'
 import useArticlesSelector from '../store/selectors/useArticlesSelector'
 import useAuthSelector from '../store/selectors/useAuthSelector'
@@ -78,6 +80,14 @@ const ArticleList = props => {
   if (!isLoaded(articles)) {
     return (
       <div>Loading...</div>
+    )
+  }
+
+  if (isLoaded(articles) && isEmpty(articles)) {
+    return (
+      <Alert type="informational">
+        No articles found! <span aria-label="Sobbing face emoji" role="img">😭</span>
+      </Alert>
     )
   }
 
