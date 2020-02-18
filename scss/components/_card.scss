@@ -2,7 +2,8 @@
   display: grid;
   grid-template-areas:
     'image header'
-    'image content';
+    'image content'
+    'image footer';
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto 1fr;
 
@@ -33,5 +34,9 @@
     margin-left: var(--gutter);
     margin-right: var(--gutter);
     padding-bottom: var(--gutter);
+  }
+
+  footer {
+    grid-area: footer;
   }
 }

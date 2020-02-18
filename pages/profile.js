@@ -4,14 +4,20 @@ import {
   isLoaded,
   useFirestoreConnect,
 } from 'react-redux-firebase'
+import React, {
+  useEffect,
+  useState,
+} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import { getFirestore } from 'redux-firestore'
+import TextareaAutosize from 'react-autosize-textarea'
 
 
 
 
 
 // Component imports
+import Alert from '../components/Alert'
 import ArticleList from '../components/ArticleList'
 import Image from '../components/Image'
 import PageWrapper from '../components/PageWrapper'
@@ -23,10 +29,25 @@ import useUserSelector from '../store/selectors/useUserSelector'
 
 
 
+// Local constants
+const SAVE_ALERT_DURATION = 5000
+
+
+
+
+
 const Profile = () => {
+  const firestore = getFirestore()
+
   const auth = useAuthSelector()
   const user = useUserSelector({ userID: auth.uid })
   const collections = []
+
+  const [bio, setBio] = useState('')
+  const [editMode, setEditMode] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
+  const [isSaving, setIsSaving] = useState('')
+  const [website, setWebsite] = useState('')
 
   if (isLoaded(auth) && !isEmpty(auth)) {
     collections.push({
@@ -37,17 +58,33 @@ const Profile = () => {
 
   useFirestoreConnect(collections)
 
-  if (!isEmpty(user)) {
-    user.socialMedia = [
-      {
-        type: 'twitch',
-        url: 'https://twitch.tv/TrezyCodes',
-      },
-      {
-        type: 'twitter',
-        url: 'https://twitter.com/TrezyCodes',
-      },
-    ]
+  useEffect(() => {
+    if (!editMode && !isEmpty(user)) {
+      setBio(user.bio)
+      setWebsite(user.website)
+    }
+  })
+
+  const handleCancel = () => {
+    setBio(user.bio)
+    setWebsite(user.website)
+    setEditMode(false)
+  }
+
+  const handleEdit = () => setEditMode(true)
+
+  const handleSave = async () => {
+    setIsSaving(true)
+
+    await firestore.update({ collection: 'users', doc: auth.uid }, {
+      bio,
+      website,
+    })
+
+    setIsSaving(false)
+    setIsSaved(true)
+
+    setTimeout(() => setIsSaved(false), SAVE_ALERT_DURATION)
   }
 
   return (
@@ -59,6 +96,12 @@ const Profile = () => {
 
         {(isLoaded(user) && !isEmpty(user)) && (
           <>
+            {isSaved && (
+              <Alert type="informational">
+                Success! Your profile has been updated. <span aria-label="Grinning face emoji" role="img">😁</span>
+              </Alert>
+            )}
+
             <header className="card no-pad user">
               <Image
                 alt={`${user.displayName}'s avatar`}
@@ -68,46 +111,113 @@ const Profile = () => {
                 {user.displayName}
               </header>
 
-              <dl className="content">
-                <dt>Bio</dt>
-                <dd>
-                  {user.bio || (
-                    <p>
-                      <em>No bio... yet</em>
-                    </p>
+              {!editMode && (
+                <dl className="content">
+                  <dt>Bio</dt>
+                  <dd>
+                    {user.bio || (
+                      <p>
+                        <em>No bio... yet</em>
+                      </p>
+                    )}
+                  </dd>
+
+                  {user.website && (
+                    <>
+                      <dt>Website</dt>
+                      <dd>{user.website}</dd>
+                    </>
                   )}
-                </dd>
 
-                {user.website && (
-                  <>
-                    <dt>Website</dt>
-                    <dd>{user.website}</dd>
-                  </>
-                )}
+                  {user.socialMedia?.length && (
+                    <>
+                      <dt>Social</dt>
+                      <dd>
+                        <ul className="inline">
+                          {user.socialMedia.map(({ type, url }) => (
+                            <li key={url}>
+                              <a
+                                href={url}
+                                rel="me noopener noreferrer"
+                                target="_blank">
+                                <FontAwesomeIcon
+                                  fixedWidth
+                                  icon={['fab', type]}
+                                  title={type} />
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </dd>
+                    </>
+                  )}
+                </dl>
+              )}
 
-                {user.socialMedia?.length && (
-                  <>
-                    <dt>Social</dt>
-                    <dd>
-                      <ul className="inline">
-                        {user.socialMedia.map(({ type, url }) => (
-                          <li key={url}>
-                            <a
-                              href={url}
-                              rel="me noopener noreferrer"
-                              target="_blank">
-                              <FontAwesomeIcon
-                                fixedWidth
-                                icon={['fab', type]}
-                                title={type} />
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </dd>
-                  </>
-                )}
-              </dl>
+              {editMode && (
+                <dl className="content">
+                  <dt>Bio</dt>
+                  <dd>
+                    <TextareaAutosize
+                      disabled={isSaving}
+                      onChange={({ target: { value } }) => setBio(value)}
+                      placeholder={`${user.displayName} was just a child when their interest in flowers began to blossom...`}
+                      value={bio} />
+                  </dd>
+
+                  <dt>Website</dt>
+                  <dd>
+                    <input
+                      disabled={isSaving}
+                      onChange={({ target: { value } }) => setWebsite(value)}
+                      placeholder="https://example.com"
+                      type="url"
+                      value={website} />
+                  </dd>
+                </dl>
+              )}
+
+              <footer>
+                <menu type="toolbar">
+                  {!editMode && (
+                    <button
+                      className="primary"
+                      onClick={handleEdit}
+                      type="button">
+                      Edit Profile
+                    </button>
+                  )}
+
+                  {editMode && (
+                    <>
+                      <button
+                        className="danger"
+                        onClick={handleCancel}
+                        type="button">
+                        Cancel
+                      </button>
+
+                      <button
+                        className="primary"
+                        onClick={handleSave}
+                        type="button">
+                        {!isSaving && (
+                          <span>Save Changes</span>
+                        )}
+
+                        {isSaving && (
+                          <span>
+                            <FontAwesomeIcon
+                              icon="spinner"
+                              pulse />
+                            Saving...
+                          </span>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </menu>
+              </footer>
             </header>
 
             <section>
@@ -120,8 +230,6 @@ const Profile = () => {
               {(isLoaded(auth) && !isEmpty(auth)) && (
                 <ArticleList authorID={auth.uid} />
               )}
-
-              {/* No articles... yet */}
             </section>
           </>
         )}
