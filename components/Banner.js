@@ -146,17 +146,11 @@ const navItems = [
     condition: ({ auth }) => !isEmpty(auth),
     subnav: [
       {
-        href: '/dashboard',
-        icon: 'tachometer-alt',
-        title: 'Dashboard',
-      },
-      {
         href: '/dashboard/blog',
         icon: 'pen',
         title: 'Blog',
       },
       {
-        // href: ({ auth }) => '/profile',
         href: ({ userProfile }) => {
           if (!userProfile) {
             return '/profile'
