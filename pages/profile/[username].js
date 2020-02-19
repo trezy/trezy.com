@@ -11,6 +11,7 @@ import React, {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
 import { useRouter } from 'next/router'
+import marked from 'marked'
 import PropTypes from 'prop-types'
 
 
@@ -22,6 +23,7 @@ import Alert from '../../components/Alert'
 import ArticleList from '../../components/ArticleList'
 import Image from '../../components/Image'
 import Input from '../../components/Input'
+import MarkdownEditor from '../../components/MarkdownEditor'
 import PageWrapper from '../../components/PageWrapper'
 import RequireAuthentication from '../../components/RequireAuthentication'
 import useAuthSelector from '../../store/selectors/useAuthSelector'
@@ -58,6 +60,7 @@ const Profile = props => {
 
   const [bio, setBio] = useState('')
   const [editMode, setEditMode] = useState(false)
+  const [previewMode, setPreviewMode] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [username, setUsername] = useState('')
@@ -137,16 +140,27 @@ const Profile = props => {
                 {user.displayName}
               </header>
 
-              {!editMode && (
+              {(!editMode || previewMode) && (
                 <dl className="content">
+                  <dt>Username</dt>
+                  <dd>@{username}</dd>
+
                   <dt>Bio</dt>
-                  <dd>
-                    {user.bio || (
+
+                  {Boolean(user.bio) && (
+                    <>
+                      {/* eslint-disable-next-line react/no-danger */}
+                      <dd dangerouslySetInnerHTML={{ __html: marked(user.bio) }} />
+                    </>
+                  )}
+
+                  {!user.bio && (
+                    <dd>
                       <p>
                         <em>No bio... yet</em>
                       </p>
-                    )}
-                  </dd>
+                    </dd>
+                  )}
 
                   {user.website && (
                     <>
@@ -180,7 +194,7 @@ const Profile = props => {
                 </dl>
               )}
 
-              {editMode && (
+              {(editMode && !previewMode) && (
                 <dl className="content">
                   <dt>Username</dt>
                   <dd>
@@ -193,12 +207,21 @@ const Profile = props => {
                       value={username} />
                   </dd>
 
-                  <dt>Bio</dt>
+                  <dt>
+                    Bio
+                    <small>
+                      <FontAwesomeIcon
+                        fixedWidth
+                        icon={['fab', 'markdown']} />
+                      Markdown supported
+                    </small>
+                  </dt>
                   <dd>
-                    <Input
+                    <MarkdownEditor
                       disabled={isSaving}
                       multiline
                       onChange={({ target: { value } }) => setBio(value)}
+                      previewMode={false}
                       placeholder={`${user.displayName} was just a child when their interest in flowers began to blossom...`}
                       value={bio} />
                   </dd>
@@ -234,6 +257,24 @@ const Profile = props => {
                         type="button">
                         Cancel
                       </button>
+
+                      {!previewMode && (
+                        <button
+                          className="primary"
+                          onClick={() => setPreviewMode(true)}
+                          type="button">
+                          Preview
+                        </button>
+                      )}
+
+                      {previewMode && (
+                        <button
+                          className="primary"
+                          onClick={() => setPreviewMode(false)}
+                          type="button">
+                          Edit
+                        </button>
+                      )}
 
                       <button
                         className="primary"

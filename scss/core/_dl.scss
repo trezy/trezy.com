@@ -1,6 +1,11 @@
 dl {
   dt {
     font-weight: bold;
+
+    small {
+      margin-left: var(--gutter);
+      opacity: 0.5;
+    }
   }
 
   dd + dt {
