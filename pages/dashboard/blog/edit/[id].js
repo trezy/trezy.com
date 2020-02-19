@@ -65,6 +65,7 @@ const BlogEditor = ({ id }) => {
       ...article,
       authorID: article.authorID || currentUserID,
       body,
+      createdAt: firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000),
       subtitle,
       synopsis,
       title,
@@ -72,6 +73,10 @@ const BlogEditor = ({ id }) => {
 
     serializedArticle.updatedAt = now
     serializedArticle.slug = createSlugFromTitleString(createTitleStringFromArticle(serializedArticle))
+
+    if (article.publishedAt) {
+      serializedArticle.publishedAt = firestore.Timestamp.fromMillis(article.publishedAt.seconds * 1000)
+    }
 
     if (publish) {
       serializedArticle.isDraft = false
