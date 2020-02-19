@@ -54,10 +54,7 @@
   .brand,
   nav {
     background-color: var(--background-color);
-
-    &:not(:last-child) {
-      margin-bottom: var(--gutter);
-    }
+    margin-bottom: 0;
   }
 
   nav {
