@@ -13,7 +13,11 @@ const Alert = props => {
     children,
     type,
   } = props
+  const passableProps = { ...props }
+
   let icon = null
+
+  delete passableProps.children
 
   switch (type) {
     case 'danger':
@@ -30,7 +34,9 @@ const Alert = props => {
   }
 
   return (
-    <div className={classnames('alert', type)}>
+    <div
+      className={classnames('alert', type)}
+      {...passableProps}>
       <FontAwesomeIcon
         fixedWidth
         icon={icon} />
