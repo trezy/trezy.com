@@ -46,7 +46,7 @@ const Profile = () => {
   const [bio, setBio] = useState('')
   const [editMode, setEditMode] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
-  const [isSaving, setIsSaving] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
   const [website, setWebsite] = useState('')
 
   if (isLoaded(auth) && !isEmpty(auth)) {
@@ -81,6 +81,7 @@ const Profile = () => {
       website,
     })
 
+    setEditMode(false)
     setIsSaving(false)
     setIsSaved(true)
 
@@ -97,7 +98,11 @@ const Profile = () => {
         {(isLoaded(user) && !isEmpty(user)) && (
           <>
             {isSaved && (
-              <Alert type="informational">
+              <Alert
+                data-animate
+                data-animation="fade-in-from-top"
+                data-animation-duration="0.2s"
+                type="success">
                 Success! Your profile has been updated. <span aria-label="Grinning face emoji" role="img">😁</span>
               </Alert>
             )}
