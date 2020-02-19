@@ -1,19 +1,24 @@
 // Module imports
+import React, {
+  forwardRef,
+} from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import TextareaAutosize from 'react-autosize-textarea'
 
 
 
 
 
-const Input = props => {
+const Input = forwardRef((props, ref) => {
   const {
     multiline,
     prefix,
     type,
   } = props
-  const passableProps = { ...props }
+  const passableProps = {
+    ...props,
+    ref,
+  }
 
   delete passableProps.multiline
   delete passableProps.prefix
@@ -36,7 +41,7 @@ const Input = props => {
       )}
     </div>
   )
-}
+})
 
 Input.defaultProps = {
   multiline: false,
