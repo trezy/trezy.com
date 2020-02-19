@@ -4,7 +4,13 @@ import React, {
 } from 'react'
 import marked from 'marked'
 import PropTypes from 'prop-types'
-import TextareaAutosize from 'react-autosize-textarea'
+
+
+
+
+
+// Local imports
+import Input from './Input'
 
 
 
@@ -13,6 +19,7 @@ import TextareaAutosize from 'react-autosize-textarea'
 const MarkdownEditor = forwardRef((props, ref) => {
   const {
     disabled,
+    multiline,
     onChange,
     placeholder,
     previewMode,
@@ -21,9 +28,10 @@ const MarkdownEditor = forwardRef((props, ref) => {
 
   return (
     <>
-      <TextareaAutosize
+      <Input
         disabled={disabled}
         hidden={previewMode}
+        multiline={multiline}
         onChange={onChange}
         placeholder={placeholder}
         ref={ref}
@@ -41,12 +49,14 @@ const MarkdownEditor = forwardRef((props, ref) => {
 
 MarkdownEditor.defaultProps = {
   disabled: false,
+  multiline: true,
   placeholder: '',
   previewMode: false,
 }
 
 MarkdownEditor.propTypes = {
   disabled: PropTypes.bool,
+  multiline: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   previewMode: PropTypes.bool,
