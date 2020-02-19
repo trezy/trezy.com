@@ -22,6 +22,7 @@ import Nav from './Nav'
 import SocialNav from './SocialNav'
 import useAuthSelector from '../store/selectors/useAuthSelector'
 import useClaimsSelector from '../store/selectors/useClaimsSelector'
+import useCurrentUserSelector from '../store/selectors/useCurrentUserSelector'
 import useDocumentEvent from '../effects/useDocumentEvent'
 import useRouterEvent from '../effects/useRouterEvent'
 import useWindowEvent from '../effects/useWindowEvent'
@@ -90,21 +91,21 @@ const navItems = [
 
   // Only while logged in
   {
-    href: '/dashboard',
-    icon: 'tachometer-alt',
-    title: 'Dashboard',
-    condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard'],
-  },
-  {
     icon: 'user-shield',
     title: 'Admin',
-    condition: ({ auth }) => !isEmpty(auth),
+    condition: ({ auth, claims }) => !isEmpty(auth) && (claims['views.admin.blog'] || claims['views.admin.users']),
     subnav: [
       {
-        href: '/dashboard/blog',
+        href: '/admin/blog',
         icon: 'book',
         title: 'Blog',
-        condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.dashboard.blog'],
+        condition: ({ claims }) => claims['views.admin.blog'],
+      },
+      {
+        href: '/admin/users',
+        icon: 'users',
+        title: 'Users',
+        condition: ({ claims }) => claims['views.admin.users'],
       },
     ],
   },
@@ -121,18 +122,66 @@ const navItems = [
     ],
   },
   {
-    icon: 'sign-out-alt',
-    title: 'Logout',
-    condition: ({ auth }) => !isEmpty(auth),
-    onClick: (event, {
-      close,
-      logout,
-      Router,
-    }) => {
-      logout()
-      close()
-      Router.push('/login')
+    /* eslint-disable react/prop-types */
+    iconComponent: ({ auth }) => {
+      if (isEmpty(auth)) {
+        return null
+      }
+
+      return (
+        <img
+          alt={`${auth.displayName}'s avatar`}
+          className="avatar"
+          src={auth.photoURL} />
+      )
     },
+    /* eslint-enable react/prop-types */
+    title: ({ auth }) => {
+      if (isEmpty(auth)) {
+        return 'Loading user data...'
+      }
+
+      return auth.displayName
+    },
+    condition: ({ auth }) => !isEmpty(auth),
+    subnav: [
+      {
+        href: '/dashboard',
+        icon: 'tachometer-alt',
+        title: 'Dashboard',
+      },
+      {
+        href: '/dashboard/blog',
+        icon: 'pen',
+        title: 'Blog',
+      },
+      {
+        // href: ({ auth }) => '/profile',
+        href: ({ userProfile }) => {
+          if (!userProfile) {
+            return '/profile'
+          }
+
+          return `/profile/@${userProfile.username}`
+        },
+        icon: 'address-card',
+        title: 'Profile',
+      },
+      {
+        icon: 'sign-out-alt',
+        title: 'Logout',
+        condition: ({ auth }) => !isEmpty(auth),
+        onClick: (event, {
+          close,
+          logout,
+          Router,
+        }) => {
+          logout()
+          close()
+          Router.push('/login')
+        },
+      },
+    ],
   },
 ]
 
@@ -145,6 +194,7 @@ const Banner = () => {
   const auth = useAuthSelector()
   const claims = useClaimsSelector()
   const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
+  const userProfile = useCurrentUserSelector()
 
   const [currentWidth, setCurrentWidth] = useState((typeof window === 'undefined') ? 0 : window.innerWidth)
   const [isOpen, setIsOpen] = useState(currentWidth <= RESIZE_BREAKPOINT)
@@ -233,7 +283,8 @@ const Banner = () => {
           isLive={isLive}
           isOpen={isOpen}
           items={navItems}
-          logout={firebase.logout} />
+          logout={firebase.logout}
+          userProfile={userProfile} />
 
         <SocialNav isOpen={isOpen} />
       </header>

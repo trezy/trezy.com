@@ -10,20 +10,22 @@ import React, {
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
+import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 
 
 
 
 // Component imports
-import Alert from '../components/Alert'
-import ArticleList from '../components/ArticleList'
-import Image from '../components/Image'
-import Input from '../components/Input'
-import PageWrapper from '../components/PageWrapper'
-import RequireAuthentication from '../components/RequireAuthentication'
-import useAuthSelector from '../store/selectors/useAuthSelector'
-import useUserSelector from '../store/selectors/useUserSelector'
+import Alert from '../../components/Alert'
+import ArticleList from '../../components/ArticleList'
+import Image from '../../components/Image'
+import Input from '../../components/Input'
+import PageWrapper from '../../components/PageWrapper'
+import RequireAuthentication from '../../components/RequireAuthentication'
+import useAuthSelector from '../../store/selectors/useAuthSelector'
+import useUserSelector from '../../store/selectors/useUserSelector'
 
 
 
@@ -36,11 +38,12 @@ const SAVE_ALERT_DURATION = 5000
 
 
 
-const Profile = () => {
+const Profile = props => {
   const firestore = getFirestore()
 
   const auth = useAuthSelector()
-  const user = useUserSelector({ userID: auth.uid })
+  const user = useUserSelector({ username: props.safeUsername })
+  const users = useSelector(state => state.firestore.ordered.users)
   const collections = []
 
   const [bio, setBio] = useState('')
@@ -53,7 +56,7 @@ const Profile = () => {
   if (isLoaded(auth) && !isEmpty(auth)) {
     collections.push({
       collection: 'users',
-      doc: auth.uid,
+      where: ['username', '==', props.safeUsername],
     })
   }
 
@@ -69,6 +72,7 @@ const Profile = () => {
 
   const handleCancel = () => {
     setBio(user.bio)
+    setUsername(user.username)
     setWebsite(user.website)
     setEditMode(false)
   }
@@ -80,6 +84,7 @@ const Profile = () => {
 
     await firestore.update({ collection: 'users', doc: auth.uid }, {
       bio,
+      username,
       website,
     })
 
@@ -93,8 +98,12 @@ const Profile = () => {
   return (
     <PageWrapper title="Profile">
       <RequireAuthentication>
-        {(!isLoaded(user) || !isLoaded(user)) && (
+        {!isLoaded(users) && (
           <span>Loading...</span>
+        )}
+
+        {(isLoaded(users) && isEmpty(users)) && (
+          <span>No user found with that username.</span>
         )}
 
         {(isLoaded(user) && !isEmpty(user)) && (
@@ -255,6 +264,32 @@ const Profile = () => {
       </RequireAuthentication>
     </PageWrapper>
   )
+}
+
+Profile.getInitialProps = async ({ query }) => {
+  const { username } = query
+  const safeUsername = username.startsWith('@') ? username.substring(1) : username
+  const firestore = getFirestore()
+
+  await firestore.get({
+    collection: 'users',
+    where: ['username', '==', safeUsername],
+  })
+
+  return {
+    safeUsername,
+    username,
+  }
+}
+
+Profile.defaultProps = {
+  safeUsername: '',
+  // username: '',
+}
+
+Profile.propTypes = {
+  safeUsername: PropTypes.string,
+  // username: PropTypes.string,
 }
 
 
