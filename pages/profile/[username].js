@@ -10,6 +10,7 @@ import React, {
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 
@@ -39,6 +40,15 @@ const SAVE_ALERT_DURATION = 5000
 
 
 const Profile = props => {
+  const Router = useRouter()
+
+  if ((typeof window !== 'undefined') && !props.username.startsWith('@')) {
+    const href = '/profile/[username]'
+    const as = `/profile/@${props.username}`
+
+    Router.replace(href, as)
+  }
+
   const firestore = getFirestore()
 
   const auth = useAuthSelector()
@@ -284,12 +294,12 @@ Profile.getInitialProps = async ({ query }) => {
 
 Profile.defaultProps = {
   safeUsername: '',
-  // username: '',
+  username: '',
 }
 
 Profile.propTypes = {
   safeUsername: PropTypes.string,
-  // username: PropTypes.string,
+  username: PropTypes.string,
 }
 
 

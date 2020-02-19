@@ -1,0 +1,12 @@
+.responses-container {
+  h3 {
+    position: sticky;
+    top: 10rem;
+    z-index: 1;
+  }
+
+  textarea {
+    border: none;
+    max-height: 30vh;
+  }
+}

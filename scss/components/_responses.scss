@@ -1,18 +1,6 @@
-.responses-container {
-  h3 {
-    position: sticky;
-    top: 10rem;
-    z-index: 1;
-  }
-
-  textarea {
-    max-height: 30vh;
-  }
-
-  .responses {
-    > li:not(:last-child) {
-      margin-bottom: var(--gutter);
-    }
+.responses {
+  ol > li:not(:last-child) {
+    margin-bottom: var(--gutter);
   }
 
   .response {
