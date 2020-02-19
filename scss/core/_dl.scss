@@ -3,7 +3,7 @@ dl {
     font-weight: bold;
   }
 
-  dd {
-    padding-left: var(--gutter);
+  dd + dt {
+    padding-top: var(--gutter);
   }
 }

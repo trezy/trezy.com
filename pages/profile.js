@@ -10,7 +10,6 @@ import React, {
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
-import TextareaAutosize from 'react-autosize-textarea'
 
 
 
@@ -20,6 +19,7 @@ import TextareaAutosize from 'react-autosize-textarea'
 import Alert from '../components/Alert'
 import ArticleList from '../components/ArticleList'
 import Image from '../components/Image'
+import Input from '../components/Input'
 import PageWrapper from '../components/PageWrapper'
 import RequireAuthentication from '../components/RequireAuthentication'
 import useAuthSelector from '../store/selectors/useAuthSelector'
@@ -44,7 +44,7 @@ const Profile = () => {
   const collections = []
 
   const [bio, setBio] = useState('')
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(true)
   const [isSaved, setIsSaved] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [website, setWebsite] = useState('')
@@ -163,8 +163,9 @@ const Profile = () => {
                 <dl className="content">
                   <dt>Bio</dt>
                   <dd>
-                    <TextareaAutosize
+                    <Input
                       disabled={isSaving}
+                      multiline
                       onChange={({ target: { value } }) => setBio(value)}
                       placeholder={`${user.displayName} was just a child when their interest in flowers began to blossom...`}
                       value={bio} />
@@ -172,7 +173,7 @@ const Profile = () => {
 
                   <dt>Website</dt>
                   <dd>
-                    <input
+                    <Input
                       disabled={isSaving}
                       onChange={({ target: { value } }) => setWebsite(value)}
                       placeholder="https://example.com"
