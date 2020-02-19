@@ -47,6 +47,7 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(true)
   const [isSaved, setIsSaved] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [username, setUsername] = useState('')
   const [website, setWebsite] = useState('')
 
   if (isLoaded(auth) && !isEmpty(auth)) {
@@ -61,6 +62,7 @@ const Profile = () => {
   useEffect(() => {
     if (!editMode && !isEmpty(user)) {
       setBio(user.bio || null)
+      setUsername(user.username || null)
       setWebsite(user.website || null)
     }
   })
@@ -161,6 +163,17 @@ const Profile = () => {
 
               {editMode && (
                 <dl className="content">
+                  <dt>Username</dt>
+                  <dd>
+                    <Input
+                      disabled={isSaving}
+                      onChange={({ target: { value } }) => setUsername(value)}
+                      placeholder={`${user.displayName.toLowerCase().replace(/[^\w]/gu, '-').replace(/-+/gu, '-')}`}
+                      prefix="@"
+                      type="text"
+                      value={username} />
+                  </dd>
+
                   <dt>Bio</dt>
                   <dd>
                     <Input
