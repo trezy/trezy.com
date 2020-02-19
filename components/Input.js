@@ -10,15 +10,21 @@ import TextareaAutosize from 'react-autosize-textarea'
 const Input = props => {
   const {
     multiline,
+    prefix,
     type,
   } = props
   const passableProps = { ...props }
 
   delete passableProps.multiline
+  delete passableProps.prefix
   delete passableProps.type
 
   return (
     <div className="input-container">
+      <span className="prefix">
+        {prefix}
+      </span>
+
       {multiline && (
         <TextareaAutosize {...passableProps} />
       )}
@@ -34,11 +40,13 @@ const Input = props => {
 
 Input.defaultProps = {
   multiline: false,
+  prefix: '',
   type: 'text',
 }
 
 Input.propTypes = {
   multiline: PropTypes.bool,
+  prefix: PropTypes.string,
   type: PropTypes.string,
 }
 
