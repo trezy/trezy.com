@@ -33,7 +33,7 @@ const Response = props => {
     publishedAt,
   } = props
 
-  const author = useUserSelector(props)
+  const author = useUserSelector({ userID: authorID })
   const isPending = isPendingAkismetVerification || isPendingHumanVerification
 
   useFirestoreConnect([
