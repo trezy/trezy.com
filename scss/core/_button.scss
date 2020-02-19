@@ -12,14 +12,12 @@ button, .button {
   padding: var(--gutter) calc(var(--gutter) * 2);
   position: relative;
   opacity: 0.8;
-  transform: scale(1);
   transition-duration: 0.2s;
   transition-property:
     background-color,
     box-shadow,
     color,
-    opacity,
-    transform;
+    opacity;
 
   &:not(:disabled) {
     &:focus,
@@ -27,7 +25,6 @@ button, .button {
       box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
       opacity: 1;
       outline: none;
-      transform: scale(1.2);
       z-index: 1;
     }
   }
