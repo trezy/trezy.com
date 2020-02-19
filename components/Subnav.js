@@ -36,6 +36,12 @@ const Subnav = props => {
     return null
   }
 
+  const passableProps = { ...props }
+
+  delete passableProps.className
+  delete passableProps.icon
+  delete passableProps.iconComponent
+
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
   const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(props) : props.iconPrefix
@@ -124,6 +130,7 @@ const Subnav = props => {
 
           return (
             <NavLink
+              {...passableProps}
               {...item}
               isFocusable={isOpen}
               key={subkey} />
@@ -157,8 +164,14 @@ Subnav.propTypes = {
     PropTypes.string,
   ]),
   iconComponent: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.node,
+    ])),
   ]),
   iconOnly: PropTypes.bool,
   iconPrefix: PropTypes.oneOfType([

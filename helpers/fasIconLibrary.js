@@ -1,4 +1,5 @@
 export {
+  faAddressCard,
   faBan,
   faBars,
   faBook,
@@ -18,6 +19,7 @@ export {
   faMicrochip,
   faMinusCircle,
   faMouse,
+  faPen,
   faSignInAlt,
   faSignOutAlt,
   faSpinner,
@@ -25,6 +27,7 @@ export {
   faTimes,
   faTools,
   faUser,
+  faUsers,
   faUserShield,
   faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons'

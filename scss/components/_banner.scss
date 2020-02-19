@@ -81,6 +81,7 @@
       }
 
       [data-icon],
+      .avatar,
       .fa-layers {
         + span {
           margin-left: var(--gutter);
@@ -122,6 +123,10 @@
         }
       }
     }
+  }
+
+  .avatar {
+    max-width: 1.3em;
   }
 
   .subnav {
