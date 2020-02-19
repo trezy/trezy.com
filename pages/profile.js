@@ -60,8 +60,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (!editMode && !isEmpty(user)) {
-      setBio(user.bio)
-      setWebsite(user.website)
+      setBio(user.bio || null)
+      setWebsite(user.website || null)
     }
   })
 
