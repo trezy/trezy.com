@@ -51,11 +51,13 @@
     button,
     label {
       align-items: center;
+      border: none;
       box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
       color: var(--text-color);
       cursor: pointer;
       display: flex;
       line-height: inherit;
+      opacity: 1;
       padding: calc(var(--gutter) / 2) var(--gutter);
       text-decoration: none;
       transform: scale(1);
