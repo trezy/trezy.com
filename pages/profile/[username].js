@@ -10,7 +10,6 @@ import React, {
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 
@@ -26,6 +25,7 @@ import PageWrapper from '../../components/PageWrapper'
 import RequireAuthentication from '../../components/RequireAuthentication'
 import useAuthSelector from '../../store/selectors/useAuthSelector'
 import useUserSelector from '../../store/selectors/useUserSelector'
+import useUsersSelector from '../../store/selectors/useUsersSelector'
 
 
 
@@ -43,11 +43,11 @@ const Profile = props => {
 
   const auth = useAuthSelector()
   const user = useUserSelector({ username: props.safeUsername })
-  const users = useSelector(state => state.firestore.ordered.users)
+  const users = useUsersSelector()
   const collections = []
 
   const [bio, setBio] = useState('')
-  const [editMode, setEditMode] = useState(true)
+  const [editMode, setEditMode] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [username, setUsername] = useState('')
