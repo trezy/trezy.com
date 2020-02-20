@@ -20,6 +20,8 @@ const PrivacyPolicy = () => (
     <section>
       <h2>Privacy Policy</h2>
 
+      <p><em>This policy is effective as of January 1, 2020.</em></p>
+
       <p>Your privacy is important to us. It is Trezy.com's policy to respect your privacy regarding any information we may collect from you across our website, <Link href="/"><a>http://trezy.com</a></Link>, and other sites we own and operate.</p>
     </section>
 
@@ -133,10 +135,6 @@ const PrivacyPolicy = () => (
         Charles Peebles<br />
         <a href="mailto:t@trezy.com">t@trezy.com</a>
       </p>
-    </section>
-
-    <section>
-      <p>This policy is effective as of January 1, 2020.</p>
     </section>
   </PageWrapper>
 )
