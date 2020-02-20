@@ -26,7 +26,7 @@ ol, ul {
   &.bulleted,
   &.numbered {
     list-style-position: outside;
-    padding-left: 2rem;
+    padding-left: 4rem;
   }
 
   &.bulleted {
@@ -47,7 +47,7 @@ ol, ul {
   }
 
   &.numbered {
-    list-style-type: georgian;
+    list-style-type: decimal;
   }
 
   &.two-column {
