@@ -10,6 +10,13 @@ import React from 'react'
 
 
 
+// Local imports
+import ContentInfo from './ContentInfo'
+
+
+
+
+
 // Component constants
 const MAX_TITLE_LENGTH = 50
 const MAX_DESCR_LENGTH = 300
@@ -62,6 +69,8 @@ class PageWrapper extends React.Component {
 
         <main className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}>
           {children}
+
+          <ContentInfo />
         </main>
       </>
     )
