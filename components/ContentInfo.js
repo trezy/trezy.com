@@ -68,8 +68,8 @@ const ContentInfo = () => (
 
       <ul>
         <li>
-          <Link href="/terms-of-use">
-            <a>Terms of Use</a>
+          <Link href="/terms-of-service">
+            <a>Terms of Service</a>
           </Link>
         </li>
 
