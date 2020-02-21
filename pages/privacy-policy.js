@@ -7,6 +7,7 @@ import React from 'react'
 
 
 // Component imports
+import ExternalLink from '../components/ExternalLink'
 import PageWrapper from '../components/PageWrapper'
 
 
@@ -83,7 +84,12 @@ const PrivacyPolicy = () => (
     <section>
       <h3>5. International transfers of personal information</h3>
 
-      <p>The personal information we collect is stored and processed in United States, or where we or our partners, affiliates and third-party providers maintain facilities. By providing us with your personal information, you consent to the disclosure to these overseas third parties.</p>
+      <p>The personal information we collect is stored and processed in United States, or where we or our partners, affiliates and third-party providers maintain facilities. By providing us with your personal information, you consent to the disclosure to these overseas third parties. Our partners, affiliates and third-party providers include:</p>
+
+      <ul className="bulleted">
+        <li>Google Firebase (<ExternalLink href="https://firebase.google.com/support/privacy/">Privacy Policy and Data Processing Information</ExternalLink>)</li>
+        <li>Zeit Now (<a href="/documents/zeit-trezycom.data-processing-agreement.pdf">Data Processing Agreement</a>)</li>
+      </ul>
 
       <p>We will ensure that any transfer of personal information from countries in the European Economic Area (EEA) to countries outside the EEA will be protected by appropriate safeguards, for example by using standard data protection clauses approved by the European Commission, or the use of binding corporate rules or other legally accepted means.</p>
 
