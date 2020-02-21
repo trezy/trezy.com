@@ -99,7 +99,11 @@ const PrivacyPolicy = () => (
 
       <p><strong>Restrict:</strong> You may choose to restrict the collection or use of your personal information. If you have previously agreed to us using your personal information for direct marketing purposes, you may change your mind at any time by contacting us using the details below. If you ask us to restrict or limit how we process your personal information, we will let you know how the restriction affects your use of our website or products and services.</p>
 
-      <p><strong>Access and data portability:</strong> You may request details of the personal information that we hold about you. You may request a copy of the personal information we hold about you. Where possible, we will provide this information in CSV format or other easily readable machine format. You may request that we erase the personal information we hold about you at any time. You may also request that we transfer this personal information to another third party.</p>
+      <p><strong>Access:</strong> You may request details of the personal information that we hold about you. You may request a copy of the personal information we hold about you. Where possible, we will provide this information in CSV format or other easily readable machine format.</p>
+
+      <p><strong>Data portability:</strong> You may request that we transfer any or all of your personal information to another third party.</p>
+
+      <p><strong>Right to be forgotten:</strong> You may request that we erase the personal information we hold about you at any time.</p>
 
       <p><strong>Correction:</strong> If you believe that any information we hold about you is inaccurate, out of date, incomplete, irrelevant or misleading, please contact us using the details below. We will take reasonable steps to correct any information found to be inaccurate, incomplete, misleading or out of date.</p>
 
