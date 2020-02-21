@@ -21,6 +21,7 @@ import PropTypes from 'prop-types'
 // Component imports
 import Alert from '../../components/Alert'
 import ArticleList from '../../components/ArticleList'
+import ExternalLink from '../../components/ExternalLink'
 import Image from '../../components/Image'
 import Input from '../../components/Input'
 import MarkdownEditor from '../../components/MarkdownEditor'
@@ -165,7 +166,11 @@ const Profile = props => {
                   {user.website && (
                     <>
                       <dt>Website</dt>
-                      <dd>{user.website}</dd>
+                      <dd>
+                        <ExternalLink href={user.website}>
+                          {user.website}
+                        </ExternalLink>
+                      </dd>
                     </>
                   )}
 
