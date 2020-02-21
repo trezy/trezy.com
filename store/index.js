@@ -25,9 +25,7 @@ import * as moviesActions from './actions/movies'
 
 
 
-const actions = {
-  ...moviesActions,
-}
+const actions = { ...moviesActions }
 
 
 
