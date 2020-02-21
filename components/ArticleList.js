@@ -1,19 +1,23 @@
 // Module imports
 import {
+  isEmpty,
   isLoaded,
   useFirestoreConnect,
 } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
-import React from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
 
 
 // Component imports
+import Alert from './Alert'
 import Article from './Article'
+import useArticlesSelector from '../store/selectors/useArticlesSelector'
+import useAuthSelector from '../store/selectors/useAuthSelector'
+import useClaimsSelector from '../store/selectors/useClaimsSelector'
 
 
 
@@ -21,21 +25,40 @@ import Article from './Article'
 
 const ArticleList = props => {
   const {
+    authorID,
     className,
     editMode,
     includeDraft,
     includePublished,
     limit,
   } = props
+  const queryObject = {
+    collection: 'articles',
+    where: [],
+  }
+  const auth = useAuthSelector()
+  const claims = useClaimsSelector()
 
-  const queryObject = { collection: 'articles' }
+  let userCanViewDrafts = claims['actions.article.viewDraft']
 
-  if (!includeDraft) {
-    queryObject.where = ['isDraft', '==', false]
+  if (isLoaded(auth)) {
+    userCanViewDrafts = claims['actions.article.viewDraft']
   }
 
-  if (!includePublished) {
-    queryObject.where = ['isDraft', '==', true]
+  if (!includeDraft) {
+    queryObject.where.push(['isDraft', '==', false])
+  }
+
+  if (!includePublished && userCanViewDrafts) {
+    queryObject.where.push(['isDraft', '==', true])
+  }
+
+  if (authorID) {
+    queryObject.where.push(['authorID', '==', authorID])
+  }
+
+  if (!queryObject.where.length) {
+    delete queryObject.where
   }
 
   if (includePublished && includeDraft) {
@@ -50,13 +73,21 @@ const ArticleList = props => {
     queryObject.limit = limit
   }
 
-  const articles = useSelector(state => state.firestore.ordered.articles)
+  const articles = useArticlesSelector()
 
   useFirestoreConnect([queryObject])
 
   if (!isLoaded(articles)) {
     return (
       <div>Loading...</div>
+    )
+  }
+
+  if (isLoaded(articles) && isEmpty(articles)) {
+    return (
+      <Alert type="informational">
+        No articles found! <span aria-label="Sobbing face emoji" role="img">😭</span>
+      </Alert>
     )
   }
 
@@ -76,6 +107,7 @@ const ArticleList = props => {
 }
 
 ArticleList.defaultProps = {
+  authorID: null,
   className: '',
   editMode: false,
   includeDraft: false,
@@ -84,6 +116,7 @@ ArticleList.defaultProps = {
 }
 
 ArticleList.propTypes = {
+  authorID: PropTypes.string,
   className: PropTypes.string,
   editMode: PropTypes.bool,
   includeDraft: PropTypes.bool,

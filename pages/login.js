@@ -39,7 +39,7 @@ const Login = props => {
         Router.events.off('routeChangeComplete', startRedirect)
       }
       redirectStarted = true
-      Router.replace(destination || '/dashboard')
+      Router.replace(destination || '/')
       Router.events.on('routeChangeComplete', startRedirect)
     }
   })
@@ -61,7 +61,7 @@ const Login = props => {
               Sign in with Google
             </button>
 
-            <button
+            {/* <button
               className="primary"
               onClick={() => firebase.login({
                 provider: 'github',
@@ -69,7 +69,7 @@ const Login = props => {
               })}
               type="button">
               Sign in with Github
-            </button>
+            </button> */}
 
             <button
               className="primary"

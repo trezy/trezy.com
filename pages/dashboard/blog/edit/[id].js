@@ -9,10 +9,10 @@ import {
 } from 'react-redux-firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 import uuid from 'uuid/v4'
 
 
@@ -21,8 +21,12 @@ import uuid from 'uuid/v4'
 
 // Component imports
 import articleDefaults from '../../../../models/article'
+import createSlugFromTitleString from '../../../../helpers/createSlugFromTitleString'
+import createTitleStringFromArticle from '../../../../helpers/createTitleStringFromArticle'
+import MarkdownEditor from '../../../../components/MarkdownEditor'
 import PageWrapper from '../../../../components/PageWrapper'
 import RequireAuthentication from '../../../../components/RequireAuthentication'
+import useCurrentUserIDSelector from '../../../../store/selectors/useCurrentUserIDSelector'
 
 
 
@@ -31,19 +35,25 @@ import RequireAuthentication from '../../../../components/RequireAuthentication'
 const BlogEditor = ({ id }) => {
   const firestore = getFirestore()
   const Router = useRouter()
+  const connections = []
 
-  useFirestoreConnect([
-    {
+  if (id !== 'new') {
+    connections.push({
       collection: 'articles',
       doc: id,
-    },
-  ])
+    })
+  }
+
+  useFirestoreConnect(connections)
 
   const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
+  const currentUserID = useCurrentUserIDSelector()
   const { isDraft } = article
 
-  const [body, setBody] = useState(article.body)
-  const [subtitle, setSubtitle] = useState(article.subtitle)
+  const [body, setBody] = useState(article.body || '')
+  const [previewMode, setPreviewMode] = useState(false)
+  const [subtitle, setSubtitle] = useState(article.subtitle || '')
+  const [synopsis, setSynopsis] = useState(article.synopsis || '')
   const [isUpdating, setIsUpdating] = useState(false)
   const [title, setTitle] = useState(article.title)
 
@@ -53,20 +63,30 @@ const BlogEditor = ({ id }) => {
     const now = firestore.Timestamp.fromDate(moment().toDate())
     const serializedArticle = {
       ...article,
+      authorID: article.authorID || currentUserID,
       body,
+      createdAt: firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000),
       subtitle,
+      synopsis,
       title,
     }
 
     serializedArticle.updatedAt = now
+    serializedArticle.slug = createSlugFromTitleString(createTitleStringFromArticle(serializedArticle))
+
+    if (article.publishedAt) {
+      serializedArticle.publishedAt = firestore.Timestamp.fromMillis(article.publishedAt.seconds * 1000)
+    }
 
     if (publish) {
       serializedArticle.isDraft = false
+      serializedArticle.publishedAt = now
     }
 
     if (id === 'new') {
       serializedArticle.createdAt = now
       serializedArticle.id = uuid()
+      serializedArticle.oldSlugs = []
     }
 
     await firestore.set({ collection: 'articles', doc: serializedArticle.id }, serializedArticle)
@@ -106,6 +126,7 @@ const BlogEditor = ({ id }) => {
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setTitle(value)}
                 placeholder="Title"
+                type="text"
                 value={title} />
             </h2>
           </header>
@@ -117,19 +138,38 @@ const BlogEditor = ({ id }) => {
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setSubtitle(value)}
                 placeholder="Subtitle"
+                type="text"
                 value={subtitle} />
             </fieldset>
 
             <fieldset>
-              <textarea
+              <MarkdownEditor
+                aria-label="Synopsis"
+                disabled={isLoading || isUpdating}
+                onChange={({ target: { value } }) => setSynopsis(value)}
+                placeholder="Synopsis"
+                previewMode={previewMode}
+                value={synopsis} />
+            </fieldset>
+
+            <fieldset>
+              <MarkdownEditor
                 aria-label="Body"
                 disabled={isLoading || isUpdating}
                 onChange={({ target: { value } }) => setBody(value)}
                 placeholder="Body"
+                previewMode={previewMode}
                 value={body} />
             </fieldset>
 
             <menu type="toolbar">
+              <button
+                disabled={isLoading || isUpdating}
+                onClick={() => setPreviewMode(!previewMode)}
+                type="button">
+                Preview
+              </button>
+
               <button
                 className="primary"
                 disabled={isLoading || isUpdating}
@@ -164,18 +204,7 @@ const BlogEditor = ({ id }) => {
   )
 }
 
-BlogEditor.getInitialProps = async ({ query }) => {
-  const firestore = getFirestore()
-
-  await firestore.get({
-    collection: 'articles',
-    doc: query.id,
-  })
-
-  return {
-    id: query.id,
-  }
-}
+BlogEditor.getInitialProps = ({ query: { id } }) => ({ id })
 
 BlogEditor.propTypes = {
   id: PropTypes.string.isRequired,

@@ -9,6 +9,18 @@
       }
     }
 
+    @each $direction in (normal, reverse, alternate, alternate-reverse) {
+      &[data-animation-direction='#{$direction}'] {
+        animation-direction: $direction;
+      }
+    }
+
+    @each $state in (paused, running) {
+      &[data-animation-play-state='#{$state}'] {
+        animation-play-state: $state;
+      }
+    }
+
     $milliseconds: 100;
 
     @while $milliseconds < 10001 {

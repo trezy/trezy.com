@@ -1,0 +1,49 @@
+// Module imports
+import PropTypes from 'prop-types'
+import React from 'react'
+
+
+
+
+
+// Component imports
+import ResponseForm from './ResponseForm'
+import ResponsesList from './ResponsesList'
+
+
+
+
+
+const Responses = props => {
+  const { articleID } = props
+
+  return (
+    <aside className="responses-container">
+      <hr />
+
+      <h3>Responses</h3>
+
+      <div>
+        <ResponsesList {...props} />
+
+        <ResponseForm articleID={articleID} />
+      </div>
+    </aside>
+  )
+}
+
+Responses.defaultProps = {
+  articleID: null,
+  authorID: null,
+}
+
+Responses.propTypes = {
+  articleID: PropTypes.string,
+  authorID: PropTypes.string,
+}
+
+
+
+
+
+export default Responses

@@ -1,8 +1,8 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -17,36 +17,34 @@ import ExternalLink from './ExternalLink'
 
 
 
-// Local constants
-const allowedLinkKeys = ['href', 'params', 'route', 'target']
-
-
-
-
-
 const NavLink = props => {
   const {
     extraProps,
     iconOnly,
     isFocusable,
     onClick,
+    target,
   } = props
 
   const Router = useRouter()
+  const passableProps = {
+    ...props,
+    Router,
+  }
 
-  const className = typeof props.className === 'function' ? props.className(props) : props.className
-  const disabled = typeof props.disabled === 'function' ? props.disabled(props) : props.disabled
-  const href = typeof props.href === 'function' ? props.href(props) : props.href
-  const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
-  const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(props) : props.iconPrefix
-  const title = typeof props.title === 'function' ? props.title(props) : props.title
+  const className = typeof props.className === 'function' ? props.className(passableProps) : props.className
+  const disabled = typeof props.disabled === 'function' ? props.disabled(passableProps) : props.disabled
+  const href = typeof props.href === 'function' ? props.href(passableProps) : props.href
+  const icon = typeof props.icon === 'function' ? props.icon(passableProps) : props.icon
+  const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(passableProps) : props.iconPrefix
+  const title = typeof props.title === 'function' ? props.title(passableProps) : props.title
 
   let iconComponent = null
   let titleComponent = null
 
   if (props.iconComponent) {
     if (typeof props.iconComponent === 'function') {
-      iconComponent = props.iconComponent(props)
+      iconComponent = props.iconComponent(passableProps)
     } else {
       iconComponent = props.iconComponent
     }
@@ -76,10 +74,7 @@ const NavLink = props => {
         {...extraProps}
         className={classnames(className, { iconic: iconOnly })}
         disabled={disabled}
-        onClick={event => onClick(event, {
-          ...props,
-          Router,
-        })}
+        onClick={event => onClick(event, passableProps)}
         tabIndex={isFocusable ? null : '-1'}
         type="button">
         {iconComponent}
@@ -89,24 +84,16 @@ const NavLink = props => {
     )
   }
 
-  const linkProps = Object.entries(props).reduce((accumulator, [itemKey, itemValue]) => {
-    if (allowedLinkKeys.includes(itemKey)) {
-      accumulator[itemKey] = itemValue
-    }
-
-    return accumulator
-  }, {})
-
-
   if (/https?:\/\//gui.test(href)) {
     return (
       <ExternalLink
         {...extraProps}
-        {...linkProps}
         className={classnames(className, 'button', {
           disabled,
           iconic: iconOnly,
         })}
+        href={href}
+        target={target}
         tabIndex={isFocusable ? null : '-1'}>
         {iconComponent}
 
@@ -116,7 +103,7 @@ const NavLink = props => {
   }
 
   return (
-    <Link {...linkProps}>
+    <Link href={href}>
       <a
         {...extraProps}
         className={classnames(className, 'button', {
@@ -143,6 +130,7 @@ NavLink.defaultProps = {
   iconPrefix: null,
   isFocusable: true,
   onClick: null,
+  target: null,
 }
 
 NavLink.propTypes = {
@@ -177,6 +165,7 @@ NavLink.propTypes = {
     PropTypes.func,
   ]),
   onClick: PropTypes.func,
+  target: PropTypes.string,
   title: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,

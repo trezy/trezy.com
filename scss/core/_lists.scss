@@ -1,15 +1,32 @@
 ol, ul {
+  &.comma-separated,
+  &.pipe-separated {
+    li {
+      display: inline-block;
+    }
+
+    > li:not(:last-child):after {
+      margin-right: 0.5em;
+    }
+  }
+
   &.comma-separated {
     > li:not(:last-child):after {
       content: ', ';
-      margin-right: 0.5em;
+    }
+  }
+
+  &.pipe-separated {
+    > li:not(:last-child):after {
+      content: '|';
+      margin-left: 0.5em;
     }
   }
 
   &.bulleted,
   &.numbered {
     list-style-position: outside;
-    padding-left: 2rem;
+    padding-left: 4rem;
   }
 
   &.bulleted {
@@ -30,7 +47,7 @@ ol, ul {
   }
 
   &.numbered {
-    list-style-type: georgian;
+    list-style-type: decimal;
   }
 
   &.two-column {

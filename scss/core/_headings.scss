@@ -1,7 +1,37 @@
 h1, h2, h3,
 h4, h5, h6 {
+  background-color: var(--background-color);
   line-height: 1.5;
+  margin-bottom: 1rem;
   position: relative;
+
+  &:after,
+  &:before {
+    content: '';
+    display: block;
+    height: 1rem;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  &:after {
+    background-image: linear-gradient(
+      to bottom,
+      var(--background-color),
+      var(--transparent)
+    );
+    top: 100%;
+  }
+
+  &:before {
+    background-image: linear-gradient(
+      to top,
+      var(--background-color),
+      var(--transparent)
+    );
+    bottom: 100%;
+  }
 
   .anchor {
     bottom: 0;

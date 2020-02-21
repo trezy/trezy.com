@@ -50,7 +50,9 @@ const Article = props => {
     createdAt,
     isDraft,
     publishedAt,
+    slug,
     subtitle,
+    synopsis,
     title,
     updatedAt,
   } = article
@@ -58,7 +60,7 @@ const Article = props => {
   return (
     <article className={classnames({ summary: summarize })}>
       <ArticleHeader {...{
-        id,
+        slug,
         subtitle,
         summarize,
         title,
@@ -70,6 +72,12 @@ const Article = props => {
         publishedAt,
         updatedAt,
       }} />
+
+      {synopsis && (
+        <span className="synopsis">
+          {synopsis}
+        </span>
+      )}
 
       {!summarize && (
         <>

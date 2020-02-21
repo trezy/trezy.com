@@ -16,11 +16,18 @@ import PageWrapper from '../components/PageWrapper'
 
 
 
+// Local constants
+const ARTICLE_LIMIT = 3
+
+
+
+
+
 const Home = () => (
   <PageWrapper
     description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
     title="Home">
-    <section className="branded hero">
+    <section className="hero">
       <header>
         &lt;trezy-who/&gt;
       </header>
@@ -36,7 +43,7 @@ const Home = () => (
 
         <ArticleList
           className="latest-articles"
-          limit={3} />
+          limit={ARTICLE_LIMIT} />
 
         <Link href="/blog">
           <a>See more</a>
@@ -57,6 +64,7 @@ Home.getInitialProps = async () => {
 
   await firestore.get({
     collection: 'articles',
+    limit: ARTICLE_LIMIT,
     orderBy: ['publishedAt', 'desc'],
     where: ['isDraft', '==', false],
   })

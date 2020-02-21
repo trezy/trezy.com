@@ -1,0 +1,99 @@
+.alert {
+  background-color: var(--background-color);
+  border-left-color: var(--text-color);
+  border-left-style: solid;
+  border-left-width: 0.5rem;
+  padding-left: calc(var(--gutter) / 2);
+
+  > [data-icon] {
+    color: var(--text-color);
+    margin-right: calc(var(--gutter) / 2);
+  }
+
+  $alert-styles: (
+    danger: (
+      color: danger-background-color,
+    ),
+
+    informational: (
+      color: informational-background-color,
+    ),
+
+    success: (
+      color: success-background-color,
+    ),
+
+    warning: (
+      color: warning-background-color,
+    ),
+  );
+
+  @each $alert-style, $properties in $alert-styles {
+    &.#{$alert-style} {
+      $color: #{map-get($properties, color)};
+      --background-tint: hsla(var(--#{$color}-h), var(--#{$color}-s), var(--#{$color}-l), 0.1);
+
+      background-image: linear-gradient(
+        var(--background-tint),
+        var(--background-tint)
+      );
+      border-left-color: var(--#{$color});
+
+      > [data-icon] {
+        color: var(--#{$color});
+      }
+    }
+  }
+
+  // &.danger {
+  //   --background-tint: hsla(var(--red-h), var(--red-s), var(--red-l), 0.1);
+  //   background-image: linear-gradient(
+  //     var(--background-tint),
+  //     var(--background-tint)
+  //   );
+  //   border-left-color: var(--red);
+
+  //   > [data-icon] {
+  //     color: var(--red);
+  //   }
+  // }
+
+  // &.informational {
+  //   --background-tint: hsla(var(--blue-h), var(--blue-s), var(--blue-l), 0.1);
+  //   background-image: linear-gradient(
+  //     var(--background-tint),
+  //     var(--background-tint)
+  //   );
+  //   border-left-color: var(--blue);
+
+  //   > [data-icon] {
+  //     color: var(--blue);
+  //   }
+  // }
+
+  // &.success {
+  //   --background-tint: hsla(var(--success-background-color-h), var(--success-background-color-s), var(--success-background-color-l), 0.2);
+  //   background-image: linear-gradient(
+  //     var(--background-tint),
+  //     var(--background-tint)
+  //   );
+  //   border-left-color: var(--success-background-color);
+
+  //   > [data-icon] {
+  //     color: var(--success-background-color);
+  //   }
+  // }
+
+  // &.warning {
+  //   --background-tint: hsla(var(--yellow-h), var(--yellow-s), var(--yellow-l), 0.2);
+  //   background-image: linear-gradient(
+  //     var(--background-tint),
+  //     var(--background-tint)
+  //   );
+  //   border-left-color: var(--orange);
+
+  //   > [data-icon] {
+  //     color: var(--orange);
+  //   }
+  // }
+}

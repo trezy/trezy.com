@@ -1,0 +1,13 @@
+@keyframes slide-out-to-top {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+[data-animation='slide-out-to-top'] {
+  animation-name: slide-out-to-top;
+}

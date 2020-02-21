@@ -83,6 +83,7 @@ class Document extends NextDocument {
         'https://firestore.googleapis.com',
         'https://securetoken.googleapis.com',
         'https://www.googleapis.com',
+        'https://api.ipify.org',
         'https://api.themoviedb.org',
         'https://apis.google.com',
         'https://*.firebaseio.com',
@@ -95,6 +96,10 @@ class Document extends NextDocument {
       font: 'https://fonts.gstatic.com',
       img: [
         "'self'",
+        'https://*.googleusercontent.com',
+        'https://*.twimg.com',
+        'https://generative-placeholders.glitch.me',
+        'https://firebasestorage.googleapis.com',
         'https://image.tmdb.org',
       ],
       style: [

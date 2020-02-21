@@ -1,0 +1,27 @@
+.image-wrapper {
+  align-items: center;
+  display: flex;
+  height: 0;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 50%;
+  padding-top: 50%;
+  position: relative;
+
+  .image-background {
+    --blur: 0.2rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: calc((var(--blur) * -1) * 2);
+    filter: grayscale(100%) blur(var(--blur)) brightness(0.3);
+    left: calc((var(--blur) * -1) * 2);
+    position: absolute;
+    right: calc((var(--blur) * -1) * 2);
+    top: calc((var(--blur) * -1) * 2);
+    z-index: 1;
+  }
+
+  img {
+    z-index: 1;
+  }
+}

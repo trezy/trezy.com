@@ -89,10 +89,10 @@ class PageWrapper extends React.Component {
 
   static propTypes = {
     children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.arrayOf([
         PropTypes.element,
         PropTypes.node,
-      ])),
+      ]),
       PropTypes.element,
       PropTypes.node,
     ]).isRequired,

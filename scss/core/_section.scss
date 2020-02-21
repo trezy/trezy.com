@@ -4,10 +4,13 @@ section {
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  max-width: calc(100rem - (var(--gutter) * 2));
-  padding: 10rem var(--gutter);
+  padding: 10rem calc((50% - 60rem) + 10rem);
   position: relative;
   width: 100%;
+
+  &.no-pad {
+    padding: 0;
+  }
 
   &:not(:last-child):after {
     background-image: radial-gradient(
@@ -31,5 +34,9 @@ section {
   &.hero {
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 10rem;
   }
 }

@@ -20,6 +20,9 @@ import classnames from 'classnames'
 // Local imports
 import Nav from './Nav'
 import SocialNav from './SocialNav'
+import useAuthSelector from '../store/selectors/useAuthSelector'
+import useClaimsSelector from '../store/selectors/useClaimsSelector'
+import useCurrentUserSelector from '../store/selectors/useCurrentUserSelector'
 import useDocumentEvent from '../effects/useDocumentEvent'
 import useRouterEvent from '../effects/useRouterEvent'
 import useWindowEvent from '../effects/useWindowEvent'
@@ -79,18 +82,37 @@ const navItems = [
   },
 
   // Only while logged out
-  // {
-  //   icon: 'sign-in-alt',
-  //   title: 'Login',
-  //   route: 'login',
-  //   condition: ({ auth }) => !auth,
-  // },
+  {
+    href: ({ Router }) => `/login?destination=${Router.asPath}`,
+    icon: 'sign-in-alt',
+    title: 'Login',
+    condition: ({ auth }) => isEmpty(auth),
+  },
 
   // Only while logged in
   {
+    icon: 'user-shield',
+    title: 'Admin',
+    condition: ({ auth, claims }) => !isEmpty(auth) && (claims['views.admin.blog'] || claims['views.admin.users']),
+    subnav: [
+      {
+        href: '/admin/blog',
+        icon: 'book',
+        title: 'Blog',
+        condition: ({ claims }) => claims['views.admin.blog'],
+      },
+      {
+        href: '/admin/users',
+        icon: 'users',
+        title: 'Users',
+        condition: ({ claims }) => claims['views.admin.users'],
+      },
+    ],
+  },
+  {
     icon: 'tools',
     title: 'Tools',
-    condition: ({ auth }) => !isEmpty(auth),
+    condition: ({ auth, claims }) => !isEmpty(auth) && claims['views.tools'],
     subnav: [
       {
         href: '/tools/movie-buddy',
@@ -100,35 +122,60 @@ const navItems = [
     ],
   },
   {
-    icon: 'user-shield',
-    title: 'Admin',
+    /* eslint-disable react/prop-types */
+    iconComponent: ({ auth }) => {
+      if (isEmpty(auth)) {
+        return null
+      }
+
+      return (
+        <img
+          alt={`${auth.displayName}'s avatar`}
+          className="avatar"
+          src={auth.photoURL} />
+      )
+    },
+    /* eslint-enable react/prop-types */
+    title: ({ auth }) => {
+      if (isEmpty(auth)) {
+        return 'Loading user data...'
+      }
+
+      return auth.displayName
+    },
     condition: ({ auth }) => !isEmpty(auth),
     subnav: [
       {
-        href: '/dashboard',
-        icon: 'tachometer-alt',
-        title: 'Dashboard',
-      },
-      {
         href: '/dashboard/blog',
-        icon: 'book',
+        icon: 'pen',
         title: 'Blog',
       },
+      {
+        href: ({ userProfile }) => {
+          if (!userProfile) {
+            return '/profile'
+          }
+
+          return `/profile/@${userProfile.username}`
+        },
+        icon: 'address-card',
+        title: 'Profile',
+      },
+      {
+        icon: 'sign-out-alt',
+        title: 'Logout',
+        condition: ({ auth }) => !isEmpty(auth),
+        onClick: (event, {
+          close,
+          logout,
+          Router,
+        }) => {
+          logout()
+          close()
+          Router.push('/login')
+        },
+      },
     ],
-  },
-  {
-    icon: 'sign-out-alt',
-    title: 'Logout',
-    condition: ({ auth }) => !isEmpty(auth),
-    onClick: (event, {
-      close,
-      logout,
-      Router,
-    }) => {
-      logout()
-      close()
-      Router.push('/login')
-    },
   },
 ]
 
@@ -138,8 +185,10 @@ const navItems = [
 
 const Banner = () => {
   const firebase = useFirebase()
-  const auth = useSelector(state => state.firebase.auth)
+  const auth = useAuthSelector()
+  const claims = useClaimsSelector()
   const isLive = useSelector(state => state.firebase.data?.['app-data']?.stream.online)
+  const userProfile = useCurrentUserSelector()
 
   const [currentWidth, setCurrentWidth] = useState((typeof window === 'undefined') ? 0 : window.innerWidth)
   const [isOpen, setIsOpen] = useState(currentWidth <= RESIZE_BREAKPOINT)
@@ -222,12 +271,14 @@ const Banner = () => {
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
         <Nav
+          auth={auth}
+          claims={claims}
           close={close}
           isLive={isLive}
           isOpen={isOpen}
           items={navItems}
           logout={firebase.logout}
-          auth={auth} />
+          userProfile={userProfile} />
 
         <SocialNav isOpen={isOpen} />
       </header>

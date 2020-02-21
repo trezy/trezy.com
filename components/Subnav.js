@@ -20,6 +20,7 @@ import NavLink from './NavLink'
 
 const Subnav = props => {
   const {
+    condition,
     iconOnly,
     id,
     isFocusable,
@@ -28,6 +29,18 @@ const Subnav = props => {
     onOpen,
     subnav,
   } = props
+
+  const [subkeys] = useState({})
+
+  if (condition && !condition(props)) {
+    return null
+  }
+
+  const passableProps = { ...props }
+
+  delete passableProps.className
+  delete passableProps.icon
+  delete passableProps.iconComponent
 
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
@@ -63,8 +76,6 @@ const Subnav = props => {
     )
   }
 
-  const [subkeys] = useState({})
-
   const onStateChange = () => {
     if (isOpen) {
       onClose()
@@ -97,11 +108,8 @@ const Subnav = props => {
         }}
         role="button"
         tabIndex={isFocusable ? 0 : -1}>
-        <span>
-          {iconComponent}
-
-          {titleComponent}
-        </span>
+        {iconComponent}
+        {titleComponent}
       </label>
       {/* eslint-enable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
 
@@ -109,6 +117,10 @@ const Subnav = props => {
         aria-expanded={isOpen ? 'true' : 'false'}
         className="subnav">
         {subnav.map((item, index) => {
+          if (item.condition && !item.condition(props)) {
+            return null
+          }
+
           let subkey = item.key || subkeys[index]
 
           if (!subkey) {
@@ -118,6 +130,7 @@ const Subnav = props => {
 
           return (
             <NavLink
+              {...passableProps}
               {...item}
               isFocusable={isOpen}
               key={subkey} />
@@ -130,6 +143,7 @@ const Subnav = props => {
 
 Subnav.defaultProps = {
   className: '',
+  condition: null,
   icon: null,
   iconComponent: null,
   iconOnly: false,
@@ -144,13 +158,20 @@ Subnav.propTypes = {
     PropTypes.func,
     PropTypes.string,
   ]),
+  condition: PropTypes.func,
   icon: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,
   ]),
   iconComponent: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.node,
+    ])),
   ]),
   iconOnly: PropTypes.bool,
   iconPrefix: PropTypes.oneOfType([

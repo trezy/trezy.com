@@ -5,6 +5,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'max-len': ['off'],
     'new-parens': ['error', 'never'],
+    'no-useless-escape': ['off'],
     'semi-style': ['off'],
 
     // jsx-a11y

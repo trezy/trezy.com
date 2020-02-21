@@ -1,12 +1,17 @@
 [role=banner] {
-  background-color: var(--background-color);
+  bottom: var(--gutter);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   font-family: 'Source Code Pro', monospace;
+  height: calc(100vh - (var(--gutter) * 2));
+  left: var(--gutter);
   min-width: var(--banner-width);
+  top: var(--gutter);
   transition-duration: 0.2s;
-  transition-property: transform;
+  transition-property:
+    background-color,
+    transform;
 
   %anchor-hover-styles {
     background-color: var(--brand-primary);
@@ -46,26 +51,34 @@
     }
   }
 
+  .brand,
   nav {
+    background-color: var(--background-color);
+    margin-bottom: 0;
+  }
+
+  nav {
+    overflow-y: auto;
+
     a,
     button,
     label {
       align-items: center;
+      border: none;
       box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
       color: var(--text-color);
       cursor: pointer;
       display: flex;
       line-height: inherit;
+      opacity: 1;
       padding: calc(var(--gutter) / 2) var(--gutter);
       text-decoration: none;
-      transform: scale(1);
       transition-duration: 0.2s;
       transition-property:
         background-color,
         box-shadow,
         color,
-        padding,
-        transform;
+        padding;
       white-space: nowrap;
       width: 100%;
 
@@ -74,15 +87,21 @@
         @extend %anchor-hover-styles;
 
         box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
-        transform: scale(1.2);
         z-index: 1;
       }
 
       [data-icon],
+      .avatar,
       .fa-layers {
         + span {
           margin-left: var(--gutter);
         }
+      }
+
+      @media (max-height: 470px) {
+        --vertical-padding: calc(var(--gutter) / 2);
+        padding-bottom: var(--vertical-padding);
+        padding-top: var(--vertical-padding);
       }
     }
 
@@ -95,7 +114,7 @@
         border-top-color: var(--text-color);
         content: '';
         height: 0;
-        margin-left: calc(var(--gutter));
+        margin-left: auto;
         transform: rotate(0);
         transition-duration: 0.2s;
         transition-property: border-top-color, transform;
@@ -110,6 +129,7 @@
 
     li {
       display: flex;
+      flex-direction: column;
       position: relative;
 
       &:focus,
@@ -122,15 +142,18 @@
     }
   }
 
+  .avatar {
+    max-width: 1.3em;
+  }
+
   .subnav {
-    background-color: var(--background-color);
+    background-color: hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0.1);
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
-    left: 100%;
+    color: var(--background-color);
     max-height: 0;
     opacity: 0;
+    overflow: hidden;
     pointer-events: none;
-    position: absolute;
-    top: 0;
     transition-duration: 0.2s;
     transition-property: max-height, opacity;
   }
@@ -148,59 +171,38 @@
       @extend %label-hover-styles;
 
       box-shadow: none;
-      transform: scale(1);
 
       &:after {
-        transform: rotate(-90deg);
+        transform: rotate(-180deg);
       }
     }
   }
 
-  .social {
+  nav.social {
+    flex-shrink: 0;
     margin-top: auto;
 
     ul {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
     }
-  }
 
-  @media (max-width: 1300px) {
-    bottom: var(--gutter);
-    left: var(--gutter);
-    position: fixed;
-    transform: translateX(calc(-100% - var(--gutter)));
-    left: var(--gutter);
-    top: var(--gutter);
-    z-index: 1;
-  }
-
-  @media (min-width: 1300px) {
-    max-height: calc(100vh - (var(--gutter) * 2));
-    position: sticky;
-    top: var(--gutter);
-    z-index: 1;
-
-    .social {
-      margin-top: var(--gutter);
-    }
-  }
-
-  @media (max-height: 700px) {
-    .social {
+    @media (max-height: 670px) {
       display: none;
     }
   }
 
-  @media (max-height: 470px) {
-    nav {
-      a,
-      button,
-      label {
-        --vertical-padding: calc(var(--gutter) / 2);
-        padding-bottom: var(--vertical-padding);
-        padding-top: var(--vertical-padding);
-      }
-    }
+  @media (max-width: 1300px) {
+    background-color: var(--background-color);
+    position: fixed;
+    transform: translateX(calc(-100% - var(--gutter)));
+    z-index: 1;
+  }
+
+  @media (min-width: 1300px) {
+    position: sticky;
+    top: var(--gutter);
+    will-change: transform;
+    z-index: 1;
   }
 }

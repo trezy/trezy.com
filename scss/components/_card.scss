@@ -2,13 +2,16 @@
   display: grid;
   grid-template-areas:
     'image header'
-    'image content';
+    'image content'
+    'image footer';
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto 1fr;
 
+  > .image-wrapper,
   > img {
     grid-area: image;
     max-width: 20vw;
+    min-width: 15rem;
   }
 
   > header {
@@ -31,5 +34,9 @@
     margin-left: var(--gutter);
     margin-right: var(--gutter);
     padding-bottom: var(--gutter);
+  }
+
+  footer {
+    grid-area: footer;
   }
 }

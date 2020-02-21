@@ -1,5 +1,4 @@
 // Module imports
-import { getFirestore } from 'redux-firestore'
 import Link from 'next/link'
 import React from 'react'
 
@@ -23,7 +22,6 @@ const BlogDashboard = () => (
         <header className="page-header">
           <h2>Dashboard / Blog</h2>
 
-
           <Link
             as="/dashboard/blog/edit/new"
             href="/dashboard/blog/edit/[id]">
@@ -40,20 +38,6 @@ const BlogDashboard = () => (
     </RequireAuthentication>
   </PageWrapper>
 )
-
-BlogDashboard.getInitialProps = async () => {
-  const firestore = getFirestore()
-
-  await firestore.get({
-    collection: 'articles',
-    orderBy: [
-      ['createdAt', 'desc'],
-      ['publishedAt', 'desc'],
-    ],
-  })
-
-  return {}
-}
 
 
 
