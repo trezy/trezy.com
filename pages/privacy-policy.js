@@ -44,7 +44,7 @@ const PrivacyPolicy = () => (
     </section>
 
     <section>
-      <h3>2. Legal bases for processing</h3>
+      <h3>2. Legal basis for processing</h3>
 
       <p>We will process your personal information lawfully, fairly and in a transparent manner. We collect and process information about you only where we have legal bases for doing so.</p>
 
@@ -103,7 +103,7 @@ const PrivacyPolicy = () => (
 
       <p><strong>Correction:</strong> If you believe that any information we hold about you is inaccurate, out of date, incomplete, irrelevant or misleading, please contact us using the details below. We will take reasonable steps to correct any information found to be inaccurate, incomplete, misleading or out of date.</p>
 
-      <p><strong>Notification of data breaches:</strong> We will comply laws applicable to us in respect of any data breach.</p>
+      <p><strong>Notification of data breaches:</strong> We will comply with any laws applicable to us in respect of any data breach.</p>
 
       <p><strong>Complaints:</strong> If you believe that we have breached a relevant data protection law and wish to make a complaint, please contact us using the details below and provide us with full details of the alleged breach. We will promptly investigate your complaint and respond to you, in writing, setting out the outcome of our investigation and the steps we will take to deal with your complaint. You also have the right to contact a regulatory body or data protection authority in relation to your complaint.</p>
 
