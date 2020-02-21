@@ -16,8 +16,8 @@ import PageWrapper from '../components/PageWrapper'
 
 const PrivacyPolicy = () => (
   <PageWrapper
-    description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
-    title="Home">
+    description="Privacy Policy"
+    title="Privacy Policy">
     <section>
       <h2>Privacy Policy</h2>
 

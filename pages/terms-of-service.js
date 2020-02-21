@@ -15,10 +15,10 @@ import PageWrapper from '../components/PageWrapper'
 
 const TermsOfService = () => (
   <PageWrapper
-    description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
-    title="Home">
+    description="Terms of Service"
+    title="Terms of Service">
     <section>
-      <h2>Trezy.com Terms of Service</h2>
+      <h2>Terms of Service</h2>
     </section>
 
     <section>

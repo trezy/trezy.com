@@ -13,10 +13,10 @@ import PageWrapper from '../components/PageWrapper'
 
 
 
-const TermsOfService = () => (
+const CookiePolicy = () => (
   <PageWrapper
-    description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
-    title="Home">
+    description="Cookie Policy"
+    title="Cookie Policy">
     <section>
       <h2>Cookie Policy</h2>
 
@@ -79,4 +79,4 @@ const TermsOfService = () => (
 
 
 
-export default TermsOfService
+export default CookiePolicy
