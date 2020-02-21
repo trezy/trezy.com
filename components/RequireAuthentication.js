@@ -26,13 +26,13 @@ const RequireAuthentication = ({ children }) => {
 
   if (!isLoaded(auth)) {
     return (
-      <span>Verifying authentication...</span>
+      <section>Verifying authentication...</section>
     )
   }
 
   if (isEmpty(auth)) {
     return (
-      <span>Not logged in; Redirecting...</span>
+      <section>Not logged in; Redirecting...</section>
     )
   }
 
