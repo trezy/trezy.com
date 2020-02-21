@@ -1,5 +1,6 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -20,6 +21,23 @@ const CASCADE_DELAY_INCREMENT = 0.2
 const BASE_DELAY = 0.6
 const BASE_DURATION = 0.5
 const linkPropTypes = { children: PropTypes.string.isRequired }
+
+const AmazonLink = props => {
+  const {
+    children,
+    id,
+  } = props
+
+  return (
+    <ExternalLink href={`https://www.amazon.com/dp/${id}?tag=trezycodes-20`}>
+      {children}
+    </ExternalLink>
+  )
+}
+AmazonLink.propTypes = {
+  ...linkPropTypes,
+  id: PropTypes.string.isRequired,
+}
 
 const MacbookProLink = ({ children }) => (
   <ExternalLink href="https://www.apple.com/macbook-pro-13/">
@@ -43,11 +61,44 @@ const MagicTrackpadLink = ({ children }) => (
 MagicTrackpadLink.propTypes = { ...linkPropTypes }
 
 const LaptopStandLink = ({ children }) => (
-  <ExternalLink href="https://www.amazon.com/Laptop-Stand-Adjustable-Portable-Ergonomic/dp/B0772LBQXM">
+  <AmazonLink id="B0772LBQXM">
     {children}
-  </ExternalLink>
+  </AmazonLink>
 )
 LaptopStandLink.propTypes = { ...linkPropTypes }
+
+const ChipIcon = props => {
+  const {
+    className,
+    type,
+  } = props
+
+  return (
+    <span className={classnames('fa-layers', 'fa-fw', className)}>
+      <FontAwesomeIcon icon="memory" />
+      <FontAwesomeIcon
+        icon="square-full"
+        transform="shrink-8 left-2 up-2" />
+      <FontAwesomeIcon
+        icon="square-full"
+        transform="shrink-8 up-2" />
+      <FontAwesomeIcon
+        icon="square-full"
+        transform="shrink-8 right-2 up-2" />
+      <FontAwesomeIcon
+        icon={type}
+        inverse
+        transform="shrink-8 up-2" />
+    </span>
+  )
+}
+ChipIcon.defaultProps = {
+  className: '',
+}
+ChipIcon.propTypes = {
+  className: PropTypes.string,
+  type: PropTypes.string.isRequired,
+}
 
 
 
@@ -69,33 +120,37 @@ const UsesPage = () => {
     return delay.toFixed(1).replace(/\.0$/u, '')
   }
 
+  const ListItem = props => {
+    const {
+      children,
+      delay,
+    } = props
+
+    return (
+      <li
+        data-animate
+        data-animation="fade-in-from-left-small"
+        data-animation-delay={`${delay}s`}
+        data-animation-duration={BASE_DURATION}>
+        {children}
+      </li>
+    )
+  }
+  ListItem.propTypes = {
+    children: PropTypes.any.isRequired,
+    delay: PropTypes.number.isRequired,
+  }
+
   return (
     <PageWrapper
-      description="With inspiration from https://uses.tech, this page lists software and hardware I use on a daily basis."
+      description="With inspiration from https://uses.tech, this page lists the software and hardware I use on a daily basis."
       title="Uses">
-      <section>
-        <h2
-          data-animate
-          data-animation="fade-in-from-left"
-          data-animation-duration={BASE_DURATION}>
-          Hardware
-        </h2>
-
-        <p
-          data-animate
-          data-animation="fade-in-from-top-small"
-          data-animation-delay={`${getDelay()}s`}
-          data-animation-duration={BASE_DURATION}>
-          As a programmer, a gamer, a podcaster, <em>and</em> a livestreamer, I've got <strong>a lot</strong> of hardware.
-        </p>
-
-        <h3
-          data-animate
-          data-animation="fade-in-from-top-small"
-          data-animation-delay={`${getDelay()}s`}
-          data-animation-duration={BASE_DURATION}>
-          Mobile Gear
-        </h3>
+      <section
+        data-animate
+        data-animation="fade-in-from-left"
+        /* eslint-disable-next-line no-magic-numbers */
+        data-animation-delay={`${getDelay()}s`}>
+        <h2>Mobile Gear</h2>
 
         <p
           data-animate
@@ -113,25 +168,31 @@ const UsesPage = () => {
           <figcaption>MacBook Pro Specs</figcaption>
 
           <ul className="fa-ul">
-            <li>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
               <span className="fa-li">
                 <FontAwesomeIcon icon="microchip" />
               </span>
+
               2.3 GHz Dual-Core Intel Core i5
-            </li>
-            <li>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
               <span className="fa-li">
                 <FontAwesomeIcon icon="memory" />
               </span>
+
               8GB RAM
-            </li>
-            <li>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
               <span className="fa-li">
                 <FontAwesomeIcon icon="hdd" />
               </span>
+
               128GB SSD
-            </li>
-            <li>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
               <span className="fa-li">
                 <span className="fa-layers">
                   <FontAwesomeIcon
@@ -142,8 +203,9 @@ const UsesPage = () => {
                     transform="shrink-2" />
                 </span>
               </span>
+
               <strong>No touchbar</strong>
-            </li>
+            </ListItem>
           </ul>
         </figure>
 
@@ -160,114 +222,368 @@ const UsesPage = () => {
           data-animation="fade-in-from-top-small"
           data-animation-delay={`${getDelay()}s`}
           data-animation-duration={BASE_DURATION}>
-          I also carry an Apple <MagicKeyboardLink>Magic Keyboard</MagicKeyboardLink>, a <MagicTrackpadLink>Magic Trackpad 2</MagicTrackpadLink>, and a <LaptopStandLink>Jubor laptop stand</LaptopStandLink>. These prevent my back from hating me for hunching over a laptop for several hours. <span aria-label="Grinning face emoji" role="img">😁</span>
+          I also carry an Apple <MagicKeyboardLink>Magic Keyboard</MagicKeyboardLink>, a <MagicTrackpadLink>Magic Trackpad 2</MagicTrackpadLink>, and a <LaptopStandLink>Jubor laptop stand</LaptopStandLink>. These prevent my back from hating me for hunching over a laptop for several hours. Finally, I pack it all into a <AmazonLink id="B072XLW95H">handmade vintage leather rucksack</AmazonLink>. <span aria-label="Grinning face emoji" role="img">😁</span>
         </p>
+      </section>
 
-        <h3
-          data-animate
-          data-animation="fade-in-from-left"
-          /* eslint-disable-next-line no-magic-numbers */
-          data-animation-delay={`${getDelay({
-            delayIncrement: BASE_DELAY,
-            extraDelay: 0.5,
-          })}s`}
-          data-animation-duration={BASE_DURATION}>
-          Home Office
-        </h3>
+      <section
+        data-animate
+        data-animation="fade-in-from-left"
+        /* eslint-disable-next-line no-magic-numbers */
+        data-animation-delay={`${getDelay()}s`}
+        data-animation-duration={BASE_DURATION}>
+        <h2>Home Office</h2>
 
         <p
           data-animate
           data-animation="fade-in-from-top-small"
           data-animation-delay={`${getDelay()}s`}
           data-animation-duration={BASE_DURATION}>
-          When I work from my home office, I usually hook my MacBook up to the rest of this gear.
+          When working from home, I usually hook my MacBook up to a docking station with an external monitor so I can get a little more screen real estate:
         </p>
 
-        <ul className="fa-ul">
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon="desktop" />
-            </span>
+        <figure
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          <figcaption>Docking Gear</figcaption>
 
-            <ExternalLink href="https://store.hp.com/us/en/pdp/hp-27er-27-inch-display">
-              HP 27es 27in Monitor
-            </ExternalLink>
-          </li>
+          <ul className="fa-ul">
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="desktop" />
+              </span>
 
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon="hdd" />
-            </span>
+              <AmazonLink id="B07LBM2DCC">
+                AOC 27-inch 4K Frameless Monitor
+              </AmazonLink>
+            </ListItem>
 
-            <ExternalLink href="https://www.corsair.com/us/en/Categories/Products/Gaming-Keyboards/RGB-Mechanical-Gaming-Keyboards/k95-rgb-platinum-config-na/p/CH-9127114-NA">
-              Corsair K95 RGB Platinum Mechanical Keyboard
-            </ExternalLink>
-          </li>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="keyboard" />
+              </span>
 
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon="mouse" />
-            </span>
+              <MagicKeyboardLink>
+                Apple Magic Keyboard
+              </MagicKeyboardLink>
+            </ListItem>
 
-            <ExternalLink href="https://www.corsair.com/us/en/Categories/Products/Gaming-Mice/FPS-Fast-Action-Mice/NIGHTSWORD-RGB-Tunable-FPS-MOBA-Gaming-Mouse/p/CH-9306011-NA">
-              Corsair Nightsword RGB Mouse
-            </ExternalLink>
-          </li>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="mouse" />
+              </span>
 
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon="headphones" />
-            </span>
+              <MagicTrackpadLink>
+                Apple Magic Trackpad 2
+              </MagicTrackpadLink>
+            </ListItem>
 
-            <ExternalLink href="https://www.corsair.com/us/en/Categories/Products/Gaming-Headsets/Wireless-Headsets/VOID-RGB-ELITE-Wireless-Premium-Gaming-Headset-with-7-1-Surround-Sound/p/CA-9011201-NA">
-              Corsair VOID RGB Elite Wireless Headphones
-            </ExternalLink>
-          </li>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="headphones" />
+              </span>
 
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon={['fab', 'usb']} />
-            </span>
+              <ExternalLink href="https://www.apple.com/shop/product/MWP22/airpods-pro">
+                Apple AirPods Pro
+              </ExternalLink>
+            </ListItem>
 
-            <ExternalLink href="https://www.corsair.com/us/en/Categories/Products/Gaming-Keyboards/RGB-Mechanical-Gaming-Keyboards/k95-rgb-platinum-config-na/p/CH-9127114-NA">
-              Corsair ST100 RGB Headphones Stand
-            </ExternalLink>
-          </li>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="space-shuttle" />
+              </span>
 
-          <li
-            data-animate
-            data-animation="fade-in-from-top-small"
-            data-animation-delay={`${getDelay()}s`}
-            data-animation-duration={BASE_DURATION}>
-            <span className="fa-li">
-              <FontAwesomeIcon icon="volume-up" />
-            </span>
+              <AmazonLink id="B07MZZGLCM">
+                Henge Vertical Docking Station
+              </AmazonLink>
+            </ListItem>
 
-            <ExternalLink href="https://www.logitech.com/en-us/product/speaker-system-z623">
-              Logitech Z623 Speaker System
-            </ExternalLink>
-          </li>
-        </ul>
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon={['fab', 'usb']} />
+              </span>
+
+              <AmazonLink id="B07D42ZV9D">
+                j5create USB-C Mini Dock
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="chair" />
+              </span>
+
+              <AmazonLink id="B07BDHGYXR">
+                Vitesse Gaming Chair
+              </AmazonLink>
+            </ListItem>
+          </ul>
+        </figure>
+      </section>
+
+      <section
+        data-animate
+        data-animation="fade-in-from-left"
+        /* eslint-disable-next-line no-magic-numbers */
+        data-animation-delay={`${getDelay()}s`}
+        data-animation-duration={BASE_DURATION}>
+        <h2>Streaming</h2>
+
+        <p
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          I use a two computer streaming setup. I do all of my work on my MacBook Pro while it's connected to the dock system mentioned above. Then I run an HDMI cable from my MacBook Pro to one of the capture cards on my streaming machine.
+        </p>
+
+        <p
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          On my streaming machine, I run <ExternalLink href="https://streamlabs.com/">StreamLabs OBS</ExternalLink>. Finally, I combine the input from my MacBook Pro and my Logitech C922 Pro Webcam to create the stream!
+        </p>
+
+        <figure
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          <figcaption>Streaming Machine (Internals)</figcaption>
+
+          <ul className="fa-ul">
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="microchip" />
+              </span>
+
+              <AmazonLink id="B007SZ0EOM">
+                3.1 GHz Quad-Core Intel Core i7-3770S
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="microchip" />
+              </span>
+
+              <ExternalLink href="https://www.newegg.com/p/N82E16813130643">
+                MSI Z77A-GD65 Motherboard
+              </ExternalLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="thermometer-half" />
+              </span>
+
+              <AmazonLink id="B079NXZQBC">
+                Corsair H60 CPU Cooler
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="memory" />
+              </span>
+
+              <AmazonLink id="B0064DQR9U">
+                32GB G.SKILL Ripjaws X Series RAM (4x 8GB)
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <ChipIcon type="wifi" />
+              </span>
+
+              <AmazonLink id="B01H9QMOMY">
+                ASUS 4x4 AC3100 WiFi Card
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <ChipIcon type="video" />
+              </span>
+
+              <AmazonLink id="B00CDIVL2S">
+                Blackmagic Design DeckLink (x2)
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="plug" />
+              </span>
+
+              <ExternalLink href="https://www.newegg.com/p/N82E16817182084">
+                Rosewill Fortress 750-watt Power Supply
+              </ExternalLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="server" />
+              </span>
+
+              <AmazonLink id="B00FFJ0H3Q">
+                Cooler Master HAF XB EVO Case
+              </AmazonLink>
+            </ListItem>
+          </ul>
+        </figure>
+
+        <figure
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          <figcaption>Streaming Machine (Peripherals)</figcaption>
+
+          <ul className="fa-ul">
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="desktop" />
+              </span>
+
+              <AmazonLink id="B07LBM2DCC">
+                AOC 27-inch 4K Frameless Monitor
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="keyboard" />
+              </span>
+
+              <AmazonLink id="B082GRKQYF">
+                Corsair K95 RGB Platinum Mechanical Keyboard
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="mouse" />
+              </span>
+
+              <AmazonLink id="B07QX9C9WH">
+                Corsair Nightsword RGB Mouse
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="headphones" />
+              </span>
+
+              <AmazonLink id="B07X8SJ8HM">
+                Corsair VOID RGB Elite Wireless Headphones
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon={['fab', 'usb']} />
+              </span>
+
+              <AmazonLink id="B074ZQJW9R">
+                Corsair ST100 RGB Headphones Stand
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="microphone-alt" />
+              </span>
+
+              <AmazonLink id="B00N624FPA">
+                Blue Yeti Microphone
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="camera-retro" />
+              </span>
+
+              <AmazonLink id="B01LXCDPPK">
+                Logitech C922 Pro Camera
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="volume-up" />
+              </span>
+
+              <AmazonLink id="B003VAHYTG">
+                Logitech Z623 Speaker System
+              </AmazonLink>
+            </ListItem>
+          </ul>
+        </figure>
+
+        <p
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          While this setup is great, it's not doing all of the work! I'm also using several additional pieces of gear to really make the stream stand out.
+        </p>
+
+        <figure
+          data-animate
+          data-animation="fade-in-from-top-small"
+          data-animation-delay={`${getDelay()}s`}
+          data-animation-duration={BASE_DURATION}>
+          <figcaption>Other Gear</figcaption>
+
+          <ul className="fa-ul">
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="lightbulb" />
+              </span>
+
+              <AmazonLink id="B07L755X9G">
+                Elgato Key Light
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="person-booth" />
+              </span>
+
+              <AmazonLink id="B0743Z892W">
+                Elgato Green Screen
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="microphone-alt" />
+              </span>
+
+              <AmazonLink id="B07FSVL3B4">
+                Blue Compass Mic Arm
+              </AmazonLink>
+            </ListItem>
+
+            <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+              <span className="fa-li">
+                <FontAwesomeIcon icon="microphone-alt" />
+              </span>
+
+              <AmazonLink id="B071YTY3QS">
+                Knox Gear Shock Mount for Blue Yeti Microphones
+              </AmazonLink>
+            </ListItem>
+          </ul>
+        </figure>
       </section>
     </PageWrapper>
   )
