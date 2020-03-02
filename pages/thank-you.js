@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 import { useRouter } from 'next/router'
 import CountUp from 'react-countup'
-// import numeral from 'numeral'
+import numeral from 'numeral'
 
 
 
@@ -36,6 +36,20 @@ const ThankYou = () => {
     thanksTo,
   } = useRouter().query
   const thanksContainerRef = createRef(null)
+  const pageDescription = (() => {
+    let string = `I offer precisely ${numeral(thanksCount).format('0,0')} thanks`
+    if (thanksTo) {
+      string += ` to ${thanksTo}`
+    }
+    return `${string}!`
+  })()
+  const pageTitle = (() => {
+    let string = '❤️ Thank you'
+    if (thanksTo) {
+      string += `, ${thanksTo}`
+    }
+    return `${string}!`
+  })()
 
   useEffect(() => {
     const thanksContainer = thanksContainerRef.current
@@ -43,7 +57,8 @@ const ThankYou = () => {
 
     intervalID = setInterval(() => {
       const newThankYou = document.createElement('li')
-      newThankYou.innerHTML = 'thank you'
+      /* eslint-disable-next-line no-magic-numbers */
+      newThankYou.innerHTML = `thank you${(Math.random() > 0.5) ? ' ❤️' : ''}`
       newThankYou.setAttribute('data-animate', 'true')
       newThankYou.setAttribute('data-animation', `fade-in-from-${getFadeInDirection()}-small`)
       newThankYou.setAttribute('data-animation-duration', `${BASE_DURATION}s`)
@@ -57,11 +72,11 @@ const ThankYou = () => {
 
   return (
     <PageWrapper
-      description=""
-      title="Thank You!">
+      description={pageDescription}
+      title={pageTitle}>
       <section>
         <h2>
-          {'Thank you'}{`${thanksTo ? `, ${thanksTo}` : ''}`}{'!'}<br />
+          {pageTitle}<br />
           <CountUp
             duration={thanksCount / THANKS_DURATION_DIVISOR}
             end={thanksCount}
