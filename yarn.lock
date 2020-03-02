@@ -1258,14 +1258,14 @@
   dependencies:
     prop-types "^15.5.10"
 
-"@fuelrats/eslint-config-react@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@fuelrats/eslint-config-react/-/eslint-config-react-1.0.6.tgz#fe8143533b6da9b4b0095da40e814aaa196b631b"
-  integrity sha512-etYVdznxtK1hNM8KKa/wktHIT8o7TytXDQRdAn/le6FjhgK2iku9ibjT87r5XPIfhhppMXOJuRhwg3GeC9aqdA==
+"@fuelrats/eslint-config-react@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@fuelrats/eslint-config-react/-/eslint-config-react-1.2.5.tgz#ab449bab6db374cf41b805ca965d6f663e5c1cf2"
+  integrity sha512-6iteEgTgC4nJTbo+DKhN26WdOp3PyYMfIZj23wnm3YJe8ju4NpWQFhhTD9Xqb0LOSFCBuCcKtnkOXiPz55AEYQ==
   dependencies:
-    "@fuelrats/eslint-config" "^1.0.2"
+    "@fuelrats/eslint-config" "^1.2.2"
 
-"@fuelrats/eslint-config@^1.0.2":
+"@fuelrats/eslint-config@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@fuelrats/eslint-config/-/eslint-config-1.2.2.tgz#accc9f4e3c0511880b8e4040dbb21400e9fca68b"
   integrity sha512-U9EK2o1mMJiVBJerD4m5vcrhhLK6h1TF1UjCe3Ku4YrfEze76h6Q8Y2dgKzplRscYkiK34rIPAcm7xvV+gcgAw==
