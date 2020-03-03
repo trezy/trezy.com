@@ -23,7 +23,6 @@ button, .button {
   &:not(:disabled) {
     &:focus,
     &:hover {
-      box-shadow: 0 0 0.5rem 0 hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0.5);
       opacity: 1;
       outline: none;
       z-index: 1;
@@ -48,5 +47,9 @@ button, .button {
   &.primary {
     background-color: var(--brand-primary);
     color: var(--background-color);
+
+    @media (prefers-color-scheme: dark) {
+      color: var(--text-color);
+    }
   }
 }
