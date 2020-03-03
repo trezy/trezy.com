@@ -15,15 +15,9 @@
 
   %anchor-hover-styles {
     background-color: var(--brand-primary);
-    color: var(--white);
+    color: var(--inverted-text-color);
     outline: none;
     width: calc(100%);
-  }
-
-  %label-hover-styles {
-    &:after {
-      border-top-color: var(--white);
-    }
   }
 
   [for='banner-control'] {
@@ -65,7 +59,7 @@
     label {
       align-items: center;
       border: none;
-      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
+      box-shadow: none !important;
       color: var(--text-color);
       cursor: pointer;
       display: flex;
@@ -76,7 +70,6 @@
       transition-duration: 0.2s;
       transition-property:
         background-color,
-        box-shadow,
         color,
         padding;
       white-space: nowrap;
@@ -85,8 +78,6 @@
       &:focus,
       &:hover {
         @extend %anchor-hover-styles;
-
-        box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
         z-index: 1;
       }
 
@@ -120,11 +111,6 @@
         transition-property: border-top-color, transform;
         width: 0;
       }
-
-      &:hover,
-      &:focus {
-        @extend %label-hover-styles;
-      }
     }
 
     li {
@@ -148,7 +134,6 @@
 
   .subnav {
     background-color: hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0.1);
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
     color: var(--background-color);
     max-height: 0;
     opacity: 0;
@@ -168,9 +153,6 @@
     ~ a,
     ~ label {
       @extend %anchor-hover-styles;
-      @extend %label-hover-styles;
-
-      box-shadow: none;
 
       &:after {
         transform: rotate(-180deg);

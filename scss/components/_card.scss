@@ -15,8 +15,8 @@
   }
 
   > header {
-    background-color: var(--dark-grey);
-    color: var(--background-color);
+    background-color: var(--main-background-color);
+    color: var(--text-color);
     font-size: 2em;
     grid-area: header;
     margin-bottom: var(--gutter);

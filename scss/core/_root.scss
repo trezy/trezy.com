@@ -27,7 +27,8 @@ body,
 }
 
 html {
-  background-color: var(--text-color);
+  background-color: var(--main-background-color);
+  color: var(--text-color);
   font-size: 10px;
   overflow-x: hidden;
 }

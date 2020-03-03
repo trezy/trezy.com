@@ -3,7 +3,8 @@ button, .button {
   border-color: transparent;
   border-style: solid;
   border-width: 0.2rem;
-  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0.5rem 0 hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0);
+  color: inherit;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
@@ -22,7 +23,7 @@ button, .button {
   &:not(:disabled) {
     &:focus,
     &:hover {
-      box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 0.5rem 0 hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0.5);
       opacity: 1;
       outline: none;
       z-index: 1;
