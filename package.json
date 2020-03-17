@@ -54,7 +54,7 @@
     "language-tags": "^1.0.5",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
-    "marked": "^0.7.0",
+    "marked": "^0.8.0",
     "micro-cors": "^0.1.1",
     "moment": "^2.24.0",
     "next": "^9.1.6",
