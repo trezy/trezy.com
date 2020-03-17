@@ -26,6 +26,7 @@ import createTitleStringFromArticle from '../../../../helpers/createTitleStringF
 import MarkdownEditor from '../../../../components/MarkdownEditor'
 import PageWrapper from '../../../../components/PageWrapper'
 import RequireAuthentication from '../../../../components/RequireAuthentication'
+import useClaimsSelector from '../../../../store/selectors/useClaimsSelector'
 import useCurrentUserIDSelector from '../../../../store/selectors/useCurrentUserIDSelector'
 
 
@@ -47,6 +48,7 @@ const BlogEditor = ({ id }) => {
   useFirestoreConnect(connections)
 
   const article = useSelector(state => state.firestore.data.articles?.[id]) || { ...articleDefaults }
+  const claims = useClaimsSelector()
   const currentUserID = useCurrentUserIDSelector()
   const { isDraft } = article
 
@@ -65,10 +67,13 @@ const BlogEditor = ({ id }) => {
       ...article,
       authorID: article.authorID || currentUserID,
       body,
-      createdAt: firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000),
       subtitle,
       synopsis,
       title,
+    }
+
+    if (article.createdAt) {
+      serializedArticle.createdAt = firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000)
     }
 
     serializedArticle.updatedAt = now
@@ -115,6 +120,7 @@ const BlogEditor = ({ id }) => {
   }, [article])
 
   const isLoading = !isLoaded(article)
+  const canPublish = claims['actions.article.publish']
 
   return (
     <PageWrapper title={`Editing Article: ${title}`}>
@@ -178,7 +184,7 @@ const BlogEditor = ({ id }) => {
                 Save
               </button>
 
-              {isDraft && (
+              {(isDraft && canPublish) && (
                 <button
                   className="primary"
                   disabled={isLoading || isUpdating}

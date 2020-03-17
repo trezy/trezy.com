@@ -4,6 +4,10 @@
   image-rendering: pixelated;
   text-overflow: ellipsis;
   text-rendering: optimizeLegibility;
+  transition-duration: 0.2s;
+  transition-property:
+    background-color,
+    color;
 
   @media (prefers-reduced-motion: reduce) {
     &,
@@ -27,7 +31,8 @@ body,
 }
 
 html {
-  background-color: var(--text-color);
+  background-color: var(--main-background-color);
+  color: var(--text-color);
   font-size: 10px;
   overflow-x: hidden;
 }

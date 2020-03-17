@@ -16,8 +16,6 @@ import React from 'react'
 import Alert from './Alert'
 import Article from './Article'
 import useArticlesSelector from '../store/selectors/useArticlesSelector'
-import useAuthSelector from '../store/selectors/useAuthSelector'
-import useClaimsSelector from '../store/selectors/useClaimsSelector'
 
 
 
@@ -36,20 +34,12 @@ const ArticleList = props => {
     collection: 'articles',
     where: [],
   }
-  const auth = useAuthSelector()
-  const claims = useClaimsSelector()
-
-  let userCanViewDrafts = claims['actions.article.viewDraft']
-
-  if (isLoaded(auth)) {
-    userCanViewDrafts = claims['actions.article.viewDraft']
-  }
 
   if (!includeDraft) {
     queryObject.where.push(['isDraft', '==', false])
   }
 
-  if (!includePublished && userCanViewDrafts) {
+  if (!includePublished) {
     queryObject.where.push(['isDraft', '==', true])
   }
 

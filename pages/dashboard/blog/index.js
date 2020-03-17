@@ -1,4 +1,5 @@
 // Module imports
+import { isLoaded } from 'react-redux-firebase'
 import Link from 'next/link'
 import React from 'react'
 
@@ -10,34 +11,44 @@ import React from 'react'
 import ArticleList from '../../../components/ArticleList'
 import PageWrapper from '../../../components/PageWrapper'
 import RequireAuthentication from '../../../components/RequireAuthentication'
+import useAuthSelector from '../../../store/selectors/useAuthSelector'
 
 
 
 
 
-const BlogDashboard = () => (
-  <PageWrapper title="Blog Dashboard">
-    <RequireAuthentication>
-      <section>
-        <header className="page-header">
-          <h2>Dashboard / Blog</h2>
+const BlogDashboard = () => {
+  const auth = useAuthSelector()
 
-          <Link
-            as="/dashboard/blog/edit/new"
-            href="/dashboard/blog/edit/[id]">
-            <a className="button primary">
-              New Article
-            </a>
-          </Link>
-        </header>
+  return (
+    <PageWrapper title="Blog Dashboard">
+      <RequireAuthentication>
+        <section>
+          <header className="page-header">
+            <h2>Dashboard / Blog</h2>
 
-        <ArticleList
-          editMode
-          includeDraft />
-      </section>
-    </RequireAuthentication>
-  </PageWrapper>
-)
+            <Link
+              as="/dashboard/blog/edit/new"
+              href="/dashboard/blog/edit/[id]">
+              <a className="button primary">
+                New Article
+              </a>
+            </Link>
+          </header>
+
+          {isLoaded(auth) && (
+            <ArticleList
+              authorID={auth.uid}
+              editMode
+              includeDraft />
+          )}
+
+          {!isLoaded(auth) && 'Loading...'}
+        </section>
+      </RequireAuthentication>
+    </PageWrapper>
+  )
+}
 
 
 

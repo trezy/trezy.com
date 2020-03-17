@@ -3,7 +3,8 @@ button, .button {
   border-color: transparent;
   border-style: solid;
   border-width: 0.2rem;
-  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0.5rem 0 hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0);
+  color: inherit;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
@@ -12,22 +13,18 @@ button, .button {
   padding: var(--gutter) calc(var(--gutter) * 2);
   position: relative;
   opacity: 0.8;
-  transform: scale(1);
   transition-duration: 0.2s;
   transition-property:
     background-color,
     box-shadow,
     color,
-    opacity,
-    transform;
+    opacity;
 
   &:not(:disabled) {
     &:focus,
     &:hover {
-      box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
       opacity: 1;
       outline: none;
-      transform: scale(1.2);
       z-index: 1;
     }
   }
@@ -50,5 +47,9 @@ button, .button {
   &.primary {
     background-color: var(--brand-primary);
     color: var(--background-color);
+
+    @media (prefers-color-scheme: dark) {
+      color: var(--text-color);
+    }
   }
 }

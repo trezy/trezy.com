@@ -1,5 +1,5 @@
 .response-form {
-  background-color: var(--white);
+  background-color: var(--background-color);
   bottom: var(--gutter);
   cursor: text;
   margin-top: var(--gutter);
@@ -22,7 +22,7 @@
   &:after {
     background-image: linear-gradient(
       to bottom,
-      var(--white),
+      var(--background-color),
       var(--transparent)
     );
     border-top-width: 0.1rem;
@@ -32,7 +32,7 @@
   &:before {
     background-image: linear-gradient(
       to top,
-      var(--white),
+      var(--background-color),
       var(--transparent)
     );
     border-bottom-width: 0.1rem;
@@ -51,7 +51,7 @@
     animation-name:
       fade-in,
       fade-out;
-    background-color: hsla(var(--white-h), var(--white-s), var(--white-l), 0.8);
+    background-color: hsla(var(--background-color-h), var(--background-color-s), var(--background-color-l), 0.8);
     bottom: 0;
     display: flex;
     justify-content: center;
@@ -64,7 +64,7 @@
 
     div {
       background-color: var(--brand-primary);
-      color: var(--white);
+      color: var(--background-color);
       padding: var(--gutter);
     }
   }

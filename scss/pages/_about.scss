@@ -8,6 +8,7 @@
     margin-left: calc(-1 * (var(--gutter) * 2));
     margin-right: var(--gutter);
     max-width: 20rem;
+    position: relative;
     shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
     // shape-outside: polygon(
     //   000.00% 006.50%,
