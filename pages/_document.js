@@ -110,7 +110,6 @@ class Document extends NextDocument {
       object: [],
       script: [
         "'self'",
-        "platform.twitter.com",
       ],
     }
 
