@@ -37,7 +37,6 @@
     "classnames": "^2.2.6",
     "content-security-policy-builder": "^2.1.0",
     "convert-object-keys": "^1.0.0",
-    "cross-env": "^5.2.0",
     "dotenv": "^8.1.0",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
