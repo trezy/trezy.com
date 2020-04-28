@@ -7870,10 +7870,10 @@ react-markdown@^4.3.1:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-redux-firebase@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/react-redux-firebase/-/react-redux-firebase-3.0.6.tgz#b55e613383ca6d1163729b08dc0006320917aaed"
-  integrity sha512-xZ6/GrffzuxppAUYmDE/UCMcYVpEJdm8L+us8XIgMMMZwZHOWUSsN2V+LAdmI+YnLyoVCp1XyyyflPHYZy9gcA==
+react-redux-firebase@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-redux-firebase/-/react-redux-firebase-3.3.1.tgz#9d494457b365ec960e77c0c9c3a076b9cf2a0c92"
+  integrity sha512-4uFWIe8dBsi3kzSFHTmsbg35oXiuMltcX5b7wQ2AzSlwWv6Y46+BhkfBy6tN0BxZQt5MWcrTaU3gjdkMzsilpA==
   dependencies:
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.15"
