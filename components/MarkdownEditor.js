@@ -2,7 +2,6 @@
 import React, {
   forwardRef,
 } from 'react'
-import marked from 'marked'
 import PropTypes from 'prop-types'
 
 
@@ -11,6 +10,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import Input from './Input'
+import MarkdownRenderer from './MarkdownRenderer'
 
 
 
@@ -28,20 +28,19 @@ const MarkdownEditor = forwardRef((props, ref) => {
 
   return (
     <>
-      <Input
-        disabled={disabled}
-        hidden={previewMode}
-        multiline={multiline}
-        onChange={onChange}
-        placeholder={placeholder}
-        ref={ref}
-        value={value} />
+      {!previewMode && (
+        <Input
+          disabled={disabled}
+          hidden={previewMode}
+          multiline={multiline}
+          onChange={onChange}
+          placeholder={placeholder}
+          ref={ref}
+          value={value} />
+      )}
 
       {previewMode && (
-        <>
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: marked(value) }} />
-        </>
+        <MarkdownRenderer source={value} />
       )}
     </>
   )

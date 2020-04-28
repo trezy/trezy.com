@@ -1,17 +1,10 @@
 // Module imports
-import React, {
-  useEffect,
-} from 'react'
-import {
-  isEmpty,
-  isLoaded,
-} from 'react-redux-firebase'
+import { isLoaded } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import Link from 'next/link'
-import marked from 'marked'
-import Prism from 'prismjs'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
@@ -20,6 +13,7 @@ import PropTypes from 'prop-types'
 // Component imports
 import ArticleHeader from './ArticleHeader'
 import ArticleMeta from './ArticleMeta'
+import MarkdownRenderer from './MarkdownRenderer'
 
 
 
@@ -33,12 +27,6 @@ const Article = props => {
   } = props
 
   const article = useSelector(state => state.firestore.data.articles?.[id])
-
-  useEffect(() => {
-    if (isLoaded(article) && !isEmpty(article)) {
-      setTimeout(() => Prism.highlightAll(), 0)
-    }
-  }, [article])
 
   if (!isLoaded(article)) {
     return (
@@ -80,10 +68,7 @@ const Article = props => {
       )}
 
       {!summarize && (
-        <>
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: marked(article.body) }} />
-        </>
+        <MarkdownRenderer source={article.body} />
       )}
 
       {editMode && (

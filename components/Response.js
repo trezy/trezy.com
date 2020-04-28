@@ -5,7 +5,6 @@ import {
   useFirestoreConnect,
 } from 'react-redux-firebase'
 import classnames from 'classnames'
-import marked from 'marked'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -16,6 +15,7 @@ import React from 'react'
 
 // Local imports
 import Alert from './Alert'
+import MarkdownRenderer from './MarkdownRenderer'
 import useUserSelector from '../store/selectors/useUserSelector'
 
 
@@ -71,8 +71,7 @@ const Response = props => {
         })}
         id={id}>
 
-        {/* eslint-disable-next-line react/no-danger */}
-        <div dangerouslySetInnerHTML={{ __html: marked(body) }} />
+        <MarkdownRenderer source={body} />
 
         <footer>
           <ul className="pipe-separated">

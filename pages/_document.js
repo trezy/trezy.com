@@ -94,6 +94,7 @@ class Document extends NextDocument {
         'https://*.firebaseio.com',
       ],
       font: 'https://fonts.gstatic.com',
+      frame: 'https://codepen.io',
       img: [
         "'self'",
         'https://*.googleusercontent.com',
@@ -102,14 +103,14 @@ class Document extends NextDocument {
         'https://firebasestorage.googleapis.com',
         'https://image.tmdb.org',
       ],
-      style: [
-        "'self'",
-        'https://fonts.googleapis.com',
-      ],
       media: [],
       object: [],
       script: [
         "'self'",
+      ],
+      style: [
+        "'self'",
+        'https://fonts.googleapis.com',
       ],
     }
 

@@ -18,7 +18,6 @@ import { createFirestoreInstance } from 'redux-firestore'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { Provider } from 'react-redux'
 import LocalForage from 'localforage'
-import marked from 'marked'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
 import NProgress from 'nprogress'
@@ -67,30 +66,6 @@ class App extends NextApp {
       name: 'Trezy.com',
       storeName: 'webStore',
     })
-
-    const markdownRenderer = new marked.Renderer
-
-    markdownRenderer.list = (text, ordered) => {
-      const elementType = ordered ? 'ol' : 'ul'
-
-      return `
-        <${elementType} class="${ordered ? 'numbered' : 'bulleted'}">
-          ${text}
-        </${elementType}>`
-    }
-
-    markdownRenderer.heading = (text, level) => {
-      const escapedText = text.toLowerCase().replace(/[^\w]+/gu, '-')
-
-      return `
-        <h${level + 1}>
-          <a name="${escapedText}" class="anchor" href="#${escapedText}"></a>
-
-          ${text}
-        </h${level + 1}>`
-    }
-
-    marked.setOptions({ renderer: markdownRenderer })
   }
 
   render () {

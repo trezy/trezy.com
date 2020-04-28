@@ -11,6 +11,11 @@ module.exports = {
     // jsx-a11y
     'jsx-a11y/control-has-associated-label': ['off'],
 
+    // react
+    'react/jsx-pascal-case': ['warn', {
+      allowAllCaps: true,
+    }],
+
     // react-hooks
     'react-hooks/exhaustive-deps': ['off'],
 

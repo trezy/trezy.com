@@ -11,7 +11,6 @@ import React, {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
 import { useRouter } from 'next/router'
-import marked from 'marked'
 import PropTypes from 'prop-types'
 
 
@@ -25,6 +24,7 @@ import ExternalLink from '../../components/ExternalLink'
 import Image from '../../components/Image'
 import Input from '../../components/Input'
 import MarkdownEditor from '../../components/MarkdownEditor'
+import MarkdownRenderer from '../../components/MarkdownRenderer'
 import PageWrapper from '../../components/PageWrapper'
 import RequireAuthentication from '../../components/RequireAuthentication'
 import useAuthSelector from '../../store/selectors/useAuthSelector'
@@ -149,10 +149,9 @@ const Profile = props => {
                   <dt>Bio</dt>
 
                   {Boolean(user.bio) && (
-                    <>
-                      {/* eslint-disable-next-line react/no-danger */}
-                      <dd dangerouslySetInnerHTML={{ __html: marked(user.bio) }} />
-                    </>
+                    <dd>
+                      <MarkdownRenderer source={user.bio} />
+                    </dd>
                   )}
 
                   {!user.bio && (

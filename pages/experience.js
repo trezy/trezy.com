@@ -1,5 +1,4 @@
 // Module imports
-import marked from 'marked'
 import moment from 'moment'
 import React from 'react'
 import uuid from 'uuid/v4'
@@ -9,6 +8,7 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
+import MarkdownRenderer from '../components/MarkdownRenderer'
 import PageWrapper from '../components/PageWrapper'
 
 
@@ -304,8 +304,7 @@ const Experience = () => (
                     <span><time>{startDate}</time> - <time>{endDate || 'Present'}</time></span>
                   </div>
 
-                  {/* eslint-disable-next-line react/no-danger */}
-                  <div dangerouslySetInnerHTML={{ __html: marked(description) }} />
+                  <MarkdownRenderer source={description} />
                 </li>
               )
             })}
