@@ -94,7 +94,10 @@ class Document extends NextDocument {
         'https://*.firebaseio.com',
       ],
       font: 'https://fonts.gstatic.com',
-      frame: 'https://codepen.io',
+      frame: [
+        'https://codepen.io',
+        'https://trezy-core.firebaseapp.com',
+      ],
       img: [
         "'self'",
         'https://*.googleusercontent.com',
