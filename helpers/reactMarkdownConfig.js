@@ -7,7 +7,10 @@ import shortcodes from 'remark-shortcodes'
 
 
 // Local imports
-import { Shortcode } from './markdownRenderers'
+import {
+  List,
+  Shortcode,
+} from './markdownRenderers'
 
 
 
@@ -19,6 +22,7 @@ const config = {
     shortcodes,
   ],
   renderers: {
+    list: List,
     shortcode: Shortcode,
   },
 }
