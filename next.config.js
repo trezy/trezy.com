@@ -1,11 +1,7 @@
 /* eslint-env node */
 
 // Module imports
-const glob = require('glob')
-const path = require('path')
 const webpack = require('webpack')
-const withCSS = require('@zeit/next-css')
-const withSass = require('@zeit/next-sass')
 
 
 
@@ -25,7 +21,7 @@ const DEFAULT_PORT = 3000
 
 
 
-module.exports = withSass(withCSS({
+module.exports = {
   // target: 'serverless',
 
   env: {
@@ -60,11 +56,4 @@ module.exports = withSass(withCSS({
 
     return config
   },
-
-  sassLoaderOptions: {
-    includePaths: ['styles', 'node_modules']
-      .map((dir) => path.join(__dirname, dir))
-      .map((dir) => glob.sync(dir))
-      .reduce((acc, dir) => acc.concat(dir), []),
-  },
-}))
+}

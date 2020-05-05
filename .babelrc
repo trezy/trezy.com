@@ -19,10 +19,10 @@
       "plugins": [
         "line-numbers",
         "normalize-whitespace",
-        "show-language"
+        "show-language",
+        "toolbar"
       ],
-      "theme": "tomorrow",
-      "css": true
+      "css": false
     }]
   ]
 }

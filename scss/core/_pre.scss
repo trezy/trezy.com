@@ -1,3 +1,4 @@
-pre[class*="language-"].line-numbers {
-  background-color: var(--dark-grey);
+pre[class*="language-"] {
+  max-width: 100%;
+  overflow: auto;
 }
