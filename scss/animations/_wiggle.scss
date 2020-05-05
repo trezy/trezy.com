@@ -2,7 +2,7 @@
   $wiggle-rotation: 7.5;
 
   10%, 90% {
-    transform: rotateZ(#{calc(($wiggle-rotation / 3) * 2)}deg);
+    transform: rotateZ(#{($wiggle-rotation / 3) * 2}deg);
   }
 
   30%, 50%, 70% {
