@@ -8,7 +8,6 @@ import shortcodes from 'remark-shortcodes'
 
 // Local imports
 import {
-  Image,
   List,
   Shortcode,
 } from './markdownRenderers'
@@ -23,8 +22,6 @@ const config = {
     shortcodes,
   ],
   renderers: {
-    image: Image,
-    imageReference: Image,
     list: List,
     shortcode: Shortcode,
   },

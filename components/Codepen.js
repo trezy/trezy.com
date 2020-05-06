@@ -1,15 +1,13 @@
 // Module imports
-import React, {
-  memo,
-} from 'react'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
 
 
-const Codepen = memo(props => {
+const Codepen = props => {
   const {
     children,
     defaultTabs,
@@ -36,7 +34,7 @@ const Codepen = memo(props => {
       {children}
     </div>
   )
-})
+}
 
 Codepen.defaultProps = {
   children: null,
@@ -47,10 +45,7 @@ Codepen.defaultProps = {
 Codepen.propTypes = {
   children: PropTypes.node,
   defaultTabs: PropTypes.array,
-  height: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  height: PropTypes.number,
   id: PropTypes.string.isRequired,
 }
 

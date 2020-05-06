@@ -1,6 +1,5 @@
 {
   "name": "trezy.com",
-  "scope": "trezy-studios",
   "version": 2,
   "build": {
     "env": {

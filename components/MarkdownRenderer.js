@@ -1,6 +1,5 @@
 // Module imports
 import React, {
-  createRef,
   useEffect,
 } from 'react'
 import Prism from 'prismjs'
@@ -20,18 +19,15 @@ import config from '../helpers/reactMarkdownConfig'
 
 const MarkdownRenderer = props => {
   const { source } = props
-  const markdownWrapperRef = createRef(null)
   useEffect(() => {
-    Prism.highlightAllUnder(markdownWrapperRef.current)
+    setTimeout(() => Prism.highlightAll(), 0)
   }, [source])
 
   return (
-    <div ref={markdownWrapperRef}>
-      <ReactMarkdown
-        className="line-numbers"
-        {...config}
-        {...props} />
-    </div>
+    <ReactMarkdown
+      className="line-numbers"
+      {...config}
+      {...props} />
   )
 }
 

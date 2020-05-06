@@ -1,15 +1,11 @@
 @mixin generateHSLCustomProperties($name, $h, $s, $l) {
-  // $safeName is necessary because $name can be a color literal. Sass doesn't
-  // like that.
-  $safeName: '' + $name;
+  --#{$name}-h: calc(#{$h} + var(--hue-shift));
+  --#{$name}-s: #{$s};
+  --#{$name}-l: #{$l};
 
-  --#{$safeName}-h: calc(#{$h} + var(--hue-shift));
-  --#{$safeName}-s: #{$s};
-  --#{$safeName}-l: #{$l};
+  --#{$name}-hsl: var(--#{$name}-h), var(--#{$name}-s), var(--#{$name}-l);
 
-  --#{$safeName}-hsl: var(--#{$safeName}-h), var(--#{$safeName}-s), var(--#{$safeName}-l);
-
-  --#{$safeName}: hsl(var(--#{$safeName}-hsl));
+  --#{$name}: hsl(var(--#{$name}-hsl));
 }
 
 @mixin generateHSLCustomPropertiesFromColor($color) {
