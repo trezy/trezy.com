@@ -53,6 +53,7 @@
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
     "postcss-easy-import": "^3.0.0",
+    "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "prismjs": "^1.17.1",
     "prop-types": "^15.7.2",
