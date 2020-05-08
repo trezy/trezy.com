@@ -8,8 +8,8 @@ section {
   width: 100%;
 
   & > * {
-    margin-left: max(calc(50% - 60rem), 10rem);
-    margin-right: max(calc(50% - 60rem), 10rem);
+    margin-left: native-max(calc(50% - 60rem), 10rem);
+    margin-right: native-max(calc(50% - 60rem), 10rem);
     max-width: 120rem;
   }
 

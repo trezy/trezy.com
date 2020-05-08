@@ -1,0 +1,3 @@
+@function native-max($values...) {
+  @return #{"max(#{$values})"};
+}
