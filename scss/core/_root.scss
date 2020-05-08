@@ -4,10 +4,6 @@
   image-rendering: pixelated;
   text-overflow: ellipsis;
   text-rendering: optimizeLegibility;
-  transition-duration: 0.2s;
-  transition-property:
-    background-color,
-    color;
 
   @media (prefers-reduced-motion: reduce) {
     &,
