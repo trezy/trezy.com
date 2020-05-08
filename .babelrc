@@ -3,20 +3,6 @@
     "next/babel"
   ],
   "plugins": [
-    ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["prismjs", {
-      "languages": [
-        "css",
-        "html",
-        "javascript"
-      ],
-      "plugins": [
-        "line-numbers",
-        "normalize-whitespace",
-        "show-language",
-        "toolbar"
-      ],
-      "css": false
-    }]
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
   ]
 }

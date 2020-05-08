@@ -2,7 +2,7 @@
 
 // Module imports
 import classnames from 'classnames'
-import NextHead from 'next/head'
+import Head from 'next/head'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -54,7 +54,7 @@ class PageWrapper extends React.Component {
 
     return (
       <>
-        <NextHead>
+        <Head>
           <title>{title} | Trezy.com</title>
           <meta name="description" content={description} />
           <meta property="og:description" content={description} />
@@ -65,7 +65,7 @@ class PageWrapper extends React.Component {
           <meta property="twitter:creator" content="@TrezyCodes" />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
-        </NextHead>
+        </Head>
 
         <main className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}>
           {children}
