@@ -13,6 +13,26 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "trezy",
+      "name": "Trezy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442980?v=4",
+      "profile": "http://trezy.com",
+      "contributions": [
+        "a11y",
+        "bug",
+        "blog",
+        "business",
+        "code",
+        "content",
+        "design",
+        "ideas",
+        "infra",
+        "maintenance",
+        "projectManagement",
+        "security"
+      ]
     }
   ],
   "contributorsPerLine": 7,
