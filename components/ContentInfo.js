@@ -15,8 +15,12 @@ import SocialNav from './SocialNav'
 
 const ContentInfo = () => (
   <footer role="contentinfo">
-    <div className="trezy">
-      <header>Trezy</header>
+    <nav
+      className="trezy"
+      aria-labelledBy="contentinfo-trezy-header">
+      <header id="contentinfo-trezy-header">
+        Trezy
+      </header>
 
       <ul>
         <li>
@@ -43,10 +47,14 @@ const ContentInfo = () => (
           </Link>
         </li>
       </ul>
-    </div>
+    </nav>
 
-    <div className="account">
-      <header>Account</header>
+    <nav
+      className="account"
+      aria-labelledBy="contentinfo-account-header">
+      <header id="contentinfo-account-header">
+        Account
+      </header>
 
       <ul>
         <li>
@@ -61,10 +69,14 @@ const ContentInfo = () => (
           </Link>
         </li>
       </ul>
-    </div>
+    </nav>
 
-    <div className="resources">
-      <header>Resources</header>
+    <nav
+      className="resources"
+      aria-labelledBy="contentinfo-resources-header">
+      <header id="contentinfo-resources-header">
+        Resources
+      </header>
 
       <ul>
         <li>
@@ -85,7 +97,7 @@ const ContentInfo = () => (
           </Link>
         </li>
       </ul>
-    </div>
+    </nav>
 
     <SocialNav />
   </footer>
