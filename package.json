@@ -17,7 +17,7 @@
     "@babel/plugin-proposal-decorators": "^7.4.0",
     "@babel/runtime": "^7.7.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
-    "@fortawesome/free-brands-svg-icons": "^5.10.1",
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.10.1",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
