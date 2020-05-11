@@ -17,8 +17,6 @@ const Image = props => {
     console.error('Images must have an alt and/or title attribute.')
   }
 
-  console.log('Image', props)
-
   return (
     <img
       alt={alt || title}
