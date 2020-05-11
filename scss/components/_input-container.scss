@@ -1,12 +1,17 @@
 .input-container {
+  --shadow-opacity: 0;
+
   border-color: var(--brand-primary);
   border-style: solid;
   border-width: 0;
   border-bottom-width: 0.1rem;
+  box-shadow: 0 0 1rem 0 hsla(var(--brand-primary-h), var(--brand-primary-s), var(--brand-primary-l), var(--shadow-opacity));
   display: grid;
   grid-template-areas: 'caret prefix input';
   grid-template-columns: auto auto 1fr;
   padding-bottom: 0.5rem;
+  transition-duration: 0.2s;
+  transition-property: box-shadow;
 
   &:before {
     color: var(--brand-primary);
@@ -22,7 +27,18 @@
     transition-property: color;
   }
 
+  input,
+  textarea {
+    grid-area: 'input';
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
   &:focus-within{
+    --shadow-opacity: 1;
+
     &:before {
       animation-direction: alternate;
       animation-duration: 1s;
@@ -30,14 +46,5 @@
       animation-name: full-pulse;
       animation-timing-function: linear;
     }
-
-    .prefix {
-      // color: inherit;
-    }
-  }
-
-  input,
-  textarea {
-    grid-area: 'input';
   }
 }
