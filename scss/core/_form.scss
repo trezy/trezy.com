@@ -9,4 +9,13 @@ form {
       margin-bottom: var(--gutter);
     }
   }
+
+  > menu {
+    align-self: flex-end;
+    background-color: var(--background-color);
+    bottom: var(--gutter);
+    box-shadow: 0 0 2rem 0 var(--background-color);
+    margin-top: auto;
+    position: sticky;
+  }
 }
