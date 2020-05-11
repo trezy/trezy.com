@@ -250,21 +250,23 @@ const Banner = () => {
           role="button"
           tabIndex="1"
           title="Expand/Collapse Menu">
-          <FontAwesomeIcon
-            data-animate
-            data-animation={`fade-${isOpen ? 'out' : 'in'}`}
-            data-animation-duration="0.2s"
-            fixedWidth
-            icon="bars" />
+          <span>
+            <FontAwesomeIcon
+              data-animate
+              data-animation={`fade-${isOpen ? 'out' : 'in'}`}
+              data-animation-duration="0.2s"
+              fixedWidth
+              icon="bars" />
 
-          <FontAwesomeIcon
-            data-animate
-            data-animation={`fade-${isOpen ? 'in' : 'out'}`}
-            data-animation-duration="0.2s"
-            fixedWidth
-            icon="times" />
+            <FontAwesomeIcon
+              data-animate
+              data-animation={`fade-${isOpen ? 'in' : 'out'}`}
+              data-animation-duration="0.2s"
+              fixedWidth
+              icon="times" />
 
-          <span className="screen-reader-only">Menu</span>
+            <span className="screen-reader-only">Menu</span>
+          </span>
         </label>
         {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
 

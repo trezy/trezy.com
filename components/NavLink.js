@@ -11,6 +11,7 @@ import React from 'react'
 
 
 // Component imports
+import Button from './Button'
 import ExternalLink from './ExternalLink'
 
 
@@ -58,29 +59,28 @@ const NavLink = props => {
     )
   }
 
-  if (title instanceof Symbol) {
-    titleComponent = title
-  } else {
-    titleComponent = (
-      <span className={classnames({ 'screen-reader-only': iconOnly })}>
-        {title}
-      </span>
-    )
+  if (!iconOnly) {
+    if (title instanceof Symbol) {
+      titleComponent = title
+    } else {
+      titleComponent = (
+        <span>{title}</span>
+      )
+    }
   }
 
   if (onClick) {
     return (
-      <button
+      <Button
         {...extraProps}
         className={classnames(className, { iconic: iconOnly })}
         disabled={disabled}
         onClick={event => onClick(event, passableProps)}
-        tabIndex={isFocusable ? null : '-1'}
-        type="button">
+        tabIndex={isFocusable ? null : '-1'}>
         {iconComponent}
 
         {titleComponent}
-      </button>
+      </Button>
     )
   }
 
@@ -88,7 +88,7 @@ const NavLink = props => {
     return (
       <ExternalLink
         {...extraProps}
-        className={classnames(className, 'button', {
+        className={classnames(className, {
           disabled,
           iconic: iconOnly,
         })}
@@ -96,7 +96,6 @@ const NavLink = props => {
         target={target}
         tabIndex={isFocusable ? null : '-1'}>
         {iconComponent}
-
         {titleComponent}
       </ExternalLink>
     )
@@ -106,13 +105,12 @@ const NavLink = props => {
     <Link href={href}>
       <a
         {...extraProps}
-        className={classnames(className, 'button', {
+        className={classnames(className, {
           disabled,
           iconic: iconOnly,
         })}
         tabIndex={isFocusable ? null : '-1'}> {/* eslint-disable-line jsx-a11y/no-noninteractive-tabindex */}
         {iconComponent}
-
         {titleComponent}
       </a>
     </Link>

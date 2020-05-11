@@ -20,6 +20,7 @@ import PropTypes from 'prop-types'
 // Component imports
 import Alert from '../../components/Alert'
 import ArticleList from '../../components/ArticleList'
+import Button from '../../components/Button'
 import ExternalLink from '../../components/ExternalLink'
 import Image from '../../components/Image'
 import Input from '../../components/Input'
@@ -245,45 +246,40 @@ const Profile = props => {
               <footer>
                 <menu type="toolbar">
                   {!editMode && (
-                    <button
+                    <Button
                       className="primary"
-                      onClick={handleEdit}
-                      type="button">
+                      onClick={handleEdit}>
                       Edit Profile
-                    </button>
+                    </Button>
                   )}
 
                   {editMode && (
                     <>
-                      <button
+                      <Button
                         className="danger"
-                        onClick={handleCancel}
-                        type="button">
+                        onClick={handleCancel}>
                         Cancel
-                      </button>
+                      </Button>
 
                       {!previewMode && (
-                        <button
+                        <Button
                           className="primary"
-                          onClick={() => setPreviewMode(true)}
-                          type="button">
+                          onClick={() => setPreviewMode(true)}>
                           Preview
-                        </button>
+                        </Button>
                       )}
 
                       {previewMode && (
-                        <button
+                        <Button
                           className="primary"
-                          onClick={() => setPreviewMode(false)}
-                          type="button">
+                          onClick={() => setPreviewMode(false)}>
                           Edit
-                        </button>
+                        </Button>
                       )}
 
-                      <button
+                      <Button
                         className="primary"
-                        onClick={handleSave}
-                        type="button">
+                        onClick={handleSave}>
                         {!isSaving && (
                           <span>Save Changes</span>
                         )}
@@ -296,7 +292,7 @@ const Profile = props => {
                             Saving...
                           </span>
                         )}
-                      </button>
+                      </Button>
                     </>
                   )}
                 </menu>

@@ -31,7 +31,7 @@ const BlogDashboard = () => {
               as="/dashboard/blog/edit/new"
               href="/dashboard/blog/edit/[id]">
               <a className="button primary">
-                New Article
+                <span>New Article</span>
               </a>
             </Link>
           </header>

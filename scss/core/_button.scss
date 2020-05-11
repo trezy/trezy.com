@@ -1,9 +1,12 @@
 button, .button {
-  background-color: transparent;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 0.2rem;
-  box-shadow: 0 0 0.5rem 0 hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0);
+  --button-background-color: var(--light-grey);
+  --button-shadow-color-h: var(--background-color-h);
+  --button-shadow-color-s: var(--background-color-s);
+  --button-shadow-color-l: var(--background-color-l);
+  --button-shadow-opacity: 0;
+
+  background-color: var(--transparent);
+  border: none;
   color: inherit;
   cursor: pointer;
   display: inline-block;
@@ -12,21 +15,76 @@ button, .button {
   line-height: 1;
   padding: var(--gutter) calc(var(--gutter) * 2);
   position: relative;
-  opacity: 0.8;
+  opacity: 1;
   transition-duration: 0.2s;
   transition-property:
     background-color,
     box-shadow,
     color,
     opacity;
+  z-index: 1;
 
-  &:not(:disabled) {
-    &:focus,
-    &:hover {
-      opacity: 1;
-      outline: none;
-      z-index: 1;
+  &:before,
+  &:after {
+    bottom: 0;
+    content: '';
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition-duration: 0.3s;
+  }
+
+  &:before {
+    background-color: var(--button-background-color);
+    box-shadow: 0 0 1rem 0 hsla(var(--button-shadow-color-h), var(--button-shadow-color-s), var(--button-shadow-color-l), var(--button-shadow-opacity));
+    opacity: 1;
+    pointer-events: none;
+    transform: scale(1);
+    transition-property: box-shadow, opacity, transform;
+    z-index: 1;
+  }
+
+  &:after {
+    border-color: var(--button-background-color);
+    border-style: solid;
+    border-width: 0.2rem;
+    opacity: 0;
+    transform: scale(1.5);
+    transition-property: opacity, transform;
+    z-index: 2;
+  }
+
+  > span {
+    position: relative;
+    z-index: 3;
+  }
+
+  &:hover,
+  &:focus {
+    &:before {
+      transform: scale(1.5);
     }
+
+    z-index: 2;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 0;
+    }
+
+    &:after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &:focus {
+    --button-shadow-opacity: 1;
+
+    outline: none;
   }
 
   &:disabled {
@@ -39,13 +97,17 @@ button, .button {
     padding: var(--gutter);
   }
 
-  &.danger:hover {
-    background-color: var(--danger-background-color);
-    color: var(--danger-text-color);
+  &.danger {
+    --button-background-color: var(--danger-background-color);
+
+    &:hover {
+      color: var(--danger-text-color);
+    }
   }
 
   &.primary {
-    background-color: var(--brand-primary);
+    --button-background-color: var(--brand-primary);
+
     color: var(--background-color);
 
     @media (prefers-color-scheme: dark) {
