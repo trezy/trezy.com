@@ -1,7 +1,10 @@
 input, textarea {
+  --shadow-opacity: 0;
+
   background-color: inherit;
   background-image: none;
   border: none;
+  box-shadow: 0 0 1rem 0 hsla(var(--brand-primary-h), var(--brand-primary-s), var(--brand-primary-l), var(--shadow-opacity));
   color: inherit;
   font-family: inherit;
   font-size: inherit;
@@ -10,13 +13,20 @@ input, textarea {
   line-height: 2;
   padding: 0;
   resize: vertical;
-  transition-duration: 0.5s;
-  transition-property: color;
+  transition-duration: 0.2s;
+  transition-property: box-shadow, color;
   width: 100%;
+  grid-area: 'input';
 
   &[disabled=true] {
     background-color: inherit;
     background-image: none;
     color: var(--dim-white);
+  }
+
+  &:focus {
+    --shadow-opacity: 1;
+
+    outline: none;
   }
 }

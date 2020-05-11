@@ -21,6 +21,7 @@ import uuid from 'uuid/v4'
 
 // Component imports
 import articleDefaults from '../../../../models/article'
+import Button from '../../../../components/Button'
 import createSlugFromTitleString from '../../../../helpers/createSlugFromTitleString'
 import createTitleStringFromArticle from '../../../../helpers/createTitleStringFromArticle'
 import MarkdownEditor from '../../../../components/MarkdownEditor'
@@ -169,29 +170,28 @@ const BlogEditor = ({ id }) => {
             </fieldset>
 
             <menu type="toolbar">
-              <button
+              <Button
                 disabled={isLoading || isUpdating}
-                onClick={() => setPreviewMode(!previewMode)}
-                type="button">
+                onClick={() => setPreviewMode(!previewMode)}>
                 Preview
-              </button>
+              </Button>
 
-              <button
+              <Button
                 className="primary"
                 disabled={isLoading || isUpdating}
                 onClick={() => saveArticle()}
                 type="submit">
                 Save
-              </button>
+              </Button>
 
               {(isDraft && canPublish) && (
-                <button
+                <Button
                   className="primary"
                   disabled={isLoading || isUpdating}
                   onClick={() => saveArticle(true)}
                   type="submit">
                   Publish
-                </button>
+                </Button>
               )}
 
               {isUpdating && (

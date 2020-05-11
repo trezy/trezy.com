@@ -16,6 +16,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import Button from './Button'
 import MarkdownEditor from './MarkdownEditor'
 import useAuthSelector from '../store/selectors/useAuthSelector'
 import useCurrentUserIDSelector from '../store/selectors/useCurrentUserIDSelector'
@@ -119,7 +120,7 @@ const ResponseForm = props => {
             <a
               href={`/login?destination=${Router.asPath}`}
               className="button primary">
-              Login
+              <span>Login</span>
             </a>
           </menu>
         </div>
@@ -167,18 +168,16 @@ const ResponseForm = props => {
                   paused: !bodyHasChanged,
                 })}
                 type="toolbar">
-                <button
-                  onClick={() => setPreviewMode(!previewMode)}
-                  type="button">
+                <Button onClick={() => setPreviewMode(!previewMode)}>
                   Preview
-                </button>
+                </Button>
 
-                <button
+                <Button
                   className="primary"
                   disabled={!body || isPublishing || isPublished}
                   type="submit">
                   Publish
-                </button>
+                </Button>
               </menu>
             </footer>
 

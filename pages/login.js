@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import Button from '../components/Button'
 import PageWrapper from '../components/PageWrapper'
 
 
@@ -51,35 +52,32 @@ const Login = props => {
           <h2>Login</h2>
 
           <menu type="toolbar">
-            <button
+            <Button
               className="primary"
               onClick={() => firebase.login({
                 provider: 'google',
                 type: 'popup',
-              })}
-              type="button">
+              })}>
               Sign in with Google
-            </button>
+            </Button>
 
-            {/* <button
+            {/* <Button
               className="primary"
               onClick={() => firebase.login({
                 provider: 'github',
                 type: 'popup',
-              })}
-              type="button">
+              })}>
               Sign in with Github
-            </button> */}
+            </Button> */}
 
-            <button
+            <Button
               className="primary"
               onClick={() => firebase.login({
                 provider: 'twitter',
                 type: 'popup',
-              })}
-              type="button">
+              })}>
               Sign in with Twitter
-            </button>
+            </Button>
           </menu>
         </div>
       </section>
