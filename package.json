@@ -76,6 +76,6 @@
     "sass": "^1.26.5",
     "transform-string-case": "^1.1.0",
     "uuid": "^3.3.3",
-    "webpack": "^4.41.5"
+    "webpack": "^4.43.0"
   }
 }
