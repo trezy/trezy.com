@@ -87,7 +87,7 @@ const Subnav = props => {
         </Button>
 
         <ul
-          aria-expanded={isOpen ? 'true' : 'false'}
+          aria-expanded={isOpen}
           hidden={!isOpen}>
           {subnav.map((item, index) => {
             if (item.condition && !item.condition(props)) {
