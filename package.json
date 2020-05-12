@@ -69,7 +69,7 @@
     "react-svg-inline": "^2.1.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-firestore": "^0.11.0",
+    "redux-firestore": "^0.13.0",
     "redux-thunk": "^2.3.0",
     "remark-behead": "^2.3.2",
     "remark-shortcodes": "^0.3.1",
