@@ -4,8 +4,6 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v4'
 
@@ -53,28 +51,12 @@ const Subnav = props => {
 
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
+  const iconComponent = typeof props.iconComponent === 'function' ? props.iconComponent(props) : props.iconComponent
   const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(props) : props.iconPrefix
   const label = typeof props.label === 'function' ? props.label(props) : props.label
   const title = typeof props.title === 'function' ? props.title(props) : props.title
 
-  let iconComponent = null
   let titleComponent = null
-
-  if (props.iconComponent) {
-    if (typeof props.iconComponent === 'function') {
-      iconComponent = props.iconComponent(props)
-    } else {
-      iconComponent = props.iconComponent
-    }
-  } else if (icon) {
-    iconComponent = (
-      <FontAwesomeIcon
-        aria-hidden={!iconOnly}
-        fixedWidth
-        icon={[(iconPrefix || 'fas'), icon]}
-        title={title} />
-    )
-  }
 
   if (!iconOnly) {
     if (title instanceof Symbol) {
@@ -97,16 +79,19 @@ const Subnav = props => {
   }
 
   return (
-    <li key={title}>
+    <li
+      className={className}
+      key={title}>
       <nav
         aria-label={label || title}
-        className={classnames(className, 'subnav')}
+        className="subnav"
         key={id}>
         <Button
           aria-label={`${isOpen ? 'Close' : 'Expand'} ${label || title} navigation`}
-          className={classnames(className, 'iconic')}
+          aria-pressed={isOpen}
+          icon={icon || iconComponent}
+          iconPrefix={iconPrefix}
           onClick={onToggle}>
-          {iconComponent}
           {titleComponent}
         </Button>
 

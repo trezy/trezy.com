@@ -52,7 +52,7 @@ const NavLink = forwardRef((props, ref) => {
     } else {
       iconComponent = props.iconComponent
     }
-  } else if (icon) {
+  } else if (icon && !onClick) {
     iconComponent = (
       <FontAwesomeIcon
         aria-hidden={!iconOnly}
@@ -63,25 +63,19 @@ const NavLink = forwardRef((props, ref) => {
   }
 
   if (!iconOnly) {
-    if (title instanceof Symbol) {
-      titleComponent = title
-    } else {
-      titleComponent = (
-        <span>{title}</span>
-      )
-    }
+    titleComponent = title
   }
 
   return (
-    <li>
+    <li className={className}>
       {Boolean(onClick) && (
         <Button
           {...extraProps}
-          className={classnames(className, { iconic: iconOnly })}
+          className={classnames({ iconic: iconOnly })}
           disabled={disabled}
+          icon={icon || iconComponent}
           onClick={event => onClick(event, passableProps)}
           ref={ref}>
-          {iconComponent}
           {titleComponent}
         </Button>
       )}
@@ -89,7 +83,7 @@ const NavLink = forwardRef((props, ref) => {
       {(!onClick && isExternalLink) && (
         <ExternalLink
           {...extraProps}
-          className={classnames(className, {
+          className={classnames({
             disabled,
             iconic: iconOnly,
           })}
@@ -97,7 +91,9 @@ const NavLink = forwardRef((props, ref) => {
           ref={ref}
           target={target}>
           {iconComponent}
-          {titleComponent}
+          {Boolean(titleComponent) && (
+            <span>{titleComponent}</span>
+          )}
         </ExternalLink>
       )}
 
@@ -105,13 +101,15 @@ const NavLink = forwardRef((props, ref) => {
         <Link href={href}>
           <a
             {...extraProps}
-            className={classnames(className, {
+            className={classnames({
               disabled,
               iconic: iconOnly,
             })}
             ref={ref}>
             {iconComponent}
-            {titleComponent}
+            {Boolean(titleComponent) && (
+              <span>{titleComponent}</span>
+            )}
           </a>
         </Link>
       )}

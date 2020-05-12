@@ -145,6 +145,7 @@ const navItems = [
 
       return auth.displayName
     },
+    className: 'account-navigation',
     condition: ({ auth }) => !isEmpty(auth),
     subnav: [
       {
@@ -236,45 +237,10 @@ const Banner = () => {
 
   return (
     <>
-      <input
-        aria-label="Banner &amp; Navigation toggle"
-        checked={isOpen}
-        hidden
-        id="banner-control"
-        onChange={({ target: { checked } }) => setIsOpen(checked)}
-        type="checkbox" />
-
       <header
         aria-expanded={isOpen}
         hidden={isOpen}
         role="banner">
-        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
-        <label
-          aria-label={`${isOpen ? 'Collapse' : 'Expand'} Menu`}
-          aria-pressed={isOpen ? 'true' : 'false'}
-          className="button iconic primary"
-          htmlFor="banner-control"
-          onKeyUp={({ key }) => ['enter', ' '].includes(key.toLowerCase()) && setIsOpen(!isOpen)}
-          role="button"
-          tabIndex="1">
-          <span>
-            <FontAwesomeIcon
-              data-animate
-              data-animation={`fade-${isOpen ? 'out' : 'in'}`}
-              data-animation-duration="0.2s"
-              fixedWidth
-              icon="bars" />
-
-            <FontAwesomeIcon
-              data-animate
-              data-animation={`fade-${isOpen ? 'in' : 'out'}`}
-              data-animation-duration="0.2s"
-              fixedWidth
-              icon="times" />
-          </span>
-        </label>
-        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
-
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
         <Nav
@@ -282,8 +248,10 @@ const Banner = () => {
           claims={claims}
           close={close}
           isLive={isLive}
+          isOpen={isOpen}
           items={navItems}
           logout={firebase.logout}
+          onToggle={() => setIsOpen(previousIsOpen => !previousIsOpen)}
           userProfile={userProfile} />
 
         <SocialNav isOpen={isOpen} />

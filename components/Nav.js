@@ -3,6 +3,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v4'
 
@@ -11,6 +12,7 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
+import Button from './Button'
 import NavLink from './NavLink'
 import Subnav from './Subnav'
 
@@ -28,7 +30,9 @@ const hoverIntentTimeout = 2000
 const Nav = props => {
   const {
     className,
+    isOpen,
     items,
+    onToggle,
   } = props
 
   const itemKeys = useRef({})
@@ -60,12 +64,38 @@ const Nav = props => {
   }
 
   return (
+    // We're specifically not adding key events to the main nav because a
+    // keyboard user won't expect the nav to suddenly close without their
+    // direct interaction.
     // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
     <nav
       className={className}
       onMouseOver={handleLeaveIntent}
       onMouseOut={handleEnterIntent}>
-      <ul>
+      {Boolean(onToggle) && (
+        <Button
+          aria-label={`${isOpen ? 'Collapse' : 'Expand'} main navigation`}
+          aria-pressed={isOpen}
+          className="button iconic primary"
+          id="banner-control"
+          onClick={onToggle}>
+          <FontAwesomeIcon
+            data-animate
+            data-animation={`fade-${isOpen ? 'out' : 'in'}`}
+            data-animation-duration="0.2s"
+            fixedWidth
+            icon="bars" />
+
+          <FontAwesomeIcon
+            data-animate
+            data-animation={`fade-${isOpen ? 'in' : 'out'}`}
+            data-animation-duration="0.2s"
+            fixedWidth
+            icon="times" />
+        </Button>
+      )}
+
+      <ul hidden={!isOpen}>
         {items.map((item, index) => {
           const {
             condition,
@@ -113,11 +143,15 @@ const Nav = props => {
 
 Nav.defaultProps = {
   className: '',
+  isOpen: true,
+  onToggle: null,
 }
 
 Nav.propTypes = {
   className: PropTypes.string,
+  isOpen: PropTypes.bool,
   items: PropTypes.array.isRequired,
+  onToggle: PropTypes.func,
 }
 
 
