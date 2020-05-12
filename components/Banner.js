@@ -132,10 +132,12 @@ const navItems = [
         <img
           alt={`${auth.displayName}'s avatar`}
           className="avatar"
+          role="presentation"
           src={auth.photoURL} />
       )
     },
     /* eslint-enable react/prop-types */
+    label: 'My Account',
     title: ({ auth }) => {
       if (isEmpty(auth)) {
         return 'Loading user data...'
@@ -243,13 +245,13 @@ const Banner = () => {
       <header role="banner">
         {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
         <label
+          aria-label={`${isOpen ? 'Collapse' : 'Expand'} Menu`}
           aria-pressed={isOpen ? 'true' : 'false'}
           className="button iconic primary"
           htmlFor="banner-control"
           onKeyUp={({ key }) => ['enter', ' '].includes(key.toLowerCase()) && setIsOpen(!isOpen)}
           role="button"
-          tabIndex="1"
-          title="Expand/Collapse Menu">
+          tabIndex="1">
           <span>
             <FontAwesomeIcon
               data-animate
@@ -264,8 +266,6 @@ const Banner = () => {
               data-animation-duration="0.2s"
               fixedWidth
               icon="times" />
-
-            <span className="screen-reader-only">Menu</span>
           </span>
         </label>
         {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
