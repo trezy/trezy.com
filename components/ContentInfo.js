@@ -17,7 +17,7 @@ const ContentInfo = () => (
   <footer role="contentinfo">
     <nav
       className="trezy"
-      aria-labelledBy="contentinfo-trezy-header">
+      aria-labelledby="contentinfo-trezy-header">
       <header id="contentinfo-trezy-header">
         Trezy
       </header>
@@ -51,7 +51,7 @@ const ContentInfo = () => (
 
     <nav
       className="account"
-      aria-labelledBy="contentinfo-account-header">
+      aria-labelledby="contentinfo-account-header">
       <header id="contentinfo-account-header">
         Account
       </header>
@@ -73,7 +73,7 @@ const ContentInfo = () => (
 
     <nav
       className="resources"
-      aria-labelledBy="contentinfo-resources-header">
+      aria-labelledby="contentinfo-resources-header">
       <header id="contentinfo-resources-header">
         Resources
       </header>
