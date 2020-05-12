@@ -1,7 +1,5 @@
 // Module imports
 import React, {
-  useEffect,
-  useRef,
   useState,
 } from 'react'
 import PropTypes from 'prop-types'
@@ -30,14 +28,7 @@ const Subnav = props => {
     subnav,
   } = props
 
-  const firstItemRef = useRef(null)
   const [subkeys] = useState({})
-
-  useEffect(() => {
-    if (isOpen) {
-      firstItemRef.current.focus()
-    }
-  }, [isOpen])
 
   if (condition && !condition(props)) {
     return null
@@ -112,10 +103,6 @@ const Subnav = props => {
             if (!subkey) {
               subkeys[index] = uuid()
               subkey = subkeys[index]
-            }
-
-            if (index === 0) {
-              itemProps.ref = firstItemRef
             }
 
             return (

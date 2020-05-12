@@ -1,12 +1,10 @@
 // Module imports
-import React, {
-  forwardRef,
-} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 
 
@@ -20,7 +18,7 @@ import ExternalLink from './ExternalLink'
 
 
 
-const NavLink = forwardRef((props, ref) => {
+const NavLink = props => {
   const {
     extraProps,
     iconOnly,
@@ -74,8 +72,7 @@ const NavLink = forwardRef((props, ref) => {
           className={classnames({ iconic: iconOnly })}
           disabled={disabled}
           icon={icon || iconComponent}
-          onClick={event => onClick(event, passableProps)}
-          ref={ref}>
+          onClick={event => onClick(event, passableProps)}>
           {titleComponent}
         </Button>
       )}
@@ -88,7 +85,6 @@ const NavLink = forwardRef((props, ref) => {
             iconic: iconOnly,
           })}
           href={href}
-          ref={ref}
           target={target}>
           {iconComponent}
           {Boolean(titleComponent) && (
@@ -104,8 +100,7 @@ const NavLink = forwardRef((props, ref) => {
             className={classnames({
               disabled,
               iconic: iconOnly,
-            })}
-            ref={ref}>
+            })}>
             {iconComponent}
             {Boolean(titleComponent) && (
               <span>{titleComponent}</span>
@@ -115,7 +110,7 @@ const NavLink = forwardRef((props, ref) => {
       )}
     </li>
   )
-})
+}
 
 NavLink.defaultProps = {
   className: '',
