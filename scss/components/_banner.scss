@@ -13,54 +13,17 @@
     background-color,
     transform;
 
-  %anchor-hover-styles {
-    background-color: var(--brand-primary);
-    color: var(--inverted-text-color);
-    outline: none;
-    width: calc(100%);
-
-    @media (prefers-color-scheme: dark) {
-      color: var(--text-color);
-    }
-  }
-
-  [for='banner-control'] {
-    font-size: 2em;
-    left: calc(100% + var(--gutter));
-    opacity: 1;
-    position: absolute;
-    top: 0;
-    transition-duration: 0.2s;
-    transition-property: opacity;
-    width: auto;
-
-    svg:not(:first-child) {
-      left: 50%;
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @media (min-width: 1300px) {
-      &, &:focus {
-        opacity: 0;
-        pointer-events: none;
-      }
-    }
-  }
-
   .brand,
   nav {
     background-color: var(--background-color);
     margin-bottom: 0;
   }
 
-  nav {
+  > nav {
     overflow-y: auto;
 
     a,
-    button,
-    label {
+    button:not(#banner-control) {
       align-items: center;
       border: none;
       color: var(--text-color);
@@ -80,8 +43,14 @@
 
       &:focus,
       &:hover {
-        @extend %anchor-hover-styles;
-        z-index: 1;
+        background-color: var(--brand-primary);
+        color: var(--inverted-text-color);
+        outline: none;
+        width: calc(100%);
+
+        @media (prefers-color-scheme: dark) {
+          color: var(--text-color);
+        }
       }
 
       [data-icon],
@@ -99,20 +68,11 @@
       }
     }
 
-    label {
-      &:after {
-        border-color: transparent;
-        border-style: solid;
-        border-width: 0.5rem;
-        border-bottom-width: 0;
-        border-top-color: currentColor;
-        content: '';
-        height: 0;
-        margin-left: auto;
-        transform: rotate(0);
-        transition-duration: 0.2s;
-        transition-property: border-top-color, transform;
-        width: 0;
+    button:not(#banner-control) {
+      overflow: hidden;
+
+      &:before {
+        display: none;
       }
     }
 
@@ -120,14 +80,6 @@
       display: flex;
       flex-direction: column;
       position: relative;
-
-      &:focus,
-      &:hover {
-        > a,
-        > label {
-          @extend %anchor-hover-styles;
-        }
-      }
     }
   }
 
@@ -136,29 +88,39 @@
   }
 
   .subnav {
-    background-color: hsla(var(--text-color-h), var(--text-color-s), var(--text-color-l), 0.1);
-    color: var(--background-color);
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-    transition-duration: 0.2s;
-    transition-property: max-height, opacity;
-  }
-
-  [name='subnav']:checked {
-    ~ ul.subnav {
-      max-height: 100vh !important;
-      opacity: 1 !important;
-      pointer-events: initial;
+    > ul {
+      background-color: var(--light-grey);
+      color: var(--background-color);
+      overflow: hidden;
+      transition-duration: 0.2s;
+      transition-property: max-height, opacity;
     }
 
-    ~ a,
-    ~ label {
-      @extend %anchor-hover-styles;
+    > button:after {
+      border-color: transparent;
+      border-style: solid;
+      border-width: 0.5rem;
+      border-bottom-width: 0;
+      border-top-color: currentColor;
+      content: '';
+      display: inline;
+      margin-left: auto;
+      opacity: 1;
+      position: initial;
+      transform: rotate(0);
+      transition-duration: 0.2s;
+      transition-property: border-top-color, transform;
+    }
 
-      &:after {
-        transform: rotate(-180deg);
+    > ul {
+      &[aria-expanded=false] {
+        max-height: 0;
+        opacity: 0;
+      }
+
+      &[aria-expanded=true] {
+        max-height: 100vh !important;
+        opacity: 1 !important;
       }
     }
   }
@@ -181,13 +143,27 @@
     background-color: var(--background-color);
     position: fixed;
     transform: translateX(calc(-100% - var(--gutter)));
+    will-change: transform;
     z-index: 1;
+
+    &[aria-expanded=true] {
+      transform: translateX(0);
+
+      ~ main {
+        pointer-events: none;
+        transform: scale(0.8) translateY(20vh);
+
+        &:after {
+          pointer-events: initial;
+          opacity: 0.4;
+        }
+      }
+    }
   }
 
   @media (min-width: 1300px) {
     position: sticky;
     top: var(--gutter);
-    will-change: transform;
     z-index: 1;
   }
 }

@@ -132,10 +132,12 @@ const navItems = [
         <img
           alt={`${auth.displayName}'s avatar`}
           className="avatar"
+          role="presentation"
           src={auth.photoURL} />
       )
     },
     /* eslint-enable react/prop-types */
+    label: 'My Account',
     title: ({ auth }) => {
       if (isEmpty(auth)) {
         return 'Loading user data...'
@@ -143,6 +145,7 @@ const navItems = [
 
       return auth.displayName
     },
+    className: 'account-navigation',
     condition: ({ auth }) => !isEmpty(auth),
     subnav: [
       {
@@ -194,22 +197,26 @@ const Banner = () => {
   const [isOpen, setIsOpen] = useState(currentWidth <= RESIZE_BREAKPOINT)
 
   const close = () => {
-    const focusedElement = document.querySelector('[role=banner] *:focus')
+    if (currentWidth <= RESIZE_BREAKPOINT) {
+      const focusedElement = document.querySelector('[role=banner] *:focus')
 
-    if (focusedElement) {
-      focusedElement.blur()
+      if (focusedElement) {
+        focusedElement.blur()
+      }
+
+      setIsOpen(false)
     }
-
-    setIsOpen(false)
   }
 
   const updateOpenStateFromWindowSize = () => {
-    if (isOpen && (currentWidth <= RESIZE_BREAKPOINT)) {
+    if (isOpen) {
       close()
-    } else {
+    } else if (!isOpen) {
       setIsOpen(true)
     }
   }
+
+  const onToggle = () => setIsOpen(previousIsOpen => !previousIsOpen)
 
   useFirebaseConnect([
     { path: 'app-data' },
@@ -232,44 +239,10 @@ const Banner = () => {
 
   return (
     <>
-      <input
-        aria-label="Banner &amp; Navigation toggle"
-        checked={isOpen}
-        hidden
-        id="banner-control"
-        onChange={({ target: { checked } }) => setIsOpen(checked)}
-        type="checkbox" />
-
-      <header role="banner">
-        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
-        <label
-          aria-pressed={isOpen ? 'true' : 'false'}
-          className="button iconic primary"
-          htmlFor="banner-control"
-          onKeyUp={({ key }) => ['enter', ' '].includes(key.toLowerCase()) && setIsOpen(!isOpen)}
-          role="button"
-          tabIndex="1"
-          title="Expand/Collapse Menu">
-          <span>
-            <FontAwesomeIcon
-              data-animate
-              data-animation={`fade-${isOpen ? 'out' : 'in'}`}
-              data-animation-duration="0.2s"
-              fixedWidth
-              icon="bars" />
-
-            <FontAwesomeIcon
-              data-animate
-              data-animation={`fade-${isOpen ? 'in' : 'out'}`}
-              data-animation-duration="0.2s"
-              fixedWidth
-              icon="times" />
-
-            <span className="screen-reader-only">Menu</span>
-          </span>
-        </label>
-        {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
-
+      <header
+        aria-expanded={isOpen}
+        hidden={isOpen}
+        role="banner">
         <h1 className="brand">&lt;trezy-who/&gt;</h1>
 
         <Nav
@@ -280,6 +253,7 @@ const Banner = () => {
           isOpen={isOpen}
           items={navItems}
           logout={firebase.logout}
+          onToggle={(currentWidth <= RESIZE_BREAKPOINT) ? onToggle : null}
           userProfile={userProfile} />
 
         <SocialNav isOpen={isOpen} />

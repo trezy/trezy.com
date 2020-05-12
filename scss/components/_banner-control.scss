@@ -1,24 +1,25 @@
 #banner-control {
-  &:not(:checked) ~ [role=banner] .subnav {
-    max-height: 0;
-    opacity: 0;
+  font-size: 2em;
+  left: calc(100% + var(--gutter));
+  line-height: 1;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  width: auto;
+
+  svg:not(:first-child) {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
-  @media (max-width: 1300px) {
-    &:checked {
-      ~ [role=banner] {
-        transform: translateX(0);
-      }
-
-      ~ main {
-        pointer-events: none;
-        transform: scale(0.8) translateY(20vh);
-
-        &:after {
-          pointer-events: initial;
-          opacity: 0.4;
-        }
-      }
+  @media (min-width: 1300px) {
+    &, &:focus {
+      opacity: 0;
+      pointer-events: none;
     }
   }
 }
