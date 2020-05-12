@@ -1,5 +1,6 @@
 // Module imports
 import React, {
+  useRef,
   useState,
 } from 'react'
 import PropTypes from 'prop-types'
@@ -19,7 +20,6 @@ import Subnav from './Subnav'
 
 // Local constants
 const hoverIntentTimeout = 2000
-const subnavOpenStates = {}
 
 
 
@@ -28,33 +28,28 @@ const subnavOpenStates = {}
 const Nav = props => {
   const {
     className,
-    isOpen,
     items,
   } = props
 
-  const [itemKeys] = useState({})
-  const [, setSubnavOpenStates] = useState(subnavOpenStates)
+  const itemKeys = useRef({})
+  const [subnavOpenStates, setSubnavOpenStates] = useState({})
 
   let timeoutID = null
 
-  const closeAllSubnavs = (options = {}) => {
-    const {
-      forceUpdate = false,
-    } = options
+  const handleSubnavStateChange = (subnavToOpen = null) => () => {
+    setSubnavOpenStates(previousSubnavOpenStates => {
+      const subnavKeys = Object.keys(previousSubnavOpenStates)
+      const newSubnavOpenStates = subnavKeys.reduce((accumulator, subnavKey) => ({
+        ...accumulator,
+        [subnavKey]: subnavToOpen === subnavKey,
+      }), {})
 
-    Object.keys(subnavOpenStates).forEach(id => {
-      subnavOpenStates[id] = false
+      return newSubnavOpenStates
     })
-
-    if (forceUpdate) {
-      setSubnavOpenStates({ ...subnavOpenStates })
-    }
   }
 
   const handleEnterIntent = () => {
-    timeoutID = setTimeout(() => {
-      closeAllSubnavs({ forceUpdate: true })
-    }, hoverIntentTimeout)
+    timeoutID = setTimeout(handleSubnavStateChange(), hoverIntentTimeout)
   }
 
   const handleLeaveIntent = () => {
@@ -65,64 +60,50 @@ const Nav = props => {
   }
 
   return (
+    // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
     <nav
-      aria-expanded={isOpen}
-      aria-hidden={!isOpen}
       className={className}
-      onBlur={handleEnterIntent}
-      onFocus={handleLeaveIntent}
       onMouseOver={handleLeaveIntent}
       onMouseOut={handleEnterIntent}>
       <ul>
         {items.map((item, index) => {
           const {
             condition,
-            title,
             subnav,
           } = item
-          let key = item.key || itemKeys[index]
+          let key = item.key || itemKeys.current[index]
 
           if (condition && !condition(props)) {
             return null
           }
 
           if (!key) {
-            itemKeys[index] = uuid()
-            key = itemKeys[index]
+            key = uuid()
+            itemKeys.current[index] = key
           }
 
           if (subnav && !subnavOpenStates[key]) {
             subnavOpenStates[key] = false
           }
 
-          return (
-            <li key={title}>
-              {subnav && (
-                <Subnav
-                  key={key}
-                  {...props}
-                  {...item}
-                  id={key}
-                  isFocusable={isOpen}
-                  isOpen={isOpen && subnavOpenStates[key]}
-                  onClose={() => {
-                    closeAllSubnavs({ forceUpdate: true })
-                  }}
-                  onOpen={() => {
-                    closeAllSubnavs()
-                    subnavOpenStates[key] = true
-                    setSubnavOpenStates({ ...subnavOpenStates })
-                  }} />
-              )}
+          if (subnav) {
+            return (
+              <Subnav
+                key={key}
+                {...props}
+                {...item}
+                id={key}
+                isOpen={subnavOpenStates[key]}
+                onClose={handleSubnavStateChange()}
+                onOpen={handleSubnavStateChange(key)} />
+            )
+          }
 
-              {!subnav && (
-                <NavLink
-                  key={key}
-                  {...props}
-                  {...item}
-                  isFocusable={isOpen} />
-              )}
-            </li>
+          return (
+            <NavLink
+              key={key}
+              {...props}
+              {...item} />
           )
         })}
       </ul>
@@ -132,12 +113,10 @@ const Nav = props => {
 
 Nav.defaultProps = {
   className: '',
-  isOpen: true,
 }
 
 Nav.propTypes = {
   className: PropTypes.string,
-  isOpen: PropTypes.bool,
   items: PropTypes.array.isRequired,
 }
 

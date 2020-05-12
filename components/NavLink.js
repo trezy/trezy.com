@@ -1,10 +1,12 @@
 // Module imports
+import React, {
+  forwardRef,
+} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -18,11 +20,10 @@ import ExternalLink from './ExternalLink'
 
 
 
-const NavLink = props => {
+const NavLink = forwardRef((props, ref) => {
   const {
     extraProps,
     iconOnly,
-    isFocusable,
     onClick,
     target,
   } = props
@@ -39,6 +40,8 @@ const NavLink = props => {
   const icon = typeof props.icon === 'function' ? props.icon(passableProps) : props.icon
   const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(passableProps) : props.iconPrefix
   const title = typeof props.title === 'function' ? props.title(passableProps) : props.title
+
+  const isExternalLink = /https?:\/\//gui.test(href)
 
   let iconComponent = null
   let titleComponent = null
@@ -69,53 +72,52 @@ const NavLink = props => {
     }
   }
 
-  if (onClick) {
-    return (
-      <Button
-        {...extraProps}
-        className={classnames(className, { iconic: iconOnly })}
-        disabled={disabled}
-        onClick={event => onClick(event, passableProps)}
-        tabIndex={isFocusable ? null : '-1'}>
-        {iconComponent}
-
-        {titleComponent}
-      </Button>
-    )
-  }
-
-  if (/https?:\/\//gui.test(href)) {
-    return (
-      <ExternalLink
-        {...extraProps}
-        className={classnames(className, {
-          disabled,
-          iconic: iconOnly,
-        })}
-        href={href}
-        target={target}
-        tabIndex={isFocusable ? null : '-1'}>
-        {iconComponent}
-        {titleComponent}
-      </ExternalLink>
-    )
-  }
-
   return (
-    <Link href={href}>
-      <a
-        {...extraProps}
-        className={classnames(className, {
-          disabled,
-          iconic: iconOnly,
-        })}
-        tabIndex={isFocusable ? null : '-1'}> {/* eslint-disable-line jsx-a11y/no-noninteractive-tabindex */}
-        {iconComponent}
-        {titleComponent}
-      </a>
-    </Link>
+    <li>
+      {Boolean(onClick) && (
+        <Button
+          {...extraProps}
+          className={classnames(className, { iconic: iconOnly })}
+          disabled={disabled}
+          onClick={event => onClick(event, passableProps)}
+          ref={ref}>
+          {iconComponent}
+          {titleComponent}
+        </Button>
+      )}
+
+      {(!onClick && isExternalLink) && (
+        <ExternalLink
+          {...extraProps}
+          className={classnames(className, {
+            disabled,
+            iconic: iconOnly,
+          })}
+          href={href}
+          ref={ref}
+          target={target}>
+          {iconComponent}
+          {titleComponent}
+        </ExternalLink>
+      )}
+
+      {(!onClick && !isExternalLink) && (
+        <Link href={href}>
+          <a
+            {...extraProps}
+            className={classnames(className, {
+              disabled,
+              iconic: iconOnly,
+            })}
+            ref={ref}>
+            {iconComponent}
+            {titleComponent}
+          </a>
+        </Link>
+      )}
+    </li>
   )
-}
+})
 
 NavLink.defaultProps = {
   className: '',
@@ -126,7 +128,6 @@ NavLink.defaultProps = {
   iconComponent: null,
   iconOnly: false,
   iconPrefix: null,
-  isFocusable: true,
   onClick: null,
   target: null,
 }
@@ -157,10 +158,6 @@ NavLink.propTypes = {
   iconPrefix: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string,
-  ]),
-  isFocusable: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.func,
   ]),
   onClick: PropTypes.func,
   target: PropTypes.string,

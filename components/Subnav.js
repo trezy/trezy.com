@@ -1,5 +1,7 @@
 // Module imports
 import React, {
+  useEffect,
+  useRef,
   useState,
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +14,7 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
+import Button from './Button'
 import NavLink from './NavLink'
 
 
@@ -23,14 +26,20 @@ const Subnav = props => {
     condition,
     iconOnly,
     id,
-    isFocusable,
     isOpen,
     onClose,
     onOpen,
     subnav,
   } = props
 
+  const firstItemRef = useRef(null)
   const [subkeys] = useState({})
+
+  useEffect(() => {
+    if (isOpen) {
+      firstItemRef.current.focus()
+    }
+  }, [isOpen])
 
   if (condition && !condition(props)) {
     return null
@@ -45,6 +54,7 @@ const Subnav = props => {
   const className = typeof props.className === 'function' ? props.className(props) : props.className
   const icon = typeof props.icon === 'function' ? props.icon(props) : props.icon
   const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(props) : props.iconPrefix
+  const label = typeof props.label === 'function' ? props.label(props) : props.label
   const title = typeof props.title === 'function' ? props.title(props) : props.title
 
   let iconComponent = null
@@ -66,17 +76,19 @@ const Subnav = props => {
     )
   }
 
-  if (title instanceof Symbol) {
-    titleComponent = title
-  } else {
-    titleComponent = (
-      <span className={classnames({ 'screen-reader-only': iconOnly })}>
-        {title}
-      </span>
-    )
+  if (!iconOnly) {
+    if (title instanceof Symbol) {
+      titleComponent = title
+    } else {
+      titleComponent = (
+        <span>
+          {title}
+        </span>
+      )
+    }
   }
 
-  const onStateChange = () => {
+  const onToggle = () => {
     if (isOpen) {
       onClose()
     } else {
@@ -85,59 +97,51 @@ const Subnav = props => {
   }
 
   return (
-    <React.Fragment key={id}>
-      <input
-        aria-hidden
-        checked={isOpen}
-        className="subnav-toggle"
-        hidden
-        id={id}
-        name="subnav"
-        readOnly
-        type="radio" />
+    <li key={title}>
+      <nav
+        aria-label={label || title}
+        className={classnames(className, 'subnav')}
+        key={id}>
+        <Button
+          aria-label={`${isOpen ? 'Close' : 'Expand'} ${label || title} navigation`}
+          className={classnames(className, 'iconic')}
+          onClick={onToggle}>
+          {iconComponent}
+          {titleComponent}
+        </Button>
 
-      {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
-      <label
-        className={className}
-        htmlFor={id}
-        onClick={onStateChange}
-        onKeyUp={event => {
-          if (['enter', ' '].includes(event.key.toLowerCase())) {
-            onStateChange()
-          }
-        }}
-        role="button"
-        tabIndex={isFocusable ? 0 : -1}>
-        {iconComponent}
-        {titleComponent}
-      </label>
-      {/* eslint-enable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
+        <ul
+          aria-expanded={isOpen ? 'true' : 'false'}
+          hidden={!isOpen}>
+          {subnav.map((item, index) => {
+            if (item.condition && !item.condition(props)) {
+              return null
+            }
 
-      <ul
-        aria-expanded={isOpen ? 'true' : 'false'}
-        className="subnav">
-        {subnav.map((item, index) => {
-          if (item.condition && !item.condition(props)) {
-            return null
-          }
+            const itemProps = {
+              ...passableProps,
+              ...item,
+            }
+            let subkey = item.key || subkeys[index]
 
-          let subkey = item.key || subkeys[index]
+            if (!subkey) {
+              subkeys[index] = uuid()
+              subkey = subkeys[index]
+            }
 
-          if (!subkey) {
-            subkeys[index] = uuid()
-            subkey = subkeys[index]
-          }
+            if (index === 0) {
+              itemProps.ref = firstItemRef
+            }
 
-          return (
-            <NavLink
-              {...passableProps}
-              {...item}
-              isFocusable={isOpen}
-              key={subkey} />
-          )
-        })}
-      </ul>
-    </React.Fragment>
+            return (
+              <NavLink
+                {...itemProps}
+                key={subkey} />
+            )
+          })}
+        </ul>
+      </nav>
+    </li>
   )
 }
 
@@ -148,7 +152,7 @@ Subnav.defaultProps = {
   iconComponent: null,
   iconOnly: false,
   iconPrefix: null,
-  isFocusable: true,
+  label: null,
   onClose: () => {},
   onOpen: () => {},
 }
@@ -179,8 +183,11 @@ Subnav.propTypes = {
     PropTypes.string,
   ]),
   id: PropTypes.string.isRequired,
-  isFocusable: PropTypes.bool,
   isOpen: PropTypes.bool.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
   subnav: PropTypes.array.isRequired,

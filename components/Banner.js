@@ -196,19 +196,21 @@ const Banner = () => {
   const [isOpen, setIsOpen] = useState(currentWidth <= RESIZE_BREAKPOINT)
 
   const close = () => {
-    const focusedElement = document.querySelector('[role=banner] *:focus')
+    if (currentWidth <= RESIZE_BREAKPOINT) {
+      const focusedElement = document.querySelector('[role=banner] *:focus')
 
-    if (focusedElement) {
-      focusedElement.blur()
+      if (focusedElement) {
+        focusedElement.blur()
+      }
+
+      setIsOpen(false)
     }
-
-    setIsOpen(false)
   }
 
   const updateOpenStateFromWindowSize = () => {
-    if (isOpen && (currentWidth <= RESIZE_BREAKPOINT)) {
+    if (isOpen) {
       close()
-    } else {
+    } else if (!isOpen) {
       setIsOpen(true)
     }
   }
@@ -242,7 +244,10 @@ const Banner = () => {
         onChange={({ target: { checked } }) => setIsOpen(checked)}
         type="checkbox" />
 
-      <header role="banner">
+      <header
+        aria-expanded={isOpen}
+        hidden={isOpen}
+        role="banner">
         {/* eslint-disable jsx-a11y/tabindex-no-positive,jsx-a11y/no-noninteractive-element-to-interactive-role */}
         <label
           aria-label={`${isOpen ? 'Collapse' : 'Expand'} Menu`}
@@ -277,7 +282,6 @@ const Banner = () => {
           claims={claims}
           close={close}
           isLive={isLive}
-          isOpen={isOpen}
           items={navItems}
           logout={firebase.logout}
           userProfile={userProfile} />
