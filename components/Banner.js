@@ -216,6 +216,8 @@ const Banner = () => {
     }
   }
 
+  const onToggle = () => setIsOpen(previousIsOpen => !previousIsOpen)
+
   useFirebaseConnect([
     { path: 'app-data' },
   ])
@@ -251,7 +253,7 @@ const Banner = () => {
           isOpen={isOpen}
           items={navItems}
           logout={firebase.logout}
-          onToggle={() => setIsOpen(previousIsOpen => !previousIsOpen)}
+          onToggle={(currentWidth <= RESIZE_BREAKPOINT) ? onToggle : null}
           userProfile={userProfile} />
 
         <SocialNav isOpen={isOpen} />
