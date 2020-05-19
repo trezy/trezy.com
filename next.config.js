@@ -46,7 +46,7 @@ module.exports = {
     config.module.rules.push({
       exclude: /node_modules/,
       test: /\.svg$/,
-      loader: 'raw-loader',
+      loader: '@svgr/webpack',
     })
 
     config.module.rules.unshift({

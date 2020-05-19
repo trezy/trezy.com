@@ -9,6 +9,20 @@ import SVG from 'react-svg-inline'
 // Local imports
 import ExternalLink from './ExternalLink'
 
+import AmazonSVG from '../public/images/logos/amazon.svg'
+import AmfamSVG from '../public/images/logos/amfam.svg'
+import DisneySVG from '../public/images/logos/disney.svg'
+import EventbriteSVG from '../public/images/logos/eventbrite.svg'
+import GettyImagesSVG from '../public/images/logos/getty-images.svg'
+import GoproSVG from '../public/images/logos/gopro.svg'
+import GreatWolfSVG from '../public/images/logos/great-wolf.svg'
+import GenesysSVG from '../public/images/logos/genesys.svg'
+import MarvelSVG from '../public/images/logos/marvel.svg'
+import MobileDoormanSVG from '../public/images/logos/mobile-doorman.svg'
+import MoxeSVG from '../public/images/logos/moxe.svg'
+import SkybellSVG from '../public/images/logos/skybell.svg'
+import WebflowSVG from '../public/images/logos/webflow.svg'
+
 
 
 
@@ -16,74 +30,71 @@ import ExternalLink from './ExternalLink'
 // Local constants
 const clients = [
   {
-    logo: 'amazon.svg',
+    component: <AmazonSVG />,
     name: 'Amazon',
     url: 'https://amazon.com',
   },
   {
-    logo: 'amfam.svg',
+    component: <AmfamSVG />,
     name: 'American Family Insurance',
     url: 'https://amfam.com',
   },
   {
-    logo: 'disney.svg',
+    component: <DisneySVG />,
     name: 'Disney',
     url: 'https://disney.com',
   },
   {
-    logo: 'eventbrite.svg',
+    component: <EventbriteSVG />,
     name: 'Eventbrite',
     url: 'https://eventbrite.com',
   },
   {
-    logo: 'getty-images.svg',
+    component: <GettyImagesSVG />,
     name: 'Getty Images',
     url: 'https://gettyimages.com',
   },
   {
-    logo: 'gopro.svg',
+    component: <GoproSVG />,
     name: 'GoPro',
     url: 'https://gopro.com',
   },
   {
-    logo: 'great-wolf.svg',
+    component: <GreatWolfSVG />,
     name: 'Great Wolf Lodge',
     url: 'https://greatwolf.com',
   },
   {
-    logo: 'genesys.svg',
+    component: <GenesysSVG />,
     name: 'Genesys',
     url: 'https://genesys.com',
   },
   {
-    logo: 'marvel.svg',
+    component: <MarvelSVG />,
     name: 'Marvel',
     url: 'https://marvel.com',
   },
   {
-    logo: 'mobile-doorman.svg',
+    component: <MobileDoormanSVG />,
     name: 'Mobile Doorman',
     url: 'https://mobiledoorman.com',
   },
   {
-    logo: 'moxe.svg',
+    component: <MoxeSVG />,
     name: 'Moxe Health',
     url: 'https://moxehealth.com',
   },
   {
-    logo: 'skybell.svg',
+    component: <SkybellSVG />,
     name: 'SkyBell',
     url: 'https://skybell.com',
   },
   {
-    logo: 'webflow.svg',
+    component: <WebflowSVG />,
     name: 'Webflow',
     url: 'https://webflow.com',
   },
-].map(client => ({
-  ...client,
-  logo: require(`../public/images/logos/${client.logo}`).default, // eslint-disable-line global-require,import/no-dynamic-require
-}))
+]
 
 
 
@@ -91,16 +102,10 @@ const clients = [
 
 const ClientList = () => (
   <ul className="client-list">
-    {clients.map(({ logo, name, url }) => (
+    {clients.map(({ component, name, url }) => (
       <li key={name}>
         <ExternalLink href={url}>
-          {/* eslint-disable-next-line react/jsx-pascal-case */}
-          <SVG
-            accessibilityLabel={`Logo for ${name}`}
-            className="amazon logo"
-            cleanup
-            component="div"
-            svg={logo} />
+          {component}
 
           <span className="screen-reader-only">
             {name}
