@@ -23,7 +23,7 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@fuelrats/eslint-config-react": "1.0.6",
     "@svgr/webpack": "^5.4.0",
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-prismjs": "^2.0.1",
