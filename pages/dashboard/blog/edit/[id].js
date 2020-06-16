@@ -110,11 +110,13 @@ const BlogEditor = ({ id }) => {
 
   useEffect(() => {
     const bodyHasChanged = body && (body !== article.body)
+    const synopsisHasChanged = synopsis && (synopsis !== article.synopsis)
     const subtitleHasChanged = subtitle && (subtitle !== article.subtitle)
     const titleHasChanged = title && (title !== article.title)
 
-    if (!bodyHasChanged && !subtitleHasChanged && !titleHasChanged) {
+    if (!bodyHasChanged && !subtitleHasChanged && !synopsisHasChanged && !titleHasChanged) {
       setBody(article.body)
+      setSynopsis(article.synopsis)
       setSubtitle(article.subtitle)
       setTitle(article.title)
     }
