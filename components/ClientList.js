@@ -1,6 +1,5 @@
 // Module imports
 import React from 'react'
-import SVG from 'react-svg-inline'
 
 
 
