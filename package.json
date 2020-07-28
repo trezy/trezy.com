@@ -75,7 +75,7 @@
     "remark-shortcodes": "^0.3.1",
     "sass": "^1.26.5",
     "transform-string-case": "^1.1.0",
-    "uuid": "^3.3.3",
+    "uuid": "^8.3.0",
     "webpack": "^4.43.0"
   }
 }
