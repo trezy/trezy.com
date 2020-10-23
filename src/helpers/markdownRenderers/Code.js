@@ -1,7 +1,7 @@
 // Module imports
 import React, {
-  useEffect,
-  useRef,
+	useEffect,
+	useRef,
 } from 'react'
 import Prism from 'prismjs/components/prism-core'
 /* eslint-disable import/no-unassigned-import */
@@ -18,8 +18,8 @@ import PropTypes from 'prop-types'
 
 
 if (typeof window !== 'undefined') {
-  // eslint-disable-next-line camelcase
-  Prism.plugins.autoloader.languages_path = '/prism-grammars/'
+	// eslint-disable-next-line camelcase
+	Prism.plugins.autoloader.languages_path = '/prism-grammars/'
 }
 
 
@@ -27,33 +27,33 @@ if (typeof window !== 'undefined') {
 
 
 const Code = props => {
-  const elementRef = useRef(null)
-  const {
-    language,
-    value,
-  } = props
+	const elementRef = useRef(null)
+	const {
+		language,
+		value,
+	} = props
 
-  useEffect(() => {
-    Prism.highlightElement(elementRef.current)
-  }, [
-    elementRef,
-    value,
-  ])
+	useEffect(() => {
+		Prism.highlightElement(elementRef.current)
+	}, [
+		elementRef,
+		value,
+	])
 
-  return (
-    <pre className="line-numbers">
-      <code
-        className={`language-${language}`}
-        ref={elementRef}>
-        {value}
-      </code>
-    </pre>
-  )
+	return (
+		<pre className="line-numbers">
+			<code
+				className={`language-${language}`}
+				ref={elementRef}>
+				{value}
+			</code>
+		</pre>
+	)
 }
 
 Code.propTypes = {
-  language: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+	language: PropTypes.string.isRequired,
+	value: PropTypes.string.isRequired,
 }
 
 

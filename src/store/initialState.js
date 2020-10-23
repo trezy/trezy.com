@@ -1,10 +1,10 @@
 const initialState = {
-  movies: {},
+	movies: {},
 
-  moviesSearchResults: {
-    movies: [],
-    totalResults: 0,
-  },
+	moviesSearchResults: {
+		movies: [],
+		totalResults: 0,
+	},
 }
 
 

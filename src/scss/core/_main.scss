@@ -1,43 +1,43 @@
 main {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transform: scale(1) translateY(0);
-  transform-origin: right top;
-  transition-duration: 0.2s;
-  transition-property: transform;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	transform: scale(1) translateY(0);
+	transform-origin: right top;
+	transition-duration: 0.2s;
+	transition-property: transform;
 
-  &:after {
-    background-color: var(--text-color);
-    bottom: 0;
-    content: '';
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition-duration: 0.2s;
-    transition-property: opacity;
-    z-index: 1;
-  }
+	&:after {
+		background-color: var(--text-color);
+		bottom: 0;
+		content: '';
+		left: 0;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition-duration: 0.2s;
+		transition-property: opacity;
+		z-index: 1;
+	}
 
-  > * {
-    background-color: var(--background-color);
-    width: 100%;
+	> * {
+		background-color: var(--background-color);
+		width: 100%;
 
-    &:not(:last-child) {
-      margin-bottom: var(--gutter);
-    }
-  }
+		&:not(:last-child) {
+			margin-bottom: var(--gutter);
+		}
+	}
 
-  @media (max-width: 1300px) {
-    min-height: 100vh;
-    min-width: 100vw;
-  }
+	@media (max-width: 1300px) {
+		min-height: 100vh;
+		min-width: 100vw;
+	}
 
-  @media (min-width: 1300px) {
-    margin-left: var(--gutter);
-    flex-grow: 1;
-  }
+	@media (min-width: 1300px) {
+		margin-left: var(--gutter);
+		flex-grow: 1;
+	}
 }

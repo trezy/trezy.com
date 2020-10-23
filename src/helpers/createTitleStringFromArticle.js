@@ -1,16 +1,16 @@
 const createTitleStringFromArticle = article => {
-  const {
-    subtitle,
-    title,
-  } = article
+	const {
+		subtitle,
+		title,
+	} = article
 
-  let titleString = title
+	let titleString = title
 
-  if (subtitle) {
-    titleString = `${title} - ${subtitle}`
-  }
+	if (subtitle) {
+		titleString = `${title} - ${subtitle}`
+	}
 
-  return titleString
+	return titleString
 }
 
 

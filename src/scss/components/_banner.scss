@@ -1,169 +1,169 @@
 [role=banner] {
-  bottom: var(--gutter);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  font-family: 'Source Code Pro', monospace;
-  height: calc(100vh - (var(--gutter) * 2));
-  left: var(--gutter);
-  min-width: var(--banner-width);
-  top: var(--gutter);
-  transition-duration: 0.2s;
-  transition-property:
-    background-color,
-    transform;
+	bottom: var(--gutter);
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	font-family: 'Source Code Pro', monospace;
+	height: calc(100vh - (var(--gutter) * 2));
+	left: var(--gutter);
+	min-width: var(--banner-width);
+	top: var(--gutter);
+	transition-duration: 0.2s;
+	transition-property:
+		background-color,
+		transform;
 
-  .brand,
-  nav {
-    background-color: var(--background-color);
-    margin-bottom: 0;
-  }
+	.brand,
+	nav {
+		background-color: var(--background-color);
+		margin-bottom: 0;
+	}
 
-  > nav {
-    overflow-y: auto;
+	> nav {
+		overflow-y: auto;
 
-    a,
-    button:not(#banner-control) {
-      align-items: center;
-      border: none;
-      color: var(--text-color);
-      cursor: pointer;
-      display: flex;
-      line-height: inherit;
-      opacity: 1;
-      padding: calc(var(--gutter) / 2) var(--gutter);
-      text-decoration: none;
-      transition-duration: 0.2s;
-      transition-property:
-        background-color,
-        color,
-        padding;
-      white-space: nowrap;
-      width: 100%;
+		a,
+		button:not(#banner-control) {
+			align-items: center;
+			border: none;
+			color: var(--text-color);
+			cursor: pointer;
+			display: flex;
+			line-height: inherit;
+			opacity: 1;
+			padding: calc(var(--gutter) / 2) var(--gutter);
+			text-decoration: none;
+			transition-duration: 0.2s;
+			transition-property:
+				background-color,
+				color,
+				padding;
+			white-space: nowrap;
+			width: 100%;
 
-      &:focus,
-      &:hover {
-        background-color: var(--brand-primary);
-        color: var(--inverted-text-color);
-        outline: none;
-        width: calc(100%);
+			&:focus,
+			&:hover {
+				background-color: var(--brand-primary);
+				color: var(--inverted-text-color);
+				outline: none;
+				width: calc(100%);
 
-        @media (prefers-color-scheme: dark) {
-          color: var(--text-color);
-        }
-      }
+				@media (prefers-color-scheme: dark) {
+					color: var(--text-color);
+				}
+			}
 
-      [data-icon],
-      .avatar,
-      .fa-layers {
-        + span {
-          margin-left: var(--gutter);
-        }
-      }
+			[data-icon],
+			.avatar,
+			.fa-layers {
+				+ span {
+					margin-left: var(--gutter);
+				}
+			}
 
-      @media (max-height: 470px) {
-        --vertical-padding: calc(var(--gutter) / 2);
-        padding-bottom: var(--vertical-padding);
-        padding-top: var(--vertical-padding);
-      }
-    }
+			@media (max-height: 470px) {
+				--vertical-padding: calc(var(--gutter) / 2);
+				padding-bottom: var(--vertical-padding);
+				padding-top: var(--vertical-padding);
+			}
+		}
 
-    button:not(#banner-control) {
-      overflow: hidden;
+		button:not(#banner-control) {
+			overflow: hidden;
 
-      &:before {
-        display: none;
-      }
-    }
+			&:before {
+				display: none;
+			}
+		}
 
-    li {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-  }
+		li {
+			display: flex;
+			flex-direction: column;
+			position: relative;
+		}
+	}
 
-  .avatar {
-    max-width: 1.3em;
-  }
+	.avatar {
+		max-width: 1.3em;
+	}
 
-  .subnav {
-    > ul {
-      background-color: var(--light-grey);
-      color: var(--background-color);
-      overflow: hidden;
-      transition-duration: 0.2s;
-      transition-property: max-height, opacity;
-    }
+	.subnav {
+		> ul {
+			background-color: var(--light-grey);
+			color: var(--background-color);
+			overflow: hidden;
+			transition-duration: 0.2s;
+			transition-property: max-height, opacity;
+		}
 
-    > button:after {
-      border-color: transparent;
-      border-style: solid;
-      border-width: 0.5rem;
-      border-bottom-width: 0;
-      border-top-color: currentColor;
-      content: '';
-      display: inline;
-      margin-left: auto;
-      opacity: 1;
-      position: initial;
-      transform: rotate(0);
-      transition-duration: 0.2s;
-      transition-property: border-top-color, transform;
-    }
+		> button:after {
+			border-color: transparent;
+			border-style: solid;
+			border-width: 0.5rem;
+			border-bottom-width: 0;
+			border-top-color: currentColor;
+			content: '';
+			display: inline;
+			margin-left: auto;
+			opacity: 1;
+			position: initial;
+			transform: rotate(0);
+			transition-duration: 0.2s;
+			transition-property: border-top-color, transform;
+		}
 
-    > ul {
-      &[aria-expanded=false] {
-        max-height: 0;
-        opacity: 0;
-      }
+		> ul {
+			&[aria-expanded=false] {
+				max-height: 0;
+				opacity: 0;
+			}
 
-      &[aria-expanded=true] {
-        max-height: 100vh !important;
-        opacity: 1 !important;
-      }
-    }
-  }
+			&[aria-expanded=true] {
+				max-height: 100vh !important;
+				opacity: 1 !important;
+			}
+		}
+	}
 
-  nav.social {
-    flex-shrink: 0;
-    margin-top: auto;
+	nav.social {
+		flex-shrink: 0;
+		margin-top: auto;
 
-    ul {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
+		ul {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+		}
 
-    @media (max-height: 670px) {
-      display: none;
-    }
-  }
+		@media (max-height: 670px) {
+			display: none;
+		}
+	}
 
-  @media (max-width: 1300px) {
-    background-color: var(--background-color);
-    position: fixed;
-    transform: translateX(calc(-100% - var(--gutter)));
-    will-change: transform;
-    z-index: 1;
+	@media (max-width: 1300px) {
+		background-color: var(--background-color);
+		position: fixed;
+		transform: translateX(calc(-100% - var(--gutter)));
+		will-change: transform;
+		z-index: 1;
 
-    &[aria-expanded=true] {
-      transform: translateX(0);
+		&[aria-expanded=true] {
+			transform: translateX(0);
 
-      ~ main {
-        pointer-events: none;
-        transform: scale(0.8) translateY(20vh);
+			~ main {
+				pointer-events: none;
+				transform: scale(0.8) translateY(20vh);
 
-        &:after {
-          pointer-events: initial;
-          opacity: 0.4;
-        }
-      }
-    }
-  }
+				&:after {
+					pointer-events: initial;
+					opacity: 0.4;
+				}
+			}
+		}
+	}
 
-  @media (min-width: 1300px) {
-    position: sticky;
-    top: var(--gutter);
-    z-index: 1;
-  }
+	@media (min-width: 1300px) {
+		position: sticky;
+		top: var(--gutter);
+		z-index: 1;
+	}
 }

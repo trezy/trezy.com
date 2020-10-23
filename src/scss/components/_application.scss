@@ -1,12 +1,12 @@
 [role=application] {
-  font-family: 'Source Code Pro', monospace;
-  line-height: 2;
-  min-height: 100vh;
-  width: 100vw;
+	font-family: 'Source Code Pro', monospace;
+	line-height: 2;
+	min-height: 100vh;
+	width: 100vw;
 
-  @media (min-width: 1300px) {
-    align-items: flex-start;
-    display: flex;
-    padding: var(--gutter);
-  }
+	@media (min-width: 1300px) {
+		align-items: flex-start;
+		display: flex;
+		padding: var(--gutter);
+	}
 }

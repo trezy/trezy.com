@@ -1,25 +1,25 @@
 #banner-control {
-  font-size: 2em;
-  left: calc(100% + var(--gutter));
-  line-height: 1;
-  opacity: 1;
-  position: absolute;
-  top: 0;
-  transition-duration: 0.2s;
-  transition-property: opacity;
-  width: auto;
+	font-size: 2em;
+	left: calc(100% + var(--gutter));
+	line-height: 1;
+	opacity: 1;
+	position: absolute;
+	top: 0;
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	width: auto;
 
-  svg:not(:first-child) {
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+	svg:not(:first-child) {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
 
-  @media (min-width: 1300px) {
-    &, &:focus {
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
+	@media (min-width: 1300px) {
+		&, &:focus {
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
 }

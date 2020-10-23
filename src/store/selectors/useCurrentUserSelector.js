@@ -6,12 +6,12 @@ import { useSelector } from 'react-redux'
 
 
 const useCurrentUserSelector = () => useSelector(state => {
-  const {
-    firebase,
-    firestore,
-  } = state
+	const {
+		firebase,
+		firestore,
+	} = state
 
-  return firestore.data.users?.[firebase.auth?.uid]
+	return firestore.data.users?.[firebase.auth?.uid]
 })
 
 

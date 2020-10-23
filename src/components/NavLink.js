@@ -19,145 +19,145 @@ import ExternalLink from 'components/ExternalLink'
 
 
 const NavLink = props => {
-  const {
-    extraProps,
-    iconOnly,
-    onClick,
-    target,
-  } = props
+	const {
+		extraProps,
+		iconOnly,
+		onClick,
+		target,
+	} = props
 
-  const Router = useRouter()
-  const passableProps = {
-    ...props,
-    Router,
-  }
+	const Router = useRouter()
+	const passableProps = {
+		...props,
+		Router,
+	}
 
-  const className = typeof props.className === 'function' ? props.className(passableProps) : props.className
-  const disabled = typeof props.disabled === 'function' ? props.disabled(passableProps) : props.disabled
-  const href = typeof props.href === 'function' ? props.href(passableProps) : props.href
-  const icon = typeof props.icon === 'function' ? props.icon(passableProps) : props.icon
-  const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(passableProps) : props.iconPrefix
-  const title = typeof props.title === 'function' ? props.title(passableProps) : props.title
+	const className = typeof props.className === 'function' ? props.className(passableProps) : props.className
+	const disabled = typeof props.disabled === 'function' ? props.disabled(passableProps) : props.disabled
+	const href = typeof props.href === 'function' ? props.href(passableProps) : props.href
+	const icon = typeof props.icon === 'function' ? props.icon(passableProps) : props.icon
+	const iconPrefix = typeof props.iconPrefix === 'function' ? props.iconPrefix(passableProps) : props.iconPrefix
+	const title = typeof props.title === 'function' ? props.title(passableProps) : props.title
 
-  const isExternalLink = /https?:\/\//gui.test(href)
+	const isExternalLink = /https?:\/\//gui.test(href)
 
-  let iconComponent = null
-  let titleComponent = null
+	let iconComponent = null
+	let titleComponent = null
 
-  if (props.iconComponent) {
-    if (typeof props.iconComponent === 'function') {
-      iconComponent = props.iconComponent(passableProps)
-    } else {
-      iconComponent = props.iconComponent
-    }
-  } else if (icon && !onClick) {
-    iconComponent = (
-      <FontAwesomeIcon
-        aria-hidden={!iconOnly}
-        fixedWidth
-        icon={[(iconPrefix || 'fas'), icon]}
-        title={title} />
-    )
-  }
+	if (props.iconComponent) {
+		if (typeof props.iconComponent === 'function') {
+			iconComponent = props.iconComponent(passableProps)
+		} else {
+			iconComponent = props.iconComponent
+		}
+	} else if (icon && !onClick) {
+		iconComponent = (
+			<FontAwesomeIcon
+				aria-hidden={!iconOnly}
+				fixedWidth
+				icon={[(iconPrefix || 'fas'), icon]}
+				title={title} />
+		)
+	}
 
-  if (!iconOnly) {
-    titleComponent = title
-  }
+	if (!iconOnly) {
+		titleComponent = title
+	}
 
-  return (
-    <li className={className}>
-      {Boolean(onClick) && (
-        <Button
-          {...extraProps}
-          className={classnames({ iconic: iconOnly })}
-          disabled={disabled}
-          icon={icon || iconComponent}
-          onClick={event => onClick(event, passableProps)}>
-          {titleComponent}
-        </Button>
-      )}
+	return (
+		<li className={className}>
+			{Boolean(onClick) && (
+				<Button
+					{...extraProps}
+					className={classnames({ iconic: iconOnly })}
+					disabled={disabled}
+					icon={icon || iconComponent}
+					onClick={event => onClick(event, passableProps)}>
+					{titleComponent}
+				</Button>
+			)}
 
-      {(!onClick && isExternalLink) && (
-        <ExternalLink
-          {...extraProps}
-          className={classnames({
-            disabled,
-            iconic: iconOnly,
-          })}
-          href={href}
-          target={target}>
-          {iconComponent}
-          {Boolean(titleComponent) && (
-            <span>{titleComponent}</span>
-          )}
-        </ExternalLink>
-      )}
+			{(!onClick && isExternalLink) && (
+				<ExternalLink
+					{...extraProps}
+					className={classnames({
+						disabled,
+						iconic: iconOnly,
+					})}
+					href={href}
+					target={target}>
+					{iconComponent}
+					{Boolean(titleComponent) && (
+						<span>{titleComponent}</span>
+					)}
+				</ExternalLink>
+			)}
 
-      {(!onClick && !isExternalLink) && (
-        <Link href={href}>
-          <a
-            {...extraProps}
-            className={classnames({
-              disabled,
-              iconic: iconOnly,
-            })}>
-            {iconComponent}
-            {Boolean(titleComponent) && (
-              <span>{titleComponent}</span>
-            )}
-          </a>
-        </Link>
-      )}
-    </li>
-  )
+			{(!onClick && !isExternalLink) && (
+				<Link href={href}>
+					<a
+						{...extraProps}
+						className={classnames({
+							disabled,
+							iconic: iconOnly,
+						})}>
+						{iconComponent}
+						{Boolean(titleComponent) && (
+							<span>{titleComponent}</span>
+						)}
+					</a>
+				</Link>
+			)}
+		</li>
+	)
 }
 
 NavLink.defaultProps = {
-  className: '',
-  disabled: false,
-  extraProps: {},
-  href: null,
-  icon: null,
-  iconComponent: null,
-  iconOnly: false,
-  iconPrefix: null,
-  onClick: null,
-  target: null,
+	className: '',
+	disabled: false,
+	extraProps: {},
+	href: null,
+	icon: null,
+	iconComponent: null,
+	iconOnly: false,
+	iconPrefix: null,
+	onClick: null,
+	target: null,
 }
 
 NavLink.propTypes = {
-  className: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  disabled: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.func,
-  ]),
-  extraProps: PropTypes.object,
-  href: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  iconComponent: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element,
-  ]),
-  iconOnly: PropTypes.bool,
-  iconPrefix: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  onClick: PropTypes.func,
-  target: PropTypes.string,
-  title: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]).isRequired,
+	className: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]),
+	disabled: PropTypes.oneOfType([
+		PropTypes.bool,
+		PropTypes.func,
+	]),
+	extraProps: PropTypes.object,
+	href: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]),
+	icon: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]),
+	iconComponent: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.element),
+		PropTypes.element,
+	]),
+	iconOnly: PropTypes.bool,
+	iconPrefix: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]),
+	onClick: PropTypes.func,
+	target: PropTypes.string,
+	title: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]).isRequired,
 }
 
 

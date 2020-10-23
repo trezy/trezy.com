@@ -1,6 +1,6 @@
 // Module imports
 import React, {
-  useEffect,
+	useEffect,
 } from 'react'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
@@ -27,74 +27,74 @@ let redirectStarted = false
 
 
 const Login = props => {
-  const { destination } = props
-  const Router = useRouter()
+	const { destination } = props
+	const Router = useRouter()
 
-  const firebase = useFirebase()
-  const auth = useSelector(state => state.firebase.auth)
+	const firebase = useFirebase()
+	const auth = useSelector(state => state.firebase.auth)
 
-  useEffect(() => {
-    if (auth.isLoaded && !auth.isEmpty && !redirectStarted) {
-      const startRedirect = () => {
-        redirectStarted = false
-        Router.events.off('routeChangeComplete', startRedirect)
-      }
-      redirectStarted = true
-      Router.replace(destination || '/')
-      Router.events.on('routeChangeComplete', startRedirect)
-    }
-  })
+	useEffect(() => {
+		if (auth.isLoaded && !auth.isEmpty && !redirectStarted) {
+			const startRedirect = () => {
+				redirectStarted = false
+				Router.events.off('routeChangeComplete', startRedirect)
+			}
+			redirectStarted = true
+			Router.replace(destination || '/')
+			Router.events.on('routeChangeComplete', startRedirect)
+		}
+	})
 
-  return (
-    <PageWrapper title="Login">
-      <section className="hero">
-        <div>
-          <h2>Login</h2>
+	return (
+		<PageWrapper title="Login">
+			<section className="hero">
+				<div>
+					<h2>Login</h2>
 
-          <menu type="toolbar">
-            <Button
-              className="primary"
-              onClick={() => firebase.login({
-                provider: 'google',
-                type: 'popup',
-              })}>
-              Sign in with Google
-            </Button>
+					<menu type="toolbar">
+						<Button
+							className="primary"
+							onClick={() => firebase.login({
+								provider: 'google',
+								type: 'popup',
+							})}>
+							Sign in with Google
+						</Button>
 
-            {/* <Button
-              className="primary"
-              onClick={() => firebase.login({
-                provider: 'github',
-                type: 'popup',
-              })}>
-              Sign in with Github
-            </Button> */}
+						{/* <Button
+							className="primary"
+							onClick={() => firebase.login({
+								provider: 'github',
+								type: 'popup',
+							})}>
+							Sign in with Github
+						</Button> */}
 
-            <Button
-              className="primary"
-              onClick={() => firebase.login({
-                provider: 'twitter',
-                type: 'popup',
-              })}>
-              Sign in with Twitter
-            </Button>
-          </menu>
-        </div>
-      </section>
-    </PageWrapper>
-  )
+						<Button
+							className="primary"
+							onClick={() => firebase.login({
+								provider: 'twitter',
+								type: 'popup',
+							})}>
+							Sign in with Twitter
+						</Button>
+					</menu>
+				</div>
+			</section>
+		</PageWrapper>
+	)
 }
 
 Login.getInitialProps = ({ query }) => ({
-  destination: query.destination,
+	destination: query.destination,
 })
 
 Login.defaultProps = {
-  destination: '',
+	destination: '',
 }
 
 Login.propTypes = {
-  destination: PropTypes.string,
+	destination: PropTypes.string,
 }
 
 

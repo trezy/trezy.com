@@ -1,9 +1,9 @@
 .brand {
-  margin-top: 0;
-  padding: var(--gutter);
+	margin-top: 0;
+	padding: var(--gutter);
 
-  &:after,
-  &:before {
-    display: none;
-  }
+	&:after,
+	&:before {
+		display: none;
+	}
 }

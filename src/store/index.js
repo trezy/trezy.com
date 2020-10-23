@@ -1,7 +1,7 @@
 // Module imports
 import {
-  createStore,
-  applyMiddleware,
+	createStore,
+	applyMiddleware,
 } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { reduxFirestore } from 'redux-firestore'
@@ -34,12 +34,12 @@ const actions = { ...moviesActions }
 
 
 const initStore = (state = initialState) => createStore(
-  reducer,
-  state,
-  composeWithDevTools(
-    applyMiddleware(thunkMiddleware),
-    reduxFirestore(firebase),
-  ),
+	reducer,
+	state,
+	composeWithDevTools(
+		applyMiddleware(thunkMiddleware),
+		reduxFirestore(firebase),
+	),
 )
 
 
@@ -47,6 +47,6 @@ const initStore = (state = initialState) => createStore(
 
 
 export {
-  actions,
-  initStore,
+	actions,
+	initStore,
 }

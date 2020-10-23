@@ -1,44 +1,44 @@
 [role=contentinfo] {
-  align-items: flex-start;
-  border: none;
-  border-top-color: var(--brand-primary);
-  border-top-style: solid;
-  border-top-width: 0.5rem;
-  display: grid;
-  grid-template-areas:
-    'trezy account resources'
-    'social social social';
-  grid-template-columns: repeat(3, 1fr);
-  padding: 10rem calc((50% - 60rem) + 10rem);
+	align-items: flex-start;
+	border: none;
+	border-top-color: var(--brand-primary);
+	border-top-style: solid;
+	border-top-width: 0.5rem;
+	display: grid;
+	grid-template-areas:
+		'trezy account resources'
+		'social social social';
+	grid-template-columns: repeat(3, 1fr);
+	padding: 10rem calc((50% - 60rem) + 10rem);
 
-  header {
-    font-weight: bold;
-    margin-bottom: var(--gutter);
-  }
+	header {
+		font-weight: bold;
+		margin-bottom: var(--gutter);
+	}
 
-  .trezy {
-    grid-area: trezy;
-  }
+	.trezy {
+		grid-area: trezy;
+	}
 
-  .account {
-    grid-area: account;
-  }
+	.account {
+		grid-area: account;
+	}
 
-  .resources {
-    grid-area: resources;
-  }
+	.resources {
+		grid-area: resources;
+	}
 
-  nav.social {
-    grid-area: social;
-    margin-top: 10rem;
+	nav.social {
+		grid-area: social;
+		margin-top: 10rem;
 
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+		}
 
-    a {
-      padding: 1rem;
-    }
-  }
+		a {
+			padding: 1rem;
+		}
+	}
 }

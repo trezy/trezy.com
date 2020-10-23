@@ -11,8 +11,8 @@ import 'scss/app.scss'
 
 // Module imports
 import {
-  config as faConfig,
-  library as faLibrary,
+	config as faConfig,
+	library as faLibrary,
 } from '@fortawesome/fontawesome-svg-core'
 import { createFirestoreInstance } from 'redux-firestore'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
@@ -59,67 +59,67 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 
 @withRedux(initStore)
 class App extends NextApp {
-  constructor (props) {
-    super(props)
+	constructor (props) {
+		super(props)
 
-    LocalForage.config({
-      name: 'Trezy.com',
-      storeName: 'webStore',
-    })
-  }
+		LocalForage.config({
+			name: 'Trezy.com',
+			storeName: 'webStore',
+		})
+	}
 
-  render () {
-    const {
-      Component,
-      isServer,
-      store,
-    } = this.props
-    const rrfProps = {
-      firebase,
-      config: {
-        enableClaims: true,
-        presence: 'presence',
-        sessions: 'sessions',
-        useFirestoreForProfile: true,
-        userProfile: 'users',
-      },
-      createFirestoreInstance,
-      dispatch: store.dispatch,
-    }
+	render () {
+		const {
+			Component,
+			isServer,
+			store,
+		} = this.props
+		const rrfProps = {
+			firebase,
+			config: {
+				enableClaims: true,
+				presence: 'presence',
+				sessions: 'sessions',
+				useFirestoreForProfile: true,
+				userProfile: 'users',
+			},
+			createFirestoreInstance,
+			dispatch: store.dispatch,
+		}
 
-    const pageProps = Object.entries(this.props.pageProps).reduce((accumulator, [key, value]) => {
-      const blocklist = [
-        'res',
-        'req',
-      ]
+		const pageProps = Object.entries(this.props.pageProps).reduce((accumulator, [key, value]) => {
+			const blocklist = [
+				'res',
+				'req',
+			]
 
-      if (!blocklist.includes(key)) {
-        accumulator[key] = value
-      }
+			if (!blocklist.includes(key)) {
+				accumulator[key] = value
+			}
 
-      return accumulator
-    }, {})
+			return accumulator
+		}, {})
 
-    return (
-      <Provider store={store}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <div role="application">
-            <NextHead>
-              <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+		return (
+			<Provider store={store}>
+				<ReactReduxFirebaseProvider {...rrfProps}>
+					<div role="application">
+						<NextHead>
+							<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-              <link
-                href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-                rel="stylesheet" />
-            </NextHead>
+							<link
+								href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+								rel="stylesheet" />
+						</NextHead>
 
-            <Banner isServer={isServer} />
+						<Banner isServer={isServer} />
 
-            <Component {...pageProps} />
-          </div>
-        </ReactReduxFirebaseProvider>
-      </Provider>
-    )
-  }
+						<Component {...pageProps} />
+					</div>
+				</ReactReduxFirebaseProvider>
+			</Provider>
+		)
+	}
 }
 
 

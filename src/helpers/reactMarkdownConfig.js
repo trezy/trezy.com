@@ -8,10 +8,10 @@ import shortcodes from 'remark-shortcodes'
 
 // Local imports
 import {
-  Code,
-  Image,
-  List,
-  Shortcode,
+	Code,
+	Image,
+	List,
+	Shortcode,
 } from 'helpers/markdownRenderers'
 
 
@@ -19,17 +19,17 @@ import {
 
 
 const config = {
-  plugins: [
-    [behead, { depth: 1 }],
-    shortcodes,
-  ],
-  renderers: {
-    code: Code,
-    image: Image,
-    imageReference: Image,
-    list: List,
-    shortcode: Shortcode,
-  },
+	plugins: [
+		[behead, { depth: 1 }],
+		shortcodes,
+	],
+	renderers: {
+		code: Code,
+		image: Image,
+		imageReference: Image,
+		list: List,
+		shortcode: Shortcode,
+	},
 }
 
 

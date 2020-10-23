@@ -15,29 +15,29 @@ import PageWrapper from 'components/PageWrapper'
 
 
 const Blog = () => (
-  <PageWrapper
-    description="New ideas, old ideas, and regular ideas can all be found below the titles of Trezy's titular technological tidings."
-    title="Blog">
-    <section>
-      <header>
-        <h2>Blog</h2>
-      </header>
+	<PageWrapper
+		description="New ideas, old ideas, and regular ideas can all be found below the titles of Trezy's titular technological tidings."
+		title="Blog">
+		<section>
+			<header>
+				<h2>Blog</h2>
+			</header>
 
-      <ArticleList />
-    </section>
-  </PageWrapper>
+			<ArticleList />
+		</section>
+	</PageWrapper>
 )
 
 Blog.getInitialProps = async () => {
-  const firestore = getFirestore()
+	const firestore = getFirestore()
 
-  await firestore.get({
-    collection: 'articles',
-    where: ['isDraft', '==', false],
-    orderBy: ['publishedAt', 'desc'],
-  })
+	await firestore.get({
+		collection: 'articles',
+		where: ['isDraft', '==', false],
+		orderBy: ['publishedAt', 'desc'],
+	})
 
-  return {}
+	return {}
 }
 
 

@@ -1,25 +1,25 @@
 .page.about {
-  .headshot {
-    --border-width: 1rem;
-    border-radius: 50%;
-    box-shadow: 0 0 0 var(--border-width) var(--brand-primary) inset;
-    float: left;
-    margin-bottom: var(--gutter);
-    margin-left: calc(-1 * (var(--gutter) * 2));
-    margin-right: var(--gutter);
-    max-width: 20rem;
-    position: relative;
-    shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
-    // shape-outside: polygon(
-    //   000.00% 006.50%,
-    //   073.50% 006.50%,
-    //   073.50% 054.25%,
-    //   079.50% 059.75%,
-    //   078.25% 066.75%,
-    //   090.00% 075.50%,
-    //   100.00% 100.00%,
-    //   000.00% 100.00%
-    // );
-    z-index: 1;
-  }
+	.headshot {
+		--border-width: 1rem;
+		border-radius: 50%;
+		box-shadow: 0 0 0 var(--border-width) var(--brand-primary) inset;
+		float: left;
+		margin-bottom: var(--gutter);
+		margin-left: calc(-1 * (var(--gutter) * 2));
+		margin-right: var(--gutter);
+		max-width: 20rem;
+		position: relative;
+		shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
+		// shape-outside: polygon(
+		//	 000.00% 006.50%,
+		//	 073.50% 006.50%,
+		//	 073.50% 054.25%,
+		//	 079.50% 059.75%,
+		//	 078.25% 066.75%,
+		//	 090.00% 075.50%,
+		//	 100.00% 100.00%,
+		//	 000.00% 100.00%
+		// );
+		z-index: 1;
+	}
 }

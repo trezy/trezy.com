@@ -7,21 +7,21 @@ import React from 'react'
 
 
 const Image = props => (
-  <div className="image-wrapper">
-    <div
-      className="image-background"
-      style={{ backgroundImage: `url(${props.src})` }} />
+	<div className="image-wrapper">
+		<div
+			className="image-background"
+			style={{ backgroundImage: `url(${props.src})` }} />
 
-    <img
-      {...props}
-      alt={props.alt}
-      src={props.src} />
-  </div>
+		<img
+			{...props}
+			alt={props.alt}
+			src={props.src} />
+	</div>
 )
 
 Image.propTypes = {
-  alt: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
+	alt: PropTypes.string.isRequired,
+	src: PropTypes.string.isRequired,
 }
 
 

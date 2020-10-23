@@ -14,13 +14,13 @@ import getJokes from 'pages/api/helpers/getJokes'
 
 
 export const handler = (request, response) => {
-  const filteredJokes = getJokes(request.query)
-  const joke = filteredJokes[Math.floor(Math.random() * (filteredJokes.length))]
+	const filteredJokes = getJokes(request.query)
+	const joke = filteredJokes[Math.floor(Math.random() * (filteredJokes.length))]
 
-  response.status(httpStatus.OK).json({
-    data: joke,
-    meta: {},
-  })
+	response.status(httpStatus.OK).json({
+		data: joke,
+		meta: {},
+	})
 }
 
 
@@ -28,6 +28,6 @@ export const handler = (request, response) => {
 
 
 export default createEndpoint({
-  allowedMethods: ['get'],
-  handler,
+	allowedMethods: ['get'],
+	handler,
 })

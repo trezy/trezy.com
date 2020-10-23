@@ -13,33 +13,33 @@ import Codepen from 'components/Codepen'
 
 
 const Shortcode = props => {
-  const {
-    attributes,
-    children,
-    identifier,
-  } = props
+	const {
+		attributes,
+		children,
+		identifier,
+	} = props
 
-  const shortcodeComponents = {
-    codepen: Codepen,
-  }
+	const shortcodeComponents = {
+		codepen: Codepen,
+	}
 
-  const ShortcodeComponent = shortcodeComponents[identifier.toLowerCase()] || (() => null)
+	const ShortcodeComponent = shortcodeComponents[identifier.toLowerCase()] || (() => null)
 
-  return (
-    <ShortcodeComponent {...attributes}>
-      {children}
-    </ShortcodeComponent>
-  )
+	return (
+		<ShortcodeComponent {...attributes}>
+			{children}
+		</ShortcodeComponent>
+	)
 }
 
 Shortcode.defaultProps = {
-  children: null,
+	children: null,
 }
 
 Shortcode.propTypes = {
-  attributes: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  identifier: PropTypes.string.isRequired,
+	attributes: PropTypes.object.isRequired,
+	children: PropTypes.node,
+	identifier: PropTypes.string.isRequired,
 }
 
 

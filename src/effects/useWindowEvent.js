@@ -6,11 +6,11 @@ import { useEffect } from 'react'
 
 
 const useWindowEvent = (eventType, handler, dependencies = []) => {
-  useEffect(() => {
-    window.addEventListener(eventType, handler)
+	useEffect(() => {
+		window.addEventListener(eventType, handler)
 
-    return () => window.removeEventListener(eventType, handler)
-  }, dependencies)
+		return () => window.removeEventListener(eventType, handler)
+	}, dependencies)
 }
 
 

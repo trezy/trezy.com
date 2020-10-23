@@ -28,71 +28,71 @@ import WebflowSVG from 'public/images/logos/webflow.svg'
 
 // Local constants
 const clients = [
-  {
-    component: <AmazonSVG />,
-    name: 'Amazon',
-    url: 'https://amazon.com',
-  },
-  {
-    component: <AmfamSVG />,
-    name: 'American Family Insurance',
-    url: 'https://amfam.com',
-  },
-  {
-    component: <DisneySVG />,
-    name: 'Disney',
-    url: 'https://disney.com',
-  },
-  {
-    component: <EventbriteSVG />,
-    name: 'Eventbrite',
-    url: 'https://eventbrite.com',
-  },
-  {
-    component: <GettyImagesSVG />,
-    name: 'Getty Images',
-    url: 'https://gettyimages.com',
-  },
-  {
-    component: <GoproSVG />,
-    name: 'GoPro',
-    url: 'https://gopro.com',
-  },
-  {
-    component: <GreatWolfSVG />,
-    name: 'Great Wolf Lodge',
-    url: 'https://greatwolf.com',
-  },
-  {
-    component: <GenesysSVG />,
-    name: 'Genesys',
-    url: 'https://genesys.com',
-  },
-  {
-    component: <MarvelSVG />,
-    name: 'Marvel',
-    url: 'https://marvel.com',
-  },
-  {
-    component: <MobileDoormanSVG />,
-    name: 'Mobile Doorman',
-    url: 'https://mobiledoorman.com',
-  },
-  {
-    component: <MoxeSVG />,
-    name: 'Moxe Health',
-    url: 'https://moxehealth.com',
-  },
-  {
-    component: <SkybellSVG />,
-    name: 'SkyBell',
-    url: 'https://skybell.com',
-  },
-  {
-    component: <WebflowSVG />,
-    name: 'Webflow',
-    url: 'https://webflow.com',
-  },
+	{
+		component: <AmazonSVG />,
+		name: 'Amazon',
+		url: 'https://amazon.com',
+	},
+	{
+		component: <AmfamSVG />,
+		name: 'American Family Insurance',
+		url: 'https://amfam.com',
+	},
+	{
+		component: <DisneySVG />,
+		name: 'Disney',
+		url: 'https://disney.com',
+	},
+	{
+		component: <EventbriteSVG />,
+		name: 'Eventbrite',
+		url: 'https://eventbrite.com',
+	},
+	{
+		component: <GettyImagesSVG />,
+		name: 'Getty Images',
+		url: 'https://gettyimages.com',
+	},
+	{
+		component: <GoproSVG />,
+		name: 'GoPro',
+		url: 'https://gopro.com',
+	},
+	{
+		component: <GreatWolfSVG />,
+		name: 'Great Wolf Lodge',
+		url: 'https://greatwolf.com',
+	},
+	{
+		component: <GenesysSVG />,
+		name: 'Genesys',
+		url: 'https://genesys.com',
+	},
+	{
+		component: <MarvelSVG />,
+		name: 'Marvel',
+		url: 'https://marvel.com',
+	},
+	{
+		component: <MobileDoormanSVG />,
+		name: 'Mobile Doorman',
+		url: 'https://mobiledoorman.com',
+	},
+	{
+		component: <MoxeSVG />,
+		name: 'Moxe Health',
+		url: 'https://moxehealth.com',
+	},
+	{
+		component: <SkybellSVG />,
+		name: 'SkyBell',
+		url: 'https://skybell.com',
+	},
+	{
+		component: <WebflowSVG />,
+		name: 'Webflow',
+		url: 'https://webflow.com',
+	},
 ]
 
 
@@ -100,19 +100,19 @@ const clients = [
 
 
 const ClientList = () => (
-  <ul className="client-list">
-    {clients.map(({ component, name, url }) => (
-      <li key={name}>
-        <ExternalLink href={url}>
-          {component}
+	<ul className="client-list">
+		{clients.map(({ component, name, url }) => (
+			<li key={name}>
+				<ExternalLink href={url}>
+					{component}
 
-          <span className="screen-reader-only">
-            {name}
-          </span>
-        </ExternalLink>
-      </li>
-    ))}
-  </ul>
+					<span className="screen-reader-only">
+						{name}
+					</span>
+				</ExternalLink>
+			</li>
+		))}
+	</ul>
 )
 
 

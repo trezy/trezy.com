@@ -1,8 +1,8 @@
 // Module imports
 import {
-  isEmpty,
-  isLoaded,
-  useFirestoreConnect,
+	isEmpty,
+	isLoaded,
+	useFirestoreConnect,
 } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
 
@@ -19,25 +19,25 @@ import useCurrentUserSelector from 'store/selectors/useCurrentUserSelector'
 
 
 const ProfileRedirect = () => {
-  const auth = useAuthSelector()
-  const currentUser = useCurrentUserSelector()
-  const Router = useRouter()
-  const collections = []
+	const auth = useAuthSelector()
+	const currentUser = useCurrentUserSelector()
+	const Router = useRouter()
+	const collections = []
 
-  if (isLoaded(auth) && !isEmpty(auth)) {
-    collections.push({
-      collection: 'users',
-      doc: auth.uid,
-    })
-  }
+	if (isLoaded(auth) && !isEmpty(auth)) {
+		collections.push({
+			collection: 'users',
+			doc: auth.uid,
+		})
+	}
 
-  useFirestoreConnect(collections)
+	useFirestoreConnect(collections)
 
-  if (isLoaded(currentUser) && !isEmpty(currentUser)) {
-    Router.replace(`/profile/@${currentUser.username}`)
-  }
+	if (isLoaded(currentUser) && !isEmpty(currentUser)) {
+		Router.replace(`/profile/@${currentUser.username}`)
+	}
 
-  return null
+	return null
 }
 
 

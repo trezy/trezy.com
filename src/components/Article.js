@@ -20,82 +20,82 @@ import MarkdownRenderer from 'components/MarkdownRenderer'
 
 
 const Article = props => {
-  const {
-    editMode,
-    id,
-    summarize,
-  } = props
+	const {
+		editMode,
+		id,
+		summarize,
+	} = props
 
-  const article = useSelector(state => state.firestore.data.articles?.[id])
+	const article = useSelector(state => state.firestore.data.articles?.[id])
 
-  if (!isLoaded(article)) {
-    return (
-      <div>Loading...</div>
-    )
-  }
+	if (!isLoaded(article)) {
+		return (
+			<div>Loading...</div>
+		)
+	}
 
-  const {
-    createdAt,
-    isDraft,
-    publishedAt,
-    slug,
-    subtitle,
-    synopsis,
-    title,
-    updatedAt,
-  } = article
+	const {
+		createdAt,
+		isDraft,
+		publishedAt,
+		slug,
+		subtitle,
+		synopsis,
+		title,
+		updatedAt,
+	} = article
 
-  return (
-    <article className={classnames({ summary: summarize })}>
-      <ArticleHeader {...{
-        slug,
-        subtitle,
-        summarize,
-        title,
-      }} />
+	return (
+		<article className={classnames({ summary: summarize })}>
+			<ArticleHeader {...{
+				slug,
+				subtitle,
+				summarize,
+				title,
+			}} />
 
-      <ArticleMeta {...{
-        createdAt,
-        isDraft,
-        publishedAt,
-        updatedAt,
-      }} />
+			<ArticleMeta {...{
+				createdAt,
+				isDraft,
+				publishedAt,
+				updatedAt,
+			}} />
 
-      {synopsis && (
-        <span className="synopsis">
-          {synopsis}
-        </span>
-      )}
+			{synopsis && (
+				<span className="synopsis">
+					{synopsis}
+				</span>
+			)}
 
-      {!summarize && (
-        <MarkdownRenderer source={article.body} />
-      )}
+			{!summarize && (
+				<MarkdownRenderer source={article.body} />
+			)}
 
-      {editMode && (
-        <menu type="toolbar">
-          <Link
-            as={`/dashboard/blog/edit/${id}`}
-            href="/dashboard/blog/edit/[id]">
-            <a className="button primary">
-              Edit
-            </a>
-          </Link>
-        </menu>
-      )}
-    </article>
-  )
+			{editMode && (
+				<menu type="toolbar">
+					<Link
+						as={`/dashboard/blog/edit/${id}`}
+						href="/dashboard/blog/edit/[id]">
+						<a className="button primary">
+							Edit
+						</a>
+					</Link>
+				</menu>
+			)}
+		</article>
+	)
 }
 
 Article.defaultProps = {
-  editMode: false,
-  id: null,
-  summarize: false,
+	editMode: false,
+	id: null,
+	summarize: false,
 }
 
 Article.propTypes = {
-  editMode: PropTypes.bool,
-  id: PropTypes.string,
-  summarize: PropTypes.bool,
+	editMode: PropTypes.bool,
+	id: PropTypes.string,
+	summarize: PropTypes.bool,
 }
 
 

@@ -18,9 +18,9 @@ import firebaseConfig from '../../firebase.config'
 
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
-  firebase.database()
-  firebase.firestore()
+	firebase.initializeApp(firebaseConfig)
+	firebase.database()
+	firebase.firestore()
 }
 
 

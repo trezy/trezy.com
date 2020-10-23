@@ -10,7 +10,7 @@ pre,
 table,
 ul,
 .code-toolbar {
-  & + & {
-    margin-top: var(--gutter);
-  }
+	& + & {
+		margin-top: var(--gutter);
+	}
 }

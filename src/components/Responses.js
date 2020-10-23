@@ -15,31 +15,31 @@ import ResponsesList from 'components/ResponsesList'
 
 
 const Responses = props => {
-  const { articleID } = props
+	const { articleID } = props
 
-  return (
-    <aside className="responses-container">
-      <hr />
+	return (
+		<aside className="responses-container">
+			<hr />
 
-      <h3>Responses</h3>
+			<h3>Responses</h3>
 
-      <div>
-        <ResponsesList {...props} />
+			<div>
+				<ResponsesList {...props} />
 
-        <ResponseForm articleID={articleID} />
-      </div>
-    </aside>
-  )
+				<ResponseForm articleID={articleID} />
+			</div>
+		</aside>
+	)
 }
 
 Responses.defaultProps = {
-  articleID: null,
-  authorID: null,
+	articleID: null,
+	authorID: null,
 }
 
 Responses.propTypes = {
-  articleID: PropTypes.string,
-  authorID: PropTypes.string,
+	articleID: PropTypes.string,
+	authorID: PropTypes.string,
 }
 
 

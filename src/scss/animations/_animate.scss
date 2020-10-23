@@ -1,41 +1,41 @@
 [data-animate] {
-  &[data-animate='true'],
-  &:not([data-animate='false']) {
-    animation-fill-mode: both;
+	&[data-animate='true'],
+	&:not([data-animate='false']) {
+		animation-fill-mode: both;
 
-    @each $fill-mode in (backwards, forwards, none) {
-      &[data-animation-fill-mode='#{$fill-mode}'] {
-        animation-fill-mode: $fill-mode;
-      }
-    }
+		@each $fill-mode in (backwards, forwards, none) {
+			&[data-animation-fill-mode='#{$fill-mode}'] {
+				animation-fill-mode: $fill-mode;
+			}
+		}
 
-    @each $direction in (normal, reverse, alternate, alternate-reverse) {
-      &[data-animation-direction='#{$direction}'] {
-        animation-direction: $direction;
-      }
-    }
+		@each $direction in (normal, reverse, alternate, alternate-reverse) {
+			&[data-animation-direction='#{$direction}'] {
+				animation-direction: $direction;
+			}
+		}
 
-    @each $state in (paused, running) {
-      &[data-animation-play-state='#{$state}'] {
-        animation-play-state: $state;
-      }
-    }
+		@each $state in (paused, running) {
+			&[data-animation-play-state='#{$state}'] {
+				animation-play-state: $state;
+			}
+		}
 
-    $milliseconds: 100;
+		$milliseconds: 100;
 
-    @while $milliseconds < 10001 {
-      &[data-animation-delay='#{$milliseconds / 1000}'],
-      &[data-animation-delay='#{$milliseconds / 1000}s'],
-      &[data-animation-delay='#{$milliseconds}ms'] {
-        animation-delay: #{$milliseconds}ms;
-      }
-      &[data-animation-duration='#{$milliseconds / 1000}'],
-      &[data-animation-duration='#{$milliseconds / 1000}s'],
-      &[data-animation-duration='#{$milliseconds}ms'] {
-        animation-duration: #{$milliseconds}ms;
-      }
+		@while $milliseconds < 10001 {
+			&[data-animation-delay='#{$milliseconds / 1000}'],
+			&[data-animation-delay='#{$milliseconds / 1000}s'],
+			&[data-animation-delay='#{$milliseconds}ms'] {
+				animation-delay: #{$milliseconds}ms;
+			}
+			&[data-animation-duration='#{$milliseconds / 1000}'],
+			&[data-animation-duration='#{$milliseconds / 1000}s'],
+			&[data-animation-duration='#{$milliseconds}ms'] {
+				animation-duration: #{$milliseconds}ms;
+			}
 
-      $milliseconds: $milliseconds + 100;
-    }
-  }
+			$milliseconds: $milliseconds + 100;
+		}
+	}
 }

@@ -9,53 +9,53 @@ import React from 'react'
 
 
 const Alert = props => {
-  const {
-    children,
-    type,
-  } = props
-  const passableProps = { ...props }
+	const {
+		children,
+		type,
+	} = props
+	const passableProps = { ...props }
 
-  let icon = null
+	let icon = null
 
-  delete passableProps.children
+	delete passableProps.children
 
-  switch (type) {
-    case 'danger':
-      icon = 'exclamation-triangle'
-      break
+	switch (type) {
+		case 'danger':
+			icon = 'exclamation-triangle'
+			break
 
-    case 'warning':
-      icon = 'exclamation-circle'
-      break
+		case 'warning':
+			icon = 'exclamation-circle'
+			break
 
-    default:
-      icon = 'info-circle'
-      break
-  }
+		default:
+			icon = 'info-circle'
+			break
+	}
 
-  return (
-    <div
-      className={classnames('alert', type)}
-      {...passableProps}>
-      <FontAwesomeIcon
-        fixedWidth
-        icon={icon} />
+	return (
+		<div
+			className={classnames('alert', type)}
+			{...passableProps}>
+			<FontAwesomeIcon
+				fixedWidth
+				icon={icon} />
 
-      {children}
-    </div>
-  )
+			{children}
+		</div>
+	)
 }
 
 Alert.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf([
-      PropTypes.element,
-      PropTypes.node,
-    ]),
-    PropTypes.element,
-    PropTypes.node,
-  ]).isRequired,
-  type: PropTypes.string.isRequired,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf([
+			PropTypes.element,
+			PropTypes.node,
+		]),
+		PropTypes.element,
+		PropTypes.node,
+	]).isRequired,
+	type: PropTypes.string.isRequired,
 }
 
 

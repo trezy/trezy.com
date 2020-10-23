@@ -1,21 +1,21 @@
 form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 1;
 
-  > fieldset {
-    &:not(:last-child) {
-      margin-bottom: var(--gutter);
-    }
-  }
+	> fieldset {
+		&:not(:last-child) {
+			margin-bottom: var(--gutter);
+		}
+	}
 
-  > menu {
-    align-self: flex-end;
-    background-color: var(--background-color);
-    bottom: var(--gutter);
-    box-shadow: 0 0 2rem 0 var(--background-color);
-    margin-top: auto;
-    position: sticky;
-  }
+	> menu {
+		align-self: flex-end;
+		background-color: var(--background-color);
+		bottom: var(--gutter);
+		box-shadow: 0 0 2rem 0 var(--background-color);
+		margin-top: auto;
+		position: sticky;
+	}
 }

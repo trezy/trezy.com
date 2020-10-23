@@ -1,73 +1,73 @@
 h1, h2, h3,
 h4, h5, h6 {
-  background-color: var(--background-color);
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  position: relative;
+	background-color: var(--background-color);
+	line-height: 1.5;
+	margin-bottom: 1rem;
+	position: relative;
 
-  &:after,
-  &:before {
-    content: '';
-    display: block;
-    height: 1rem;
-    left: 0;
-    position: absolute;
-    right: 0;
-  }
+	&:after,
+	&:before {
+		content: '';
+		display: block;
+		height: 1rem;
+		left: 0;
+		position: absolute;
+		right: 0;
+	}
 
-  &:after {
-    background-image: linear-gradient(
-      to bottom,
-      var(--background-color),
-      var(--transparent)
-    );
-    top: 100%;
-  }
+	&:after {
+		background-image: linear-gradient(
+			to bottom,
+			var(--background-color),
+			var(--transparent)
+		);
+		top: 100%;
+	}
 
-  &:before {
-    background-image: linear-gradient(
-      to top,
-      var(--background-color),
-      var(--transparent)
-    );
-    bottom: 100%;
-  }
+	&:before {
+		background-image: linear-gradient(
+			to top,
+			var(--background-color),
+			var(--transparent)
+		);
+		bottom: 100%;
+	}
 
-  .anchor {
-    bottom: 0;
-    position: absolute;
-    right: calc(100% + var(--gutter));
-    top: 0;
+	.anchor {
+		bottom: 0;
+		position: absolute;
+		right: calc(100% + var(--gutter));
+		top: 0;
 
-    &:before {
-      content: '#';
-    }
-  }
+		&:before {
+			content: '#';
+		}
+	}
 }
 
 h2 {
-  font-size: 3em;
+	font-size: 3em;
 }
 
 h3 {
-  font-size: 2.5em;
+	font-size: 2.5em;
 }
 
 h4 {
-  font-size: 2em;
+	font-size: 2em;
 }
 
 h5 {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 h6 {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  h1, h2, h3,
-  h4, h5, h6 {
-    margin-top: calc(var(--gutter) * 2);
-  }
+	h1, h2, h3,
+	h4, h5, h6 {
+		margin-top: calc(var(--gutter) * 2);
+	}
 }

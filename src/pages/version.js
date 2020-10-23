@@ -25,41 +25,41 @@ const nodeVersion = process.env.nodeVersion
 
 
 const Version = () => (
-  <PageWrapper title="Version Information" renderHeader={false}>
-    <section className="hero">
-      <table>
-        <tbody>
-          <tr>
-            <th>App Version</th>
+	<PageWrapper title="Version Information" renderHeader={false}>
+		<section className="hero">
+			<table>
+				<tbody>
+					<tr>
+						<th>App Version</th>
 
-            <td>
-              <a target="_blank" rel="noopener noreferrer" href={`https://github.com/trezy/trezy.com/releases/tag/v${version}`}>
-                v{version}
-              </a>
-            </td>
-          </tr>
+						<td>
+							<a target="_blank" rel="noopener noreferrer" href={`https://github.com/trezy/trezy.com/releases/tag/v${version}`}>
+								v{version}
+							</a>
+						</td>
+					</tr>
 
-          <tr>
-            <th>Node Version</th>
+					<tr>
+						<th>Node Version</th>
 
-            <td>
-              <a target="_blank" rel="noopener noreferrer" href={`https://github.com/nodejs/node/releases/tag/${nodeVersion}`}>
-                {nodeVersion}
-              </a>
-            </td>
-          </tr>
+						<td>
+							<a target="_blank" rel="noopener noreferrer" href={`https://github.com/nodejs/node/releases/tag/${nodeVersion}`}>
+								{nodeVersion}
+							</a>
+						</td>
+					</tr>
 
-          <tr>
-            <th>Built On</th>
+					<tr>
+						<th>Built On</th>
 
-            <td>
-              <time dateTime={buildDate}>{moment.utc(buildDate).format('MMMM Do YYYY, hh:mm z')}</time>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </PageWrapper>
+						<td>
+							<time dateTime={buildDate}>{moment.utc(buildDate).format('MMMM Do YYYY, hh:mm z')}</time>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</PageWrapper>
 )
 
 

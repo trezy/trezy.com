@@ -1,117 +1,117 @@
 button, .button {
-  --button-background-color: var(--light-grey);
-  --button-shadow-color-h: var(--background-color-h);
-  --button-shadow-color-s: var(--background-color-s);
-  --button-shadow-color-l: var(--background-color-l);
-  --button-shadow-opacity: 0;
+	--button-background-color: var(--light-grey);
+	--button-shadow-color-h: var(--background-color-h);
+	--button-shadow-color-s: var(--background-color-s);
+	--button-shadow-color-l: var(--background-color-l);
+	--button-shadow-opacity: 0;
 
-  background-color: var(--transparent);
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  display: inline-block;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: 1;
-  padding: var(--gutter) calc(var(--gutter) * 2);
-  position: relative;
-  opacity: 1;
-  transition-duration: 0.2s;
-  transition-property:
-    background-color,
-    box-shadow,
-    color,
-    opacity;
-  z-index: 1;
+	background-color: var(--transparent);
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	display: inline-block;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: 1;
+	padding: var(--gutter) calc(var(--gutter) * 2);
+	position: relative;
+	opacity: 1;
+	transition-duration: 0.2s;
+	transition-property:
+		background-color,
+		box-shadow,
+		color,
+		opacity;
+	z-index: 1;
 
-  &:before,
-  &:after {
-    bottom: 0;
-    content: '';
-    display: block;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition-duration: 0.3s;
-  }
+	&:before,
+	&:after {
+		bottom: 0;
+		content: '';
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition-duration: 0.3s;
+	}
 
-  &:before {
-    background-color: var(--button-background-color);
-    box-shadow: 0 0 1rem 0 hsla(var(--button-shadow-color-h), var(--button-shadow-color-s), var(--button-shadow-color-l), var(--button-shadow-opacity));
-    opacity: 1;
-    pointer-events: none;
-    transform: scale(1);
-    transition-property: box-shadow, opacity, transform;
-    z-index: 1;
-  }
+	&:before {
+		background-color: var(--button-background-color);
+		box-shadow: 0 0 1rem 0 hsla(var(--button-shadow-color-h), var(--button-shadow-color-s), var(--button-shadow-color-l), var(--button-shadow-opacity));
+		opacity: 1;
+		pointer-events: none;
+		transform: scale(1);
+		transition-property: box-shadow, opacity, transform;
+		z-index: 1;
+	}
 
-  &:after {
-    border-color: var(--button-background-color);
-    border-style: solid;
-    border-width: 0.2rem;
-    opacity: 0;
-    transform: scale(1.5);
-    transition-property: opacity, transform;
-    z-index: 2;
-  }
+	&:after {
+		border-color: var(--button-background-color);
+		border-style: solid;
+		border-width: 0.2rem;
+		opacity: 0;
+		transform: scale(1.5);
+		transition-property: opacity, transform;
+		z-index: 2;
+	}
 
-  > span {
-    position: relative;
-    z-index: 3;
-  }
+	> span {
+		position: relative;
+		z-index: 3;
+	}
 
-  &:hover,
-  &:focus {
-    &:before {
-      transform: scale(1.5);
-    }
+	&:hover,
+	&:focus {
+		&:before {
+			transform: scale(1.5);
+		}
 
-    z-index: 2;
-  }
+		z-index: 2;
+	}
 
-  &:hover {
-    &:before {
-      opacity: 0;
-    }
+	&:hover {
+		&:before {
+			opacity: 0;
+		}
 
-    &:after {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
+		&:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
 
-  &:focus {
-    --button-shadow-opacity: 1;
+	&:focus {
+		--button-shadow-opacity: 1;
 
-    outline: none;
-  }
+		outline: none;
+	}
 
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
 
-  &.iconic {
-    justify-content: center;
-    padding: var(--gutter);
-  }
+	&.iconic {
+		justify-content: center;
+		padding: var(--gutter);
+	}
 
-  &.danger {
-    --button-background-color: var(--danger-background-color);
+	&.danger {
+		--button-background-color: var(--danger-background-color);
 
-    &:hover {
-      color: var(--danger-text-color);
-    }
-  }
+		&:hover {
+			color: var(--danger-text-color);
+		}
+	}
 
-  &.primary {
-    --button-background-color: var(--brand-primary);
+	&.primary {
+		--button-background-color: var(--brand-primary);
 
-    color: var(--background-color);
+		color: var(--background-color);
 
-    @media (prefers-color-scheme: dark) {
-      color: var(--text-color);
-    }
-  }
+		@media (prefers-color-scheme: dark) {
+			color: var(--text-color);
+		}
+	}
 }

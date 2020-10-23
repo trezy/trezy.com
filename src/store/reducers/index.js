@@ -16,8 +16,8 @@ import moviesSearchResults from 'store/reducers/moviesSearchResults'
 
 
 export default combineReducers({
-  firebase: firebaseReducer,
-  firestore: firestoreReducer,
-  movies,
-  moviesSearchResults,
+	firebase: firebaseReducer,
+	firestore: firestoreReducer,
+	movies,
+	moviesSearchResults,
 })

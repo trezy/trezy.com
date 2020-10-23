@@ -18,8 +18,8 @@ const firestore = admin.firestore()
 
 // Akismet setup
 const akismet = new AkismetClient({
-  blog: 'https://trezy.com',
-  key: functions.config().akismet.key,
+	blog: 'https://trezy.com',
+	key: functions.config().akismet.key,
 })
 
 
@@ -28,84 +28,84 @@ const akismet = new AkismetClient({
 
 // Helpers
 const updateUserClaims = async snapshot => {
-  const {
-    roles: userRoles,
-  } = snapshot.data()
-  const { customClaims } = await auth.getUser(snapshot.id)
-  let newClaims = {}
+	const {
+		roles: userRoles,
+	} = snapshot.data()
+	const { customClaims } = await auth.getUser(snapshot.id)
+	let newClaims = {}
 
-  const rolesSnapshot = await firestore.collection('roles').get()
-  const allRoles = {}
-  rolesSnapshot.forEach(role => {
-    allRoles[role.id] = role.data().claims
-  })
+	const rolesSnapshot = await firestore.collection('roles').get()
+	const allRoles = {}
+	rolesSnapshot.forEach(role => {
+		allRoles[role.id] = role.data().claims
+	})
 
-  Object.entries(allRoles).forEach(([role, claims]) => {
-    if (userRoles.includes(role)) {
-      claims.forEach(claim => {
-        newClaims[claim] = true
-      })
-    }
-  })
+	Object.entries(allRoles).forEach(([role, claims]) => {
+		if (userRoles.includes(role)) {
+			claims.forEach(claim => {
+				newClaims[claim] = true
+			})
+		}
+	})
 
-  if (!isEqual(customClaims, newClaims)) {
-    await auth.setCustomUserClaims(snapshot.id, newClaims)
-    await firestore.collection('users').doc(snapshot.id).update({ refreshToken: uuid() })
-  }
+	if (!isEqual(customClaims, newClaims)) {
+		await auth.setCustomUserClaims(snapshot.id, newClaims)
+		await firestore.collection('users').doc(snapshot.id).update({ refreshToken: uuid() })
+	}
 }
 
 const verifyResponseWithAkismet = async snapshot => {
-  const { id } = snapshot
-  const response = snapshot.data()
-  let isPendingHumanVerification = false
+	const { id } = snapshot
+	const response = snapshot.data()
+	let isPendingHumanVerification = false
 
-  const author = await firestore.collection('users').doc(response.authorID).get()
+	const author = await firestore.collection('users').doc(response.authorID).get()
 
-  const spamCheckData = {
-    content: response.body,
-    date: response.publishedAt.toDate(),
-    ip: response.spamCheck.ip,
-    useragent: response.spamCheck.useragent,
-  }
+	const spamCheckData = {
+		content: response.body,
+		date: response.publishedAt.toDate(),
+		ip: response.spamCheck.ip,
+		useragent: response.spamCheck.useragent,
+	}
 
-  if (author.email) {
-    spamCheckData.email = author.email
-  }
+	if (author.email) {
+		spamCheckData.email = author.email
+	}
 
-  if (author.displayName) {
-    spamCheckData.name = author.displayName
-  }
+	if (author.displayName) {
+		spamCheckData.name = author.displayName
+	}
 
-  const isSpam = await akismet.checkSpam(spamCheckData)
+	const isSpam = await akismet.checkSpam(spamCheckData)
 
-  await firestore.collection('responses').doc(id).update({
-    isPendingAkismetVerification: false,
-    isPendingHumanVerification: isSpam,
-  })
+	await firestore.collection('responses').doc(id).update({
+		isPendingAkismetVerification: false,
+		isPendingHumanVerification: isSpam,
+	})
 }
 
 const verifyResponseWithHuman = async snapshot => {
-  const { id } = snapshot
-  const response = snapshot.data()
+	const { id } = snapshot
+	const response = snapshot.data()
 
-  if (verifiedByID) {
-    const verifiedBy = await firestore.collection('users').doc(response.verifiedByID).get()
+	if (verifiedByID) {
+		const verifiedBy = await firestore.collection('users').doc(response.verifiedByID).get()
 
-    if (verifiedBy) {
-      delete response.spamCheck
+		if (verifiedBy) {
+			delete response.spamCheck
 
-      return firestore.collection('responses').doc(id).set({
-        ...response,
-        isPendingHumanVerification: false,
-        isSpam: false,
-      })
-    }
-  }
+			return firestore.collection('responses').doc(id).set({
+				...response,
+				isPendingHumanVerification: false,
+				isSpam: false,
+			})
+		}
+	}
 
-  return firestore.collection('responses').doc(id).update({
-    isPendingHumanVerification: false,
-    isSpam: true,
-  })
+	return firestore.collection('responses').doc(id).update({
+		isPendingHumanVerification: false,
+		isSpam: true,
+	})
 }
 
 
@@ -116,28 +116,28 @@ const verifyResponseWithHuman = async snapshot => {
 exports.onResponseCreate = functions.firestore.document('responses/{responseID}').onCreate(verifyResponseWithAkismet)
 
 exports.onResponseUpdate = functions.firestore.document('responses/{responseID}').onUpdate(async (snapshot, context) => {
-  const {
-    body,
-    isPendingHumanVerification,
-    isSpam,
-  } = snapshot.before.data()
-  const newData = snapshot.before.data()
+	const {
+		body,
+		isPendingHumanVerification,
+		isSpam,
+	} = snapshot.before.data()
+	const newData = snapshot.before.data()
 
-  if (newData.body !== body) {
-    await firestore.collection('responses').doc(snapshot.after.id).update({ isPendingAkismetVerification: true })
-    verifyResponseWithAkismet(snapshot.after)
-  } else if (isPendingHumanVerification) {
-    verifyResponseWithHuman(snapshot.after)
-  }
+	if (newData.body !== body) {
+		await firestore.collection('responses').doc(snapshot.after.id).update({ isPendingAkismetVerification: true })
+		verifyResponseWithAkismet(snapshot.after)
+	} else if (isPendingHumanVerification) {
+		verifyResponseWithHuman(snapshot.after)
+	}
 })
 
 exports.onUserCreate = functions.firestore.document('users/{userID}').onCreate(updateUserClaims)
 
 exports.onUserUpdate = functions.firestore.document('users/{userID}').onUpdate((snapshot, context) => {
-  const oldRoles = snapshot.before.data().roles
-  const newRoles = snapshot.after.data().roles
+	const oldRoles = snapshot.before.data().roles
+	const newRoles = snapshot.after.data().roles
 
-  if (xor(oldRoles, newRoles).length) {
-    updateUserClaims(snapshot.after)
-  }
+	if (xor(oldRoles, newRoles).length) {
+		updateUserClaims(snapshot.after)
+	}
 })

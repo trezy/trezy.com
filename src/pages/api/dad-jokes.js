@@ -14,14 +14,14 @@ import getJokes from 'pages/api/helpers/getJokes'
 
 
 export const handler = (request, response) => {
-  const jokes = getJokes(request.query)
+	const jokes = getJokes(request.query)
 
-  response.status(httpStatus.OK).json({
-    data: jokes,
-    meta: {
-      count: jokes.length,
-    },
-  })
+	response.status(httpStatus.OK).json({
+		data: jokes,
+		meta: {
+			count: jokes.length,
+		},
+	})
 }
 
 
@@ -29,6 +29,6 @@ export const handler = (request, response) => {
 
 
 export default createEndpoint({
-  allowedMethods: ['get'],
-  handler,
+	allowedMethods: ['get'],
+	handler,
 })

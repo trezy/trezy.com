@@ -1,26 +1,26 @@
 .character-preview {
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 1;
-  justify-content: center;
-  display: flex;
-  padding: 2rem;
-  position: relative;
-  height: 100%;
-  width: 100%;
+	align-items: center;
+	flex-grow: 0;
+	flex-shrink: 1;
+	justify-content: center;
+	display: flex;
+	padding: 2rem;
+	position: relative;
+	height: 100%;
+	width: 100%;
 
-  &.mini {
-    height: auto;
-    padding: 0;
-    width: auto;
-  }
+	&.mini {
+		height: auto;
+		padding: 0;
+		width: auto;
+	}
 
-  aside {
-    left: 2rem;
-    display: none;
-    opacity: 0.2;
-    padding: 1rem;
-    position: absolute;
-    top: 2rem;
-  }
+	aside {
+		left: 2rem;
+		display: none;
+		opacity: 0.2;
+		padding: 1rem;
+		position: absolute;
+		top: 2rem;
+	}
 }

@@ -1,8 +1,8 @@
 .article-list {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-  article {
-    margin-bottom: calc(var(--gutter) * 2);
-  }
+	article {
+		margin-bottom: calc(var(--gutter) * 2);
+	}
 }

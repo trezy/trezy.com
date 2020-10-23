@@ -1,12 +1,12 @@
 fieldset {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-  label {
-    font-weight: bold;
-  }
+	label {
+		font-weight: bold;
+	}
 
-  .results {
-    margin-top: var(--gutter);
-  }
+	.results {
+		margin-top: var(--gutter);
+	}
 }

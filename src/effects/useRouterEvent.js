@@ -6,13 +6,13 @@ import { useRouter } from 'next/router'
 
 
 const useRouterEvent = (eventType, handler, dependencies = []) => {
-  const Router = useRouter()
+	const Router = useRouter()
 
-  useEffect(() => {
-    Router.events.on(eventType, handler)
+	useEffect(() => {
+		Router.events.on(eventType, handler)
 
-    return () => Router.events.off(eventType, handler)
-  }, dependencies)
+		return () => Router.events.off(eventType, handler)
+	}, dependencies)
 }
 
 

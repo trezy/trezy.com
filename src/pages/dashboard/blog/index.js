@@ -18,36 +18,36 @@ import useAuthSelector from 'store/selectors/useAuthSelector'
 
 
 const BlogDashboard = () => {
-  const auth = useAuthSelector()
+	const auth = useAuthSelector()
 
-  return (
-    <PageWrapper title="Blog Dashboard">
-      <RequireAuthentication>
-        <section>
-          <header className="page-header">
-            <h2>Dashboard / Blog</h2>
+	return (
+		<PageWrapper title="Blog Dashboard">
+			<RequireAuthentication>
+				<section>
+					<header className="page-header">
+						<h2>Dashboard / Blog</h2>
 
-            <Link
-              as="/dashboard/blog/edit/new"
-              href="/dashboard/blog/edit/[id]">
-              <a className="button primary">
-                <span>New Article</span>
-              </a>
-            </Link>
-          </header>
+						<Link
+							as="/dashboard/blog/edit/new"
+							href="/dashboard/blog/edit/[id]">
+							<a className="button primary">
+								<span>New Article</span>
+							</a>
+						</Link>
+					</header>
 
-          {isLoaded(auth) && (
-            <ArticleList
-              authorID={auth.uid}
-              editMode
-              includeDraft />
-          )}
+					{isLoaded(auth) && (
+						<ArticleList
+							authorID={auth.uid}
+							editMode
+							includeDraft />
+					)}
 
-          {!isLoaded(auth) && 'Loading...'}
-        </section>
-      </RequireAuthentication>
-    </PageWrapper>
-  )
+					{!isLoaded(auth) && 'Loading...'}
+				</section>
+			</RequireAuthentication>
+		</PageWrapper>
+	)
 }
 
 

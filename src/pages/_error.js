@@ -16,31 +16,31 @@ import PageWrapper from 'components/PageWrapper'
 
 
 const ErrorPage = ({ statusCode }) => (
-  <PageWrapper
-    description="An error has occured."
-    title="Error">
-    <NextError statusCode={statusCode} />
-  </PageWrapper>
+	<PageWrapper
+		description="An error has occured."
+		title="Error">
+		<NextError statusCode={statusCode} />
+	</PageWrapper>
 )
 
 ErrorPage.getInitialProps = props => {
-  const {
-    res,
-    err: error,
-  } = props
-  let statusCode = httpStatus.NOT_FOUND
+	const {
+		res,
+		err: error,
+	} = props
+	let statusCode = httpStatus.NOT_FOUND
 
-  if (res) {
-    statusCode = res.statusCode
-  } else if (error) {
-    statusCode = error.statusCode
-  }
+	if (res) {
+		statusCode = res.statusCode
+	} else if (error) {
+		statusCode = error.statusCode
+	}
 
-  return { statusCode }
+	return { statusCode }
 }
 
 ErrorPage.propTypes = {
-  statusCode: PropTypes.number.isRequired,
+	statusCode: PropTypes.number.isRequired,
 }
 
 

@@ -1,9 +1,9 @@
 const actionTypes = [
-  'FIND_MOVIES',
-  'GET_MOVIES',
+	'FIND_MOVIES',
+	'GET_MOVIES',
 ].reduce((acc, actionType) => ({
-  ...acc,
-  [actionType]: actionType,
+	...acc,
+	[actionType]: actionType,
 }), {})
 
 

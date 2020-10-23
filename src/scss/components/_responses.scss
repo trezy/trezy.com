@@ -1,35 +1,35 @@
 .responses {
-  ol > li:not(:last-child) {
-    margin-bottom: var(--gutter);
-  }
+	ol > li:not(:last-child) {
+		margin-bottom: var(--gutter);
+	}
 
-  .response {
-    border-left-color: var(--brand-primary);
-    border-left-style: solid;
-    border-left-width: 0.5rem;
-    padding: var(--gutter);
-    transition-duration: 0.5s;
-    transition-property: background-color;
+	.response {
+		border-left-color: var(--brand-primary);
+		border-left-style: solid;
+		border-left-width: 0.5rem;
+		padding: var(--gutter);
+		transition-duration: 0.5s;
+		transition-property: background-color;
 
-    &:not(:last-child) {
-      margin-bottom: var(--gutter);
-    }
+		&:not(:last-child) {
+			margin-bottom: var(--gutter);
+		}
 
-    &.pending {
-      opacity: 0.25;
-    }
+		&.pending {
+			opacity: 0.25;
+		}
 
-    footer {
-      color: grey;
-      font-size: 0.8em;
-    }
+		footer {
+			color: grey;
+			font-size: 0.8em;
+		}
 
-    img {
-      display: inline-block;
-      margin-right: 0.5em;
-      max-width: 2rem;
-      shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
-      vertical-align: middle;
-    }
-  }
+		img {
+			display: inline-block;
+			margin-right: 0.5em;
+			max-width: 2rem;
+			shape-outside: circle(calc(50% + (var(--border-width) * 2)) at center) padding-box;
+			vertical-align: middle;
+		}
+	}
 }

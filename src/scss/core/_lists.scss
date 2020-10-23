@@ -1,59 +1,59 @@
 ol, ul {
-  &.comma-separated,
-  &.pipe-separated {
-    li {
-      display: inline-block;
-    }
+	&.comma-separated,
+	&.pipe-separated {
+		li {
+			display: inline-block;
+		}
 
-    > li:not(:last-child):after {
-      margin-right: 0.5em;
-    }
-  }
+		> li:not(:last-child):after {
+			margin-right: 0.5em;
+		}
+	}
 
-  &.comma-separated {
-    display: inline;
+	&.comma-separated {
+		display: inline;
 
-    > li:not(:last-child):after {
-      content: ', ';
-    }
-  }
+		> li:not(:last-child):after {
+			content: ', ';
+		}
+	}
 
-  &.pipe-separated {
-    > li:not(:last-child):after {
-      content: '|';
-      margin-left: 0.5em;
-    }
-  }
+	&.pipe-separated {
+		> li:not(:last-child):after {
+			content: '|';
+			margin-left: 0.5em;
+		}
+	}
 
-  &.bulleted,
-  &.numbered {
-    list-style-position: outside;
-    padding-left: 4rem;
-  }
+	&.bulleted,
+	&.numbered {
+		list-style-position: outside;
+		padding-left: 4rem;
+	}
 
-  &.bulleted {
-    list-style-type: square;
-  }
+	&.bulleted {
+		list-style-type: square;
+	}
 
-  &.gapless li {
-    margin-top: 0;
-  }
+	&.gapless li {
+		margin-top: 0;
+	}
 
-  &.inline {
-    display: inline-block;
+	&.inline {
+		display: inline-block;
 
-    li {
-      display: inline-block;
-      margin-right: 0.5em;
-    }
-  }
+		li {
+			display: inline-block;
+			margin-right: 0.5em;
+		}
+	}
 
-  &.numbered {
-    list-style-type: decimal;
-  }
+	&.numbered {
+		list-style-type: decimal;
+	}
 
-  &.two-column {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+	&.two-column {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
