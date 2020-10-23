@@ -1,5 +1,4 @@
 // Module imports
-import buildCSP from 'content-security-policy-builder'
 import React from 'react'
 import uuid from 'uuid/v4'
 
@@ -19,185 +18,11 @@ import NextDocument, {
 
 
 
-// Local constants
-const additionalHeaders = {
-	'Feature-Policy': {
-		'ambient-light-sensor': [
-			"'self'",
-			'https://google.com',
-		],
-		autoplay: "'none'",
-		accelerometer: "'none'",
-		camera: "'none'",
-		'display-capture': "'none'",
-		'document-domain': "'none'",
-		'encrypted-media': "'none'",
-		fullscreen: "'none'",
-		geolocation: "'none'",
-		gyroscope: "'none'",
-		magnetometer: "'none'",
-		microphone: "'none'",
-		midi: "'none'",
-		payment: "'none'",
-		'picture-in-picture': "'none'",
-		speaker: "'none'",
-		'sync-xhr': "'none'",
-		usb: "'none'",
-		'wake-lock': "'none'",
-		webauthn: "'none'",
-		vr: "'none'",
-		xr: "'none'",
-	},
-	'Referrer-Policy': 'no-referrer',
-	'X-Content-Type-Options': 'nosniff',
-	'X-XSS-Protection': [
-		'1',
-		'mode=block',
-	],
-	'X-Frame-Options': 'DENY',
-}
-const cspHeaderKeys = [
-	'Content-Security-Policy',
-	'X-Content-Security-Policy',
-	'X-WebKit-CSP',
-]
-
-
-
-
-
-class Document extends NextDocument {
-	static async getInitialProps (ctx) {
-		const allowances = {
-			'data:': ['font'],
-			"'unsafe-eval'": false,
-			"'unsafe-inline'": ['style'],
-			"'self'": true,
-			"'strict-dynamic'": ['script'],
-		}
-		const initialProps = await NextDocument.getInitialProps(ctx)
-		const isDev = ctx.isServer
-		const nonce = uuid()
-		const whitelist = {
-			connect: [
-				"'self'",
-				'https://firestore.googleapis.com',
-				'https://securetoken.googleapis.com',
-				'https://www.googleapis.com',
-				'https://api.ipify.org',
-				'https://api.themoviedb.org',
-				'https://apis.google.com',
-				'https://*.firebaseio.com',
-				'wss://*.firebaseio.com',
-			],
-			default: [
-				'https://trezy-core.firebaseapp.com',
-				'https://*.firebaseio.com',
-			],
-			font: 'https://fonts.gstatic.com',
-			frame: [
-				'https://codepen.io',
-				'https://trezy-core.firebaseapp.com',
-			],
-			img: [
-				"'self'",
-				'https://*.googleusercontent.com',
-				'https://*.twimg.com',
-				'https://generative-placeholders.glitch.me',
-				'https://firebasestorage.googleapis.com',
-				'https://image.tmdb.org',
-			],
-			media: [],
-			object: [],
-			script: [
-				"'self'",
-			],
-			style: [
-				"'self'",
-				'https://fonts.googleapis.com',
-			],
-		}
-
-		let baseUri = null
-
-		if (!baseUri) {
-			baseUri = ["'none'"]
-		}
-
-		if (!Array.isArray(baseUri)) {
-			baseUri = [baseUri]
-		}
-
-		const cspDirectives = {
-			baseUri,
-			connectSrc: [
-				...(isDev ? ['webpack://*'] : []),
-			],
-			scriptSrc: [
-				`'nonce-${nonce}'`,
-				...(isDev ? ["'unsafe-eval'"] : []),
-			],
-		}
-
-		Object.entries(whitelist).forEach(([srcType, sources]) => {
-			const initialSources = cspDirectives[`${srcType}Src`] || []
-			const normalizedSources = Array.isArray(sources) ? sources : [sources]
-
-			cspDirectives[`${srcType}Src`] = [
-				...initialSources,
-				...normalizedSources,
-			]
-		})
-
-		Object.entries(allowances).forEach(([allowance, value]) => {
-			if ((typeof value === 'boolean') && value) {
-				cspDirectives.defaultSrc.unshift(allowance)
-			} else if (Array.isArray(value)) {
-				value.forEach(srcType => {
-					const srcKey = `${srcType}Src`
-
-					if (!cspDirectives[srcKey]) {
-						cspDirectives[srcKey] = []
-					}
-
-					if ((allowance === "'strict-dynamic'") && cspDirectives[srcKey].includes("'self'")) {
-						cspDirectives[srcKey] = cspDirectives[srcKey].filter(xAllowance => (xAllowance !== "'self'"))
-					}
-
-					cspDirectives[srcKey].unshift(allowance)
-				})
-			}
-		})
-
-		const policyString = buildCSP({ directives: cspDirectives })
-		cspHeaderKeys.forEach(key => ctx.res.setHeader(key, policyString))
-
-		Object.entries(additionalHeaders).forEach(([header, value]) => {
-			let valueString = value
-
-			if (typeof value === 'object') {
-				const arrayifiedObject = Object.entries(valueString)
-				const mapper = ([entry, list]) => `${entry} ${Array.isArray(list) ? list.join(' ') : list}`
-
-				valueString = arrayifiedObject.map(mapper)
-			}
-
-			if (Array.isArray(valueString)) {
-				valueString = valueString.join('; ')
-			}
-
-			ctx.res.setHeader(header, valueString)
-		})
-
-		return { ...initialProps, nonce }
-	}
-
+export default class Document extends NextDocument {
 	render () {
-		const { nonce } = this.props
-
 		return (
 			<Html>
-				<Head nonce={nonce}>
+				<Head>
 					<meta name="application-name" content="Trezy.com" />
 					<meta name="theme-color" content="#d65050" />
 
@@ -233,15 +58,9 @@ class Document extends NextDocument {
 
 				<body>
 					<Main className="next-wrapper" />
-					<NextScript nonce={nonce} />
+					<NextScript />
 				</body>
 			</Html>
 		)
 	}
 }
-
-
-
-
-
-export default Document

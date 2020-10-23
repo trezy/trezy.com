@@ -2,19 +2,75 @@
 
 // Module imports
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const nextSafe = require('next-safe')
 const path = require('path')
 
 
 
 
 
-module.exports = {
-	target: 'serverless',
+// Local constants
+const isDev = process.env.NODE_ENV !== 'production'
 
-	env: {
-		buildDate: (new Date()).toISOString(),
-		nodeVersion: process.version,
+
+
+
+
+module.exports = {
+	async headers () {
+		const headers = nextSafe({
+			contentSecurityPolicy: {
+				'connect-src': [
+					"'self'",
+					'https://firestore.googleapis.com',
+					'https://securetoken.googleapis.com',
+					'https://www.googleapis.com',
+					'https://api.ipify.org',
+					'https://api.themoviedb.org',
+					'https://apis.google.com',
+					'https://*.firebaseio.com',
+					'wss://*.firebaseio.com',
+				],
+				'default-src': [
+					'https://trezy-core.firebaseapp.com',
+					'https://*.firebaseio.com',
+				],
+				'font-src': [
+					'https://fonts.gstatic.com',
+				],
+				'frame-src': [
+					'https://codepen.io',
+					'https://trezy-core.firebaseapp.com',
+				],
+				'img-src': [
+					"'self'",
+					'https://*.googleusercontent.com',
+					'https://*.twimg.com',
+					'https://generative-placeholders.glitch.me',
+					'https://firebasestorage.googleapis.com',
+					'https://image.tmdb.org',
+				],
+				'style-src': [
+					"'self'",
+					'https://fonts.googleapis.com',
+				],
+			},
+			isDev,
+		})
+
+		return [
+			{
+				source: '/',
+				headers,
+			},
+			{
+				source: '/:path*',
+				headers,
+			},
+		]
 	},
+
+	target: 'serverless',
 
 	webpack (config) {
 		config.module.rules.push({
