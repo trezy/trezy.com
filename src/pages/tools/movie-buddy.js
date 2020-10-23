@@ -14,22 +14,18 @@ import RequireAuthentication from 'components/RequireAuthentication'
 
 
 
-const MovieList = () => (
-	<PageWrapper title="Movie List">
-		<RequireAuthentication>
-			<section>
-				<header>
-					<h2>Movie Buddy</h2>
-				</header>
+export default function MovieList() {
+	return (
+		<PageWrapper title="Movie List">
+			<RequireAuthentication>
+				<section>
+					<header>
+						<h2>Movie Buddy</h2>
+					</header>
 
-				<MovieSearch />
-			</section>
-		</RequireAuthentication>
-	</PageWrapper>
-)
-
-
-
-
-
-export default MovieList
+					<MovieSearch />
+				</section>
+			</RequireAuthentication>
+		</PageWrapper>
+	)
+}

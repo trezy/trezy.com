@@ -34,7 +34,7 @@ import useCurrentUserIDSelector from 'store/selectors/useCurrentUserIDSelector'
 
 
 
-const BlogEditor = ({ id }) => {
+function BlogEditor({ id }) {
 	const firestore = getFirestore()
 	const Router = useRouter()
 	const connections = []

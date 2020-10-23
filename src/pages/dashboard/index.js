@@ -23,24 +23,26 @@ const ARTICLE_LIMIT = 3
 
 
 
-const Dashboard = () => (
-	<PageWrapper title="Dashboard">
-		<RequireAuthentication>
-			<section>
-				<header>
-					<h2>Recent Articles</h2>
-				</header>
+function Dashboard() {
+	return (
+		<PageWrapper title="Dashboard">
+			<RequireAuthentication>
+				<section>
+					<header>
+						<h2>Recent Articles</h2>
+					</header>
 
-				<ArticleList
-					editMode
-					includeDraft
-					limit={ARTICLE_LIMIT} />
+					<ArticleList
+						editMode
+						includeDraft
+						limit={ARTICLE_LIMIT} />
 
-				{/* <MovieSearch /> */}
-			</section>
-		</RequireAuthentication>
-	</PageWrapper>
-)
+					{/* <MovieSearch /> */}
+				</section>
+			</RequireAuthentication>
+		</PageWrapper>
+	)
+}
 
 Dashboard.getInitialProps = async () => {
 	const firestore = getFirestore()

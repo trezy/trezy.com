@@ -397,86 +397,82 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 
 
 
-const Experience = () => (
-	<PageWrapper title="Experience">
-		<section className="hero">
-			<div>
-				<header>
-					<h2>Experience</h2>
-				</header>
-
-				{/* eslint-disable-next-line no-magic-numbers */}
-				<p>As a software engineer for over {moment(new Date('January 1, 1999')).fromNow(true)}, I've got an extensive resume. However, not everybody wants to spend hours catching up on my career. Instead, I keep a full list of my work experience right here on my website. If you're looking for your next Front End Developer, Developer Advocate, or Accessibility Engineer, make sure to connect. <span aria-label="Grinning face emoji" role="img">😁</span></p>
-			</div>
-		</section>
-
-		{data.map(datum => {
-			const {
-				employer,
-				positions,
-			} = datum
-
-			return (
-				<section key={datum.id}>
+export default function Experience() {
+	return (
+		<PageWrapper title="Experience">
+			<section className="hero">
+				<div>
 					<header>
-						<h3>
-							<a href={employer.url}>
-								{employer.name}
-							</a>
-						</h3>
+						<h2>Experience</h2>
 					</header>
 
-					<ol>
-						{positions.map(position => {
-							const {
-								accomplishments,
-								endDate,
-								location,
-								startDate,
-								tech,
-								title,
-							} = position
+					{/* eslint-disable-next-line no-magic-numbers */}
+					<p>As a software engineer for over {moment(new Date('January 1, 1999')).fromNow(true)}, I've got an extensive resume. However, not everybody wants to spend hours catching up on my career. Instead, I keep a full list of my work experience right here on my website. If you're looking for your next Front End Developer, Developer Advocate, or Accessibility Engineer, make sure to connect. <span aria-label="Grinning face emoji" role="img">😁</span></p>
+				</div>
+			</section>
 
-							let { description } = position
+			{data.map(datum => {
+				const {
+					employer,
+					positions,
+				} = datum
 
-							if (accomplishments?.length) {
-								if (description) {
-									description += '\n\n'
+				return (
+					<section key={datum.id}>
+						<header>
+							<h3>
+								<a href={employer.url}>
+									{employer.name}
+								</a>
+							</h3>
+						</header>
+
+						<ol>
+							{positions.map(position => {
+								const {
+									accomplishments,
+									endDate,
+									location,
+									startDate,
+									tech,
+									title,
+								} = position
+
+								let { description } = position
+
+								if (accomplishments?.length) {
+									if (description) {
+										description += '\n\n'
+									}
+
+									description += `**Accomplishments:**\n* ${accomplishments.join('\n* ')}`
 								}
 
-								description += `**Accomplishments:**\n* ${accomplishments.join('\n* ')}`
-							}
+								if (tech?.length) {
+									if (description) {
+										description += '\n\n'
+									}
 
-							if (tech?.length) {
-								if (description) {
-									description += '\n\n'
+									description += `**Tech:** ${tech.join(', ')}`
 								}
 
-								description += `**Tech:** ${tech.join(', ')}`
-							}
+								return (
+									<li key={position.id}>
+										<h4>{title}</h4>
 
-							return (
-								<li key={position.id}>
-									<h4>{title}</h4>
+										<div className="meta">
+											<span>{location}</span>
+											<span><time>{startDate}</time> - <time>{endDate || 'Present'}</time></span>
+										</div>
 
-									<div className="meta">
-										<span>{location}</span>
-										<span><time>{startDate}</time> - <time>{endDate || 'Present'}</time></span>
-									</div>
-
-									<MarkdownRenderer source={description} />
-								</li>
-							)
-						})}
-					</ol>
-				</section>
-			)
-		})}
-	</PageWrapper>
-)
-
-
-
-
-
-export default Experience
+										<MarkdownRenderer source={description} />
+									</li>
+								)
+							})}
+						</ol>
+					</section>
+				)
+			})}
+		</PageWrapper>
+	)
+}

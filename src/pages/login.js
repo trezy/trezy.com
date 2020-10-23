@@ -26,7 +26,7 @@ let redirectStarted = false
 
 
 
-const Login = props => {
+function Login(props) {
 	const { destination } = props
 	const Router = useRouter()
 

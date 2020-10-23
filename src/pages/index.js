@@ -23,41 +23,43 @@ const ARTICLE_LIMIT = 3
 
 
 
-const Home = () => (
-	<PageWrapper
-		description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
-		title="Home">
-		<section className="hero">
-			<header>
-				&lt;trezy-who/&gt;
-			</header>
-
-			<p>Software engineer, UX designer, and <a href="https://a11yproject.com">#a11y</a>.</p>
-		</section>
-
-		<section>
-			<div>
+function Home() {
+	return (
+		<PageWrapper
+			description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
+			title="Home">
+			<section className="hero">
 				<header>
-					<h2>Latest articles</h2>
+					&lt;trezy-who/&gt;
 				</header>
 
-				<ArticleList
-					className="latest-articles"
-					limit={ARTICLE_LIMIT} />
+				<p>Software engineer, UX designer, and <a href="https://a11yproject.com">#a11y</a>.</p>
+			</section>
 
-				<Link href="/blog">
-					<a>See more</a>
-				</Link>
-			</div>
-		</section>
+			<section>
+				<div>
+					<header>
+						<h2>Latest articles</h2>
+					</header>
 
-		<section className="center">
-			<p>As a software consultant, I've been lucky to work with some of the best teams from well-known brands on products that make the world a better place.</p>
+					<ArticleList
+						className="latest-articles"
+						limit={ARTICLE_LIMIT} />
 
-			<ClientList />
-		</section>
-	</PageWrapper>
-)
+					<Link href="/blog">
+						<a>See more</a>
+					</Link>
+				</div>
+			</section>
+
+			<section className="center">
+				<p>As a software consultant, I've been lucky to work with some of the best teams from well-known brands on products that make the world a better place.</p>
+
+				<ClientList />
+			</section>
+		</PageWrapper>
+	)
+}
 
 Home.getInitialProps = async () => {
 	const firestore = getFirestore()

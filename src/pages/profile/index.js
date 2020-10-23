@@ -18,7 +18,7 @@ import useCurrentUserSelector from 'store/selectors/useCurrentUserSelector'
 
 
 
-const ProfileRedirect = () => {
+export default function ProfileRedirect() {
 	const auth = useAuthSelector()
 	const currentUser = useCurrentUserSelector()
 	const Router = useRouter()
@@ -39,9 +39,3 @@ const ProfileRedirect = () => {
 
 	return null
 }
-
-
-
-
-
-export default ProfileRedirect

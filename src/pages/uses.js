@@ -104,7 +104,7 @@ ChipIcon.propTypes = {
 
 
 
-const UsesPage = () => {
+export default function UsesPage() {
 	let lastDelay = BASE_DELAY
 
 	const getDelay = (options = {}) => {
@@ -588,9 +588,3 @@ const UsesPage = () => {
 		</PageWrapper>
 	)
 }
-
-
-
-
-
-export default UsesPage

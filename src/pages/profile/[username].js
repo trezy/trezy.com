@@ -43,7 +43,7 @@ const SAVE_ALERT_DURATION = 5000
 
 
 
-const Profile = props => {
+function Profile(props) {
 	const Router = useRouter()
 
 	if ((typeof window !== 'undefined') && !props.username.startsWith('@')) {

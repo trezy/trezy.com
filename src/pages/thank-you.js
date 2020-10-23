@@ -30,7 +30,7 @@ const getFadeInDirection = () => FADE_IN_DIRECTIONS[Math.floor(Math.random() * F
 
 
 
-const ThankYou = () => {
+export default function ThankYou() {
 	const {
 		thanksCount = BASE_THANKS_COUNT,
 		thanksTo,
@@ -93,9 +93,3 @@ const ThankYou = () => {
 		</PageWrapper>
 	)
 }
-
-
-
-
-
-export default ThankYou

@@ -17,7 +17,7 @@ import useAuthSelector from 'store/selectors/useAuthSelector'
 
 
 
-const BlogDashboard = () => {
+export default function BlogDashboard() {
 	const auth = useAuthSelector()
 
 	return (
@@ -49,9 +49,3 @@ const BlogDashboard = () => {
 		</PageWrapper>
 	)
 }
-
-
-
-
-
-export default BlogDashboard

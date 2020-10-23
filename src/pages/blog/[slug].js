@@ -24,7 +24,7 @@ import useClaimsSelector from 'store/selectors/useClaimsSelector'
 
 
 
-const ArticlePage = ({ slug }) => {
+function ArticlePage({ slug }) {
 	const claims = useClaimsSelector()
 	const where = []
 

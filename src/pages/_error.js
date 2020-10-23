@@ -15,13 +15,15 @@ import PageWrapper from 'components/PageWrapper'
 
 
 
-const ErrorPage = ({ statusCode }) => (
-	<PageWrapper
-		description="An error has occured."
-		title="Error">
-		<NextError statusCode={statusCode} />
-	</PageWrapper>
-)
+function ErrorPage({ statusCode }) {
+	return (
+		<PageWrapper
+			description="An error has occured."
+			title="Error">
+			<NextError statusCode={statusCode} />
+		</PageWrapper>
+	)
+}
 
 ErrorPage.getInitialProps = props => {
 	const {
