@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 const firebaseConfig = {
-  apiKey: process.env.firebaseAPIKey,
-  authDomain: process.env.firebaseAuthDomain,
-  databaseURL: process.env.firebaseDatabaseURL,
-  projectId: process.env.firebaseProjectID,
-  storageBucket: process.env.firebaseStorageBucket,
-  messagingSenderId: process.env.firebaseMessagingSenderID,
-  appID: process.env.firebaseAppID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  appID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
 }
 /* eslint-enable */
 

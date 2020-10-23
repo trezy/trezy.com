@@ -29,7 +29,7 @@ export const findMovies = query => async dispatch => {
   try {
     const { data } = await tmdbService().get('/search/movie', {
       params: {
-        api_key: process.env.tMDBAPIKey, /* eslint-disable-line camelcase */
+        api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY, /* eslint-disable-line camelcase */
         cancelToken: cancelTokenSource.token,
         query,
       },

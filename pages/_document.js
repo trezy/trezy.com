@@ -10,6 +10,7 @@ import uuid from 'uuid/v4'
 // Module imports
 import NextDocument, {
   Head,
+  Html,
   Main,
   NextScript,
 } from 'next/document'
@@ -195,10 +196,8 @@ class Document extends NextDocument {
     const { nonce } = this.props
 
     return (
-      <html lang="en">
+      <Html>
         <Head nonce={nonce}>
-          <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
-
           <meta name="application-name" content="Trezy.com" />
           <meta name="theme-color" content="#d65050" />
 
@@ -234,10 +233,9 @@ class Document extends NextDocument {
 
         <body>
           <Main className="next-wrapper" />
-
           <NextScript nonce={nonce} />
         </body>
-      </html>
+      </Html>
     )
   }
 }

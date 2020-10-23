@@ -105,6 +105,8 @@ class App extends NextApp {
         <ReactReduxFirebaseProvider {...rrfProps}>
           <div role="application">
             <NextHead>
+              <meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+
               <link
                 href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
                 rel="stylesheet" />

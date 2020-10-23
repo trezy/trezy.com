@@ -16,7 +16,7 @@ let instance = null
 export default function getTMDbService () {
   if (!instance) {
     instance = axios.create({
-      baseURL: process.env.tMDBAPIURL,
+      baseURL: 'https://api.themoviedb.org/3',
       headers: { 'Content-Type': 'application/json' },
       timeout: 10000,
     })
