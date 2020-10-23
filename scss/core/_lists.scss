@@ -11,6 +11,8 @@ ol, ul {
   }
 
   &.comma-separated {
+    display: inline;
+
     > li:not(:last-child):after {
       content: ', ';
     }
