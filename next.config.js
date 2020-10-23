@@ -50,6 +50,9 @@ module.exports = {
 					'https://firebasestorage.googleapis.com',
 					'https://image.tmdb.org',
 				],
+				'prefetch-src': [
+					"'self'",
+				],
 				'style-src': [
 					"'self'",
 					'https://fonts.googleapis.com',
