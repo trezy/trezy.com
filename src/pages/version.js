@@ -6,64 +6,61 @@ import moment from 'moment'
 
 
 
-// Component imports
-import { version } from '../../package.json'
+// Local imports
 import PageWrapper from 'components/PageWrapper'
 
 
 
 
 
-// Component Constants
-/* eslint-disable no-undef,prefer-destructuring */
-const buildDate = process.env.buildDate
-const nodeVersion = process.env.nodeVersion
-/* eslint-enable */
+export default function Version(props) {
+	const {
+		builtAt,
+		commitLink,
+		nextVersion,
+		nodeVersion,
+		repoLink,
+		yarnVersion,
+	} = props
 
+	return (
+		<PageWrapper title="Version Information">
+			<section className="hero">
+				<dl>
+					<dt>Built:</dt>
+					<dd>{(new Date(builtAt)).toString()}</dd>
 
+					<dt>Node Version:</dt>
+					<dd>{nodeVersion}</dd>
 
+					<dt>Yarn Version:</dt>
+					<dd>{yarnVersion}</dd>
 
+					<dt>Next.js Version:</dt>
+					<dd>{nextVersion}</dd>
 
-const Version = () => (
-	<PageWrapper title="Version Information" renderHeader={false}>
-		<section className="hero">
-			<table>
-				<tbody>
-					<tr>
-						<th>App Version</th>
+					<dt>Repo:</dt>
+					<dd><a href={repoLink}>{repoLink}</a></dd>
 
-						<td>
-							<a target="_blank" rel="noopener noreferrer" href={`https://github.com/trezy/trezy.com/releases/tag/v${version}`}>
-								v{version}
-							</a>
-						</td>
-					</tr>
+					<dt>Commit:</dt>
+					<dd><a href={commitLink}>{commitLink}</a></dd>
+				</dl>
+			</section>
+		</PageWrapper>
+	)
+}
 
-					<tr>
-						<th>Node Version</th>
+export async function getStaticProps() {
+	const [, yarnVersion, nodeVersion] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+)/.exec(process.env.npm_config_user_agent || '')
 
-						<td>
-							<a target="_blank" rel="noopener noreferrer" href={`https://github.com/nodejs/node/releases/tag/${nodeVersion}`}>
-								{nodeVersion}
-							</a>
-						</td>
-					</tr>
-
-					<tr>
-						<th>Built On</th>
-
-						<td>
-							<time dateTime={buildDate}>{moment.utc(buildDate).format('MMMM Do YYYY, hh:mm z')}</time>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>
-	</PageWrapper>
-)
-
-
-
-
-
-export default Version
+	return {
+		props: {
+			builtAt: Date.now(),
+			commitLink: `https://github.com/${process.env.VERCEL_GITHUB_ORG}/${process.env.VERCEL_GITHUB_REPO}/commit/${process.env.VERCEL_GITHUB_COMMIT_SHA}`,
+			nextVersion: process.env.npm_package_dependencies_next,
+			nodeVersion,
+			repoLink: `https://github.com/${process.env.VERCEL_GITHUB_ORG}/${process.env.VERCEL_GITHUB_REPO}`,
+			yarnVersion,
+		},
+	}
+}
