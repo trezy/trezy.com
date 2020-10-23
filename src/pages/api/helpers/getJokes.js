@@ -1,5 +1,5 @@
 // Local imports
-import jokes from 'api/data/jokes.json'
+import jokes from 'pages/api/data/jokes.json'
 
 
 
