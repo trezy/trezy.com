@@ -16,6 +16,7 @@ import GettyImagesSVG from 'public/images/logos/getty-images.svg'
 import GoproSVG from 'public/images/logos/gopro.svg'
 import GreatWolfSVG from 'public/images/logos/great-wolf.svg'
 import GenesysSVG from 'public/images/logos/genesys.svg'
+import LandsEndSVG from 'public/images/logos/lands-end.svg'
 import MarvelSVG from 'public/images/logos/marvel.svg'
 import MobileDoormanSVG from 'public/images/logos/mobile-doorman.svg'
 import MoxeSVG from 'public/images/logos/moxe.svg'
@@ -67,6 +68,11 @@ const clients = [
 		component: <GenesysSVG />,
 		name: 'Genesys',
 		url: 'https://genesys.com',
+	},
+	{
+		component: <LandsEndSVG />,
+		name: 'Lands\' End',
+		url: 'https://www.landsend.com/',
 	},
 	{
 		component: <MarvelSVG />,
