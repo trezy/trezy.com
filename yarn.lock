@@ -2610,10 +2610,10 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.17.0":
-  version "4.17.2"
-  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.2.tgz#a0fb7a23d8855bac31bc01d5a58cadd9b2173e6c"
-  integrity sha512-5mHFNyavtLoJmnusB8OKJ5bshSzw+qkMIBAobLrIM48HJvunFva9mOa6aBwh64lBFyNwBbs0xiEFuj4eU/NjCA==
+"@types/express@4.17.3":
+  version "4.17.3"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.3.tgz#38e4458ce2067873b09a73908df488870c303bd9"
+  integrity sha512-I8cGRJj3pyOLs/HndoP+25vOqhqWkAZsWMEmq1qXy/b/M3ppufecUwaK2/TVDVxcV61/iSdhykUjQQ2DLSrTdg==
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
@@ -5301,15 +5301,14 @@ firebase-admin@^8.6.0:
     "@google-cloud/firestore" "^3.0.0"
     "@google-cloud/storage" "^4.1.2"
 
-firebase-functions@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.3.0.tgz#8c6d909eebfa4bce1b25a2e34edfc52cc786a020"
-  integrity sha512-dP6PCG+OwR6RtFpOqwPsLnfiCr3CwXAm/SVGMbO53vDAk0nhUQ1WGAyHDYmIyMAkaLJkIKGwDnX7XmZ5+yAg7g==
+firebase-functions@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.11.0.tgz#92f5a6af6a10641da6dc9b41b29974658b621a7b"
+  integrity sha512-i1uMhZ/M6i5SCI3ulKo7EWX0/LD+I5o6N+sk0HbOWfzyWfOl0iJTvQkR3BVDcjrlhPVC4xG1bDTLxd+DTkLqaw==
   dependencies:
-    "@types/express" "^4.17.0"
+    "@types/express" "4.17.3"
     cors "^2.8.5"
     express "^4.17.1"
-    jsonwebtoken "^8.5.1"
     lodash "^4.17.14"
 
 firebase@^7.14.3:
@@ -6459,22 +6458,6 @@ jsonwebtoken@8.1.0:
     ms "^2.0.0"
     xtend "^4.0.1"
 
-jsonwebtoken@^8.5.1:
-  version "8.5.1"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
-  integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
-  dependencies:
-    jws "^3.2.2"
-    lodash.includes "^4.3.0"
-    lodash.isboolean "^3.0.3"
-    lodash.isinteger "^4.0.4"
-    lodash.isnumber "^3.0.3"
-    lodash.isplainobject "^4.0.6"
-    lodash.isstring "^4.0.1"
-    lodash.once "^4.0.0"
-    ms "^2.1.1"
-    semver "^5.6.0"
-
 jsx-ast-utils@^2.2.1, jsx-ast-utils@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.2.3.tgz#8a9364e402448a3ce7f14d357738310d9248054f"
@@ -6501,7 +6484,7 @@ jwa@^2.0.0:
     ecdsa-sig-formatter "1.0.11"
     safe-buffer "^5.0.1"
 
-jws@^3.1.4, jws@^3.2.2:
+jws@^3.1.4:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/jws/-/jws-3.2.2.tgz#001099f3639468c9414000e99995fa52fb478304"
   integrity sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==
@@ -6780,12 +6763,7 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
-lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
-
-lodash@^4.17.19:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
