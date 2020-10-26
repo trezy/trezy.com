@@ -24,7 +24,8 @@ import useClaimsSelector from 'store/selectors/useClaimsSelector'
 
 
 
-function ArticlePage({ slug }) {
+function ArticlePage(props) {
+	const { slug } = props
 	const claims = useClaimsSelector()
 	const where = []
 
@@ -84,7 +85,8 @@ function ArticlePage({ slug }) {
 	)
 }
 
-ArticlePage.getInitialProps = async ({ query }) => {
+ArticlePage.getInitialProps = async context => {
+	const { query } = context
 	const firestore = getFirestore()
 
 	await firestore.get({

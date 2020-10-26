@@ -14,15 +14,17 @@ import {
 	config as faConfig,
 	library as faLibrary,
 } from '@fortawesome/fontawesome-svg-core'
+import React, {
+	useEffect,
+} from 'react'
 import { createFirestoreInstance } from 'redux-firestore'
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { Provider } from 'react-redux'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { useRouter } from 'next/router'
 import LocalForage from 'localforage'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
 import NProgress from 'nprogress'
-import React from 'react'
-import Router from 'next/router'
 import withRedux from 'next-redux-wrapper'
 
 
@@ -34,6 +36,7 @@ import { initStore } from 'store'
 import * as fasIcons from 'helpers/fasIconLibrary'
 import * as fabIcons from 'helpers/fabIconLibrary'
 import * as farIcons from 'helpers/farIconLibrary'
+import * as gtag from 'helpers/gtag'
 import Banner from 'components/Banner'
 import firebase from 'helpers/firebase'
 
@@ -47,83 +50,85 @@ faLibrary.add(fasIcons)
 faLibrary.add(fabIcons)
 faLibrary.add(farIcons)
 
-// Setup NProgress
-NProgress.configure({ showSpinner: false })
-Router.events.on('routeChangeStart', () => NProgress.start())
-Router.events.on('routeChangeError', () => NProgress.done())
-Router.events.on('routeChangeComplete', () => NProgress.done())
 
 
 
 
+function App(props) {
+	const {
+		Component,
+		isServer,
+		pageProps,
+		store,
+	} = props
+	const router = useRouter()
 
-@withRedux(initStore)
-class App extends NextApp {
-	constructor (props) {
-		super(props)
-
+	useEffect(() => {
+		NProgress.configure({ showSpinner: false })
 		LocalForage.config({
 			name: 'Trezy.com',
 			storeName: 'webStore',
 		})
-	}
+	}, [])
 
-	render () {
-		const {
-			Component,
-			isServer,
-			store,
-		} = this.props
-		const rrfProps = {
-			firebase,
-			config: {
-				enableClaims: true,
-				presence: 'presence',
-				sessions: 'sessions',
-				useFirestoreForProfile: true,
-				userProfile: 'users',
-			},
-			createFirestoreInstance,
-			dispatch: store.dispatch,
+	useEffect(() => {
+		const startNProgress = () => NProgress.start()
+		const finishNProgress = () => NProgress.done()
+
+		router.events.on('routeChangeStart', startNProgress)
+		router.events.on('routeChangeError', finishNProgress)
+		router.events.on('routeChangeComplete', finishNProgress)
+
+		const handleRouteChange = url => gtag.pageview(url)
+
+		router.events.on('routeChangeComplete', handleRouteChange)
+
+		return () => {
+			router.events.off('routeChangeStart', startNProgress)
+			router.events.off('routeChangeError', finishNProgress)
+			router.events.off('routeChangeComplete', finishNProgress)
+			router.events.off('routeChangeComplete', handleRouteChange)
 		}
+	}, [router.events])
 
-		const pageProps = Object.entries(this.props.pageProps).reduce((accumulator, [key, value]) => {
-			const blocklist = [
-				'res',
-				'req',
-			]
-
-			if (!blocklist.includes(key)) {
-				accumulator[key] = value
-			}
-
-			return accumulator
-		}, {})
-
-		return (
-			<Provider store={store}>
-				<ReactReduxFirebaseProvider {...rrfProps}>
-					<div role="application">
-						<NextHead>
-							<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
-
-							<link
-								href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-								rel="stylesheet" />
-						</NextHead>
-
-						<Banner isServer={isServer} />
-
-						<Component {...pageProps} />
-					</div>
-				</ReactReduxFirebaseProvider>
-			</Provider>
-		)
+	const rrfProps = {
+		firebase,
+		config: {
+			enableClaims: true,
+			presence: 'presence',
+			sessions: 'sessions',
+			useFirestoreForProfile: true,
+			userProfile: 'users',
+		},
+		createFirestoreInstance,
+		dispatch: store.dispatch,
 	}
+
+	return (
+		<Provider store={store}>
+			<ReactReduxFirebaseProvider {...rrfProps}>
+				<div role="application">
+					<NextHead>
+						<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+
+						<link
+							href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+							rel="stylesheet" />
+					</NextHead>
+
+					<Banner isServer={isServer} />
+
+					<Component {...pageProps} />
+				</div>
+			</ReactReduxFirebaseProvider>
+		</Provider>
+	)
 }
 
+App.getInitialProps = NextApp.getInitialProps
 
 
 
 
-export default App
+
+export default withRedux(initStore)(App)
