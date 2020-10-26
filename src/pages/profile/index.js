@@ -1,4 +1,7 @@
 // Module imports
+import React, {
+	useEffect,
+} from 'react'
 import {
 	isEmpty,
 	isLoaded,
@@ -33,9 +36,11 @@ export default function ProfileRedirect() {
 
 	useFirestoreConnect(collections)
 
-	if (isLoaded(currentUser) && !isEmpty(currentUser)) {
-		Router.replace(`/profile/@${currentUser.username}`)
-	}
+	useEffect(() => {
+		if (isLoaded(currentUser) && !isEmpty(currentUser)) {
+			Router.replace(`/profile/@${currentUser.username}`)
+		}
+	}, [])
 
 	return null
 }
