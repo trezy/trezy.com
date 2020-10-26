@@ -151,7 +151,7 @@ const navItems = [
 			{
 				href: '/dashboard/blog',
 				icon: 'pen',
-				title: 'Blog',
+				title: 'My Articles',
 			},
 			{
 				href: ({ userProfile }) => {
@@ -162,7 +162,7 @@ const navItems = [
 					return `/profile/@${userProfile.username}`
 				},
 				icon: 'address-card',
-				title: 'Profile',
+				title: 'My Profile',
 			},
 			{
 				icon: 'sign-out-alt',

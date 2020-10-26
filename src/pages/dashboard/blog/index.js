@@ -21,11 +21,12 @@ export default function BlogDashboard() {
 	const auth = useAuthSelector()
 
 	return (
-		<PageWrapper title="Blog Dashboard">
+		<PageWrapper title="My Articles">
 			<RequireAuthentication>
 				<section>
 					<header className="page-header">
-						<h2>Dashboard / Blog</h2>
+						<h2>My Articles</h2>
+					</header>
 
 					{isLoaded(auth) && (
 						<ArticleList
