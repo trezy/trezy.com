@@ -15,6 +15,7 @@ import React from 'react'
 
 // Local imports
 import Alert from 'components/Alert'
+import getAvatar from 'helpers/getAvatar'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import useUserSelector from 'store/selectors/useUserSelector'
 
@@ -80,7 +81,7 @@ const Response = props => {
 								<img
 									alt={`${author.displayName}'s avatar`}
 									className="avatar"
-									src={author.avatarUrl} />
+									src={getAvatar(author)} />
 								<span>{author.displayName}</span>
 							</li>
 						)}
