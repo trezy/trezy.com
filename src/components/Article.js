@@ -77,7 +77,7 @@ const Article = props => {
 						as={`/dashboard/blog/edit/${id}`}
 						href="/dashboard/blog/edit/[id]">
 						<a className="button primary">
-							Edit
+							<span>Edit</span>
 						</a>
 					</Link>
 				</menu>
