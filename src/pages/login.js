@@ -2,7 +2,11 @@
 import React, {
 	useEffect,
 } from 'react'
-import { useFirebase } from 'react-redux-firebase'
+import {
+	isEmpty,
+	isLoaded,
+	useFirebase,
+} from 'react-redux-firebase'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -34,16 +38,10 @@ function Login(props) {
 	const auth = useSelector(state => state.firebase.auth)
 
 	useEffect(() => {
-		if (auth.isLoaded && !auth.isEmpty && !redirectStarted) {
-			const startRedirect = () => {
-				redirectStarted = false
-				Router.events.off('routeChangeComplete', startRedirect)
-			}
-			redirectStarted = true
+		if (isLoaded(auth) && !isEmpty(auth)) {
 			Router.replace(destination || '/')
-			Router.events.on('routeChangeComplete', startRedirect)
 		}
-	})
+	}, [auth])
 
 	return (
 		<PageWrapper title="Login">

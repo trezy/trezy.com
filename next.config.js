@@ -48,8 +48,9 @@ module.exports = {
 					'data:',
 					'https://*.googleusercontent.com',
 					'https://*.twimg.com',
-					'https://generative-placeholders.glitch.me',
+					'https://avatars.dicebear.com',
 					'https://firebasestorage.googleapis.com',
+					'https://generative-placeholders.glitch.me',
 					'https://image.tmdb.org',
 				],
 				'prefetch-src': [
@@ -58,6 +59,7 @@ module.exports = {
 				'script-src': [
 					"'self'",
 					"'unsafe-inline'",
+					'https://apis.google.com',
 					'https://www.googletagmanager.com',
 				],
 				'style-src': [
