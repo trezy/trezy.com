@@ -1,0 +1,12 @@
+.floaty-menu {
+  align-self: flex-end;
+  background-color: var(--background-color);
+  box-shadow: 0 0 2rem 0 var(--background-color);
+  margin-top: auto;
+  position: sticky;
+  z-index: 1;
+
+  &.floaty-bottom {
+    bottom: var(--gutter);
+  }
+}

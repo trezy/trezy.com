@@ -171,7 +171,9 @@ function BlogEditor({ id }) {
 								value={body} />
 						</fieldset>
 
-						<menu type="toolbar">
+						<menu
+							className="floaty-menu floaty-bottom"
+							type="toolbar">
 							<Button
 								disabled={isLoading || isUpdating}
 								onClick={() => setPreviewMode(!previewMode)}>

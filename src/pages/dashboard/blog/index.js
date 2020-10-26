@@ -27,6 +27,16 @@ export default function BlogDashboard() {
 					<header className="page-header">
 						<h2>Dashboard / Blog</h2>
 
+					{isLoaded(auth) && (
+						<ArticleList
+							authorID={auth.uid}
+							editMode
+							includeDraft />
+					)}
+
+					<menu
+						className="floaty-menu floaty-bottom"
+						type="toolbar">
 						<Link
 							as="/dashboard/blog/edit/new"
 							href="/dashboard/blog/edit/[id]">
@@ -34,14 +44,7 @@ export default function BlogDashboard() {
 								<span>New Article</span>
 							</a>
 						</Link>
-					</header>
-
-					{isLoaded(auth) && (
-						<ArticleList
-							authorID={auth.uid}
-							editMode
-							includeDraft />
-					)}
+					</menu>
 
 					{!isLoaded(auth) && 'Loading...'}
 				</section>
