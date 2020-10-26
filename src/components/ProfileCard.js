@@ -1,5 +1,6 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -24,6 +25,7 @@ function ProfileCard(props) {
 	const {
 		editMode,
 		isSaving,
+		linkToProfile,
 		onBioChange,
 		onCancelEdit,
 		onEditProfile,
@@ -32,6 +34,7 @@ function ProfileCard(props) {
 		onUsernameChange,
 		onWebsiteChange,
 		previewMode,
+		showToolbar,
 		user,
 	} = props
 	const {
@@ -51,13 +54,30 @@ function ProfileCard(props) {
 				src={getAvatar(user)} />
 
 			<header>
-				{displayName || username}
+				{linkToProfile && (
+					<Link
+						as={`/profile/@${username}`}
+						href="/profile/[username]">
+						{displayName || username}
+					</Link>
+				)}
+
+				{!linkToProfile && `${displayName || username}`}
 			</header>
 
 			{(!editMode || previewMode) && (
 				<dl className="content">
 					<dt>Username</dt>
-					<dd>@{username}</dd>
+
+					<dd>
+						{Boolean(username) && (
+							`@${username}`
+						)}
+
+						{!username && (
+							<em>No username</em>
+						)}
+					</dd>
 
 					<dt>Bio</dt>
 
@@ -155,60 +175,62 @@ function ProfileCard(props) {
 				</dl>
 			)}
 
-			<footer>
-				<menu type="toolbar">
-					{!editMode && (
-						<Button
-							className="primary"
-							onClick={onEditProfile}>
-							Edit Profile
-						</Button>
-					)}
-
-					{editMode && (
-						<>
-							<Button
-								className="danger"
-								onClick={onCancelEdit}>
-								Cancel
-							</Button>
-
-							{!previewMode && (
-								<Button
-									className="primary"
-									onClick={onPreview}>
-									Preview
-								</Button>
-							)}
-
-							{previewMode && (
-								<Button
-									className="primary"
-									onClick={onEditProfile}>
-									Edit
-								</Button>
-							)}
-
+			{showToolbar && (
+				<footer>
+					<menu type="toolbar">
+						{!editMode && (
 							<Button
 								className="primary"
-								onClick={onSaveChanges}>
-								{!isSaving && (
-									<span>Save Changes</span>
+								onClick={onEditProfile}>
+								Edit Profile
+							</Button>
+						)}
+
+						{editMode && (
+							<>
+								<Button
+									className="danger"
+									onClick={onCancelEdit}>
+									Cancel
+								</Button>
+
+								{!previewMode && (
+									<Button
+										className="primary"
+										onClick={onPreview}>
+										Preview
+									</Button>
 								)}
 
-								{isSaving && (
-									<span>
-										<FontAwesomeIcon
-											icon="spinner"
-											pulse />
-										Saving...
-									</span>
+								{previewMode && (
+									<Button
+										className="primary"
+										onClick={onEditProfile}>
+										Edit
+									</Button>
 								)}
-							</Button>
-						</>
-					)}
-				</menu>
-			</footer>
+
+								<Button
+									className="primary"
+									onClick={onSaveChanges}>
+									{!isSaving && (
+										<span>Save Changes</span>
+									)}
+
+									{isSaving && (
+										<span>
+											<FontAwesomeIcon
+												icon="spinner"
+												pulse />
+											Saving...
+										</span>
+									)}
+								</Button>
+							</>
+						)}
+					</menu>
+				</footer>
+			)}
 		</header>
 	)
 }
@@ -216,6 +238,7 @@ function ProfileCard(props) {
 ProfileCard.defaultProps = {
 	editMode: false,
 	isSaving: false,
+	linkToProfile: false,
 	onBioChange: () => {},
 	onCancelEdit: () => {},
 	onEditProfile: () => {},
@@ -223,12 +246,14 @@ ProfileCard.defaultProps = {
 	onSaveChanges: () => {},
 	onUsernameChange: () => {},
 	onWebsiteChange: () => {},
+	showToolbar: false,
 	previewMode: false,
 }
 
 ProfileCard.propTypes = {
 	editMode: PropTypes.bool,
 	isSaving: PropTypes.bool,
+	linkToProfile: PropTypes.bool,
 	onBioChange: PropTypes.func,
 	onCancelEdit: PropTypes.func,
 	onEditProfile: PropTypes.func,
@@ -237,6 +262,7 @@ ProfileCard.propTypes = {
 	onUsernameChange: PropTypes.func,
 	onWebsiteChange: PropTypes.func,
 	previewMode: PropTypes.bool,
+	showToolbar: PropTypes.bool,
 	user: PropTypes.object.isRequired,
 }
 

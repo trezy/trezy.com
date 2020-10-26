@@ -29,7 +29,6 @@ import MarkdownEditor from 'components/MarkdownEditor'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
 import ProfileCard from 'components/ProfileCard'
-import RequireAuthentication from 'components/RequireAuthentication'
 import useAuthSelector from 'store/selectors/useAuthSelector'
 import useUserSelector from 'store/selectors/useUserSelector'
 import useUsersSelector from 'store/selectors/useUsersSelector'
@@ -48,7 +47,7 @@ const SAVE_ALERT_DURATION = 5000
 function Profile(props) {
 	const Router = useRouter()
 
-	if ((typeof window !== 'undefined') && !props.username.startsWith('@')) {
+	if ((typeof window !== 'undefined') && !props.username.startsWith('@') && (props.username !== 'me')) {
 		const href = '/profile/[username]'
 		const as = `/profile/@${props.username}`
 
@@ -56,10 +55,18 @@ function Profile(props) {
 	}
 
 	const firestore = getFirestore()
-
 	const auth = useAuthSelector()
-	const user = useUserSelector({ username: props.safeUsername })
 	const users = useUsersSelector()
+
+	const userSelectorQuery = {}
+
+	if (props.username === 'me') {
+		userSelectorQuery.userID = auth?.uid
+	} else {
+		userSelectorQuery.username = props.safeUsername
+	}
+
+	const user = useUserSelector(userSelectorQuery)
 	const collections = []
 
 	const [bio, setBio] = useState('')
@@ -70,11 +77,20 @@ function Profile(props) {
 	const [username, setUsername] = useState('')
 	const [website, setWebsite] = useState('')
 
-	if (isLoaded(auth) && !isEmpty(auth)) {
-		collections.push({
+	const viewerIsOwner = auth?.uid === user?.id
+
+	if (isLoaded(auth)) {
+		const query = {
 			collection: 'users',
-			where: ['username', '==', props.safeUsername],
-		})
+		}
+
+		if (!isEmpty(auth) && (props.username === 'me')) {
+			query.doc = auth.uid
+		} else {
+			query.where = ['username', '==', props.safeUsername]
+		}
+
+		collections.push(query)
 	}
 
 	useFirestoreConnect(collections)
@@ -117,63 +133,62 @@ function Profile(props) {
 
 	return (
 		<PageWrapper title="Profile">
-			<RequireAuthentication>
-				{!isLoaded(users) && (
-					<span>Loading...</span>
-				)}
+			{!isLoaded(users) && (
+				<span>Loading...</span>
+			)}
 
-				{(isLoaded(users) && isEmpty(users)) && (
-					<span>No user found with that username.</span>
-				)}
+			{(isLoaded(users) && isEmpty(users)) && (
+				<span>No user found with that username.</span>
+			)}
 
-				{(isLoaded(user) && !isEmpty(user)) && (
-					<>
-						{isSaved && (
-							<Alert
-								data-animate
-								data-animation="fade-in-from-top"
-								data-animation-duration="0.2s"
-								type="success">
-								Success! Your profile has been updated. <span aria-label="Grinning face emoji" role="img">😁</span>
-							</Alert>
+			{(isLoaded(user) && !isEmpty(user)) && (
+				<>
+					{isSaved && (
+						<Alert
+							data-animate
+							data-animation="fade-in-from-top"
+							data-animation-duration="0.2s"
+							type="success">
+							Success! Your profile has been updated. <span aria-label="Grinning face emoji" role="img">😁</span>
+						</Alert>
+					)}
+
+					<ProfileCard
+						editMode={editMode}
+						isSaving={isSaving}
+						onBioChange={({ target: { value } }) => setBio(value)}
+						onCancelEdit={handleCancel}
+						onEditProfile={handleEdit}
+						onPreview={() => setPreviewMode(true)}
+						onSaveChanges={handleSave}
+						onUsernameChange={({ target: { value } }) => setUsername(value)}
+						onWebsiteChange={({ target: { value } }) => setWebsite(value)}
+						previewMode={previewMode}
+						showToolbar={viewerIsOwner}
+						user={{
+							avatarUrl: user.avatarUrl,
+							bio: bio || user.bio,
+							displayName: user.displayName,
+							email: user.email,
+							roles: user.roles,
+							socialMedia: user.socialMedia,
+							username: username || user.username,
+							website: website || user.website,
+						}} />
+
+					<section>
+						<header>
+							<h3>
+								Articles
+							</h3>
+						</header>
+
+						{(isLoaded(auth) && !isEmpty(auth)) && (
+							<ArticleList authorID={auth.uid} />
 						)}
-
-						<ProfileCard
-							editMode={editMode}
-							isSaving={isSaving}
-							onBioChange={({ target: { value } }) => setBio(value)}
-							onCancelEdit={handleCancel}
-							onEditProfile={handleEdit}
-							onPreview={() => setPreviewMode(true)}
-							onSaveChanges={handleSave}
-							onUsernameChange={({ target: { value } }) => setUsername(value)}
-							onWebsiteChange={({ target: { value } }) => setWebsite(value)}
-							previewMode={previewMode}
-							user={{
-								avatarUrl: user.avatarUrl,
-								bio: bio || user.bio,
-								displayName: user.displayName,
-								email: user.email,
-								roles: user.roles,
-								socialMedia: user.socialMedia,
-								username: username || user.username,
-								website: website || user.website,
-							}} />
-
-						<section>
-							<header>
-								<h3>
-									Articles
-								</h3>
-							</header>
-
-							{(isLoaded(auth) && !isEmpty(auth)) && (
-								<ArticleList authorID={auth.uid} />
-							)}
-						</section>
-					</>
-				)}
-			</RequireAuthentication>
+					</section>
+				</>
+			)}
 		</PageWrapper>
 	)
 }

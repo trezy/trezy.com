@@ -159,7 +159,7 @@ const navItems = [
 						return '/profile'
 					}
 
-					return `/profile/@${userProfile.username}`
+					return '/profile/me'
 				},
 				icon: 'address-card',
 				title: 'My Profile',
