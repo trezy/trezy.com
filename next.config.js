@@ -25,6 +25,7 @@ module.exports = {
 					'https://firestore.googleapis.com',
 					'https://securetoken.googleapis.com',
 					'https://www.googleapis.com',
+					'https://www.google-analytics.com',
 					'https://api.ipify.org',
 					'https://api.themoviedb.org',
 					'https://apis.google.com',
@@ -44,6 +45,7 @@ module.exports = {
 				],
 				'img-src': [
 					"'self'",
+					'data:',
 					'https://*.googleusercontent.com',
 					'https://*.twimg.com',
 					'https://generative-placeholders.glitch.me',
@@ -52,6 +54,11 @@ module.exports = {
 				],
 				'prefetch-src': [
 					"'self'",
+				],
+				'script-src': [
+					"'self'",
+					"'unsafe-inline'",
+					'https://www.googletagmanager.com',
 				],
 				'style-src': [
 					"'self'",
