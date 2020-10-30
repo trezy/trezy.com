@@ -53,7 +53,7 @@
 		"transform-string-case": "^1.1.0",
 		"uuid": "^3.3.3",
 		"vercel": "^20.1.2",
-		"webpack": "^5.2.0"
+		"webpack": "^5.3.2"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-decorators": "^7.12.1",
