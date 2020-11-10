@@ -84,7 +84,7 @@ const MovieSearch = () => {
 					)}
 
 					<ol
-						className="results movie-list"
+						className="results card-list"
 						data-animation-sequential-delay>
 						{movies.map(movie => (
 							<li

@@ -3,6 +3,7 @@ export {
 	faDev,
 	faDiscord,
 	faGithub,
+	faGoogle,
 	faInstagram,
 	faLinkedin,
 	faMarkdown,

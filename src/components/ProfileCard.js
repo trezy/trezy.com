@@ -48,189 +48,191 @@ function ProfileCard(props) {
 	} = user
 
 	return (
-		<header className="card profile">
-			<Image
-				alt={`${displayName}'s avatar`}
-				src={getAvatar(user)} />
+		<header className="block no-pad">
+			<div className="card profile">
+				<Image
+					alt={`${displayName}'s avatar`}
+					src={getAvatar(user)} />
 
-			<header>
-				{linkToProfile && (
-					<Link
-						as={`/profile/@${username}`}
-						href="/profile/[username]">
-						{displayName || username}
-					</Link>
-				)}
+				<header>
+					{linkToProfile && (
+						<Link
+							as={`/profile/@${username}`}
+							href="/profile/[username]">
+							{displayName || username}
+						</Link>
+					)}
 
-				{!linkToProfile && `${displayName || username}`}
-			</header>
+					{!linkToProfile && `${displayName || username}`}
+				</header>
 
-			{(!editMode || previewMode) && (
-				<dl className="content">
-					<dt>Username</dt>
+				{(!editMode || previewMode) && (
+					<dl className="content">
+						<dt>Username</dt>
 
-					<dd>
-						{Boolean(username) && (
-							`@${username}`
-						)}
-
-						{!username && (
-							<em>No username</em>
-						)}
-					</dd>
-
-					<dt>Bio</dt>
-
-					{Boolean(bio) && (
 						<dd>
-							<MarkdownRenderer source={bio} />
+							{Boolean(username) && (
+								`@${username}`
+							)}
+
+							{!username && (
+								<em>No username</em>
+							)}
 						</dd>
-					)}
 
-					{!bio && (
-						<dd>
-							<p>
-								<em>No bio... yet</em>
-							</p>
-						</dd>
-					)}
+						<dt>Bio</dt>
 
-					{website && (
-						<>
-							<dt>Website</dt>
+						{Boolean(bio) && (
 							<dd>
-								<ExternalLink href={website}>
-									{website}
-								</ExternalLink>
+								<MarkdownRenderer source={bio} />
 							</dd>
-						</>
-					)}
-
-					{socialMedia?.length && (
-						<>
-							<dt>Social</dt>
-							<dd>
-								<ul className="inline">
-									{socialMedia.map(({ type, url }) => (
-										<li key={url}>
-											<a
-												href={url}
-												rel="me noopener noreferrer"
-												target="_blank">
-												<FontAwesomeIcon
-													fixedWidth
-													icon={['fab', type]}
-													title={type} />
-											</a>
-										</li>
-									))}
-								</ul>
-							</dd>
-						</>
-					)}
-				</dl>
-			)}
-
-			{(editMode && !previewMode) && (
-				<dl className="content">
-					<dt>Username</dt>
-					<dd>
-						<Input
-							disabled={isSaving}
-							onChange={onUsernameChange}
-							placeholder={`${displayName.toLowerCase().replace(/[^\w]/gu, '-').replace(/-+/gu, '-')}`}
-							prefix="@"
-							type="text"
-							value={username} />
-					</dd>
-
-					<dt>
-						Bio
-						<small>
-							<FontAwesomeIcon
-								fixedWidth
-								icon={['fab', 'markdown']} />
-							Markdown supported
-						</small>
-					</dt>
-					<dd>
-						<MarkdownEditor
-							disabled={isSaving}
-							multiline
-							onChange={onBioChange}
-							previewMode={false}
-							placeholder={`${displayName} was just a child when their interest in flowers began to blossom...`}
-							value={bio} />
-					</dd>
-
-					<dt>Website</dt>
-					<dd>
-						<Input
-							disabled={isSaving}
-							onChange={onWebsiteChange}
-							placeholder="https://example.com"
-							type="url"
-							value={website} />
-					</dd>
-				</dl>
-			)}
-
-			{showToolbar && (
-				<footer>
-					<menu type="toolbar">
-						{!editMode && (
-							<Button
-								className="primary"
-								onClick={onEditProfile}>
-								Edit Profile
-							</Button>
 						)}
 
-						{editMode && (
+						{!bio && (
+							<dd>
+								<p>
+									<em>No bio... yet</em>
+								</p>
+							</dd>
+						)}
+
+						{website && (
 							<>
-								<Button
-									className="danger"
-									onClick={onCancelEdit}>
-									Cancel
-								</Button>
-
-								{!previewMode && (
-									<Button
-										className="primary"
-										onClick={onPreview}>
-										Preview
-									</Button>
-								)}
-
-								{previewMode && (
-									<Button
-										className="primary"
-										onClick={onEditProfile}>
-										Edit
-									</Button>
-								)}
-
-								<Button
-									className="primary"
-									onClick={onSaveChanges}>
-									{!isSaving && (
-										<span>Save Changes</span>
-									)}
-
-									{isSaving && (
-										<span>
-											<FontAwesomeIcon
-												icon="spinner"
-												pulse />
-											Saving...
-										</span>
-									)}
-								</Button>
+								<dt>Website</dt>
+								<dd>
+									<ExternalLink href={website}>
+										{website}
+									</ExternalLink>
+								</dd>
 							</>
 						)}
-					</menu>
-				</footer>
-			)}
+
+						{socialMedia?.length && (
+							<>
+								<dt>Social</dt>
+								<dd>
+									<ul className="inline">
+										{socialMedia.map(({ type, url }) => (
+											<li key={url}>
+												<a
+													href={url}
+													rel="me noopener noreferrer"
+													target="_blank">
+													<FontAwesomeIcon
+														fixedWidth
+														icon={['fab', type]}
+														title={type} />
+												</a>
+											</li>
+										))}
+									</ul>
+								</dd>
+							</>
+						)}
+					</dl>
+				)}
+
+				{(editMode && !previewMode) && (
+					<dl className="content">
+						<dt>Username</dt>
+						<dd>
+							<Input
+								disabled={isSaving}
+								onChange={onUsernameChange}
+								placeholder={`${displayName.toLowerCase().replace(/[^\w]/gu, '-').replace(/-+/gu, '-')}`}
+								prefix="@"
+								type="text"
+								value={username} />
+						</dd>
+
+						<dt>
+							Bio
+							<small>
+								<FontAwesomeIcon
+									fixedWidth
+									icon={['fab', 'markdown']} />
+								Markdown supported
+							</small>
+						</dt>
+						<dd>
+							<MarkdownEditor
+								disabled={isSaving}
+								multiline
+								onChange={onBioChange}
+								previewMode={false}
+								placeholder={`${displayName} was just a child when their interest in flowers began to blossom...`}
+								value={bio} />
+						</dd>
+
+						<dt>Website</dt>
+						<dd>
+							<Input
+								disabled={isSaving}
+								onChange={onWebsiteChange}
+								placeholder="https://example.com"
+								type="url"
+								value={website} />
+						</dd>
+					</dl>
+				)}
+
+				{showToolbar && (
+					<footer>
+						<menu type="toolbar">
+							{!editMode && (
+								<Button
+									className="primary"
+									onClick={onEditProfile}>
+									Edit Profile
+								</Button>
+							)}
+
+							{editMode && (
+								<>
+									<Button
+										className="danger"
+										onClick={onCancelEdit}>
+										Cancel
+									</Button>
+
+									{!previewMode && (
+										<Button
+											className="primary"
+											onClick={onPreview}>
+											Preview
+										</Button>
+									)}
+
+									{previewMode && (
+										<Button
+											className="primary"
+											onClick={onEditProfile}>
+											Edit
+										</Button>
+									)}
+
+									<Button
+										className="primary"
+										onClick={onSaveChanges}>
+										{!isSaving && (
+											<span>Save Changes</span>
+										)}
+
+										{isSaving && (
+											<span>
+												<FontAwesomeIcon
+													icon="spinner"
+													pulse />
+												Saving...
+											</span>
+										)}
+									</Button>
+								</>
+							)}
+						</menu>
+					</footer>
+				)}
+			</div>
 		</header>
 	)
 }

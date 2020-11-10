@@ -1,8 +1,8 @@
-.movie-list {
+.card-list {
 	display: grid;
 	grid-gap: var(--gutter);
 
-	.movie {
+	.card {
 		background-size: cover;
 	}
 }
