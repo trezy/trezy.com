@@ -14,7 +14,9 @@ import SocialNav from 'components/SocialNav'
 
 
 const ContentInfo = () => (
-	<footer role="contentinfo">
+	<footer
+		className="block"
+		role="contentinfo">
 		<nav
 			className="trezy"
 			aria-labelledby="contentinfo-trezy-header">
@@ -80,20 +82,26 @@ const ContentInfo = () => (
 
 			<ul>
 				<li>
-					<Link href="/terms-of-service">
+					<Link href="/legal/terms-of-service">
 						<a>Terms of Service</a>
 					</Link>
 				</li>
 
 				<li>
-					<Link href="/privacy-policy">
+					<Link href="/legal/privacy-policy">
 						<a>Privacy Policy</a>
 					</Link>
 				</li>
 
 				<li>
-					<Link href="/privacy-policy">
+					<Link href="/legal/cookie-policy">
 						<a>Cookie Policy</a>
+					</Link>
+				</li>
+
+				<li>
+					<Link href="/legal/code-of-conduct">
+						<a>Code of Conduct</a>
 					</Link>
 				</li>
 			</ul>

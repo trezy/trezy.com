@@ -132,7 +132,9 @@ function Profile(props) {
 	}
 
 	return (
-		<PageWrapper title="Profile">
+		<PageWrapper
+			showHeader={false}
+			title={!isEmpty(user) ? `${user.displayName}'s Profile` : 'User Profile'}>
 			{!isLoaded(users) && (
 				<span>Loading...</span>
 			)}
@@ -176,15 +178,15 @@ function Profile(props) {
 							website: website || user.website,
 						}} />
 
-					<section>
+					<section className="block">
 						<header>
-							<h3>
-								Articles
-							</h3>
+							<h3>Articles</h3>
 						</header>
 
 						{(isLoaded(auth) && !isEmpty(auth)) && (
-							<ArticleList authorID={auth.uid} />
+							<ArticleList
+								authorID={auth.uid}
+								includeStyles={false} />
 						)}
 					</section>
 				</>

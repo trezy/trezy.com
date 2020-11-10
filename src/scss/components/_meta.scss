@@ -5,6 +5,7 @@
 	border-top-color: var(--brand-primary);
 	border-top-style: solid;
 	border-top-width: 0.1rem;
+	display: flex;
 	font-size: 0.8em;
 	margin-bottom: var(--gutter);
 	margin-top: var(--gutter);
@@ -13,5 +14,9 @@
 		content: '|';
 		padding-left: var(--gutter);
 		padding-right: var(--gutter);
+	}
+
+	> .actions {
+		margin-left: auto;
 	}
 }

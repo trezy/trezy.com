@@ -19,6 +19,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import * as gtag from 'helpers/gtag'
+import Breadcrumbs from 'components/Breadcrumbs'
 import ContentInfo from 'components/ContentInfo'
 
 
@@ -35,9 +36,11 @@ const MAX_DESCR_LENGTH = 300
 
 function PageWrapper(props) {
 	const {
+		breadcrumbs,
 		children,
 		className,
 		description,
+		showHeader,
 		title,
 	} = props
 	const auth = useSelector(state => state.firebase.auth)
@@ -86,6 +89,16 @@ function PageWrapper(props) {
 			</Head>
 
 			<main className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}>
+				{showHeader && (
+					<header className="block">
+						<h2>{title}</h2>
+
+						{Boolean(breadcrumbs) && (
+							<Breadcrumbs crumbs={breadcrumbs} />
+						)}
+					</header>
+				)}
+
 				{children}
 
 				<ContentInfo />
@@ -95,12 +108,15 @@ function PageWrapper(props) {
 }
 
 PageWrapper.defaultProps = {
+	breadcrumbs: null,
 	className: '',
 	description: 'Oh no! This page doesn\'t have a description! 😬',
 	displayTitle: title => (<h1>{title}</h1>),
+	showHeader: true,
 }
 
 PageWrapper.propTypes = {
+	breadcrumbs: PropTypes.array,
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
 	description: PropTypes.string,
@@ -108,6 +124,7 @@ PageWrapper.propTypes = {
 		PropTypes.func,
 		PropTypes.string,
 	]),
+	showHeader: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 }
 

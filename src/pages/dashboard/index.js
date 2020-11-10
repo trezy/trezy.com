@@ -27,7 +27,7 @@ function Dashboard() {
 	return (
 		<PageWrapper title="Dashboard">
 			<RequireAuthentication>
-				<section>
+				<section className="block">
 					<header>
 						<h2>Recent Articles</h2>
 					</header>

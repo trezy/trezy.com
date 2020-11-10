@@ -17,8 +17,9 @@ export default function About() {
 	return (
 		<PageWrapper
 			description="Trezy has been called a software engineer, a wannabe cyborg, and an international man of mystery. Learn more about the story behind the man."
+			showHeader={false}
 			title="About">
-			<section className="hero">
+			<section className="block hero no-top-margin">
 				<div>
 					<img
 						alt="Headshot of Trezy"

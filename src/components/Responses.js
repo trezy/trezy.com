@@ -18,9 +18,7 @@ const Responses = props => {
 	const { articleID } = props
 
 	return (
-		<aside className="responses-container">
-			<hr />
-
+		<aside className="block responses-container">
 			<h3>Responses</h3>
 
 			<div>

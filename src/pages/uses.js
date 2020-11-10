@@ -146,6 +146,7 @@ export default function UsesPage() {
 			description="With inspiration from https://uses.tech, this page lists the software and hardware I use on a daily basis."
 			title="Uses">
 			<section
+				className="block"
 				data-animate
 				data-animation="fade-in-from-left"
 				/* eslint-disable-next-line no-magic-numbers */
@@ -227,6 +228,7 @@ export default function UsesPage() {
 			</section>
 
 			<section
+				className="block"
 				data-animate
 				data-animation="fade-in-from-left"
 				/* eslint-disable-next-line no-magic-numbers */
@@ -324,6 +326,7 @@ export default function UsesPage() {
 			</section>
 
 			<section
+				className="block"
 				data-animate
 				data-animation="fade-in-from-left"
 				/* eslint-disable-next-line no-magic-numbers */

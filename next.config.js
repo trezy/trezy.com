@@ -17,7 +17,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 
 module.exports = {
-	async headers () {
+	async headers() {
 		const headers = nextSafe({
 			contentSecurityPolicy: {
 				'connect-src': [
@@ -33,8 +33,8 @@ module.exports = {
 					'wss://*.firebaseio.com',
 				],
 				'default-src': [
-					'https://trezy-core.firebaseapp.com',
 					'https://*.firebaseio.com',
+					'https://trezy-core.firebaseapp.com',
 				],
 				'font-src': [
 					'https://fonts.gstatic.com',
@@ -59,6 +59,7 @@ module.exports = {
 				'script-src': [
 					"'self'",
 					"'unsafe-inline'",
+					'https://*.firebaseio.com',
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
 				],
@@ -84,7 +85,7 @@ module.exports = {
 
 	target: 'serverless',
 
-	webpack (config) {
+	webpack(config) {
 		config.module.rules.push({
 			exclude: /node_modules/,
 			test: /\.svg$/,

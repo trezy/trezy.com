@@ -33,13 +33,11 @@ const ArticleHeader = ({ slug, subtitle, summarize, title }) => (
 
 ArticleHeader.defaultProps = {
 	subtitle: '',
-	summarize: false,
 }
 
 ArticleHeader.propTypes = {
 	slug: PropTypes.string.isRequired,
 	subtitle: PropTypes.string,
-	summarize: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 }
 

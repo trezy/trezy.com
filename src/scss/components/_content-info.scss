@@ -9,7 +9,7 @@
 		'trezy account resources'
 		'social social social';
 	grid-template-columns: repeat(3, 1fr);
-	padding: 10rem calc((50% - 60rem) + 10rem);
+	padding: 5rem calc((50% - 60rem) + 10rem);
 
 	header {
 		font-weight: bold;
@@ -28,17 +28,21 @@
 		grid-area: resources;
 	}
 
-	nav.social {
-		grid-area: social;
-		margin-top: 10rem;
+	nav {
+		margin: 0;
 
-		ul {
-			display: flex;
-			flex-wrap: wrap;
-		}
+		&.social {
+			grid-area: social;
+			margin-top: 10rem;
 
-		a {
-			padding: 1rem;
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			a {
+				padding: 1rem;
+			}
 		}
 	}
 }

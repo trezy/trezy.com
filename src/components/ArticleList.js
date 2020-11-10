@@ -14,7 +14,7 @@ import React from 'react'
 
 // Local imports
 import Alert from 'components/Alert'
-import Article from 'components/Article'
+import ArticleSummary from 'components/ArticleSummary'
 import useArticlesSelector from 'store/selectors/useArticlesSelector'
 
 
@@ -28,6 +28,7 @@ const ArticleList = props => {
 		editMode,
 		includeDraft,
 		includePublished,
+		includeStyles,
 		limit,
 	} = props
 	const queryObject = {
@@ -84,12 +85,15 @@ const ArticleList = props => {
 	return (
 		<ol className={classnames('article-list', className)}>
 			{articles.map(({ id }) => (
-				<li key={id}>
-					<Article
+				<li
+					className={classnames({
+						block: includeStyles,
+					})}
+					key={id}>
+					<ArticleSummary
 						editMode={editMode}
 						id={id}
-						shouldLoad={false}
-						summarize />
+						shouldLoad={false} />
 				</li>
 			))}
 		</ol>
@@ -102,6 +106,7 @@ ArticleList.defaultProps = {
 	editMode: false,
 	includeDraft: false,
 	includePublished: true,
+	includeStyles: true,
 	limit: null,
 }
 
@@ -111,6 +116,7 @@ ArticleList.propTypes = {
 	editMode: PropTypes.bool,
 	includeDraft: PropTypes.bool,
 	includePublished: PropTypes.bool,
+	includeStyles: PropTypes.bool,
 	limit: PropTypes.number,
 }
 

@@ -17,17 +17,19 @@ import PageWrapper from 'components/PageWrapper'
 export default function PrivacyPolicy() {
 	return (
 		<PageWrapper
+			breadcrumbs={[
+				['Legal', '/legal'],
+				['Privacy Policy', '/privacy-policy'],
+			]}
 			description="Privacy Policy"
 			title="Privacy Policy">
-			<section>
-				<h2>Privacy Policy</h2>
-
+			<section className="block">
 				<p><em>This policy is effective as of January 1, 2020.</em></p>
 
 				<p>Your privacy is important to us. It is Trezy.com's policy to respect your privacy regarding any information we may collect from you across our website, <Link href="/"><a>http://trezy.com</a></Link>, and other sites we own and operate.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>1. Information we collect</h3>
 
 				<h4>Log data</h4>
@@ -45,7 +47,7 @@ export default function PrivacyPolicy() {
 				</ul>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>2. Legal basis for processing</h3>
 
 				<p>We will process your personal information lawfully, fairly and in a transparent manner. We collect and process information about you only where we have legal bases for doing so.</p>
@@ -64,7 +66,7 @@ export default function PrivacyPolicy() {
 				<p>We don't keep personal information for longer than is necessary. While we retain this information, we will protect it within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification. That said, we advise that no method of electronic transmission or storage is 100% secure and cannot guarantee absolute data security. If necessary, we may retain your personal information for our compliance with a legal obligation or in order to protect your vital interests or the vital interests of another natural person.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>3. Collection and use of information</h3>
 
 				<p>We may collect, hold, use and disclose information for the following purposes and personal information will not be further processed in a manner that is incompatible with these purposes:</p>
@@ -76,13 +78,13 @@ export default function PrivacyPolicy() {
 				</ul>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>4. Disclosure of personal information to third parties</h3>
 
 				<p>We may disclose personal information to third party service providers for the purpose of enabling them to provide their services, including (without limitation) IT service providers, data storage, hosting and server providers, analytics, error loggers, maintenance or problem-solving providers, professional advisors, and payment systems operators.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>5. International transfers of personal information</h3>
 
 				<p>The personal information we collect is stored and processed in United States, or where we or our partners, affiliates and third-party providers maintain facilities. By providing us with your personal information, you consent to the disclosure to these overseas third parties. Our partners, affiliates and third-party providers include:</p>
@@ -97,7 +99,7 @@ export default function PrivacyPolicy() {
 				<p>Where we transfer personal information from a non-EEA country to another country, you acknowledge that third parties in other jurisdictions may not be subject to similar data protection laws to the ones in our jurisdiction. There are risks if any such third party engages in any act or practice that would contravene the data privacy laws in our jurisdiction and this might mean that you will not be able to seek redress under our jurisdiction's privacy laws.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>6. Your rights and controlling your personal information</h3>
 
 				<p><strong>Choice and consent:</strong> By providing personal information to us, you consent to us collecting, holding, using and disclosing your personal information in accordance with this privacy policy. If you are under 16 years of age, you must have, and warrant to the extent permitted by law to us, that you have your parent or legal guardian's permission to access and use the website and they (your parents or guardian) have consented to you providing us with your personal information. You do not have to provide personal information to us, however, if you do not, it may affect your use of this website or the products and/or services offered on or through it.</p>
@@ -121,19 +123,19 @@ export default function PrivacyPolicy() {
 				<p><strong>Unsubscribe:</strong> To unsubscribe from our e-mail database or opt-out of communications (including marketing communications), please contact us using the details below or opt-out using the opt-out facilities provided in the communication.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>7. Cookies</h3>
 
 				<p>We use "cookies" to collect information about you and your activity across our site. A cookie is a small piece of data that our website stores on your computer, and accesses each time you visit, so we can understand how you use our site. This helps us serve you content based on preferences you have specified. Please refer to our <Link href="/cookie-policy"><a>Cookie Policy</a></Link> for more information.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>8. Limits of our policy</h3>
 
 				<p>Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and policies of those sites, and cannot accept responsibility or liability for their respective privacy practices.</p>
 			</section>
 
-			<section>
+			<section className="block">
 				<h3>9. Changes to this policy</h3>
 
 				<p>At our discretion, we may change our privacy policy to reflect current acceptable practices. We will take reasonable steps to let users know about changes via our website. Your continued use of this site after any changes to this policy will be regarded as acceptance of our practices around privacy and personal information. </p>

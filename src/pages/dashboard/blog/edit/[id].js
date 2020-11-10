@@ -1,5 +1,6 @@
 // Module imports
 import React, {
+	useCallback,
 	useEffect,
 	useState,
 } from 'react'
@@ -24,6 +25,7 @@ import articleDefaults from 'models/article'
 import Button from 'components/Button'
 import createSlugFromTitleString from 'helpers/createSlugFromTitleString'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
+import Input from 'components/Input'
 import MarkdownEditor from 'components/MarkdownEditor'
 import PageWrapper from 'components/PageWrapper'
 import RequireAuthentication from 'components/RequireAuthentication'
@@ -60,8 +62,11 @@ function BlogEditor({ id }) {
 	const [isUpdating, setIsUpdating] = useState(false)
 	const [title, setTitle] = useState(article.title)
 
-	const saveArticle = async (publish = false) => {
+	const handleSubmit = useCallback(async event => {
+		event.preventDefault()
 		setIsUpdating(true)
+
+		const shouldPublish = event.target.value === 'publish'
 
 		const now = firestore.Timestamp.fromDate(moment().toDate())
 		const serializedArticle = {
@@ -84,7 +89,7 @@ function BlogEditor({ id }) {
 			serializedArticle.publishedAt = firestore.Timestamp.fromMillis(article.publishedAt.seconds * 1000)
 		}
 
-		if (publish) {
+		if (shouldPublish) {
 			serializedArticle.isDraft = false
 			serializedArticle.publishedAt = now
 		}
@@ -106,7 +111,31 @@ function BlogEditor({ id }) {
 		}
 
 		setIsUpdating(false)
-	}
+	}, [
+		article,
+		body,
+		id,
+		setIsUpdating,
+		subtitle,
+		synopsis,
+		title,
+	])
+
+	const handleBodyChange = useCallback(({ target: { value } }) => {
+		setBody(value)
+	}, [setBody])
+	const handlePreviewMode = useCallback(() => {
+		setPreviewMode(previousValue => !previousValue)
+	}, [setPreviewMode])
+	const handleSubtitleChange = useCallback(({ target: { value } }) => {
+		setSubtitle(value)
+	}, [setSubtitle])
+	const handleSynopsisChange = useCallback(({ target: { value } }) => {
+		setSynopsis(value)
+	}, [setSynopsis])
+	const handleTitleChange = useCallback(({ target: { value } }) => {
+		setTitle(value)
+	}, [setTitle])
 
 	useEffect(() => {
 		const bodyHasChanged = body && (body !== article.body)
@@ -120,71 +149,91 @@ function BlogEditor({ id }) {
 			setSubtitle(article.subtitle)
 			setTitle(article.title)
 		}
-	}, [article])
+	}, [
+		article,
+		body,
+		setBody,
+		setSynopsis,
+		setSubtitle,
+		setTitle,
+		subtitle,
+		synopsis,
+		title,
+	])
 
 	const isLoading = !isLoaded(article)
 	const canPublish = claims['actions.article.publish']
 
 	return (
-		<PageWrapper title={`Editing Article: ${title}`}>
+		<PageWrapper
+			showHeader={false}
+			title={`Editing Article: ${title}`}>
 			<RequireAuthentication>
-				<section>
-					<header>
+				<form onSubmit={handleSubmit}>
+					<header className="block no-top-margin">
 						<h2>
-							<input
+							<Input
 								disabled={isLoading || isUpdating}
-								onChange={({ target: { value } }) => setTitle(value)}
+								label="Title"
+								onChange={handleTitleChange}
 								placeholder="Title"
 								type="text"
 								value={title} />
 						</h2>
+
+						<details>
+							<summary>Article Details</summary>
+
+							<div className="field">
+								<Input
+									aria-label="Subtitle"
+									disabled={isLoading || isUpdating}
+									label="Subtitle"
+									onChange={handleSubtitleChange}
+									placeholder="Subtitle"
+									type="text"
+									value={subtitle} />
+							</div>
+
+							<div className="field">
+								<MarkdownEditor
+									aria-label="Synopsis"
+									disabled={isLoading || isUpdating}
+									label="Synopsis"
+									onChange={handleSynopsisChange}
+									placeholder="Synopsis"
+									previewMode={previewMode}
+									value={synopsis} />
+							</div>
+						</details>
 					</header>
 
-					<form onSubmit={event => event.preventDefault()}>
-						<fieldset>
-							<input
-								aria-label="Subtitle"
-								disabled={isLoading || isUpdating}
-								onChange={({ target: { value } }) => setSubtitle(value)}
-								placeholder="Subtitle"
-								type="text"
-								value={subtitle} />
-						</fieldset>
-
-						<fieldset>
-							<MarkdownEditor
-								aria-label="Synopsis"
-								disabled={isLoading || isUpdating}
-								onChange={({ target: { value } }) => setSynopsis(value)}
-								placeholder="Synopsis"
-								previewMode={previewMode}
-								value={synopsis} />
-						</fieldset>
-
-						<fieldset>
+					<section className="block">
+						<div className="field">
 							<MarkdownEditor
 								aria-label="Body"
 								disabled={isLoading || isUpdating}
-								onChange={({ target: { value } }) => setBody(value)}
+								label="Body"
+								onChange={handleBodyChange}
 								placeholder="Body"
 								previewMode={previewMode}
 								value={body} />
-						</fieldset>
+						</div>
 
 						<menu
 							className="floaty-menu floaty-bottom"
 							type="toolbar">
 							<Button
 								disabled={isLoading || isUpdating}
-								onClick={() => setPreviewMode(!previewMode)}>
+								onClick={handlePreviewMode}>
 								Preview
 							</Button>
 
 							<Button
 								className="primary"
 								disabled={isLoading || isUpdating}
-								onClick={() => saveArticle()}
-								type="submit">
+								type="submit"
+								value="save">
 								Save
 							</Button>
 
@@ -192,8 +241,8 @@ function BlogEditor({ id }) {
 								<Button
 									className="primary"
 									disabled={isLoading || isUpdating}
-									onClick={() => saveArticle(true)}
-									type="submit">
+									type="submit"
+									value="publish">
 									Publish
 								</Button>
 							)}
@@ -207,8 +256,8 @@ function BlogEditor({ id }) {
 								</>
 							)}
 						</menu>
-					</form>
-				</section>
+					</section>
+				</form>
 			</RequireAuthentication>
 		</PageWrapper>
 	)

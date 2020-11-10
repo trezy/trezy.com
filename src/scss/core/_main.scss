@@ -22,13 +22,8 @@ main {
 		z-index: 1;
 	}
 
-	> * {
-		background-color: var(--background-color);
-		width: 100%;
-
-		&:not(:last-child) {
-			margin-bottom: var(--gutter);
-		}
+	> header.block {
+		margin-top: 0;
 	}
 
 	@media (max-width: 1300px) {

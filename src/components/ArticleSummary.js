@@ -19,10 +19,7 @@ import MarkdownRenderer from 'components/MarkdownRenderer'
 
 
 const Article = props => {
-	const {
-		id,
-		showTitle,
-	} = props
+	const { id } = props
 
 	const article = useSelector(state => state.firestore.data.articles?.[id])
 
@@ -45,18 +42,14 @@ const Article = props => {
 	} = article
 
 	return (
-		<article className="block">
-			{showTitle && (
-				<>
-					<h2>{title}</h2>
-
-					{subtitle && (
-						<span className="subtitle">
-							{subtitle}
-						</span>
-					)}
-				</>
-			)}
+		<article className="summary">
+			<h3>
+				<Link
+					as={`/blog/${slug}`}
+					href="/blog/[slug]">
+					<a>{title}</a>
+				</Link>
+			</h3>
 
 			<ArticleMeta {...{
 				authorID,
@@ -72,8 +65,6 @@ const Article = props => {
 					{synopsis}
 				</span>
 			)}
-
-			<MarkdownRenderer source={article.body} />
 		</article>
 	)
 }

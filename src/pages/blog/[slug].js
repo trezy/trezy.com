@@ -73,14 +73,12 @@ function ArticlePage(props) {
 		<PageWrapper
 			description={synopsis}
 			title={createTitleStringFromArticle(article)}>
-			<section>
-				{article && (
-					<>
-						<Article id={id} />
-						<Responses articleID={id} />
-					</>
-				)}
-			</section>
+			{article && (
+				<>
+					<Article id={id} />
+					<Responses articleID={id} />
+				</>
+			)}
 		</PageWrapper>
 	)
 }

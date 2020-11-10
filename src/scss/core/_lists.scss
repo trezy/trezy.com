@@ -25,6 +25,14 @@ ol, ul {
 		}
 	}
 
+	&.slash-separated {
+		display: inline;
+
+		> li:not(:last-child):after {
+			content: ' / ';
+		}
+	}
+
 	&.bulleted,
 	&.numbered {
 		list-style-position: outside;

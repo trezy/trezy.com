@@ -23,32 +23,29 @@ export default function BlogDashboard() {
 	return (
 		<PageWrapper title="My Articles">
 			<RequireAuthentication>
-				<section>
-					<header className="page-header">
-						<h2>My Articles</h2>
-					</header>
+				{isLoaded(auth) && (
+					<ArticleList
+						authorID={auth.uid}
+						editMode
+						includeDraft />
+				)}
 
-					{isLoaded(auth) && (
-						<ArticleList
-							authorID={auth.uid}
-							editMode
-							includeDraft />
-					)}
+				{!isLoaded(auth) && (
+					<section className="block">Loading...</section>
+				)}
 
-					<menu
-						className="floaty-menu floaty-bottom"
-						type="toolbar">
-						<Link
-							as="/dashboard/blog/edit/new"
-							href="/dashboard/blog/edit/[id]">
-							<a className="button primary">
-								<span>New Article</span>
-							</a>
-						</Link>
-					</menu>
+				<menu
+					className="floaty-menu floaty-bottom"
+					type="toolbar">
+					<Link
+						as="/dashboard/blog/edit/new"
+						href="/dashboard/blog/edit/[id]">
+						<a className="button primary">
+							<span>New Article</span>
+						</a>
+					</Link>
+				</menu>
 
-					{!isLoaded(auth) && 'Loading...'}
-				</section>
 			</RequireAuthentication>
 		</PageWrapper>
 	)
