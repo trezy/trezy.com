@@ -1,0 +1,7 @@
+.page.login {
+	.login-providers {
+		display: grid;
+		gap: var(--gutter);
+		grid-template-columns: repeat(auto-fit, 1fr);
+	}
+}

@@ -45,39 +45,37 @@ function Login(props) {
 
 	return (
 		<PageWrapper title="Login">
-			<section className="hero">
-				<div>
-					<h2>Login</h2>
+			<section className="block hero">
+				<menu
+					className="login-providers"
+					type="toolbar">
+					<Button
+						className="primary"
+						onClick={() => firebase.login({
+							provider: 'google',
+							type: 'popup',
+						})}>
+						Sign in with Google
+					</Button>
 
-					<menu type="toolbar">
-						<Button
-							className="primary"
-							onClick={() => firebase.login({
-								provider: 'google',
-								type: 'popup',
-							})}>
-							Sign in with Google
-						</Button>
+					{/* <Button
+						className="primary"
+						onClick={() => firebase.login({
+							provider: 'github',
+							type: 'popup',
+						})}>
+						Sign in with Github
+					</Button> */}
 
-						{/* <Button
-							className="primary"
-							onClick={() => firebase.login({
-								provider: 'github',
-								type: 'popup',
-							})}>
-							Sign in with Github
-						</Button> */}
-
-						<Button
-							className="primary"
-							onClick={() => firebase.login({
-								provider: 'twitter',
-								type: 'popup',
-							})}>
-							Sign in with Twitter
-						</Button>
-					</menu>
-				</div>
+					<Button
+						className="primary"
+						onClick={() => firebase.login({
+							provider: 'twitter',
+							type: 'popup',
+						})}>
+						Sign in with Twitter
+					</Button>
+				</menu>
 			</section>
 		</PageWrapper>
 	)
