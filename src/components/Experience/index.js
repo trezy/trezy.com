@@ -23,6 +23,31 @@ export default function Experience() {
 			</section>
 
 			<Employer
+				name="Lands' End"
+				url="https://www.landsend.com">
+				<Position
+					accomplishments={[
+						"Containerize our front-end stack, including 7 separate Angular apps and 1 Java app",
+						"Improved Developer Experience and test/deployment speed by refactoring front-end stack from 7 repos to a single monorepo",
+					]}
+					description=""
+					startDate="August 2020"
+					tech={[
+						'Angular 7',
+						'Apollo',
+						'Docker',
+						'GraphQL',
+						'Grunt',
+						'Jest',
+						'NgRx',
+						'Rx.js',
+						'Storybook',
+						'TypeScript',
+					]}
+					title="Staff Front End Engineer, Lead" />
+			</Employer>
+
+			<Employer
 				name="Webflow"
 				url="http://webflow.com/">
 				<Position
@@ -216,7 +241,6 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 					description="My team at SHOPBOP/East Dane was tasked with maintenance of the current websites, as well as architecture and development of a new website."
 					endDate="July 2014"
 					startDate="February 2014"
-					tech={[]}
 					title="Front End Developer" />
 			</Employer>
 
@@ -224,7 +248,6 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="Great Wolf Resorts"
 				url="http://greatwolf.com/">
 				<Position
-					accomplishments={[]}
 					description="My responsibilities at Great Wolf included maintaining and upgrading the company website and working with the engineering and UX teams to develop the company style guide."
 					endDate="February 2014"
 					startDate="September 2013"
@@ -278,13 +301,11 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="ESDN"
 				url="http://esdn.com/">
 				<Position
-					accomplishments={[]}
 					description={`* Participated in daily scrum, review, and retrospective meetings.
 	* Utilized Javascript, jQuery, and CSS to create a rich user experience.
 	* Took an animated client on-boarding video about the company from concept to completion.`}
 					endDate="August 2012"
 					startDate="June 2011"
-					tech={[]}
 					title="Front End Developer" />
 			</Employer>
 
@@ -292,7 +313,6 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="Genesis Health Technologies"
 				url="http://www.genesishealthtechnologies.com/">
 				<Position
-					accomplishments={[]}
 					description={`* Participated in weekly status meetings to present my progress and refine project goals.
 	* Reviewed business needs to assist the business team in delivering clear and concise goals for the website.
 	* Built the company's public-facing website.
@@ -301,7 +321,6 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 	* Utilized PHP and MySQL to create a robust website backend and custom CMS.`}
 					endDate="June 2011"
 					startDate="July 2009"
-					tech={[]}
 					title="Front End Developer" />
 			</Employer>
 		</PageWrapper>
