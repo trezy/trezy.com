@@ -33,6 +33,7 @@ module.exports = {
 					'wss://*.firebaseio.com',
 				],
 				'default-src': [
+					"'self'",
 					'https://*.firebaseio.com',
 					'https://trezy-core.firebaseapp.com',
 				],
