@@ -5,6 +5,7 @@ import {
 	useFirestoreConnect,
 } from 'react-redux-firebase'
 import React, {
+	useCallback,
 	useEffect,
 	useState,
 } from 'react'
@@ -86,21 +87,36 @@ function Profile(props) {
 			setUsername(user.username || null)
 			setWebsite(user.website || null)
 		}
-	})
+	}, [
+		editMode,
+		setBio,
+		setUsername,
+		setWebsite,
+		user,
+	])
 
-	const handleCancel = () => {
+	const handleCancel = useCallback(() => {
 		setBio(user.bio)
 		setUsername(user.username)
 		setWebsite(user.website)
 		setEditMode(false)
-	}
+	}, [
+		setBio,
+		setEditMode,
+		setUsername,
+		setWebsite,
+		user,
+	])
 
-	const handleEdit = () => {
+	const handleEdit = useCallback(() => {
 		setEditMode(true)
 		setPreviewMode(false)
-	}
+	}, [
+		setEditMode,
+		setPreviewMode,
+	])
 
-	const handleSave = async () => {
+	const handleSave = useCallback(async () => {
 		setIsSaving(true)
 
 		await firestore.update({ collection: 'users', doc: auth.uid }, {
@@ -114,7 +130,15 @@ function Profile(props) {
 		setIsSaved(true)
 
 		setTimeout(() => setIsSaved(false), SAVE_ALERT_DURATION)
-	}
+	}, [
+		auth,
+		bio,
+		setEditMode,
+		setIsSaved,
+		setIsSaving,
+		username,
+		website,
+	])
 
 	return (
 		<PageWrapper
