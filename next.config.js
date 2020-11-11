@@ -85,13 +85,21 @@ module.exports = {
 	},
 
 	async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-    ]
-  },
+		return [
+			{
+				source: '/sitemap.xml',
+				destination: '/api/sitemap',
+			},
+			{
+				source: '/sitemap-base.xml',
+				destination: '/api/sitemap-base',
+			},
+			{
+				source: '/sitemap-blog.xml',
+				destination: '/api/sitemap-blog',
+			},
+		]
+	},
 
 	target: 'serverless',
 
