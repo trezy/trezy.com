@@ -7,6 +7,7 @@ import moment from 'moment'
 
 // Local imports
 import createSitemapEndpoint from 'pages/api/helpers/createSitemapEndpoint'
+import firebase from 'helpers/firebase'
 
 
 
@@ -17,6 +18,14 @@ const {
 	handler,
 } = createSitemapEndpoint(async function() {
 	const articles = []
+
+	const articlesSnapshot = await firebase
+		.firestore()
+		.collection('articles')
+		.where('isDraft', '==', false)
+		.get()
+
+	articlesSnapshot.forEach(doc => articles.push(doc.data()))
 
 	return {
 		urlset: [
