@@ -170,7 +170,7 @@ function Profile(props) {
 
 						{(isLoaded(auth) && !isEmpty(auth)) && (
 							<ArticleList
-								authorID={auth.uid}
+								authorID={user.id}
 								includeStyles={false} />
 						)}
 					</section>
