@@ -92,11 +92,11 @@ module.exports = {
 			},
 			{
 				source: '/sitemap-base.xml',
-				destination: '/api/sitemap-base',
+				destination: '/api/sitemap/base',
 			},
 			{
 				source: '/sitemap-blog.xml',
-				destination: '/api/sitemap-blog',
+				destination: '/api/sitemap/blog',
 			},
 		]
 	},
