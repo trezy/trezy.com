@@ -1,4 +1,5 @@
 // Module imports
+import PropTypes from 'prop-types'
 import React from 'react'
 
 
@@ -27,102 +28,122 @@ import WebflowSVG from 'public/images/logos/webflow.svg'
 
 
 
-// Local constants
-const clients = [
-	{
-		component: <AmazonSVG />,
-		name: 'Amazon',
-		url: 'https://amazon.com',
-	},
-	{
-		component: <AmfamSVG />,
-		name: 'American Family Insurance',
-		url: 'https://amfam.com',
-	},
-	{
-		component: <DisneySVG />,
-		name: 'Disney',
-		url: 'https://disney.com',
-	},
-	{
-		component: <EventbriteSVG />,
-		name: 'Eventbrite',
-		url: 'https://eventbrite.com',
-	},
-	{
-		component: <GettyImagesSVG />,
-		name: 'Getty Images',
-		url: 'https://gettyimages.com',
-	},
-	{
-		component: <GoproSVG />,
-		name: 'GoPro',
-		url: 'https://gopro.com',
-	},
-	{
-		component: <GreatWolfSVG />,
-		name: 'Great Wolf Lodge',
-		url: 'https://greatwolf.com',
-	},
-	{
-		component: <GenesysSVG />,
-		name: 'Genesys',
-		url: 'https://genesys.com',
-	},
-	{
-		component: <LandsEndSVG />,
-		name: 'Lands\' End',
-		url: 'https://www.landsend.com/',
-	},
-	{
-		component: <MarvelSVG />,
-		name: 'Marvel',
-		url: 'https://marvel.com',
-	},
-	{
-		component: <MobileDoormanSVG />,
-		name: 'Mobile Doorman',
-		url: 'https://mobiledoorman.com',
-	},
-	{
-		component: <MoxeSVG />,
-		name: 'Moxe Health',
-		url: 'https://moxehealth.com',
-	},
-	{
-		component: <SkybellSVG />,
-		name: 'SkyBell',
-		url: 'https://skybell.com',
-	},
-	{
-		component: <WebflowSVG />,
-		name: 'Webflow',
-		url: 'https://webflow.com',
-	},
-]
+function Client(props) {
+	const {
+		children,
+		name,
+		url,
+	} = props
+
+	return (
+		<li key={name}>
+			<ExternalLink href={url}>
+				{children}
+
+				<span className="screen-reader-only">
+					{name}
+				</span>
+			</ExternalLink>
+		</li>
+	)
+}
+
+Client.propTypes = {
+	children: PropTypes.node.isRequired,
+	name: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
+}
 
 
 
 
 
-const ClientList = () => (
-	<ul className="client-list">
-		{clients.map(({ component, name, url }) => (
-			<li key={name}>
-				<ExternalLink href={url}>
-					{component}
+export default function ClientList() {
+	return (
+		<ul className="client-list">
+			<Client
+				name="Amazon"
+				url="https://amazon.com">
+				<AmazonSVG />
+			</Client>
 
-					<span className="screen-reader-only">
-						{name}
-					</span>
-				</ExternalLink>
-			</li>
-		))}
-	</ul>
-)
+			<Client
+				name="American Family Insurance"
+				url="https://amfam.com">
+				<AmfamSVG />
+			</Client>
 
+			<Client
+				name="Disney"
+				url="https://disney.com">
+				<DisneySVG />
+			</Client>
 
+			<Client
+				name="Eventbrite"
+				url="https://eventbrite.com">
+				<EventbriteSVG />
+			</Client>
 
+			<Client
+				name="Getty Images"
+				url="https://gettyimages.com">
+				<GettyImagesSVG />
+			</Client>
 
+			<Client
+				name="GoPro"
+				url="https://gopro.com">
+				<GoproSVG />
+			</Client>
 
-export default ClientList
+			<Client
+				name="Great Wolf Lodge"
+				url="https://greatwolf.com">
+				<GreatWolfSVG />
+			</Client>
+
+			<Client
+				name="Genesys"
+				url="https://genesys.com">
+				<GenesysSVG />
+			</Client>
+
+			<Client
+				name="Lands\' End"
+				url="https://www.landsend.com/">
+				<LandsEndSVG />
+			</Client>
+
+			<Client
+				name="Marvel"
+				url="https://marvel.com">
+				<MarvelSVG />
+			</Client>
+
+			<Client
+				name="Mobile Doorman"
+				url="https://mobiledoorman.com">
+				<MobileDoormanSVG />
+			</Client>
+
+			<Client
+				name="Moxe Health"
+				url="https://moxehealth.com">
+				<MoxeSVG />
+			</Client>
+
+			<Client
+				name="SkyBell"
+				url="https://skybell.com">
+				<SkybellSVG />
+			</Client>
+
+			<Client
+				name="Webflow"
+				url="https://webflow.com">
+				<WebflowSVG />
+			</Client>
+		</ul>
+	)
+}
