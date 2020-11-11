@@ -47,7 +47,7 @@ const SAVE_ALERT_DURATION = 5000
 function Profile(props) {
 	const Router = useRouter()
 
-	if ((typeof window !== 'undefined') && !props.username.startsWith('@') && (props.username !== 'me')) {
+	if ((typeof window !== 'undefined') && !props.username.startsWith('@')) {
 		const href = '/profile/[username]'
 		const as = `/profile/@${props.username}`
 
@@ -58,16 +58,15 @@ function Profile(props) {
 	const auth = useAuthSelector()
 	const users = useUsersSelector()
 
-	const userSelectorQuery = {}
-
-	if (props.username === 'me') {
-		userSelectorQuery.userID = auth?.uid
-	} else {
-		userSelectorQuery.username = props.safeUsername
+	const userSelectorQuery = {
+		username: props.safeUsername,
 	}
 
 	const user = useUserSelector(userSelectorQuery)
-	const collections = []
+	const collections = [{
+		collection: 'users',
+		where: ['username', '==', props.safeUsername],
+	}]
 
 	const [bio, setBio] = useState('')
 	const [editMode, setEditMode] = useState(false)
@@ -78,20 +77,6 @@ function Profile(props) {
 	const [website, setWebsite] = useState('')
 
 	const viewerIsOwner = auth?.uid === user?.id
-
-	if (isLoaded(auth)) {
-		const query = {
-			collection: 'users',
-		}
-
-		if (!isEmpty(auth) && (props.username === 'me')) {
-			query.doc = auth.uid
-		} else {
-			query.where = ['username', '==', props.safeUsername]
-		}
-
-		collections.push(query)
-	}
 
 	useFirestoreConnect(collections)
 
@@ -134,7 +119,7 @@ function Profile(props) {
 	return (
 		<PageWrapper
 			showHeader={false}
-			title={!isEmpty(user) ? `${user.displayName}'s Profile` : 'User Profile'}>
+			title={isEmpty(user) ? 'User Profile' : `${user.displayName}'s Profile`}>
 			{!isLoaded(users) && (
 				<span>Loading...</span>
 			)}

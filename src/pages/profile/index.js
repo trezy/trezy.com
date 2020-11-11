@@ -40,7 +40,7 @@ export default function ProfileRedirect() {
 		if (isLoaded(currentUser) && !isEmpty(currentUser)) {
 			Router.replace(`/profile/@${currentUser.username}`)
 		}
-	}, [])
+	}, [currentUser])
 
 	return null
 }
