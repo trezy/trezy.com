@@ -54,11 +54,13 @@ function Position(props) {
 
 Position.defaultProps = {
 	accomplishments: null,
+	endDate: null,
+	tech: null,
 }
 
 Position.propTypes = {
 	accomplishments: PropTypes.arrayOf(PropTypes.string),
-	endDate: PropTypes.string.isRequired,
+	endDate: PropTypes.string,
 	startDate: PropTypes.string.isRequired,
 	tech: PropTypes.arrayOf(PropTypes.string),
 	title: PropTypes.string.isRequired,
