@@ -72,7 +72,7 @@ const Response = props => {
 				})}
 				id={id}>
 
-				<MarkdownRenderer source={body} />
+				<MarkdownRenderer children={body} />
 
 				<footer>
 					<ul className="pipe-separated">

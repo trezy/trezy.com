@@ -47,7 +47,7 @@ function Position(props) {
 				<span><time>{startDate}</time> - <time>{endDate || 'Present'}</time></span>
 			</div>
 
-			<MarkdownRenderer source={description} />
+			<MarkdownRenderer children={description} />
 		</li>
 	)
 }

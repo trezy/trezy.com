@@ -73,7 +73,7 @@ const Article = props => {
 				</span>
 			)}
 
-			<MarkdownRenderer source={article.body} />
+			<MarkdownRenderer children={body} />
 		</article>
 	)
 }

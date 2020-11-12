@@ -82,7 +82,7 @@ function ProfileCard(props) {
 
 						{Boolean(bio) && (
 							<dd>
-								<MarkdownRenderer source={bio} />
+								<MarkdownRenderer children={bio} />
 							</dd>
 						)}
 

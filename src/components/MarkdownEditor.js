@@ -40,7 +40,7 @@ const MarkdownEditor = forwardRef((props, ref) => {
 			)}
 
 			{previewMode && (
-				<MarkdownRenderer source={value} />
+				<MarkdownRenderer children={value} />
 			)}
 		</>
 	)
