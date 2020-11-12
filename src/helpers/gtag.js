@@ -14,13 +14,15 @@ export const event = options => {
 		action,
 		category,
 		label,
+		nonInteraction = false,
 		value,
 	} = options
 
 	window.gtag('event', action, {
 		event_category: category,
 		event_label: label,
-		value: value,
+		non_interaction: nonInteraction,
+		value,
 	})
 }
 
