@@ -37,9 +37,7 @@ export default function BlogDashboard() {
 				<menu
 					className="floaty-menu floaty-bottom"
 					type="toolbar">
-					<Link
-						as="/dashboard/blog/edit/new"
-						href="/dashboard/blog/edit/[id]">
+					<Link href="/dashboard/blog/edit/new">
 						<a className="button primary">
 							<span>New Article</span>
 						</a>

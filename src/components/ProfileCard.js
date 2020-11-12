@@ -56,9 +56,7 @@ function ProfileCard(props) {
 
 				<header>
 					{linkToProfile && (
-						<Link
-							as={`/profile/@${username}`}
-							href="/profile/[username]">
+						<Link href={`/profile/@${username}`}>
 							{displayName || username}
 						</Link>
 					)}

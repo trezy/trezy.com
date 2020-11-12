@@ -64,9 +64,7 @@ const ArticleMeta = props => {
 
 			{(authorID === currentUserID) && (
 				<span>
-					<Link
-						as={`/dashboard/blog/edit/${id}`}
-						href="/dashboard/blog/edit/[id]">
+					<Link href={`/dashboard/blog/edit/${id}`}>
 						<a>Edit</a>
 					</Link>
 				</span>
