@@ -1,21 +1,17 @@
 // Module imports
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
+import { useEffect } from 'react'
 import classnames from 'classnames'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
 
 
 // Local imports
+import { useArticles } from 'contexts/ArticlesContext'
 import Alert from 'components/Alert'
-import ArticleSummary from 'components/ArticleSummary'
-import useArticlesSelector from 'store/selectors/useArticlesSelector'
+import ArticleMeta from 'components/ArticleMeta'
 
 
 
@@ -25,56 +21,32 @@ const ArticleList = props => {
 	const {
 		authorID,
 		className,
-		editMode,
 		includeDraft,
-		includePublished,
 		includeStyles,
 		limit,
 	} = props
-	const queryObject = {
-		collection: 'articles',
-		where: [],
-	}
+	const {
+		connectArticleQuery,
+		disconnectArticleQuery,
+		...articleContext
+	} = useArticles()
 
-	if (!includeDraft) {
-		queryObject.where.push(['isDraft', '==', false])
-	}
+	const articles = articleContext.articles || props.articles
 
-	if (!includePublished) {
-		queryObject.where.push(['isDraft', '==', true])
-	}
+	useEffect(() => {
+		connectArticleQuery({
+			authorID,
+			includeDraft,
+			limit,
+		})
 
-	if (authorID) {
-		queryObject.where.push(['authorID', '==', authorID])
-	}
+		return disconnectArticleQuery
+	}, [
+		connectArticleQuery,
+		disconnectArticleQuery,
+	])
 
-	if (!queryObject.where.length) {
-		delete queryObject.where
-	}
-
-	if (includePublished && includeDraft) {
-		queryObject.orderBy = ['createdAt', 'desc']
-	} else if (includePublished) {
-		queryObject.orderBy = ['publishedAt', 'desc']
-	} else { // includeDraft
-		queryObject.orderBy = ['updatedAt', 'desc']
-	}
-
-	if (limit) {
-		queryObject.limit = limit
-	}
-
-	const articles = useArticlesSelector()
-
-	useFirestoreConnect([queryObject])
-
-	if (!isLoaded(articles)) {
-		return (
-			<div>Loading...</div>
-		)
-	}
-
-	if (isLoaded(articles) && isEmpty(articles)) {
+	if (!articles?.length) {
 		return (
 			<Alert type="informational">
 				No articles found! <span aria-label="Sobbing face emoji" role="img">😭</span>
@@ -84,38 +56,56 @@ const ArticleList = props => {
 
 	return (
 		<ol className={classnames('article-list', className)}>
-			{articles.map(({ id }) => (
-				<li
-					className={classnames({
-						block: includeStyles,
-					})}
-					key={id}>
-					<ArticleSummary
-						editMode={editMode}
-						id={id}
-						shouldLoad={false} />
-				</li>
-			))}
+			{Boolean(articles) && articles.map(article => {
+				const {
+					id,
+					slug,
+					synopsis,
+					title,
+				} = article
+
+				return (
+					<li
+						className={classnames({
+							block: includeStyles,
+						})}
+						key={id}>
+						<article className="summary">
+							<h3>
+								<Link href={`/blog/${slug}`}>
+									<a>{title}</a>
+								</Link>
+							</h3>
+
+							<ArticleMeta {...article} />
+
+							{synopsis && (
+								<span className="synopsis">
+									{synopsis}
+								</span>
+							)}
+						</article>
+					</li>
+				)
+			})}
 		</ol>
 	)
 }
 
 ArticleList.defaultProps = {
+	articles: null,
 	authorID: null,
 	className: '',
-	editMode: false,
 	includeDraft: false,
-	includePublished: true,
 	includeStyles: true,
 	limit: null,
 }
 
 ArticleList.propTypes = {
+	articles: PropTypes.array,
 	authorID: PropTypes.string,
 	className: PropTypes.string,
-	editMode: PropTypes.bool,
 	includeDraft: PropTypes.bool,
-	includePublished: PropTypes.bool,
 	includeStyles: PropTypes.bool,
 	limit: PropTypes.number,
 }

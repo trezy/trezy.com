@@ -32,6 +32,8 @@ import withRedux from 'next-redux-wrapper'
 
 
 // Local imports
+import { ArticlesContextProvider } from 'contexts/ArticlesContext'
+import { AuthContextProvider } from 'contexts/AuthContext'
 import { initStore } from 'store'
 import * as fasIcons from 'helpers/fasIconLibrary'
 import * as fabIcons from 'helpers/fabIconLibrary'
@@ -105,27 +107,31 @@ function App(props) {
 	}
 
 	return (
-		<Provider store={store}>
-			<ReactReduxFirebaseProvider {...rrfProps}>
-				<div role="application">
-					<NextHead>
-						<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+		<AuthContextProvider store={store}>
+			<ArticlesContextProvider store={store}>
+				<Provider store={store}>
+					<ReactReduxFirebaseProvider {...rrfProps}>
+						<div role="application">
+							<NextHead>
+								<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-						<link
-							href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-							rel="stylesheet" />
-					</NextHead>
+								<link
+									href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+									rel="stylesheet" />
+							</NextHead>
 
-					<Banner isServer={isServer} />
+							<Banner isServer={isServer} />
 
-					<Component {...pageProps} />
-				</div>
-			</ReactReduxFirebaseProvider>
-		</Provider>
+							<Component {...pageProps} />
+						</div>
+					</ReactReduxFirebaseProvider>
+				</Provider>
+			</ArticlesContextProvider>
+		</AuthContextProvider>
 	)
 }
 
-App.getInitialProps = NextApp.getInitialProps
+// App.getInitialProps = NextApp.getInitialProps
 
 export function reportWebVitals(data) {
 	const {

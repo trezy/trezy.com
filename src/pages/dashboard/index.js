@@ -33,7 +33,6 @@ function Dashboard() {
 					</header>
 
 					<ArticleList
-						editMode
 						includeDraft
 						limit={ARTICLE_LIMIT} />
 

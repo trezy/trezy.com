@@ -17,10 +17,29 @@ import firebaseConfig from '../../firebase.config'
 
 
 
+// Local variables
+let auth = null
+let database = null
+let firestore = null
+
+
+
+
+
 if (!firebase.apps.length) {
 	firebase.initializeApp(firebaseConfig)
-	firebase.database()
-	firebase.firestore()
+}
+
+if (!auth) {
+	auth = firebase.auth()
+}
+
+if (!database) {
+	database = firebase.database()
+}
+
+if (!firestore) {
+	firestore = firebase.firestore()
 }
 
 
@@ -28,3 +47,9 @@ if (!firebase.apps.length) {
 
 
 export default firebase
+export {
+	auth,
+	database,
+	firebase,
+	firestore,
+}

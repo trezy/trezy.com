@@ -1,4 +1,8 @@
 const createTitleStringFromArticle = article => {
+	if (!article) {
+		return ''
+	}
+
 	const {
 		subtitle,
 		title,

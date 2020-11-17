@@ -10,6 +10,8 @@ import React from 'react'
 
 
 // Local imports
+import { firebase } from 'helpers/firebase'
+import { useFirebaseAuthentication } from 'hooks/useFirebaseAuthentication'
 import useCurrentUserIDSelector from 'store/selectors/useCurrentUserIDSelector'
 
 
@@ -22,13 +24,28 @@ const ArticleMeta = props => {
 		id,
 		isDraft,
 	} = props
+	const { Timestamp } = firebase.firestore
+	const user = useFirebaseAuthentication()
+	const isEditable = user?.uid === authorID
+
 	const currentUserID = useCurrentUserIDSelector()
 
-	const createdAt = moment(props.createdAt?.seconds * 1000)
-	const publishedAt = moment(props.publishedAt?.seconds * 1000)
-	const updatedAt = moment(props.updatedAt?.seconds * 1000)
+	// Convert timestamps back to Firebase Timestamp objects
+	const timestamps = {}
 
-	const primaryDate = isDraft ? publishedAt : createdAt
+	const timestampKeys = ['createdAt', 'publishedAt', 'updatedAt']
+	timestampKeys.forEach(key => {
+		let timestamp = props[key]
+
+		if (timestamp instanceof Timestamp) {
+			timestamp = timestamp.toMillis()
+		}
+
+		timestamps[key] = moment(timestamp)
+	})
+
+	// Convert timestamps to Moments
+	const primaryDate = isDraft ? 'publishedAt' : 'createdAt'
 
 	return (
 		<div className="meta">
@@ -38,7 +55,7 @@ const ArticleMeta = props => {
 						fixedWidth
 						icon="clock" />
 					{' '}
-					Published {moment(publishedAt).format('D MMMM, Y')}
+					Published {timestamps.publishedAt.format('D MMMM, Y')}
 				</span>
 			)}
 
@@ -48,21 +65,21 @@ const ArticleMeta = props => {
 						fixedWidth
 						icon="clock" />
 					{' '}
-					Draft created {moment(createdAt).format('D MMMM, Y')}
+					Draft created {timestamps.createdAt.format('D MMMM, Y')}
 				</span>
 			)}
 
-			{(updatedAt !== primaryDate) && (
+			{(primaryDate !== 'updatedAt') && (
 				<span>
 					<FontAwesomeIcon
 						fixedWidth
 						icon="clock" />
 					{' '}
-					Updated {moment(updatedAt).format('D MMMM, Y')}
+					Updated {timestamps.updatedAt.format('D MMMM, Y')}
 				</span>
 			)}
 
-			{(authorID === currentUserID) && (
+			{isEditable && (
 				<span>
 					<Link href={`/dashboard/blog/edit/${id}`}>
 						<a>Edit</a>
@@ -81,11 +98,20 @@ ArticleMeta.defaultProps = {
 
 ArticleMeta.propTypes = {
 	authorID: PropTypes.string,
-	createdAt: PropTypes.object.isRequired,
+	createdAt: PropTypes.oneOfType([
+		PropTypes.object,
+		PropTypes.number,
+	]).isRequired,
 	id: PropTypes.string.isRequired,
 	isDraft: PropTypes.bool.isRequired,
-	publishedAt: PropTypes.object,
-	updatedAt: PropTypes.object,
+	publishedAt: PropTypes.oneOfType([
+		PropTypes.object,
+		PropTypes.number,
+	]),
+	updatedAt: PropTypes.oneOfType([
+		PropTypes.object,
+		PropTypes.number,
+	]),
 }
 
 

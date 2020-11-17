@@ -1,5 +1,6 @@
 // Module imports
 import { isLoaded } from 'react-redux-firebase'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 import Link from 'next/link'
@@ -23,6 +24,7 @@ const Article = props => {
 		id,
 		showTitle,
 	} = props
+	const { locale } = useRouter()
 
 	const article = useSelector(state => state.firestore.data.articles?.[id])
 
@@ -34,6 +36,7 @@ const Article = props => {
 
 	const {
 		authorID,
+		body_translated,
 		createdAt,
 		isDraft,
 		publishedAt,
@@ -43,6 +46,7 @@ const Article = props => {
 		title,
 		updatedAt,
 	} = article
+	const body = article.body_translated?.[locale] || article.body
 
 	return (
 		<article className="block">
@@ -67,13 +71,7 @@ const Article = props => {
 				updatedAt,
 			}} />
 
-			{synopsis && (
-				<span className="synopsis">
-					{synopsis}
-				</span>
-			)}
-
-			<MarkdownRenderer children={body} />
+			<MarkdownRenderer children={`${synopsis || ''}\n\n${body}`} />
 		</article>
 	)
 }

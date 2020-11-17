@@ -26,7 +26,6 @@ export default function BlogDashboard() {
 				{isLoaded(auth) && (
 					<ArticleList
 						authorID={auth.uid}
-						editMode
 						includeDraft />
 				)}
 
