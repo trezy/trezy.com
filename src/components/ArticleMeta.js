@@ -11,8 +11,7 @@ import React from 'react'
 
 // Local imports
 import { firebase } from 'helpers/firebase'
-import { useFirebaseAuthentication } from 'hooks/useFirebaseAuthentication'
-import useCurrentUserIDSelector from 'store/selectors/useCurrentUserIDSelector'
+import { useAuth } from 'contexts/AuthContext'
 
 
 
@@ -25,10 +24,8 @@ const ArticleMeta = props => {
 		isDraft,
 	} = props
 	const { Timestamp } = firebase.firestore
-	const user = useFirebaseAuthentication()
+	const { user } = useAuth()
 	const isEditable = user?.uid === authorID
-
-	const currentUserID = useCurrentUserIDSelector()
 
 	// Convert timestamps back to Firebase Timestamp objects
 	const timestamps = {}

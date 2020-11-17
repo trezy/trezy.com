@@ -1,17 +1,4 @@
 // Module imports
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
-import React, {
-	useCallback,
-	useEffect,
-	useState,
-} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getFirestore } from 'redux-firestore'
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 
@@ -19,219 +6,77 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import Alert from 'components/Alert'
-import ArticleList from 'components/ArticleList'
-import Button from 'components/Button'
-import ExternalLink from 'components/ExternalLink'
-import getAvatar from 'helpers/getAvatar'
-import Image from 'components/Image'
-import Input from 'components/Input'
-import MarkdownEditor from 'components/MarkdownEditor'
-import MarkdownRenderer from 'components/MarkdownRenderer'
-import PageWrapper from 'components/PageWrapper'
-import ProfileCard from 'components/ProfileCard'
-import useAuthSelector from 'store/selectors/useAuthSelector'
-import useUserSelector from 'store/selectors/useUserSelector'
-import useUsersSelector from 'store/selectors/useUsersSelector'
+import { firestore } from 'helpers/firebase'
+import Profile from 'components/Profile'
 
 
 
 
 
-// Local constants
-const SAVE_ALERT_DURATION = 5000
-
-
-
-
-
-function Profile(props) {
-	const Router = useRouter()
-
-	if ((typeof window !== 'undefined') && !props.username.startsWith('@')) {
-		const href = '/profile/[username]'
-		const as = `/profile/@${props.username}`
-
-		Router.replace(href, as)
-	}
-
-	const firestore = getFirestore()
-	const auth = useAuthSelector()
-	const users = useUsersSelector()
-
-	const userSelectorQuery = {
-		username: props.safeUsername,
-	}
-
-	const user = useUserSelector(userSelectorQuery)
-	const collections = [{
-		collection: 'users',
-		where: ['username', '==', props.safeUsername],
-	}]
-
-	const [bio, setBio] = useState('')
-	const [editMode, setEditMode] = useState(false)
-	const [previewMode, setPreviewMode] = useState(false)
-	const [isSaved, setIsSaved] = useState(false)
-	const [isSaving, setIsSaving] = useState(false)
-	const [username, setUsername] = useState('')
-	const [website, setWebsite] = useState('')
-
-	const viewerIsOwner = auth?.uid === user?.id
-
-	useFirestoreConnect(collections)
-
-	useEffect(() => {
-		if (!editMode && !isEmpty(user)) {
-			setBio(user.bio || null)
-			setUsername(user.username || null)
-			setWebsite(user.website || null)
-		}
-	}, [
-		editMode,
-		setBio,
-		setUsername,
-		setWebsite,
-		user,
-	])
-
-	const handleCancel = useCallback(() => {
-		setBio(user.bio)
-		setUsername(user.username)
-		setWebsite(user.website)
-		setEditMode(false)
-	}, [
-		setBio,
-		setEditMode,
-		setUsername,
-		setWebsite,
-		user,
-	])
-
-	const handleEdit = useCallback(() => {
-		setEditMode(true)
-		setPreviewMode(false)
-	}, [
-		setEditMode,
-		setPreviewMode,
-	])
-
-	const handleSave = useCallback(async () => {
-		setIsSaving(true)
-
-		await firestore.update({ collection: 'users', doc: auth.uid }, {
-			bio,
-			username,
-			website,
-		})
-
-		setEditMode(false)
-		setIsSaving(false)
-		setIsSaved(true)
-
-		setTimeout(() => setIsSaved(false), SAVE_ALERT_DURATION)
-	}, [
-		auth,
-		bio,
-		setEditMode,
-		setIsSaved,
-		setIsSaving,
+function ProfilePage(props) {
+	const {
+		profile,
 		username,
-		website,
-	])
+	} = props
 
 	return (
-		<PageWrapper
-			showHeader={false}
-			title={isEmpty(user) ? 'User Profile' : `${user.displayName}'s Profile`}>
-			{!isLoaded(users) && (
-				<span>Loading...</span>
-			)}
-
-			{(isLoaded(users) && isEmpty(users)) && (
-				<span>No user found with that username.</span>
-			)}
-
-			{(isLoaded(user) && !isEmpty(user)) && (
-				<>
-					{isSaved && (
-						<Alert
-							data-animate
-							data-animation="fade-in-from-top"
-							data-animation-duration="0.2s"
-							type="success">
-							Success! Your profile has been updated. <span aria-label="Grinning face emoji" role="img">😁</span>
-						</Alert>
-					)}
-
-					<ProfileCard
-						editMode={editMode}
-						isSaving={isSaving}
-						onBioChange={({ target: { value } }) => setBio(value)}
-						onCancelEdit={handleCancel}
-						onEditProfile={handleEdit}
-						onPreview={() => setPreviewMode(true)}
-						onSaveChanges={handleSave}
-						onUsernameChange={({ target: { value } }) => setUsername(value)}
-						onWebsiteChange={({ target: { value } }) => setWebsite(value)}
-						previewMode={previewMode}
-						showToolbar={viewerIsOwner}
-						user={{
-							avatarUrl: user.avatarUrl,
-							bio: bio || user.bio,
-							displayName: user.displayName,
-							email: user.email,
-							roles: user.roles,
-							socialMedia: user.socialMedia,
-							username: username || user.username,
-							website: website || user.website,
-						}} />
-
-					<section className="block">
-						<header>
-							<h3>Articles</h3>
-						</header>
-
-						{(isLoaded(auth) && !isEmpty(auth)) && (
-							<ArticleList
-								authorID={user.id}
-								includeStyles={false} />
-						)}
-					</section>
-				</>
-			)}
-		</PageWrapper>
+		<Profile
+			profile={profile}
+			username={username} />
 	)
 }
 
-Profile.getInitialProps = async ({ query }) => {
-	const { username } = query
-	const safeUsername = username.startsWith('@') ? username.substring(1) : username
-	const firestore = getFirestore()
-
-	await firestore.get({
-		collection: 'users',
-		where: ['username', '==', safeUsername],
-	})
-
-	return {
-		safeUsername,
-		username,
-	}
-}
-
-Profile.defaultProps = {
-	safeUsername: '',
+ProfilePage.defaultProps = {
+	profile: null,
 	username: '',
 }
 
-Profile.propTypes = {
-	safeUsername: PropTypes.string,
+ProfilePage.propTypes = {
+	profile: PropTypes.object,
 	username: PropTypes.string,
+}
+
+export async function getServerSideProps(context) {
+	const { username } = context.params
+
+	if (!username.startsWith('@')) {
+		return {
+			redirect: {
+				destination: `/profile/@${username}`,
+				permanent: true,
+			},
+		}
+	}
+
+	const safeUsername = username.startsWith('@') ? username.substring(1) : username
+	let profile = null
+
+	const profileSnapshot = await firestore
+		.collection('profiles')
+		.where('username', '==', safeUsername)
+		.get()
+
+	profileSnapshot.forEach(doc => {
+		profile = {
+			...doc.data(),
+			id: doc.id,
+		}
+	})
+
+	if (!profile) {
+		return { notFound: true }
+	}
+
+	return {
+		props: {
+			profile,
+			username: safeUsername,
+		},
+	}
 }
 
 
 
 
 
-export default Profile
+export default ProfilePage

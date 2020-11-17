@@ -35,6 +35,7 @@ import withRedux from 'next-redux-wrapper'
 import { ArticlesContextProvider } from 'contexts/ArticlesContext'
 import { AuthContextProvider } from 'contexts/AuthContext'
 import { initStore } from 'store'
+import { ProfilesContextProvider } from 'contexts/ProfilesContext'
 import * as fasIcons from 'helpers/fasIconLibrary'
 import * as fabIcons from 'helpers/fabIconLibrary'
 import * as farIcons from 'helpers/farIconLibrary'
@@ -107,26 +108,28 @@ function App(props) {
 	}
 
 	return (
-		<AuthContextProvider store={store}>
-			<ArticlesContextProvider store={store}>
-				<Provider store={store}>
-					<ReactReduxFirebaseProvider {...rrfProps}>
-						<div role="application">
-							<NextHead>
-								<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+		<AuthContextProvider>
+			<ProfilesContextProvider>
+				<ArticlesContextProvider>
+					<Provider store={store}>
+						<ReactReduxFirebaseProvider {...rrfProps}>
+							<div role="application">
+								<NextHead>
+									<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-								<link
-									href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-									rel="stylesheet" />
-							</NextHead>
+									<link
+										href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+										rel="stylesheet" />
+								</NextHead>
 
-							<Banner isServer={isServer} />
+								<Banner isServer={isServer} />
 
-							<Component {...pageProps} />
-						</div>
-					</ReactReduxFirebaseProvider>
-				</Provider>
-			</ArticlesContextProvider>
+								<Component {...pageProps} />
+							</div>
+						</ReactReduxFirebaseProvider>
+					</Provider>
+				</ArticlesContextProvider>
+			</ProfilesContextProvider>
 		</AuthContextProvider>
 	)
 }
