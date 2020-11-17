@@ -31,7 +31,11 @@ const ArticleList = props => {
 		...articleContext
 	} = useArticles()
 
-	const articles = articleContext.articles || props.articles
+	let articles = articleContext.articles || props.articles
+
+	if (limit) {
+		articles = articles.slice(0, limit)
+	}
 
 	useEffect(() => {
 		connectArticleQuery({
