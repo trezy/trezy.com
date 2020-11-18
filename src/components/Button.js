@@ -1,5 +1,6 @@
 // Module imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -10,6 +11,7 @@ import React from 'react'
 const Button = props => {
 	const {
 		children,
+		className,
 		icon,
 		iconPrefix,
 		type,
@@ -17,6 +19,7 @@ const Button = props => {
 
 	const passableProps = { ...props }
 	delete passableProps.children
+	delete passableProps.className
 	delete passableProps.icon
 	delete passableProps.iconPrefix
 
@@ -40,6 +43,7 @@ const Button = props => {
 		// `type` attribute is enforced by the proptypes
 		// eslint-disable-next-line react/button-has-type
 		<button
+			className={classnames('button', className)}
 			type={type}
 			{...passableProps}>
 			{iconComponent}
@@ -49,6 +53,7 @@ const Button = props => {
 }
 
 Button.defaultProps = {
+	className: '',
 	icon: null,
 	iconPrefix: 'fas',
 	type: 'button',
@@ -56,6 +61,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 	icon: PropTypes.oneOfType([
 		PropTypes.node,
 		PropTypes.string,

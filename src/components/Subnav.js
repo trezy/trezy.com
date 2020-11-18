@@ -10,7 +10,6 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
-import Button from 'components/Button'
 import NavLink from 'components/NavLink'
 
 
@@ -77,14 +76,14 @@ const Subnav = props => {
 				aria-label={label || title}
 				className="subnav"
 				key={id}>
-				<Button
+				<NavLink
 					aria-label={`${isOpen ? 'Close' : 'Expand'} ${label || title} navigation`}
 					aria-pressed={isOpen}
-					icon={icon || iconComponent}
+					icon={icon}
+					iconComponent={iconComponent}
 					iconPrefix={iconPrefix}
-					onClick={onToggle}>
-					{titleComponent}
-				</Button>
+					onClick={onToggle}
+					title={title} />
 
 				<ul
 					aria-expanded={isOpen}
@@ -106,9 +105,11 @@ const Subnav = props => {
 						}
 
 						return (
-							<NavLink
-								{...itemProps}
-								key={subkey} />
+							<li>
+								<NavLink
+									{...itemProps}
+									key={subkey} />
+							</li>
 						)
 					})}
 				</ul>

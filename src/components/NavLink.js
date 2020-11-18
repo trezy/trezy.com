@@ -32,7 +32,6 @@ const NavLink = props => {
 		Router,
 	}
 
-	const className = typeof props.className === 'function' ? props.className(passableProps) : props.className
 	const disabled = typeof props.disabled === 'function' ? props.disabled(passableProps) : props.disabled
 	const href = typeof props.href === 'function' ? props.href(passableProps) : props.href
 	const icon = typeof props.icon === 'function' ? props.icon(passableProps) : props.icon
@@ -50,7 +49,7 @@ const NavLink = props => {
 		} else {
 			iconComponent = props.iconComponent
 		}
-	} else if (icon && !onClick) {
+	} else if (icon) {
 		iconComponent = (
 			<FontAwesomeIcon
 				aria-hidden={!iconOnly}
@@ -65,16 +64,18 @@ const NavLink = props => {
 	}
 
 	return (
-		<li className={className}>
+		<>
 			{Boolean(onClick) && (
-				<Button
+				<button
 					{...extraProps}
 					className={classnames({ iconic: iconOnly })}
 					disabled={disabled}
-					icon={icon || iconComponent}
 					onClick={event => onClick(event, passableProps)}>
-					{titleComponent}
-				</Button>
+					{iconComponent}
+					{Boolean(titleComponent) && (
+						<span>{titleComponent}</span>
+					)}
+				</button>
 			)}
 
 			{(!onClick && isExternalLink) && (
@@ -108,12 +109,11 @@ const NavLink = props => {
 					</a>
 				</Link>
 			)}
-		</li>
+		</>
 	)
 }
 
 NavLink.defaultProps = {
-	className: '',
 	disabled: false,
 	extraProps: {},
 	href: null,
@@ -126,10 +126,6 @@ NavLink.defaultProps = {
 }
 
 NavLink.propTypes = {
-	className: PropTypes.oneOfType([
-		PropTypes.func,
-		PropTypes.string,
-	]),
 	disabled: PropTypes.oneOfType([
 		PropTypes.bool,
 		PropTypes.func,
