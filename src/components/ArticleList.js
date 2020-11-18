@@ -33,7 +33,7 @@ const ArticleList = props => {
 
 	let articles = articleContext.articles || props.articles
 
-	if (limit) {
+	if (Boolean(articles) && limit) {
 		articles = articles.slice(0, limit)
 	}
 
