@@ -26,6 +26,7 @@ import { ArticlesContextProvider } from 'contexts/ArticlesContext'
 import { AuthContextProvider } from 'contexts/AuthContext'
 import { initStore } from 'store'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext'
+import { reportWebVitals } from 'helpers/reportWebVitals'
 import { useFontawesome } from 'hooks/useFontawesome'
 import { useLocalForage } from 'hooks/useLocalForage'
 import { useNProgress } from 'hooks/useNProgress'
@@ -89,32 +90,6 @@ function App(props) {
 	)
 }
 
-// App.getInitialProps = NextApp.getInitialProps
-
-export function reportWebVitals(data) {
-	const {
-		id: label,
-		name: action,
-		label: vitalLabel,
-		value,
-	} = data
-	let category = 'Next.js custom metric'
-
-	if (vitalLabel === 'web-vital') {
-		category = 'Web Vitals'
-	}
-
-  gtag.event({
-		action,
-    category,
-    label,
-    nonInteraction: true,
-    value: Math.round(action === 'CLS' ? value * 1000 : value),
-  })
-}
-
-
-
-
+export { reportWebVitals }
 
 export default withRedux(initStore)(App)
