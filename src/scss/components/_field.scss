@@ -1,0 +1,10 @@
+.field {
+	+ .field {
+		margin-top: var(--gutter);
+	}
+
+	&.horizontal {
+		display: grid;
+		grid-template-columns: 1fr 4fr;
+	}
+}

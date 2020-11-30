@@ -22,6 +22,7 @@
 		content: '';
 		display: block;
 		left: 0;
+		pointer-events: none;
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -32,7 +33,6 @@
 		background-color: var(--button-background-color);
 		box-shadow: 0 0 1rem 0 hsla(var(--button-shadow-color-h), var(--button-shadow-color-s), var(--button-shadow-color-l), var(--button-shadow-opacity));
 		opacity: 1;
-		pointer-events: none;
 		transform: scale(1);
 		transition-property: box-shadow, opacity, transform;
 		z-index: 1;
@@ -53,30 +53,32 @@
 		z-index: 3;
 	}
 
-	&:hover,
-	&:focus {
-		&:before {
-			transform: scale(1.5);
+	&:not(:disabled) {
+		&:hover,
+		&:focus {
+			&:before {
+				transform: scale(1.5);
+			}
+
+			z-index: 2;
 		}
 
-		z-index: 2;
-	}
+		&:hover {
+			&:before {
+				opacity: 0;
+			}
 
-	&:hover {
-		&:before {
-			opacity: 0;
+			&:after {
+				opacity: 1;
+				transform: scale(1);
+			}
 		}
 
-		&:after {
-			opacity: 1;
-			transform: scale(1);
+		&:focus {
+			--button-shadow-opacity: 1;
+
+			outline: none;
 		}
-	}
-
-	&:focus {
-		--button-shadow-opacity: 1;
-
-		outline: none;
 	}
 
 	&:disabled {

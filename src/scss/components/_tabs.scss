@@ -1,0 +1,30 @@
+.tabs {
+	border-color: var(--brand-primary);
+	border-style: solid;
+	border-bottom-width: 0.2rem;
+	margin-top: var(--gutter);
+	padding: 0 native-max(calc(50% - 60rem), 10rem);
+
+	+ .block {
+		margin-top: 0;
+	}
+
+	button {
+		background-color: var(--dark-grey);
+		border-radius: 0.5rem 0.5rem 0 0;
+		margin-right: 0.2rem;
+		padding: calc(var(--gutter) / 2) var(--gutter);
+		position: relative;
+		transition-duration: 0.1s;
+		transition-property: background-color, border-color;
+
+		&:focus,
+		&:hover {
+			background-color: var(--light-grey);
+		}
+
+		&.is-active {
+			background-color: var(--brand-primary);
+		}
+	}
+}
