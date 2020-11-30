@@ -47,12 +47,7 @@ module.exports = {
 				'img-src': [
 					"'self'",
 					'data:',
-					'https://*.googleusercontent.com',
-					'https://*.twimg.com',
-					'https://avatars.dicebear.com',
-					'https://firebasestorage.googleapis.com',
-					'https://generative-placeholders.glitch.me',
-					'https://image.tmdb.org',
+					'https://*',
 				],
 				'prefetch-src': [
 					"'self'",
