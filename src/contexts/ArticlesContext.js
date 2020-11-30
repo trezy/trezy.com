@@ -14,10 +14,9 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { firestore } from 'helpers/firebase'
+import { useFirebase } from 'hooks/useFirebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 // import { useAsync } from 'hooks/useAsync'
-// import { useFirebaseAuthentication } from 'hooks/useFirebaseAuthentication'
 
 
 
@@ -39,6 +38,7 @@ const ArticlesContext = React.createContext({
 
 const ArticlesContextProvider = props => {
 	const { children } = props
+	const { firestore } = useFirebase()
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('articles'))

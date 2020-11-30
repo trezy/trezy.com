@@ -17,7 +17,6 @@ import PropTypes from 'prop-types'
 import { firestore } from 'helpers/firebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 // import { useAsync } from 'hooks/useAsync'
-// import { useFirebaseAuthentication } from 'hooks/useFirebaseAuthentication'
 
 
 

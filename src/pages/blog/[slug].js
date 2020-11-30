@@ -27,7 +27,6 @@ import PageWrapper from 'components/PageWrapper'
 import Responses from 'components/Responses'
 import useArticleSelector from 'store/selectors/useArticleSelector'
 import useClaimsSelector from 'store/selectors/useClaimsSelector'
-import useFirebaseAuthentication from 'hooks/useFirebaseAuthentication'
 
 
 
