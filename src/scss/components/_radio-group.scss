@@ -1,0 +1,49 @@
+.radio-group {}
+
+.radio-option {
+	+ .radio-option {
+		margin-top: var(--gutter);
+	}
+
+	label {
+		align-items: baseline;
+		background-color: var(--transparent);
+		border-color: rgba(white, 0.7);
+		border-radius: 0.5rem;
+		border-style: solid;
+		border-width: 0.1rem;
+		cursor: pointer;
+		display: grid;
+		grid-column-gap: 1rem;
+		grid-template-areas:
+			'input title'
+			'input description';
+		grid-template-columns: var(--gutter) auto;
+		grid-template-rows: auto 1fr;
+		padding: calc(var(--gutter) / 2) var(--gutter);
+		transition-duration: 0.1s;
+		transition-property: background-color, border-color;
+	}
+
+	input {
+		grid-area: input;
+	}
+
+	header {
+		grid-area: title;
+	}
+
+	p {
+		grid-area: description;
+	}
+
+	&:hover label,
+	&:focus-within label {
+		border-color: white;
+	}
+
+	&.is-selected label {
+		background-color: hsla(var(--brand-primary-hsl), 0.3);
+		border-color: var(--brand-primary);
+	}
+}

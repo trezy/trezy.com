@@ -21,6 +21,10 @@ import RequireAuthentication from 'components/RequireAuthentication'
 
 
 // Dynamic components
+const AccountSettings = dynamic(
+	() => import('components/Profile/Settings/AccountSettings').then(mod => mod.AccountSettings),
+	{ loading: () => <Loading /> },
+)
 const ProfileSettings = dynamic(
 	() => import('components/Profile/Settings/ProfileSettings').then(mod => mod.ProfileSettings),
 	{ loading: () => <Loading /> },
@@ -33,6 +37,7 @@ const ProfileSettings = dynamic(
 // Local constants
 const TABS = {
 	'Profile': <ProfileSettings />,
+	'Account': <AccountSettings />,
 }
 const TAB_NAMES = Object.keys(TABS)
 
