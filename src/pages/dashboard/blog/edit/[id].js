@@ -8,7 +8,6 @@ import {
 	isLoaded,
 	useFirestoreConnect,
 } from 'react-redux-firebase'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
@@ -21,6 +20,7 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import articleDefaults from 'models/article'
 import Button from 'components/Button'
 import createSlugFromTitleString from 'helpers/createSlugFromTitleString'

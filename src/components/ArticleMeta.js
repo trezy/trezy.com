@@ -1,5 +1,4 @@
 // Module imports
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -11,6 +10,7 @@ import React from 'react'
 
 // Local imports
 import { firebase } from 'helpers/firebase'
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useAuth } from 'contexts/AuthContext'
 
 

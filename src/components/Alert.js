@@ -1,8 +1,14 @@
 // Module imports
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+
+
+
+
+
+// Local imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 

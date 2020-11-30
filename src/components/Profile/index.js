@@ -4,7 +4,6 @@ import {
 	useEffect,
 	useState,
 } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 
 
@@ -12,6 +11,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useProfiles } from 'contexts/ProfilesContext'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'

@@ -9,7 +9,6 @@ import {
 	useFirebaseConnect,
 } from 'react-redux-firebase'
 import { debounce } from 'lodash'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 
@@ -18,6 +17,7 @@ import classnames from 'classnames'
 
 
 // Local imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import Nav from 'components/Nav'
 import SocialNav from 'components/SocialNav'
 import useAuthSelector from 'store/selectors/useAuthSelector'

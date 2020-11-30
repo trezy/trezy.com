@@ -3,7 +3,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v4'
 
@@ -12,6 +11,7 @@ import uuid from 'uuid/v4'
 
 
 // Component imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import Button from 'components/Button'
 import NavLink from 'components/NavLink'
 import Subnav from 'components/Subnav'

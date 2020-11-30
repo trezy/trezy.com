@@ -4,7 +4,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore } from 'redux-firestore'
 import { isEmpty } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
@@ -16,6 +15,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import Button from 'components/Button'
 import MarkdownEditor from 'components/MarkdownEditor'
 import useAuthSelector from 'store/selectors/useAuthSelector'

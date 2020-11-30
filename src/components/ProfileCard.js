@@ -1,5 +1,4 @@
 // Module imports
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -9,6 +8,7 @@ import React from 'react'
 
 
 // Local imports
+import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import Button from 'components/Button'
 import ExternalLink from 'components/ExternalLink'
 import getAvatar from 'helpers/getAvatar'

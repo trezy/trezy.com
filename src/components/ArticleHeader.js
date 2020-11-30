@@ -39,8 +39,4 @@ ArticleHeader.propTypes = {
 	title: PropTypes.string.isRequired,
 }
 
-
-
-
-
 export default ArticleHeader
