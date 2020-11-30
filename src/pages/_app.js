@@ -10,21 +10,11 @@ import 'scss/app.scss'
 
 
 // Module imports
-import {
-	config as faConfig,
-	library as faLibrary,
-} from '@fortawesome/fontawesome-svg-core'
-import React, {
-	useEffect,
-} from 'react'
 import { createFirestoreInstance } from 'redux-firestore'
 import { Provider } from 'react-redux'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
-import { useRouter } from 'next/router'
-import LocalForage from 'localforage'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
-import NProgress from 'nprogress'
 import withRedux from 'next-redux-wrapper'
 
 
@@ -36,22 +26,12 @@ import { ArticlesContextProvider } from 'contexts/ArticlesContext'
 import { AuthContextProvider } from 'contexts/AuthContext'
 import { initStore } from 'store'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext'
-import * as fasIcons from 'helpers/fasIconLibrary'
-import * as fabIcons from 'helpers/fabIconLibrary'
-import * as farIcons from 'helpers/farIconLibrary'
-import * as gtag from 'helpers/gtag'
+import { useFontawesome } from 'hooks/useFontawesome'
+import { useLocalForage } from 'hooks/useLocalForage'
+import { useNProgress } from 'hooks/useNProgress'
+import { usePageviews } from 'hooks/usePageviews'
 import Banner from 'components/Banner'
 import firebase from 'helpers/firebase'
-
-
-
-
-
-// Configure and populate FontAwesome library
-faConfig.autoAddCss = false
-faLibrary.add(fasIcons)
-faLibrary.add(fabIcons)
-faLibrary.add(farIcons)
 
 
 
@@ -64,35 +44,10 @@ function App(props) {
 		pageProps,
 		store,
 	} = props
-	const router = useRouter()
 
-	useEffect(() => {
-		NProgress.configure({ showSpinner: false })
-		LocalForage.config({
-			name: 'Trezy.com',
-			storeName: 'webStore',
-		})
-	}, [])
-
-	useEffect(() => {
-		const startNProgress = () => NProgress.start()
-		const finishNProgress = () => NProgress.done()
-
-		router.events.on('routeChangeStart', startNProgress)
-		router.events.on('routeChangeError', finishNProgress)
-		router.events.on('routeChangeComplete', finishNProgress)
-
-		const handleRouteChange = url => gtag.pageview(url)
-
-		router.events.on('routeChangeComplete', handleRouteChange)
-
-		return () => {
-			router.events.off('routeChangeStart', startNProgress)
-			router.events.off('routeChangeError', finishNProgress)
-			router.events.off('routeChangeComplete', finishNProgress)
-			router.events.off('routeChangeComplete', handleRouteChange)
-		}
-	}, [router.events])
+	useFontawesome()
+	useNProgress()
+	usePageviews()
 
 	const rrfProps = {
 		firebase,
