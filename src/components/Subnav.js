@@ -105,7 +105,7 @@ const Subnav = props => {
 						}
 
 						return (
-							<li>
+							<li key={subkey}>
 								<NavLink
 									{...itemProps}
 									key={subkey} />

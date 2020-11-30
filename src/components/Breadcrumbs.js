@@ -32,12 +32,12 @@ export default function Breadcrumbs(props) {
 
 				if (index === (crumbs.length - 1)) {
 					return (
-						<li>{name}</li>
+						<li key={name}>{name}</li>
 					)
 				}
 
 				return (
-					<li>
+					<li key={name}>
 						<Link href={href}>
 							<a>{name}</a>
 						</Link>
