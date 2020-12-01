@@ -36,10 +36,6 @@ function ProfileCard(props) {
 		website,
 	} = user || {}
 
-	if (!user) {
-		return <div>poop</div>
-	}
-
 	return (
 		<header className="block no-pad">
 			<div className="card profile">

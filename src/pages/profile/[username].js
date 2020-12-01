@@ -1,4 +1,9 @@
 // Module imports
+import {
+	useEffect,
+	useState,
+} from 'react'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 
@@ -6,7 +11,8 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import { firestore } from 'helpers/firebase'
+import { useProfiles } from 'contexts/ProfilesContext'
+import PageWrapper from 'components/PageWrapper'
 import Profile from 'components/Profile'
 
 
@@ -15,9 +21,49 @@ import Profile from 'components/Profile'
 
 function ProfilePage(props) {
 	const {
-		profile,
 		username,
 	} = props
+	const {
+		addProfile,
+		connectProfileByUsername,
+		disconnectProfileByUsername,
+		profilesByUsername,
+	} = useProfiles()
+	const router = useRouter()
+	const [profileFromSSR, setProfileFromSSR] = useState(props.profile)
+	const profile = profileFromSSR || profilesByUsername[username]
+
+	useEffect(() => {
+		setProfileFromSSR(null)
+
+		if (!profilesByUsername[username] && props.profile) {
+			addProfile(props.profile)
+		}
+	}, [])
+
+	useEffect(() => {
+		connectProfileByUsername(username)
+		return () => disconnectProfileByUsername(username)
+	}, [
+		connectProfileByUsername,
+		disconnectProfileByUsername,
+	])
+
+	useEffect(() => {
+		if (profile?.visibility === 'private') {
+			router.reload()
+		}
+	}, [profile])
+
+	if (!profile) {
+		return (
+			<PageWrapper title="Profile Not Found">
+				<section className="block">
+					<p>This profile is currently unavailable, or we couldn't find a profile with that username. 😞</p>
+				</section>
+			</PageWrapper>
+		)
+	}
 
 	return (
 		<Profile
@@ -38,6 +84,7 @@ ProfilePage.propTypes = {
 
 export async function getServerSideProps(context) {
 	const { username } = context.params
+	const { firestore } = await import('helpers/firebase')
 
 	if (!username.startsWith('@')) {
 		return {
@@ -50,21 +97,23 @@ export async function getServerSideProps(context) {
 
 	const safeUsername = username.startsWith('@') ? username.substring(1) : username
 	let profile = null
+	let profileSnapshot = null
 
-	const profileSnapshot = await firestore
-		.collection('profiles')
-		.where('username', '==', safeUsername)
-		.get()
+	try {
+		profileSnapshot = await firestore
+			.collection('profiles')
+			.where('visibility', '!=', 'private')
+			.where('username', '==', safeUsername)
+			.get()
 
-	profileSnapshot.forEach(doc => {
-		profile = {
-			...doc.data(),
-			id: doc.id,
-		}
-	})
-
-	if (!profile) {
-		return { notFound: true }
+		profileSnapshot.forEach(doc => {
+			profile = {
+				...doc.data(),
+				id: doc.id,
+			}
+		})
+	} catch (error) {
+		console.log('ERROR', error)
 	}
 
 	return {
@@ -74,9 +123,5 @@ export async function getServerSideProps(context) {
 		},
 	}
 }
-
-
-
-
 
 export default ProfilePage

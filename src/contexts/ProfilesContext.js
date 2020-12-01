@@ -16,6 +16,7 @@ import PropTypes from 'prop-types'
 // Local imports
 import { firestore } from 'helpers/firebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
+import { useAuth } from 'contexts/AuthContext'
 // import { useAsync } from 'hooks/useAsync'
 
 
@@ -25,7 +26,6 @@ const ProfilesContext = React.createContext({
 	addProfile: () => {},
 	connectProfileByUsername: () => {},
 	disconnectProfileByUsername: () => {},
-	profiles: null,
 	profilesByID: {},
 	profilesByUsername: {},
 })
@@ -36,11 +36,11 @@ const ProfilesContext = React.createContext({
 
 const ProfilesContextProvider = props => {
 	const { children } = props
+	const { user } = useAuth
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('profiles'))
 	const connections = useRef({})
-	const [profiles, setProfiles] = useState(null)
 	const [profilesByID, setProfilesByID] = useState({})
 	const [profilesByUsername, setProfilesByUsername] = useState({})
 
@@ -48,7 +48,6 @@ const ProfilesContextProvider = props => {
 		setProfilesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
 		setProfilesByUsername(updateStateObjectFromSnapshot(snapshot, 'username'))
 	}, [
-		setProfiles,
 		setProfilesByID,
 		setProfilesByUsername,
 	])
@@ -73,12 +72,17 @@ const ProfilesContextProvider = props => {
 
 	const connectProfileByUsername = useCallback(username => {
 		connections.current[`username:${username}`] = collection
+			.where('visibility', '!=', 'private')
 			.where('username', '==', username)
 			.onSnapshot(handleSnapshot)
 	}, [handleSnapshot])
 
 	const disconnectProfileByUsername = useCallback(username => {
-		connections.current[`username:${username}`]()
+		const unsubscribe = connections.current[`username:${username}`]
+
+		if (unsubscribe) {
+			unsubscribe()
+		}
 	}, [])
 
 	return (
@@ -87,7 +91,6 @@ const ProfilesContextProvider = props => {
 				addProfile,
 				connectProfileByUsername,
 				disconnectProfileByUsername,
-				profiles,
 				profilesByID,
 				profilesByUsername,
 			}}>

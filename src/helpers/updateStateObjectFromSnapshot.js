@@ -10,7 +10,6 @@ export function updateStateObjectFromSnapshot(snapshot, keyToUpdate) {
 			const data = doc.data()
 			let key = null
 
-
 			if (keyToUpdate === 'id') {
 				key = doc.id
 			} else {
