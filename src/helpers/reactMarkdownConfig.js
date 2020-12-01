@@ -15,7 +15,6 @@ import {
 	Shortcode,
 } from 'helpers/markdownRenderers'
 import {
-	a11yEmoji,
 	properties,
 } from 'helpers/remark'
 
@@ -27,7 +26,6 @@ const config = {
 	allowDangerousHtml: true,
 	plugins: [
 		[behead, { depth: 1 }],
-		a11yEmoji,
 		properties,
 		shortcodes,
 		squeezeParagraphs,
