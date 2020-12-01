@@ -24,6 +24,7 @@ import { useFirebase } from 'hooks/useFirebase'
 
 const AuthContext = React.createContext({
 	claims: null,
+	isLoading: true,
 	profile: null,
 	settings: null,
 	updateProfile: () => {},
@@ -42,6 +43,7 @@ const AuthContextProvider = props => {
 		firestore,
 	} = useFirebase()
 	const [claims, setClaims] = useState(null)
+	const [isLoading, setIsLoading] = useState(true)
 	const [profile, setProfile] = useState(null)
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
@@ -51,6 +53,7 @@ const AuthContextProvider = props => {
 
 	const handleAuthStateChange = useCallback(user => {
 		setUser(user)
+		setIsLoading(false)
 
 		if (user) {
 			user
@@ -120,6 +123,7 @@ const AuthContextProvider = props => {
 		<AuthContext.Provider
 			value={{
 				claims,
+				isLoading,
 				profile,
 				settings,
 				updateProfile,

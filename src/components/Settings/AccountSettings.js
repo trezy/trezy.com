@@ -24,6 +24,7 @@ import Input from 'components/Input'
 
 export function AccountSettings() {
 	const {
+		isLoading,
 		profile,
 		settings,
 		updateProfile,
@@ -103,9 +104,9 @@ export function AccountSettings() {
 	])
 
 	const isDirty =
-		(username !== profile.username) ||
-		(email !== settings.email) ||
-		(visibility !== profile.visibility)
+		(username !== profile?.username) ||
+		(email !== settings?.email) ||
+		(visibility !== profile?.visibility)
 
 	return (
 		<section className="block">
@@ -114,7 +115,7 @@ export function AccountSettings() {
 					<label>Username</label>
 
 					<Input
-						disabled={isSaving}
+						disabled={isLoading || isSaving}
 						onChange={handleUsernameChange}
 						prefix="@"
 						value={username} />
@@ -124,7 +125,7 @@ export function AccountSettings() {
 					<label>Email</label>
 
 					<Input
-						disabled={isSaving}
+						disabled={isLoading || isSaving}
 						onChange={handleEmailChange}
 						type="email"
 						value={email} />
@@ -134,7 +135,7 @@ export function AccountSettings() {
 					<label>Profile Visibility</label>
 
 					<RadioGroup
-						disabled={isSaving}
+						disabled={isLoading || isSaving}
 						id="profile-visibility"
 						onChange={handleVisibilityChange}
 						value={visibility}>
@@ -161,7 +162,7 @@ export function AccountSettings() {
 				<div className="field">
 					<menu type="toolbar">
 						<Button
-							disabled={!isDirty || isSaving}
+							disabled={!isDirty || isLoading || isSaving}
 							type="submit">
 							Save
 						</Button>
