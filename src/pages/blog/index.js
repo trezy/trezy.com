@@ -9,7 +9,6 @@ import { getFirestore } from 'redux-firestore'
 
 
 // Component imports
-import { firestore } from 'helpers/firebase'
 import { useArticles } from 'contexts/ArticlesContext'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
@@ -45,6 +44,7 @@ function Blog(props) {
 }
 
 export async function getServerSideProps(context) {
+	const { firestore } = await import('helpers/firebase')
 	const articles = []
 	const articlesSnapshot = await firestore
 		.collection('articles')

@@ -26,29 +26,17 @@ const ArticleList = props => {
 		limit,
 	} = props
 	const {
-		connectArticleQuery,
-		disconnectArticleQuery,
-		...articleContext
+		articles: articlesFromContext,
+		connectAuthorID,
 	} = useArticles()
 
-	let articles = articleContext.articles || props.articles
+	let articles = articlesFromContext || props.articles
 
 	if (Boolean(articles) && limit) {
 		articles = articles.slice(0, limit)
 	}
 
-	useEffect(() => {
-		connectArticleQuery({
-			authorID,
-			includeDraft,
-			limit,
-		})
-
-		return disconnectArticleQuery
-	}, [
-		connectArticleQuery,
-		disconnectArticleQuery,
-	])
+	connectAuthorID(authorID)
 
 	if (!articles?.length) {
 		return (

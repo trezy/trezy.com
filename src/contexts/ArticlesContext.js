@@ -27,9 +27,8 @@ const ArticlesContext = React.createContext({
 	articlesByID: {},
 	articlesBySlug: {},
 	connectArticleBySlug: () => {},
-	connectArticleQuery: () => {},
 	disconnectArticleBySlug: () => {},
-	disconnectArticleQuery: () => {},
+	connectAuthorID: () => {},
 })
 
 
@@ -46,12 +45,12 @@ const ArticlesContextProvider = props => {
 	const [articles, setArticles] = useState(null)
 	const [articlesByID, setArticlesByID] = useState({})
 	const [articlesBySlug, setArticlesBySlug] = useState({})
+	const [authorID, setAuthorID] = useState(null)
 
 	const handleSnapshot = useCallback(snapshot => {
 		setArticlesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
 		setArticlesBySlug(updateStateObjectFromSnapshot(snapshot, 'slug'))
 	}, [
-		setArticles,
 		setArticlesByID,
 		setArticlesBySlug,
 	])
@@ -82,44 +81,51 @@ const ArticlesContextProvider = props => {
 
 	const disconnectArticleBySlug = useCallback(slug => {
 		connections.current[`slug:${slug}`]()
+		delete connections.current[`slug:${slug}`]
 	}, [])
 
-	const connectArticleQuery = useCallback(options => {
-		const {
-			authorID = null,
-			includeDraft = false,
-			limit = 0,
-		} = options
-		let query = collection
+	const connectAuthorID = useCallback(newAuthorID => {
+		useEffect(() => {
+			if (authorID !== newAuthorID) {
+				setAuthorID(newAuthorID)
+			}
 
-		query = query.where('isDraft', '==', includeDraft)
-
-		if (authorID) {
-			query = query.where('authorID', '==', authorID)
-		}
-
-		if (limit) {
-			query = query.limit(limit)
-		}
-
-		if (includeDraft) {
-			query = query.orderBy('createdAt', 'desc')
-		} else {
-			query = query.orderBy('publishedAt', 'desc')
-		}
-
-		connections.current[`query`] = query.onSnapshot(handleSnapshot)
-	}, [handleSnapshot])
-
-	const disconnectArticleQuery = useCallback(() => {
-		connections.current[`query`]()
-	}, [handleSnapshot])
+			return () => setAuthorID(null)
+		}, [])
+	}, [setAuthorID])
 
 	useEffect(() => {
 		setArticles(Object.values(articlesByID))
 	}, [
 		articlesByID,
 		setArticles,
+	])
+
+	useEffect(() => {
+		let query = collection
+
+		if (authorID) {
+			query = query.where('authorID', '==', authorID)
+		}
+
+		const unsubscribe = query
+		.where('isDraft', '==', false)
+		.orderBy('publishedAt', 'desc')
+		.limit(25)
+		.onSnapshot(handleSnapshot)
+
+		return () => {
+			unsubscribe()
+			setArticles(null)
+			setArticlesByID({})
+			setArticlesBySlug({})
+		}
+	}, [
+		authorID,
+		handleSnapshot,
+		setArticles,
+		setArticlesByID,
+		setArticlesBySlug,
 	])
 
 	return (
@@ -130,9 +136,8 @@ const ArticlesContextProvider = props => {
 				articlesByID,
 				articlesBySlug,
 				connectArticleBySlug,
-				connectArticleQuery,
 				disconnectArticleBySlug,
-				disconnectArticleQuery,
+				connectAuthorID,
 			}}>
 			{children}
 		</ArticlesContext.Provider>

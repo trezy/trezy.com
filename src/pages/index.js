@@ -23,7 +23,9 @@ const ARTICLE_LIMIT = 3
 
 
 
-function Home() {
+function Home(props) {
+	const { articles } = props
+
 	return (
 		<PageWrapper
 			description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
@@ -41,6 +43,7 @@ function Home() {
 				</header>
 
 				<ArticleList
+					articles={articles}
 					className="latest-articles"
 					includeStyles={false}
 					limit={ARTICLE_LIMIT} />
@@ -59,17 +62,30 @@ function Home() {
 	)
 }
 
-Home.getInitialProps = async () => {
-	const firestore = getFirestore()
+export async function getServerSideProps(context) {
+	const { firestore } = await import('helpers/firebase')
 
-	await firestore.get({
-		collection: 'articles',
-		limit: ARTICLE_LIMIT,
-		orderBy: ['publishedAt', 'desc'],
-		where: ['isDraft', '==', false],
+	const articles = []
+	const articlesSnapshot = await firestore
+		.collection('articles')
+		.where('isDraft', '==', false)
+		.orderBy('publishedAt', 'desc')
+		.limit(ARTICLE_LIMIT)
+		.get()
+
+	articlesSnapshot.forEach(doc => {
+		const article = doc.data()
+		article.createdAt = article.createdAt.toMillis()
+		article.publishedAt = article.publishedAt.toMillis()
+		article.updatedAt = article.updatedAt.toMillis()
+		articles.push(article)
 	})
 
-	return {}
+	return {
+		props: {
+			articles,
+		},
+	}
 }
 
 

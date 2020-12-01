@@ -1,13 +1,5 @@
 // Module imports
-import {
-	useEffect,
-} from 'react'
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
-import { getFirestore } from 'redux-firestore'
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -37,8 +29,6 @@ function ArticlePage(props) {
 	const {
 		addArticle,
 		articlesBySlug,
-		connectArticleBySlug,
-		disconnectArticleBySlug,
 	} = useArticles()
 	const article = articlesBySlug[slug] || props.article
 
@@ -55,15 +45,6 @@ function ArticlePage(props) {
 			addArticle(ssrArticle)
 		}
 	}, [])
-
-	useEffect(() => {
-		connectArticleBySlug(slug)
-
-		return () => disconnectArticleBySlug(slug)
-	}, [
-		connectArticleBySlug,
-		disconnectArticleBySlug,
-	])
 
 	return (
 		<PageWrapper
@@ -122,9 +103,5 @@ export async function getServerSideProps(context) {
 		},
 	}
 }
-
-
-
-
 
 export default ArticlePage
