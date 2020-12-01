@@ -3,6 +3,7 @@ import {
 	useCallback,
 	useState,
 } from 'react'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
 
@@ -56,11 +57,19 @@ const TAB_NAMES = Object.keys(TABS)
 
 
 function Settings(props) {
+	const router = useRouter()
 	const [activeTab, setActiveTab] = useState(TAB_NAMES.find(tabName => {
 		return tabName.toLowerCase() === props.defaultPanel
 	}))
 
-	const handleTabClick = useCallback(tabName => setActiveTab(tabName), [setActiveTab])
+	const handleTabClick = useCallback(tabName => {
+		setActiveTab(tabName)
+		router.push(
+			`/settings/${tabName.toLowerCase()}`,
+			undefined,
+			{ shallow: true },
+		)
+	}, [setActiveTab])
 
 	return (
 		<PageWrapper
