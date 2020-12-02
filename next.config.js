@@ -24,6 +24,7 @@ module.exports = {
 					"'self'",
 					'https://firebaseinstallations.googleapis.com',
 					'https://firebaseremoteconfig.googleapis.com',
+					'https://firebase.googleapis.com',
 					'https://firestore.googleapis.com',
 					'https://securetoken.googleapis.com',
 					'https://www.googleapis.com',
@@ -59,7 +60,7 @@ module.exports = {
 					"'unsafe-inline'",
 					'https://*.firebaseio.com',
 					'https://apis.google.com',
-					'https://www.googletagmanager.com',
+					`http${isDev ? '' : 's'}://www.googletagmanager.com`,
 				],
 				'style-src': [
 					"'self'",

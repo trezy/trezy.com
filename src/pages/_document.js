@@ -53,19 +53,6 @@ function Document() {
 
 				<link rel="webmention" href="https://webmention.io/trezy.com/webmention" />
 				<link rel="pingback" href="https://webmention.io/trezy.com/xmlrpc" />
-
-				<script
-					async
-					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`} />
-				<script dangerouslySetInnerHTML={{
-					__html: `
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}', {
-							page_path: window.location.pathname,
-						});
-					`}} />
 			</Head>
 
 			<body>

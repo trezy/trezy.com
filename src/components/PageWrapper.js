@@ -1,14 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 // Module imports
-import React, {
-	useEffect,
-} from 'react'
-import {
-	isEmpty,
-	isLoaded,
-} from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import classnames from 'classnames'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
@@ -18,7 +11,6 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useAnalytics } from 'hooks/useAnalytics'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ContentInfo from 'components/ContentInfo'
 
@@ -43,8 +35,6 @@ function PageWrapper(props) {
 		showHeader,
 		title,
 	} = props
-	const auth = useSelector(state => state.firebase.auth)
-	const analytics = useAnalytics()
 
 	useEffect(() => {
 		/* eslint-disable no-console */
@@ -64,15 +54,6 @@ function PageWrapper(props) {
 		description,
 		title,
 	])
-
-	useEffect(() => {
-		if (isLoaded(auth) && !isEmpty(auth)) {
-			analytics.config({
-				option: 'GA_MEASUREMENT_ID',
-				user_id: auth.uid, /* eslint-disable-line camelcase */
-			})
-		}
-	}, [auth])
 
 	return (
 		<>

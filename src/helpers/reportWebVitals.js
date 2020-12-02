@@ -1,5 +1,12 @@
+// Module imports
+import 'firebase/analytics'
+
+
+
+
+
 // Local imports
-import * as gtag from 'helpers/gtag'
+import { firebase } from 'helpers/firebase'
 
 
 
@@ -18,11 +25,12 @@ export function reportWebVitals(data) {
 		category = 'Web Vitals'
 	}
 
-	gtag.event({
-		action,
-		category,
-		label,
-		nonInteraction: true,
-		value: Math.round(action === 'CLS' ? value * 1000 : value),
-	})
+	firebase
+		.analytics()
+		.logEvent(name, {
+			category,
+			label,
+			nonInteraction: true,
+			value: Math.round(action === 'CLS' ? value * 1000 : value),
+		})
 }

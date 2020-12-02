@@ -24,7 +24,7 @@ import Input from 'components/Input'
 
 export function AccountSettings() {
 	const {
-		isLoading,
+		isLoaded,
 		profile,
 		settings,
 		updateProfile,
@@ -115,7 +115,7 @@ export function AccountSettings() {
 					<label>Username</label>
 
 					<Input
-						disabled={isLoading || isSaving}
+						disabled={!isLoaded || isSaving}
 						onChange={handleUsernameChange}
 						prefix="@"
 						value={username} />
@@ -125,7 +125,7 @@ export function AccountSettings() {
 					<label>Email</label>
 
 					<Input
-						disabled={isLoading || isSaving}
+						disabled={!isLoaded || isSaving}
 						onChange={handleEmailChange}
 						type="email"
 						value={email} />
@@ -135,7 +135,7 @@ export function AccountSettings() {
 					<label>Profile Visibility</label>
 
 					<RadioGroup
-						disabled={isLoading || isSaving}
+						disabled={!isLoaded || isSaving}
 						id="profile-visibility"
 						onChange={handleVisibilityChange}
 						value={visibility}>
@@ -162,7 +162,7 @@ export function AccountSettings() {
 				<div className="field">
 					<menu type="toolbar">
 						<Button
-							disabled={!isDirty || isLoading || isSaving}
+							disabled={!isDirty || !isLoaded || isSaving}
 							type="submit">
 							Save
 						</Button>

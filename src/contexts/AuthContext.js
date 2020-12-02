@@ -24,7 +24,7 @@ import { useFirebase } from 'hooks/useFirebase'
 
 const AuthContext = React.createContext({
 	claims: null,
-	isLoading: true,
+	isLoaded: false,
 	profile: null,
 	settings: null,
 	updateProfile: () => {},
@@ -39,11 +39,12 @@ const AuthContext = React.createContext({
 const AuthContextProvider = props => {
 	const { children } = props
 	const {
+		analytics,
 		auth,
 		firestore,
 	} = useFirebase()
 	const [claims, setClaims] = useState(null)
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoaded, setIsLoaded] = useState(true)
 	const [profile, setProfile] = useState(null)
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
@@ -52,10 +53,10 @@ const AuthContextProvider = props => {
 	const handleSettingsSnapshot = useCallback(doc => setSettings(doc.data()), [setSettings])
 
 	const handleAuthStateChange = useCallback(user => {
-		setUser(user)
-		setIsLoading(false)
-
 		if (user) {
+			analytics.setUserId(user.uid)
+			analytics.setUserProperties({ isAuthor: 1 })
+
 			user
 				.getIdToken()
 				.then(idToken => {
@@ -64,6 +65,9 @@ const AuthContextProvider = props => {
 		} else {
 			destroyCookie(null, 'firebaseAuthToken')
 		}
+
+		setUser(user)
+		setIsLoaded(true)
 	}, [setUser])
 
 	const applyDocumentPatch = useCallback((collection, patch) => {
@@ -123,7 +127,7 @@ const AuthContextProvider = props => {
 		<AuthContext.Provider
 			value={{
 				claims,
-				isLoading,
+				isLoaded,
 				profile,
 				settings,
 				updateProfile,

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 
 // Local imports
-import { useAnalytics } from 'hooks/useAnalytics'
+import { useFirebase } from 'hooks/useFirebase'
 
 
 
@@ -15,10 +15,10 @@ import { useAnalytics } from 'hooks/useAnalytics'
 
 export function usePageviews() {
 	const router = useRouter()
-	const analytics = useAnalytics()
+	const { analytics } = useFirebase()
 
 	useEffect(() => {
-		const handleRouteChange = url => analytics.pageview(url)
+		const handleRouteChange = url => analytics.logEvent('page_view', { page_path: url })
 
 		router.events.on('routeChangeComplete', handleRouteChange)
 
