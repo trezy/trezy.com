@@ -83,8 +83,17 @@ ProfilePage.propTypes = {
 }
 
 export async function getServerSideProps(context) {
-	const { username } = context.params
 	const { firestore } = await import('helpers/firebase')
+	const username = context.params.username?.[0]
+
+	if (!username) {
+		return {
+			props: {
+				profile: null,
+				username: '',
+			},
+		}
+	}
 
 	if (!username.startsWith('@')) {
 		return {
