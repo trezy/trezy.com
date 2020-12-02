@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
 
 
@@ -41,12 +42,15 @@ const RemoteConfigContext = React.createContext({
 
 const RemoteConfigContextProvider = props => {
 	const { children } = props
+	const {
+		isLoaded: userIsLoaded,
+	} = useAuth()
 	const { remoteConfig } = useFirebase()
 	const [config, setConfig] = useState({})
 	const [isLoaded, setIsLoaded] = useState(false)
 
 	useEffect(async () => {
-		if (remoteConfig) {
+		if (userIsLoaded && remoteConfig) {
 			await remoteConfig.fetchAndActivate()
 
 			const compiledConfig = REMOTE_CONFIG_MAP.reduce((accumulator, {key, type}) => ({
@@ -60,6 +64,7 @@ const RemoteConfigContextProvider = props => {
 	}, [
 		setConfig,
 		setIsLoaded,
+		userIsLoaded,
 	])
 
 	return (
