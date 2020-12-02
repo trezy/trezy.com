@@ -1,12 +1,5 @@
 // Module imports
-import React, {
-	useEffect,
-} from 'react'
-import {
-	isEmpty,
-	isLoaded,
-} from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 
@@ -14,23 +7,36 @@ import { useRouter } from 'next/router'
 
 
 // Local imports
+import { useAuth } from 'contexts/AuthContext'
+
+
+
+
+
+// Local imports
 const RequireAuthentication = ({ children }) => {
-	const Router = useRouter()
-	const auth = useSelector(state => state.firebase.auth)
+	const {
+		isLoaded,
+		user,
+	} = useAuth()
+	const router = useRouter()
 
 	useEffect(() => {
-		if ((typeof window !== 'undefined') && isLoaded(auth) && isEmpty(auth)) {
-			Router.push(`/login?destination=${Router.asPath}`)
+		if ((typeof window !== 'undefined') && isLoaded && !user) {
+			router.push(`/login?destination=${router.asPath}`)
 		}
-	}, [auth])
+	}, [
+		isLoaded,
+		user,
+	])
 
-	if (!isLoaded(auth)) {
+	if (!isLoaded) {
 		return (
 			<section>Verifying authentication...</section>
 		)
 	}
 
-	if (isEmpty(auth)) {
+	if (!user) {
 		return (
 			<section>Not logged in; Redirecting...</section>
 		)
