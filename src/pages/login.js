@@ -43,7 +43,7 @@ function Login(props) {
 		setIsLoggingIn(true)
 
 		try {
-			auth.signInWithPopup(providers.current.google)
+			auth.signInWithPopup(provider)
 		} catch (error) {
 			setIsLoggingIn(false)
 		}
