@@ -1,14 +1,11 @@
 // Module imports
-import React, {
-	useEffect,
-} from 'react'
 import {
-	isEmpty,
-	isLoaded,
-	useFirebase,
-} from 'react-redux-firebase'
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 
@@ -16,6 +13,8 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { useAuth } from 'contexts/AuthContext'
+import { useFirebase } from 'hooks/useFirebase'
 import Button from 'components/Button'
 import PageWrapper from 'components/PageWrapper'
 
@@ -23,25 +22,48 @@ import PageWrapper from 'components/PageWrapper'
 
 
 
-// Local variables
-let redirectStarted = false
-
-
-
-
-
 function Login(props) {
 	const { destination } = props
+	const {
+		auth,
+		firebase,
+	} = useFirebase()
+	const {
+		isLoaded,
+		user,
+	} = useAuth()
 	const Router = useRouter()
+	const providers = useRef({
+		google: new firebase.auth.GoogleAuthProvider(),
+		twitter: new firebase.auth.TwitterAuthProvider(),
+	})
+	const [isLoggingIn, setIsLoggingIn] = useState(false)
 
-	const firebase = useFirebase()
-	const auth = useSelector(state => state.firebase.auth)
+	const handleLogin = useCallback(provider => {
+		setIsLoggingIn(true)
+
+		try {
+			auth.signInWithPopup(providers.current.google)
+		} catch (error) {
+			setIsLoggingIn(false)
+		}
+	}, [])
+
+	const handleGoogleLogin = useCallback(() => {
+		handleLogin(providers.current.google)
+	}, [handleLogin])
+	const handleTwitterLogin = useCallback(() => {
+		handleLogin(providers.current.twitter)
+	}, [handleLogin])
 
 	useEffect(() => {
-		if (isLoaded(auth) && !isEmpty(auth)) {
+		if (isLoaded && user) {
 			Router.replace(destination || '/')
 		}
-	}, [auth])
+	}, [
+		isLoaded,
+		user,
+	])
 
 	return (
 		<PageWrapper title="Login">
@@ -51,10 +73,8 @@ function Login(props) {
 					type="toolbar">
 					<Button
 						className="primary"
-						onClick={() => firebase.login({
-							provider: 'google',
-							type: 'popup',
-						})}>
+						disabled={isLoggingIn}
+						onClick={handleGoogleLogin}>
 						Sign in with Google
 					</Button>
 
@@ -69,10 +89,8 @@ function Login(props) {
 
 					<Button
 						className="primary"
-						onClick={() => firebase.login({
-							provider: 'twitter',
-							type: 'popup',
-						})}>
+						disabled={isLoggingIn}
+						onClick={handleTwitterLogin}>
 						Sign in with Twitter
 					</Button>
 				</menu>
