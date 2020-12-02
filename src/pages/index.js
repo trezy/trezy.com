@@ -1,5 +1,4 @@
 // Module imports
-import { getFirestore } from 'redux-firestore'
 import Link from 'next/link'
 import React from 'react'
 

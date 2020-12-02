@@ -1,8 +1,5 @@
 // Module imports
-import {
-	useEffect,
-} from 'react'
-import { getFirestore } from 'redux-firestore'
+import { useEffect } from 'react'
 
 
 
