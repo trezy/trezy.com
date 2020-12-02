@@ -22,6 +22,8 @@ module.exports = {
 			contentSecurityPolicy: {
 				'connect-src': [
 					"'self'",
+					'https://firebaseinstallations.googleapis.com',
+					'https://firebaseremoteconfig.googleapis.com',
 					'https://firestore.googleapis.com',
 					'https://securetoken.googleapis.com',
 					'https://www.googleapis.com',

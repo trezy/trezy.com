@@ -26,6 +26,7 @@ import { ArticlesContextProvider } from 'contexts/ArticlesContext'
 import { AuthContextProvider } from 'contexts/AuthContext'
 import { initStore } from 'store'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext'
+import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext'
 import { reportWebVitals } from 'helpers/reportWebVitals'
 import { useFontawesome } from 'hooks/useFontawesome'
 import { useLocalForage } from 'hooks/useLocalForage'
@@ -65,27 +66,29 @@ function App(props) {
 
 	return (
 		<AuthContextProvider>
-			<ProfilesContextProvider>
-				<ArticlesContextProvider>
-					<Provider store={store}>
-						<ReactReduxFirebaseProvider {...rrfProps}>
-							<div role="application">
-								<NextHead>
-									<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+			<RemoteConfigContextProvider>
+				<ProfilesContextProvider>
+					<ArticlesContextProvider>
+						<Provider store={store}>
+							<ReactReduxFirebaseProvider {...rrfProps}>
+								<div role="application">
+									<NextHead>
+										<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-									<link
-										href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-										rel="stylesheet" />
-								</NextHead>
+										<link
+											href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+											rel="stylesheet" />
+									</NextHead>
 
-								<Banner isServer={isServer} />
+									<Banner isServer={isServer} />
 
-								<Component {...pageProps} />
-							</div>
-						</ReactReduxFirebaseProvider>
-					</Provider>
-				</ArticlesContextProvider>
-			</ProfilesContextProvider>
+									<Component {...pageProps} />
+								</div>
+							</ReactReduxFirebaseProvider>
+						</Provider>
+					</ArticlesContextProvider>
+				</ProfilesContextProvider>
+			</RemoteConfigContextProvider>
 		</AuthContextProvider>
 	)
 }
