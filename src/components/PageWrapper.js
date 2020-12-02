@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import * as gtag from 'helpers/gtag'
+import { useAnalytics } from 'hooks/useAnalytics'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ContentInfo from 'components/ContentInfo'
 
@@ -44,6 +44,7 @@ function PageWrapper(props) {
 		title,
 	} = props
 	const auth = useSelector(state => state.firebase.auth)
+	const analytics = useAnalytics()
 
 	useEffect(() => {
 		/* eslint-disable no-console */
@@ -66,7 +67,7 @@ function PageWrapper(props) {
 
 	useEffect(() => {
 		if (isLoaded(auth) && !isEmpty(auth)) {
-			gtag.config({
+			analytics.config({
 				option: 'GA_MEASUREMENT_ID',
 				user_id: auth.uid, /* eslint-disable-line camelcase */
 			})

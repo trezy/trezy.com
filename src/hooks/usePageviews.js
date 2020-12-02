@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 
 // Local imports
-import * as gtag from 'helpers/gtag'
+import { useAnalytics } from 'hooks/useAnalytics'
 
 
 
@@ -15,9 +15,10 @@ import * as gtag from 'helpers/gtag'
 
 export function usePageviews() {
 	const router = useRouter()
+	const analytics = useAnalytics()
 
 	useEffect(() => {
-		const handleRouteChange = url => gtag.pageview(url)
+		const handleRouteChange = url => analytics.pageview(url)
 
 		router.events.on('routeChangeComplete', handleRouteChange)
 
