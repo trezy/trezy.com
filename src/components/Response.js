@@ -1,9 +1,4 @@
 // Module imports
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
 import classnames from 'classnames'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -14,6 +9,7 @@ import React from 'react'
 
 
 // Local imports
+import { useProfiles } from 'contexts/ProfilesContext'
 import Alert from 'components/Alert'
 import getAvatar from 'helpers/getAvatar'
 import MarkdownRenderer from 'components/MarkdownRenderer'
@@ -34,15 +30,15 @@ const Response = props => {
 		publishedAt,
 	} = props
 
-	const author = useUserSelector({ userID: authorID })
-	const isPending = isPendingAkismetVerification || isPendingHumanVerification
+	const {
+		profilesByID,
+		watchProfile,
+	} = useProfiles()
 
-	useFirestoreConnect([
-		{
-			collection: 'users',
-			doc: authorID,
-		},
-	])
+	watchProfile({ id: authorID })
+
+	const author = profilesByID[authorID]
+	const isPending = isPendingAkismetVerification || isPendingHumanVerification
 
 	return (
 		<>
@@ -76,7 +72,7 @@ const Response = props => {
 
 				<footer>
 					<ul className="pipe-separated">
-						{(isLoaded(author) && !isEmpty(author)) && (
+						{Boolean(author) && (
 							<li>
 								<img
 									alt={`${author.displayName}'s avatar`}

@@ -11,7 +11,8 @@ import {
 	firebase,
 	firestore,
 } from 'helpers/firebase'
-import { useArticles } from 'contexts/ArticlesContext'
+import { ArticleContextProvider } from 'contexts/ArticleContext'
+import { Article } from 'components/Article'
 import ArticleMeta from 'components/ArticleMeta'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
@@ -26,48 +27,26 @@ import useClaimsSelector from 'store/selectors/useClaimsSelector'
 
 function ArticlePage(props) {
 	const { slug } = props
-	const {
-		addArticle,
-		articlesBySlug,
-	} = useArticles()
-	const article = articlesBySlug[slug] || props.article
-
-	useEffect(() => {
-		if (!articlesBySlug[slug] && props.article) {
-			const { Timestamp } = firebase.firestore
-			const { article: ssrArticle } = props
-
-			// Convert timestamps back to Firebase Timestamp objects
-			ssrArticle.createdAt = Timestamp.fromMillis(ssrArticle.createdAt)
-			ssrArticle.publishedAt = Timestamp.fromMillis(ssrArticle.publishedAt)
-			ssrArticle.updatedAt = Timestamp.fromMillis(ssrArticle.updatedAt)
-
-			addArticle(ssrArticle)
-		}
-	}, [])
+	const article = props.article
 
 	return (
-		<PageWrapper
-			description={article?.synopsis}
-			title={createTitleStringFromArticle(article)}>
-			{!article && (
-				<section className="block">
-					Loading...
-				</section>
-			)}
+		<ArticleContextProvider
+			article={article}
+			slug={slug}>
+			<PageWrapper
+				description={article?.synopsis}
+				title={createTitleStringFromArticle(article)}>
+				{!article && (
+					<section className="block">
+						Loading...
+					</section>
+				)}
 
-			{Boolean(article) && (
-				<>
-					<article className="block">
-						<ArticleMeta {...article} />
-
-						<MarkdownRenderer children={article.body} />
-					</article>
-
-					<Responses articleID={article.id} />
-				</>
-			)}
-		</PageWrapper>
+				{Boolean(article) && (
+					<Article />
+				)}
+			</PageWrapper>
+		</ArticleContextProvider>
 	)
 }
 

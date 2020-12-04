@@ -1,14 +1,12 @@
 // Module imports
 import React, {
+	useCallback,
 	useEffect,
 	useRef,
 	useState,
 } from 'react'
-import { getFirestore } from 'redux-firestore'
-import { isEmpty } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
 
 
 
@@ -16,10 +14,10 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
+import { useArticle } from 'contexts/ArticleContext'
+import { useAuth } from 'contexts/AuthContext'
 import Button from 'components/Button'
 import MarkdownEditor from 'components/MarkdownEditor'
-import useAuthSelector from 'store/selectors/useAuthSelector'
-import useCurrentUserIDSelector from 'store/selectors/useCurrentUserIDSelector'
 
 
 
@@ -32,75 +30,57 @@ const PUBLISHED_MESSAGE_TIMEOUT = 5000
 
 
 
-const ResponseForm = props => {
-	const Router = useRouter()
-	const firestore = getFirestore()
+export function ResponseForm() {
+	const router = useRouter()
 	const formElement = useRef(null)
 	const inputElement = useRef(null)
-	const { articleID } = props
+	const { user } = useAuth()
+	const { publishResponse } = useArticle()
 	const [body, setBody] = useState('')
 	const [bodyHasChanged, setBodyHasChanged] = useState(false)
 	const [isPublishing, setIsPublishing] = useState(false)
 	const [isPublished, setIsPublished] = useState(false)
 	const [previewMode, setPreviewMode] = useState(false)
 
-	const auth = useAuthSelector()
-	const currentUserID = useCurrentUserIDSelector()
-
-	const handleChange = ({ target: { value } }) => {
+	const handleChange = useCallback(({ target: { value } }) => {
 		if (!bodyHasChanged) {
 			setBodyHasChanged(true)
 		}
 
 		setBody(value)
-	}
+	}, [
+		setBodyHasChanged,
+		setBody,
+	])
 
-	const handleFormClick = ({ target }) => {
+	const handleFormClick = useCallback(({ target }) => {
 		if (formElement.current.contains(target)) {
 			inputElement.current.focus()
 		}
-	}
+	}, [])
 
-	const handleSubmit = async event => {
+	const handlePreviewModeClick = useCallback(() => {
+		setPreviewMode(previousValue => !previousValue)
+	}, [setPreviewMode])
+
+	const handleSubmit = useCallback(async event => {
 		event.preventDefault()
 
 		setIsPublishing(true)
 
-		const ipResponse = await fetch('https://api.ipify.org/?format=json')
-		const { ip } = await ipResponse.json()
-
-		const now = firestore.Timestamp.now()
-		const serializedResponse = {
-			articleID,
-			authorID: currentUserID,
-			body,
-			createdAt: now,
-			isPendingAkismetVerification: true,
-			isPendingHumanVerification: false,
-			isSpam: false,
-			publishedAt: now,
-			spamCheck: {
-				ip,
-				useragent: navigator.userAgent,
-			},
-			updatedAt: now,
+		try {
+			await publishResponse(body)
+			setIsPublished(true)
+		} catch (error) {
+			console.error(error)
 		}
 
-		const { id } = await firestore.add({
-			collection: 'responses',
-		}, serializedResponse)
-
-		const responseElement = document.querySelector(`[id="${id}"]`)
-
-		window.scrollTo({
-			behavior: 'smooth',
-			left: 0,
-			top: responseElement.offsetTop,
-		})
-
 		setIsPublishing(false)
-		setIsPublished(true)
-	}
+	}, [
+		body,
+		setIsPublished,
+		setIsPublishing,
+	])
 
 	useEffect(() => {
 		if (isPublished) {
@@ -108,17 +88,22 @@ const ResponseForm = props => {
 			setBodyHasChanged(false)
 			setTimeout(() => setIsPublished(false), PUBLISHED_MESSAGE_TIMEOUT)
 		}
-	}, [isPublished])
+	}, [
+		isPublished,
+		setBody,
+		setBodyHasChanged,
+		setIsPublished,
+	])
 
 	return (
 		<>
-			{isEmpty(auth) && (
+			{!user && (
 				<div className="response-form">
 					<menu type="toolbar">
 						<span>Login to leave a response: </span>
 
 						<a
-							href={`/login?destination=${Router.asPath}`}
+							href={`/login?destination=${router.asPath}`}
 							className="button primary">
 							<span>Login</span>
 						</a>
@@ -126,7 +111,7 @@ const ResponseForm = props => {
 				</div>
 			)}
 
-			{!isEmpty(auth) && (
+			{Boolean(user) && (
 				<>
 					{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
 					<form
@@ -168,7 +153,7 @@ const ResponseForm = props => {
 									paused: !bodyHasChanged,
 								})}
 								type="toolbar">
-								<Button onClick={() => setPreviewMode(!previewMode)}>
+								<Button onClick={handlePreviewModeClick}>
 									Preview
 								</Button>
 
@@ -194,13 +179,3 @@ const ResponseForm = props => {
 		</>
 	)
 }
-
-ResponseForm.propTypes = {
-	articleID: PropTypes.string.isRequired,
-}
-
-
-
-
-
-export default ResponseForm

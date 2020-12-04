@@ -109,10 +109,10 @@ const ArticlesContextProvider = props => {
 		}
 
 		const unsubscribe = query
-		.where('isDraft', '==', false)
-		.orderBy('publishedAt', 'desc')
-		.limit(25)
-		.onSnapshot(handleSnapshot)
+			.where('isDraft', '==', false)
+			.orderBy('publishedAt', 'desc')
+			.limit(25)
+			.onSnapshot(handleSnapshot)
 
 		return () => {
 			unsubscribe()

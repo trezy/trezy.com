@@ -1,9 +1,4 @@
 // Module imports
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -12,94 +7,76 @@ import React from 'react'
 
 
 // Component imports
+import { useAuth } from 'contexts/AuthContext'
 import Alert from 'components/Alert'
 import Response from 'components/Response'
-import useAuthSelector from 'store/selectors/useAuthSelector'
-import useResponsesSelector from 'store/selectors/useResponsesSelector'
 
 
 
 
 
-const Responses = props => {
-	const {
-		articleID,
-		authorID,
-	} = props
-	const auth = useAuthSelector()
-	const responses = useResponsesSelector()
-	const collections = []
+const ResponsesList = props => {
+	const { responses } = props
+	const { user } = useAuth()
 
-	if (articleID) {
-		collections.push({
-			collection: 'responses',
-			orderBy: ['publishedAt', 'asc'],
-			where: [
-				['articleID', '==', articleID],
-				['isSpam', '==', false],
-				['isPendingAkismetVerification', '==', false],
-				['isPendingHumanVerification', '==', false],
-			],
-		})
+	// if (articleID) {
+	// 	collections.push({
+	// 		collection: 'responses',
+	// 		orderBy: ['publishedAt', 'asc'],
+	// 		where: [
+	// 			['articleID', '==', articleID],
+	// 			['isSpam', '==', false],
+	// 			['isPendingAkismetVerification', '==', false],
+	// 			['isPendingHumanVerification', '==', false],
+	// 		],
+	// 	})
 
-		if (!isEmpty(auth)) {
-			collections.push({
-				collection: 'responses',
-				orderBy: ['publishedAt', 'asc'],
-				storeAs: 'responsesPendingAkismetVerification',
-				where: [
-					['articleID', '==', articleID],
-					['authorID', '==', auth.uid],
-					['isPendingAkismetVerification', '==', true],
-				],
-			})
+	// 	if (!isEmpty(auth)) {
+	// 		collections.push({
+	// 			collection: 'responses',
+	// 			orderBy: ['publishedAt', 'asc'],
+	// 			storeAs: 'responsesPendingAkismetVerification',
+	// 			where: [
+	// 				['articleID', '==', articleID],
+	// 				['authorID', '==', auth.uid],
+	// 				['isPendingAkismetVerification', '==', true],
+	// 			],
+	// 		})
 
-			collections.push({
-				collection: 'responses',
-				orderBy: ['publishedAt', 'asc'],
-				storeAs: 'responsesPendingHumanVerification',
-				where: [
-					['articleID', '==', articleID],
-					['authorID', '==', auth.uid],
-					['isPendingHumanVerification', '==', true],
-				],
-			})
-		}
-	} else if (authorID && !isEmpty(auth)) {
-		collections.push({
-			collection: 'responses',
-			orderBy: ['publishedAt', 'asc'],
-			where: ['authorID', '==', authorID],
-		})
-	}
-
-	useFirestoreConnect(collections)
+	// 		collections.push({
+	// 			collection: 'responses',
+	// 			orderBy: ['publishedAt', 'asc'],
+	// 			storeAs: 'responsesPendingHumanVerification',
+	// 			where: [
+	// 				['articleID', '==', articleID],
+	// 				['authorID', '==', auth.uid],
+	// 				['isPendingHumanVerification', '==', true],
+	// 			],
+	// 		})
+	// 	}
+	// } else if (authorID && !isEmpty(auth)) {
+	// 	collections.push({
+	// 		collection: 'responses',
+	// 		orderBy: ['publishedAt', 'asc'],
+	// 		where: ['authorID', '==', authorID],
+	// 	})
+	// }
 
 	return (
 		<div className="responses">
-			{articleID && (
-				<>
-					{(isLoaded(responses) && isEmpty(responses) && isEmpty(auth)) && (
-						<Alert type="informational">
-							No responses... yet. <span aria-label="Eyes emoji" role="img">👀</span>
-						</Alert>
-					)}
-
-					{(isLoaded(responses) && isEmpty(responses) && !isEmpty(auth)) && (
-						<Alert type="informational">
-							It doesn't look like there are any responses yet... Go ahead a slap a big old <strong>First!</strong> in that box! <span aria-label="Zany face emoji" role="img">🤪</span>
-						</Alert>
-					)}
-				</>
-			)}
-
-			{(authorID && isLoaded(responses) && isEmpty(responses)) && (
+			{(!responses?.length && !user) && (
 				<Alert type="informational">
-					You haven't posted any responses yet! <span aria-label="Sobbing face emoji" role="img">😭</span>
+					No responses... yet. <span aria-label="Eyes emoji" role="img">👀</span>
 				</Alert>
 			)}
 
-			{(isLoaded(responses) && !isEmpty(responses)) && (
+			{(!responses?.length && user) && (
+				<Alert type="informational">
+					It doesn't look like there are any responses yet... Go ahead a slap a big old <strong>First!</strong> in that box! <span aria-label="Zany face emoji" role="img">🤪</span>
+				</Alert>
+			)}
+
+			{Boolean(responses?.length) && (
 				<ol>
 					{responses.map(response => (
 						<li key={response.id}>
@@ -112,18 +89,12 @@ const Responses = props => {
 	)
 }
 
-Responses.defaultProps = {
-	articleID: null,
-	authorID: null,
+ResponsesList.defaultProps = {
+	responses: null,
 }
 
-Responses.propTypes = {
-	articleID: PropTypes.string,
-	authorID: PropTypes.string,
+ResponsesList.propTypes = {
+	responses: PropTypes.any,
 }
 
-
-
-
-
-export default Responses
+export { ResponsesList }

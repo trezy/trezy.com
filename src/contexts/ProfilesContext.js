@@ -28,6 +28,7 @@ const ProfilesContext = React.createContext({
 	disconnectProfileByUsername: () => {},
 	profilesByID: {},
 	profilesByUsername: {},
+	watchProfile: () => {},
 })
 
 
@@ -43,6 +44,8 @@ const ProfilesContextProvider = props => {
 	const connections = useRef({})
 	const [profilesByID, setProfilesByID] = useState({})
 	const [profilesByUsername, setProfilesByUsername] = useState({})
+
+	const [profilesToWatch, setProfilesToWatch] = useState({})
 
 	const handleSnapshot = useCallback(snapshot => {
 		setProfilesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
@@ -85,6 +88,175 @@ const ProfilesContextProvider = props => {
 		}
 	}, [])
 
+	const connectProfileByID = useCallback(userID => {
+		connections.current[`id:${userID}`] = collection
+			.doc(userID)
+			.onSnapshot(handleSnapshot)
+	}, [handleSnapshot])
+
+	const disconnectProfileByID = useCallback(userID => {
+		const unsubscribe = connections.current[`id:${userID}`]
+
+		if (unsubscribe) {
+			unsubscribe()
+		}
+	}, [])
+
+	const handleDocumentSnapshotRemoved = useCallback(snapshot => {
+		console.log('handleDocumentSnapshotRemoved', {
+			data: snapshot.data(),
+			id: snapshot.id,
+		})
+		// const data = {
+		// 	...snapshot.data(),
+		// 	id: snapshot.id,
+		// }
+
+		// setProfilesByID(previousValue => {
+		// 	return {
+		// 		...previousValue,
+		// 		[data.id]: data,
+		// 	}
+		// })
+
+		// setProfilesByUsername(previousValue => {
+		// 	return {
+		// 		...previousValue,
+		// 		[data.username]: data,
+		// 	}
+		// })
+
+		// setProfilesToWatch(previousValue => {
+		// 	const newValue = { ...previousValue }
+
+		// 	if (!newValue[data.username]) {
+		// 		newValue[data.username] = newValue[data.id]
+		// 	} else if (!newValue[data.id]) {
+		// 		newValue[data.id] = newValue[data.username]
+		// 	}
+
+		// 	newValue[data.username].loading = false
+		// 	newValue[data.id].loading = false
+
+		// 	return newValue
+		// })
+	}, [
+		setProfilesByID,
+		setProfilesByUsername,
+		setProfilesToWatch,
+	])
+
+	const handleDocumentSnapshot = useCallback(snapshot => {
+		const data = {
+			...snapshot.data(),
+			id: snapshot.id,
+		}
+
+		setProfilesByID(previousValue => {
+			return {
+				...previousValue,
+				[data.id]: data,
+			}
+		})
+
+		setProfilesByUsername(previousValue => {
+			return {
+				...previousValue,
+				[data.username]: data,
+			}
+		})
+
+		setProfilesToWatch(previousValue => {
+			const newValue = { ...previousValue }
+
+			if (!newValue[data.username]) {
+				newValue[data.username] = newValue[data.id]
+			} else if (!newValue[data.id]) {
+				newValue[data.id] = newValue[data.username]
+			}
+
+			newValue[data.username].loading = false
+			newValue[data.id].loading = false
+
+			return newValue
+		})
+	}, [
+		setProfilesByID,
+		setProfilesByUsername,
+		setProfilesToWatch,
+	])
+
+	const handleQuerySnapshot = useCallback(snapshot => {
+		snapshot.docChanges().forEach(changes => {
+			const {
+				doc,
+				type,
+			} = change
+
+			if (['added', 'modified'].includes(type)) {
+				handleDocumentSnapshot(doc)
+			} else if (type === 'removed') {
+				handleDocumentSnapshotRemoved(doc)
+			}
+		})
+	}, [handleDocumentSnapshot])
+
+	const watchProfile = useCallback(({ username, id }) => {
+		useEffect(() => {
+			setProfilesToWatch(previousValue => {
+				const newValue = { ...previousValue }
+
+				if (!previousValue[username] && !previousValue[id]) {
+					let unsubscribe = null
+
+					if (username) {
+						unsubscribe = collection
+							.where('visibility', '!=', 'private')
+							.where('username', '==', username)
+							.onSnapshot(handleQuerySnapshot)
+					}
+
+					if (id) {
+						unsubscribe = collection
+							.doc(id)
+							.onSnapshot(handleDocumentSnapshot)
+					}
+
+					newValue[username || id] = {
+						loading: true,
+						unsubscribe,
+						watcherCount: 0,
+					}
+				}
+
+				newValue[username || id].watcherCount += 1
+
+				return newValue
+			})
+
+			return () => {
+				setProfilesToWatch(previousValue => {
+					const newValue = { ...previousValue }
+
+					if (previousValue[username || id].watchCount <= 1) {
+						newValue[username || id].unsubscribe()
+						delete newValue[username || id]
+					}
+
+					return newValue
+				})
+			}
+		}, [
+			handleQuerySnapshot,
+			handleDocumentSnapshot,
+			setProfilesToWatch,
+		])
+	}, [
+		handleQuerySnapshot,
+		handleDocumentSnapshot,
+		setProfilesToWatch,
+	])
+
 	return (
 		<ProfilesContext.Provider
 			value={{
@@ -93,6 +265,7 @@ const ProfilesContextProvider = props => {
 				disconnectProfileByUsername,
 				profilesByID,
 				profilesByUsername,
+				watchProfile,
 			}}>
 			{children}
 		</ProfilesContext.Provider>
