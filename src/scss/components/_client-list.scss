@@ -16,6 +16,8 @@
 
 	a {
 		display: flex;
+		transition-duration: 0.2s;
+		transition-property: opacity;
 
 		> * {
 			display: flex;
@@ -29,19 +31,12 @@
 	svg {
 		fill: var(--text-color);
 		max-height: 5rem;
-		transition-duration: 0.2s;
-		transition-property: opacity;
 		width: 100%;
-
-		&:focus,
-		&:hover {
-			opacity: 1;
-		}
 	}
 
 	&:focus-within,
 	&:hover {
-		svg {
+		a {
 			opacity: 0.5;
 
 			&:focus,
