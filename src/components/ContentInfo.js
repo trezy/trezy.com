@@ -7,7 +7,7 @@ import React from 'react'
 
 
 // Local imports
-import SocialNav from 'components/SocialNav'
+import { SocialNav } from 'components/SocialNav'
 
 
 
