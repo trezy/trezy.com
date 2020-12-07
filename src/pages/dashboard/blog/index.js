@@ -1,5 +1,4 @@
 // Module imports
-import { isLoaded } from 'react-redux-firebase'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,6 +7,7 @@ import React from 'react'
 
 
 // Component imports
+import { useAuth } from 'contexts/AuthContext'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
 import RequireAuthentication from 'components/RequireAuthentication'
@@ -18,18 +18,27 @@ import useAuthSelector from 'store/selectors/useAuthSelector'
 
 
 export default function BlogDashboard() {
+	const {
+		isLoaded,
+		user,
+	} = useAuth()
 	const auth = useAuthSelector()
 
 	return (
-		<PageWrapper title="My Articles">
+		<PageWrapper
+			breadcrumbs={[
+				['Dashboard', '/dashboard'],
+				['My Articles', '/dashboard/blog'],
+			]}
+			title="My Articles">
 			<RequireAuthentication>
-				{isLoaded(auth) && (
+				{user && (
 					<ArticleList
 						authorID={auth.uid}
 						includeDraft />
 				)}
 
-				{!isLoaded(auth) && (
+				{!isLoaded && (
 					<section className="block">Loading...</section>
 				)}
 
@@ -42,7 +51,6 @@ export default function BlogDashboard() {
 						</a>
 					</Link>
 				</menu>
-
 			</RequireAuthentication>
 		</PageWrapper>
 	)

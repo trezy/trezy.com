@@ -27,8 +27,12 @@ const ArticlesContext = React.createContext({
 	articlesByID: {},
 	articlesBySlug: {},
 	connectArticleBySlug: () => {},
-	disconnectArticleBySlug: () => {},
 	connectAuthorID: () => {},
+	connectDrafts: () => {},
+	drafts: null,
+	draftsByID: {},
+	draftsBySlug: {},
+	disconnectArticleBySlug: () => {},
 })
 
 
@@ -46,6 +50,18 @@ const ArticlesContextProvider = props => {
 	const [articlesByID, setArticlesByID] = useState({})
 	const [articlesBySlug, setArticlesBySlug] = useState({})
 	const [authorID, setAuthorID] = useState(null)
+	const [drafts, setDrafts] = useState(null)
+	const [draftsByID, setDraftsByID] = useState({})
+	const [draftsBySlug, setDraftsBySlug] = useState({})
+	const [includeDrafts, setIncludeDrafts] = useState(false)
+
+	const handleDraftsSnapshot = useCallback(snapshot => {
+		setDraftsByID(updateStateObjectFromSnapshot(snapshot, 'id'))
+		setDraftsBySlug(updateStateObjectFromSnapshot(snapshot, 'slug'))
+	}, [
+		setDraftsByID,
+		setDraftsBySlug,
+	])
 
 	const handleSnapshot = useCallback(snapshot => {
 		setArticlesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
@@ -94,11 +110,26 @@ const ArticlesContextProvider = props => {
 		}, [])
 	}, [setAuthorID])
 
+	const connectDrafts = useCallback(() => {
+		useEffect(() => {
+			setIncludeDrafts(true)
+
+			return () => setIncludeDrafts(false)
+		}, [])
+	}, [setIncludeDrafts])
+
 	useEffect(() => {
 		setArticles(Object.values(articlesByID))
 	}, [
 		articlesByID,
 		setArticles,
+	])
+
+	useEffect(() => {
+		setDrafts(Object.values(draftsByID))
+	}, [
+		draftsByID,
+		setDrafts,
 	])
 
 	useEffect(() => {
@@ -116,16 +147,43 @@ const ArticlesContextProvider = props => {
 
 		return () => {
 			unsubscribe()
-			setArticles(null)
-			setArticlesByID({})
-			setArticlesBySlug({})
+			setDrafts(null)
+			setDraftsByID({})
+			setDraftsBySlug({})
+		}
+	}, [
+		includeDrafts,
+		handleSnapshot,
+		setDrafts,
+		setDraftsByID,
+		setDraftsBySlug,
+	])
+
+	useEffect(() => {
+		if (includeDrafts && authorID) {
+			console.log('subscribing to drafts')
+			const unsubscribe = collection
+				.where('isDraft', '==', true)
+				.where('authorID', '==', authorID)
+				.orderBy('createdAt', 'desc')
+				.limit(25)
+				.onSnapshot(handleDraftsSnapshot)
+
+			return () => {
+				console.log('unsubscribing from drafts')
+				unsubscribe()
+				setDrafts(null)
+				setDraftsByID({})
+				setDraftsBySlug({})
+			}
 		}
 	}, [
 		authorID,
 		handleSnapshot,
-		setArticles,
-		setArticlesByID,
-		setArticlesBySlug,
+		setDrafts,
+		setDraftsByID,
+		setDraftsBySlug,
+		includeDrafts,
 	])
 
 	return (
@@ -136,8 +194,12 @@ const ArticlesContextProvider = props => {
 				articlesByID,
 				articlesBySlug,
 				connectArticleBySlug,
-				disconnectArticleBySlug,
 				connectAuthorID,
+				connectDrafts,
+				drafts,
+				draftsByID,
+				draftsBySlug,
+				disconnectArticleBySlug,
 			}}>
 			{children}
 		</ArticlesContext.Provider>
