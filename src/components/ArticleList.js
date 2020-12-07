@@ -27,16 +27,19 @@ const ArticleList = props => {
 	} = props
 	const {
 		articles: articlesFromContext,
+		drafts,
 		connectAuthorID,
+		connectDrafts,
 	} = useArticles()
 
-	let articles = articlesFromContext || props.articles
+	let articles = includeDraft ? drafts : (articlesFromContext || props.articles)
 
 	if (Boolean(articles) && limit) {
 		articles = articles.slice(0, limit)
 	}
 
 	connectAuthorID(authorID)
+	connectDrafts()
 
 	if (!articles?.length) {
 		return (

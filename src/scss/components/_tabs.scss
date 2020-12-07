@@ -5,7 +5,8 @@
 	margin-top: var(--gutter);
 	padding: 0 native-max(calc(50% - 60rem), 10rem);
 
-	+ .block {
+	+ .block,
+	+ .article-list .block {
 		margin-top: 0;
 	}
 

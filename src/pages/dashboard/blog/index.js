@@ -1,17 +1,24 @@
 // Module imports
+import { useState } from 'react'
 import Link from 'next/link'
-import React from 'react'
 
 
 
 
 
-// Component imports
+// Local imports
+import { Tabs } from 'components/Tabs'
 import { useAuth } from 'contexts/AuthContext'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
 import RequireAuthentication from 'components/RequireAuthentication'
-import useAuthSelector from 'store/selectors/useAuthSelector'
+
+
+
+
+
+// Local constants
+const TAB_NAMES = ['Published', 'Drafts']
 
 
 
@@ -22,7 +29,7 @@ export default function BlogDashboard() {
 		isLoaded,
 		user,
 	} = useAuth()
-	const auth = useAuthSelector()
+	const [activeTab, setActiveTab] = useState(TAB_NAMES[0])
 
 	return (
 		<PageWrapper
@@ -32,14 +39,23 @@ export default function BlogDashboard() {
 			]}
 			title="My Articles">
 			<RequireAuthentication>
-				{user && (
-					<ArticleList
-						authorID={auth.uid}
-						includeDraft />
-				)}
-
 				{!isLoaded && (
 					<section className="block">Loading...</section>
+				)}
+
+				<Tabs
+					activeTab={activeTab}
+					onClick={setActiveTab}
+					tabs={TAB_NAMES} />
+
+				{(user && (activeTab === 'Published')) && (
+					<ArticleList authorID={user.uid} />
+				)}
+
+				{(user && (activeTab === 'Drafts')) && (
+					<ArticleList
+						authorID={user.uid}
+						includeDraft />
 				)}
 
 				<menu
