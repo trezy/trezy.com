@@ -17,6 +17,7 @@ import PropTypes from 'prop-types'
 import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
+import articleDefaults from 'models/article'
 // import { useAsync } from 'hooks/useAsync'
 
 
@@ -24,6 +25,7 @@ import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnap
 
 const ArticleContext = React.createContext({
 	article: null,
+	isLoaded: false,
 	publishResponse: () => {},
 	responses: null,
 })
@@ -36,6 +38,8 @@ const ArticleContextProvider = props => {
 	const {
 		article: articleFromSSR,
 		children,
+		id,
+		isNew,
 		slug,
 	} = props
 	const {
@@ -47,17 +51,33 @@ const ArticleContextProvider = props => {
 		current: collection,
 	} = useRef(firestore?.collection('articles'))
 	const connections = useRef({})
-	const [article, setArticle] = useState(articleFromSSR || null)
+	const [article, setArticle] = useState(
+		articleFromSSR ||
+		(isNew ? articleDefaults : null)
+	)
+	const [isLoaded, setisLoaded] = useState(isNew)
 	const [responses, setResponses] = useState(null)
 
 	const handleArticleSnapshot = useCallback(snapshot => {
-		snapshot.forEach(doc => {
-			setArticle({
-				...doc.data(),
-				id: doc.id,
+		if (snapshot.forEach) {
+			snapshot.forEach(doc => {
+				setArticle({
+					...doc.data(),
+					id: doc.id,
+				})
 			})
-		})
-	}, [setArticle])
+		} else {
+			setArticle({
+				...snapshot.data(),
+				id: snapshot.id,
+			})
+		}
+
+		setisLoaded(true)
+	}, [
+		setArticle,
+		setisLoaded,
+	])
 
 	const handleResponsesSnapshot = useCallback(snapshot => {
 		const newResponses = []
@@ -103,18 +123,63 @@ const ArticleContextProvider = props => {
 		user,
 	])
 
+	const saveArticle = useCallback(async articleChanges => {
+		const now = firebase.firestore.Timestamp.now()
+		const serializedArticle = {
+			...article,
+			...articleChanges,
+			authorID: article.authorID || user.uid,
+			createdAt: now,
+			isPendingAkismetVerification: true,
+			isPendingHumanVerification: false,
+			isSpam: false,
+			publishedAt: now,
+			spamCheck: {
+				ip,
+				useragent: navigator.userAgent,
+			},
+			updatedAt: now,
+		}
+
+		if (article.createdAt) {
+			serializedArticle.createdAt = firebase.firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000)
+		}
+
+		if (isNew) {
+			return collection.add(serializedArticle)
+		}
+
+		return collection.doc(article.id).update(serializedArticle)
+	}, [
+		article,
+		user,
+	])
+
+	// Connect the article
 	useEffect(() => {
-		return collection
-			.where('isDraft', '==', false)
-			.where('slug', '==', slug)
-			.onSnapshot(handleArticleSnapshot)
+		if (!isNew) {
+			let query = collection
+
+			if (slug) {
+				query = query.where('slug', '==', slug)
+			} else if (id) {
+				query = query.doc(id)
+			}
+
+			if (slug || id) {
+				return query.onSnapshot(handleArticleSnapshot)
+			}
+		}
 	}, [
 		handleArticleSnapshot,
+		id,
+		isNew,
 		slug,
 	])
 
+	// Get all responses to this article
 	useEffect(() => {
-		if (article) {
+		if (!isNew && (article?.isDraft === false)) {
 			return firestore
 				.collection('responses')
 				.where('articleID', '==', article.id)
@@ -133,6 +198,7 @@ const ArticleContextProvider = props => {
 		<ArticleContext.Provider
 			value={{
 				article,
+				isLoaded,
 				publishResponse,
 				responses,
 			}}>
@@ -143,12 +209,17 @@ const ArticleContextProvider = props => {
 
 ArticleContextProvider.defaultProps = {
 	article: null,
+	id: null,
+	isNew: false,
+	slug: null,
 }
 
 ArticleContextProvider.propTypes = {
 	article: PropTypes.any,
 	children: PropTypes.node.isRequired,
-	slug: PropTypes.string.isRequired,
+	id: PropTypes.string,
+	isNew: PropTypes.bool,
+	slug: PropTypes.string,
 }
 
 const useArticle = () => useContext(ArticleContext)
