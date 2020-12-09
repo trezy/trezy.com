@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 // import LocalForage from 'localforage'
 import PropTypes from 'prop-types'
+import uuid from 'uuid/v4'
 
 
 
@@ -18,6 +19,8 @@ import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 import articleDefaults from 'models/article'
+import createSlugFromTitleString from 'helpers/createSlugFromTitleString'
+import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 // import { useAsync } from 'hooks/useAsync'
 
 
@@ -28,6 +31,7 @@ const ArticleContext = React.createContext({
 	isLoaded: false,
 	publishResponse: () => {},
 	responses: null,
+	saveArticle: () => {},
 })
 
 
@@ -123,33 +127,40 @@ const ArticleContextProvider = props => {
 		user,
 	])
 
-	const saveArticle = useCallback(async articleChanges => {
+	const saveArticle = useCallback(async (articleChanges, shouldPublish = false) => {
+		const articleID = isNew ? uuid() : article.id
+
 		const now = firebase.firestore.Timestamp.now()
 		const serializedArticle = {
 			...article,
 			...articleChanges,
 			authorID: article.authorID || user.uid,
 			createdAt: now,
-			isPendingAkismetVerification: true,
-			isPendingHumanVerification: false,
-			isSpam: false,
-			publishedAt: now,
-			spamCheck: {
-				ip,
-				useragent: navigator.userAgent,
-			},
+			id: articleID,
+			isDraft: shouldPublish ? false : article.isDraft,
+			publishedAt: shouldPublish ? now : article.publishedAt,
 			updatedAt: now,
 		}
 
-		if (article.createdAt) {
-			serializedArticle.createdAt = firebase.firestore.Timestamp.fromMillis(article.createdAt.seconds * 1000)
+		if (articleChanges.title !== article.title) {
+			const newSlug = createSlugFromTitleString(createTitleStringFromArticle(serializedArticle))
+
+			if (!isNew && (article.slug !== newSlug)) {
+				serializedArticle.oldSlugs.push(serializedArticle.slug)
+			}
+
+			serializedArticle.slug = newSlug
 		}
+
+		const documentReference = collection.doc(articleID)
 
 		if (isNew) {
-			return collection.add(serializedArticle)
+			await documentReference.set(serializedArticle)
+		} else {
+			await documentReference.update(serializedArticle)
 		}
 
-		return collection.doc(article.id).update(serializedArticle)
+		return serializedArticle
 	}, [
 		article,
 		user,
@@ -201,6 +212,7 @@ const ArticleContextProvider = props => {
 				isLoaded,
 				publishResponse,
 				responses,
+				saveArticle,
 			}}>
 			{children}
 		</ArticleContext.Provider>

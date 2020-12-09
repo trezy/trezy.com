@@ -34,6 +34,7 @@ export function ArticleEditor(props) {
 	const {
 		article: articleFromContext,
 		isLoaded,
+		saveArticle,
 	} = useArticle()
 	const router = useRouter()
 
@@ -52,24 +53,19 @@ export function ArticleEditor(props) {
 
 		const shouldPublish = event.target.value === 'publish'
 
-		await saveArticle({
+		const serializedArticle = await saveArticle({
 			body,
 			subtitle,
 			synopsis,
 			title,
 		}, shouldPublish)
 
-		if (id === 'new') {
-			router.replace(
-				`/dashboard/blog/edit/${serializedArticle.id}`,
-				undefined,
-				{ shallow: true },
-			)
+		if (!id || (id === 'new')) {
+			router.replace(`/dashboard/blog/edit/${serializedArticle.id}`)
 		}
 
 		setIsUpdating(false)
 	}, [
-		article,
 		body,
 		id,
 		setIsUpdating,
@@ -95,13 +91,14 @@ export function ArticleEditor(props) {
 	}, [setTitle])
 
 	useEffect(() => {
-		if (isLoaded) {
+		if (isLoaded && article) {
 			setBody(article.body)
 			setSynopsis(article.synopsis)
 			setSubtitle(article.subtitle)
 			setTitle(article.title)
 		}
 	}, [
+		article,
 		isLoaded,
 		setBody,
 		setSynopsis,
