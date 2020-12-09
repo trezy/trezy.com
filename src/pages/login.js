@@ -111,7 +111,9 @@ export async function getServerSideProps(context) {
 	const { destination } = context.query
 
 	return {
-		props: { destination },
+		props: {
+			destination: destination || null,
+		},
 	}
 }
 
