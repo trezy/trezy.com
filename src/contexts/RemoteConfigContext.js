@@ -32,8 +32,8 @@ const REMOTE_CONFIG_MAP = [
 	},
 ]
 const RemoteConfigContext = React.createContext({
-	config: {},
 	isLoaded: false,
+	config: null,
 })
 
 
@@ -47,7 +47,7 @@ function RemoteConfigContextProvider(props) {
 		user,
 	} = useAuth()
 	const { remoteConfig } = useFirebase()
-	const [config, setConfig] = useState(null)
+	const [config, setRemoteConfig] = useState(null)
 	const timeoutID = useRef(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 
@@ -59,8 +59,8 @@ function RemoteConfigContextProvider(props) {
 			[key]: remoteConfig[`get${type.name}`](key),
 		}), {})
 
-		setConfig(compiledConfig)
-	}, [setConfig])
+		setRemoteConfig(compiledConfig)
+	}, [setRemoteConfig])
 
 	const initializeRemoteConfig = useCallback(async () => {
 		if (!remoteConfig) {
@@ -88,13 +88,11 @@ function RemoteConfigContextProvider(props) {
 		user,
 	])
 
-	useEffect(() => console.log({config}), [config])
-
 	return (
 		<RemoteConfigContext.Provider
 			value={{
-				config,
 				isLoaded,
+				config,
 			}}>
 			{children}
 		</RemoteConfigContext.Provider>

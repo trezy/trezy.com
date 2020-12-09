@@ -1,6 +1,7 @@
 // Module imports
 import {
 	useCallback,
+	useEffect,
 	useState,
 } from 'react'
 import { useRouter } from 'next/router'
@@ -14,6 +15,7 @@ import dynamic from 'next/dynamic'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { Loading } from 'components/Loading'
 import { Tabs } from 'components/Tabs'
+import { useRemoteConfig } from 'contexts/RemoteConfigContext'
 import PageWrapper from 'components/PageWrapper'
 import RequireAuthentication from 'components/RequireAuthentication'
 
@@ -43,24 +45,21 @@ const ProfileSettings = dynamic(
 
 
 
-// Local constants
-const TABS = {
-	'Profile': <ProfileSettings />,
-	'Account': <AccountSettings />,
-	'Password': <PasswordSettings />,
-	'Notifications': <NotificationsSettings />,
-}
-const TAB_NAMES = Object.keys(TABS)
-
-
-
-
-
 function Settings(props) {
 	const router = useRouter()
-	const [activeTab, setActiveTab] = useState(TAB_NAMES.find(tabName => {
+	const {
+		config: remoteConfig,
+	} = useRemoteConfig()
+	const [tabs, setTabs] = useState({
+		Profile: <ProfileSettings />,
+		Account: <AccountSettings />,
+		// Password: <PasswordSettings />,
+	})
+	const tabNames = Object.keys(tabs)
+	const [activeTab, setActiveTab] = useState(tabNames.find(tabName => {
 		return tabName.toLowerCase() === props.defaultPanel
 	}))
+
 
 	const handleTabClick = useCallback(tabName => {
 		setActiveTab(tabName)
@@ -70,6 +69,27 @@ function Settings(props) {
 			{ shallow: true },
 		)
 	}, [setActiveTab])
+
+	useEffect(() => {
+		setTabs(previousValue => {
+			const newValue = { ...previousValue }
+
+			if (remoteConfig?.isNotificationsSettingsEnabled) {
+				newValue.Notifications = <NotificationsSettings />
+			} else {
+				delete newValue.Notifications
+			}
+
+			if (newValue.Notifications !== previousValue.Notifications) {
+				return newValue
+			}
+
+			return previousValue
+		})
+	}, [
+		remoteConfig,
+		setTabs,
+	])
 
 	return (
 		<PageWrapper
@@ -82,9 +102,9 @@ function Settings(props) {
 				<Tabs
 					activeTab={activeTab}
 					onClick={handleTabClick}
-					tabs={TAB_NAMES} />
+					tabs={tabNames} />
 
-				{TABS[activeTab]}
+				{tabs[activeTab]}
 
 				{/* {(!isLoaded(auth) || !isLoaded(user)) && (
 					<section className="block">
