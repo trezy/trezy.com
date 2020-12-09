@@ -90,7 +90,9 @@ const Banner = () => {
 					onClick={handleToggle} />
 			)}
 
-			<ApplicationNav isOpen={isOpen} />
+			<ApplicationNav
+				close={close}
+				isOpen={isOpen} />
 
 			<SocialNav isOpen={isOpen} />
 		</header>

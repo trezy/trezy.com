@@ -25,6 +25,7 @@ import { useFirebase } from 'hooks/useFirebase'
 const AuthContext = React.createContext({
 	claims: null,
 	isLoaded: false,
+	logout: () => {},
 	profile: null,
 	settings: null,
 	updateProfile: () => {},
@@ -62,13 +63,22 @@ const AuthContextProvider = props => {
 				.then(idToken => {
 					setCookie(null, 'firebaseAuthToken', idToken, { maxAge: 60 * 60 * 24 * 30 })
 				})
+
+			analytics.logEvent('login', { method: '' })
 		} else {
 			destroyCookie(null, 'firebaseAuthToken')
 		}
 
 		setUser(user)
 		setIsLoaded(true)
-	}, [setUser])
+	}, [
+		setIsLoaded,
+		setUser,
+	])
+
+	const logout = useCallback(() => {
+		auth.signOut()
+	}, [])
 
 	const applyDocumentPatch = useCallback((collection, patch) => {
 		return firestore
@@ -128,6 +138,7 @@ const AuthContextProvider = props => {
 			value={{
 				claims,
 				isLoaded,
+				logout,
 				profile,
 				settings,
 				updateProfile,

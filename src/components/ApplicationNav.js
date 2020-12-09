@@ -21,10 +21,12 @@ import getAvatar from 'helpers/getAvatar'
 
 
 function ApplicationNav(props) {
-	const { isOpen } = props
+	const {
+		close,
+		isOpen,
+	} = props
 	const {
 		claims,
-		close,
 		logout,
 		user,
 	} = useAuth()
@@ -132,11 +134,8 @@ function ApplicationNav(props) {
 	)
 }
 
-ApplicationNav.defaultProps = {
-	isOpen: true,
-}
-
 ApplicationNav.propTypes = {
+	close: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 }
 
