@@ -40,32 +40,55 @@ const RemoteConfigContext = React.createContext({
 
 
 
-const RemoteConfigContextProvider = props => {
+function RemoteConfigContextProvider(props) {
 	const { children } = props
 	const {
 		isLoaded: userIsLoaded,
+		user,
 	} = useAuth()
 	const { remoteConfig } = useFirebase()
-	const [config, setConfig] = useState({})
+	const [config, setConfig] = useState(null)
+	const timeoutID = useRef(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 
-	useEffect(async () => {
-		if (userIsLoaded && remoteConfig) {
-			await remoteConfig.fetchAndActivate()
+	const updateConfig = useCallback(async () => {
+		await remoteConfig.fetchAndActivate()
 
-			const compiledConfig = REMOTE_CONFIG_MAP.reduce((accumulator, {key, type}) => ({
-				...accumulator,
-				[key]: remoteConfig[`get${type.name}`](),
-			}), {})
+		const compiledConfig = REMOTE_CONFIG_MAP.reduce((accumulator, {key, type}) => ({
+			...accumulator,
+			[key]: remoteConfig[`get${type.name}`](key),
+		}), {})
 
-			setConfig(compiledConfig)
-			setIsLoaded(true)
+		setConfig(compiledConfig)
+	}, [setConfig])
+
+	const initializeRemoteConfig = useCallback(async () => {
+		if (!remoteConfig) {
+			return timeoutID.current = setTimeout(() => initializeRemoteConfig(), 100)
+		}
+
+		remoteConfig.settings.minimumFetchIntervalMillis = 1000
+
+		await updateConfig()
+
+		setIsLoaded(true)
+	}, [
+		setIsLoaded,
+		updateConfig,
+	])
+
+	useEffect(initializeRemoteConfig, [])
+
+	useEffect(() => {
+		if (remoteConfig && isLoaded) {
+			updateConfig()
 		}
 	}, [
-		setConfig,
-		setIsLoaded,
-		userIsLoaded,
+		isLoaded,
+		user,
 	])
+
+	useEffect(() => console.log({config}), [config])
 
 	return (
 		<RemoteConfigContext.Provider
