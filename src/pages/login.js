@@ -99,16 +99,20 @@ function Login(props) {
 	)
 }
 
-Login.getInitialProps = ({ query }) => ({
-	destination: query.destination,
-})
-
 Login.defaultProps = {
 	destination: '',
 }
 
 Login.propTypes = {
 	destination: PropTypes.string,
+}
+
+export async function getServerSideProps(context) {
+	const { destination } = context.query
+
+	return {
+		props: { destination },
+	}
 }
 
 
