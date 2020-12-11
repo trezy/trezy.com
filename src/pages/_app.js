@@ -10,9 +10,7 @@ import 'scss/app.scss'
 
 
 // Module imports
-import { createFirestoreInstance } from 'redux-firestore'
 import { Provider } from 'react-redux'
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
 import withRedux from 'next-redux-wrapper'
@@ -33,7 +31,6 @@ import { useLocalForage } from 'hooks/useLocalForage'
 import { useNProgress } from 'hooks/useNProgress'
 import { usePageviews } from 'hooks/usePageviews'
 import Banner from 'components/Banner'
-import firebase from 'helpers/firebase'
 
 
 
@@ -51,40 +48,25 @@ function App(props) {
 	useNProgress()
 	usePageviews()
 
-	const rrfProps = {
-		firebase,
-		config: {
-			enableClaims: true,
-			presence: 'presence',
-			sessions: 'sessions',
-			useFirestoreForProfile: true,
-			userProfile: 'users',
-		},
-		createFirestoreInstance,
-		dispatch: store.dispatch,
-	}
-
 	return (
 		<AuthContextProvider>
 			<RemoteConfigContextProvider>
 				<ProfilesContextProvider>
 					<ArticlesContextProvider>
 						<Provider store={store}>
-							<ReactReduxFirebaseProvider {...rrfProps}>
-								<div role="application">
-									<NextHead>
-										<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+							<div role="application">
+								<NextHead>
+									<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-										<link
-											href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-											rel="stylesheet" />
-									</NextHead>
+									<link
+										href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+										rel="stylesheet" />
+								</NextHead>
 
-									<Banner isServer={isServer} />
+								<Banner isServer={isServer} />
 
-									<Component {...pageProps} />
-								</div>
-							</ReactReduxFirebaseProvider>
+								<Component {...pageProps} />
+							</div>
 						</Provider>
 					</ArticlesContextProvider>
 				</ProfilesContextProvider>

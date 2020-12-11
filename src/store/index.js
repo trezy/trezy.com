@@ -4,7 +4,6 @@ import {
 	applyMiddleware,
 } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { reduxFirestore } from 'redux-firestore'
 import thunkMiddleware from 'redux-thunk'
 
 
@@ -12,7 +11,6 @@ import thunkMiddleware from 'redux-thunk'
 
 
 // Component imports
-import firebase from 'helpers/firebase'
 import initialState from 'store/initialState'
 import reducer from 'store/reducers'
 
@@ -38,7 +36,6 @@ const initStore = (state = initialState) => createStore(
 	state,
 	composeWithDevTools(
 		applyMiddleware(thunkMiddleware),
-		reduxFirestore(firebase),
 	),
 )
 
