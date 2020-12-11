@@ -15,8 +15,6 @@ import React from 'react'
 import PageWrapper from 'components/PageWrapper'
 import ProfileCard from 'components/ProfileCard'
 import RequireAuthentication from 'components/RequireAuthentication'
-import useAuthSelector from 'store/selectors/useAuthSelector'
-import useUsersSelector from 'store/selectors/useUsersSelector'
 
 
 

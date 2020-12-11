@@ -13,7 +13,6 @@ import { useProfiles } from 'contexts/ProfilesContext'
 import Alert from 'components/Alert'
 import getAvatar from 'helpers/getAvatar'
 import MarkdownRenderer from 'components/MarkdownRenderer'
-import useUserSelector from 'store/selectors/useUserSelector'
 
 
 

@@ -18,8 +18,6 @@ import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
 import Responses from 'components/Responses'
-import useArticleSelector from 'store/selectors/useArticleSelector'
-import useClaimsSelector from 'store/selectors/useClaimsSelector'
 
 
 
