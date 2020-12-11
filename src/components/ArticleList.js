@@ -8,8 +8,8 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { Anchor } from 'components/Anchor'
 import { useArticles } from 'contexts/ArticlesContext'
-import { Link } from 'components/Link'
 import Alert from 'components/Alert'
 import ArticleMeta from 'components/ArticleMeta'
 
@@ -67,14 +67,14 @@ const ArticleList = props => {
 						key={id}>
 						<article className="summary">
 							<h3>
-								<Link
+								<Anchor
 									href={`/blog/${slug}`}
 									tracking={['select_content', {
 										content_type: 'article',
 										item_id: id,
 									}]}>
-									<a>{title}</a>
-								</Link>
+									{title}
+								</Anchor>
 							</h3>
 
 							<ArticleMeta {...article} />

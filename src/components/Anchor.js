@@ -15,7 +15,7 @@ import { useFirebase } from 'hooks/useFirebase'
 
 
 
-function Link(props) {
+function Anchor(props) {
 	const router = useRouter()
 	const {
 		className,
@@ -49,16 +49,16 @@ function Link(props) {
 	)
 }
 
-Link.defaultProps = {
+Anchor.defaultProps = {
 	className: '',
 	tracking: null,
 }
 
-Link.propTypes = {
+Anchor.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 	href: PropTypes.string.isRequired,
 	tracking: PropTypes.array,
 }
 
-export { Link }
+export { Anchor }
