@@ -25,9 +25,8 @@ function ProfilePage(props) {
 	} = props
 	const {
 		addProfile,
-		connectProfileByUsername,
-		disconnectProfileByUsername,
 		profilesByUsername,
+		watchProfile,
 	} = useProfiles()
 	const router = useRouter()
 	const [profileFromSSR, setProfileFromSSR] = useState(props.profile)
@@ -42,18 +41,12 @@ function ProfilePage(props) {
 	}, [])
 
 	useEffect(() => {
-		connectProfileByUsername(username)
-		return () => disconnectProfileByUsername(username)
-	}, [
-		connectProfileByUsername,
-		disconnectProfileByUsername,
-	])
-
-	useEffect(() => {
 		if (profile?.visibility === 'private') {
 			router.reload()
 		}
 	}, [profile])
+
+	watchProfile({ username })
 
 	if (!profile) {
 		return (

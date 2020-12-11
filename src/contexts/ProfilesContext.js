@@ -24,8 +24,7 @@ import { useAuth } from 'contexts/AuthContext'
 
 const ProfilesContext = React.createContext({
 	addProfile: () => {},
-	connectProfileByUsername: () => {},
-	disconnectProfileByUsername: () => {},
+	isLoaded: false,
 	profilesByID: {},
 	profilesByUsername: {},
 	watchProfile: () => {},
@@ -42,6 +41,7 @@ const ProfilesContextProvider = props => {
 		current: collection,
 	} = useRef(firestore?.collection('profiles'))
 	const connections = useRef({})
+	const [isLoaded, setIsLoaded] = useState(false)
 	const [profilesByID, setProfilesByID] = useState({})
 	const [profilesByUsername, setProfilesByUsername] = useState({})
 
@@ -50,7 +50,9 @@ const ProfilesContextProvider = props => {
 	const handleSnapshot = useCallback(snapshot => {
 		setProfilesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
 		setProfilesByUsername(updateStateObjectFromSnapshot(snapshot, 'username'))
+		setIsLoaded(true)
 	}, [
+		setIsLoaded,
 		setProfilesByID,
 		setProfilesByUsername,
 	])
@@ -72,35 +74,6 @@ const ProfilesContextProvider = props => {
 		setProfilesByID,
 		setProfilesByUsername,
 	])
-
-	const connectProfileByUsername = useCallback(username => {
-		connections.current[`username:${username}`] = collection
-			.where('visibility', '!=', 'private')
-			.where('username', '==', username)
-			.onSnapshot(handleSnapshot)
-	}, [handleSnapshot])
-
-	const disconnectProfileByUsername = useCallback(username => {
-		const unsubscribe = connections.current[`username:${username}`]
-
-		if (unsubscribe) {
-			unsubscribe()
-		}
-	}, [])
-
-	const connectProfileByID = useCallback(userID => {
-		connections.current[`id:${userID}`] = collection
-			.doc(userID)
-			.onSnapshot(handleSnapshot)
-	}, [handleSnapshot])
-
-	const disconnectProfileByID = useCallback(userID => {
-		const unsubscribe = connections.current[`id:${userID}`]
-
-		if (unsubscribe) {
-			unsubscribe()
-		}
-	}, [])
 
 	const handleDocumentSnapshotRemoved = useCallback(snapshot => {
 		console.log('handleDocumentSnapshotRemoved', {
@@ -180,14 +153,17 @@ const ProfilesContextProvider = props => {
 
 			return newValue
 		})
+
+		setIsLoaded(true)
 	}, [
+		setIsLoaded,
 		setProfilesByID,
 		setProfilesByUsername,
 		setProfilesToWatch,
 	])
 
 	const handleQuerySnapshot = useCallback(snapshot => {
-		snapshot.docChanges().forEach(changes => {
+		snapshot.docChanges().forEach(change => {
 			const {
 				doc,
 				type,
@@ -261,8 +237,7 @@ const ProfilesContextProvider = props => {
 		<ProfilesContext.Provider
 			value={{
 				addProfile,
-				connectProfileByUsername,
-				disconnectProfileByUsername,
+				isLoaded,
 				profilesByID,
 				profilesByUsername,
 				watchProfile,
