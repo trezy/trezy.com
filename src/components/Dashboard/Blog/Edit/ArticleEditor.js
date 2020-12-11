@@ -74,6 +74,11 @@ export function ArticleEditor(props) {
 		title,
 	])
 
+	const handlePublish = useCallback(event => {
+		event.preventDefault()
+		handleSubmit(event)
+	}, [handleSubmit])
+
 	const handleBodyChange = useCallback(({ target: { value } }) => {
 		setBody(value)
 	}, [setBody])
@@ -185,6 +190,7 @@ export function ArticleEditor(props) {
 								<Button
 									className="primary"
 									disabled={!isLoaded || isUpdating}
+									onClick={handlePublish}
 									type="submit"
 									value="publish">
 									Publish

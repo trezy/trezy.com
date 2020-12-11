@@ -129,7 +129,6 @@ const ArticleContextProvider = props => {
 
 	const saveArticle = useCallback(async (articleChanges, shouldPublish = false) => {
 		const articleID = isNew ? uuid() : article.id
-
 		const now = firebase.firestore.Timestamp.now()
 		const serializedArticle = {
 			...article,
