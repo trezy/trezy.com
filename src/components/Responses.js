@@ -20,30 +20,6 @@ import { useAuth } from 'contexts/AuthContext'
 
 const Responses = props => {
 	const { responses } = props
-	// const { user } = useAuth()
-	// const [hasRendered, setHasRendered] = useState(false)
-
-	// useEffect(() => {
-	// 	if (!responses) {
-	// 		return
-	// 	}
-
-	// 	const [latestResponse] = responses
-	// 	const responseElement = document.querySelector(`[id="${latestResponse.id}"]`)
-
-	// 	if (!hasRendered || (user?.uid !== latestResponse.authorID) || !responseElement) {
-	// 		console.log({responseElement})
-	// 		// window.scrollTo({
-	// 		// 	behavior: 'smooth',
-	// 		// 	left: 0,
-	// 		// 	top: responseElement.offsetTop,
-	// 		// })
-	// 	}
-	// }, [responses])
-
-	// useEffect(() => {
-	// 	setHasRendered(true)
-	// }, [setHasRendered])
 
 	return (
 		<aside className="block responses-container">

@@ -161,7 +161,6 @@ const ArticlesContextProvider = props => {
 
 	useEffect(() => {
 		if (includeDrafts && authorID) {
-			console.log('subscribing to drafts')
 			const unsubscribe = collection
 				.where('isDraft', '==', true)
 				.where('authorID', '==', authorID)
@@ -170,7 +169,6 @@ const ArticlesContextProvider = props => {
 				.onSnapshot(handleDraftsSnapshot)
 
 			return () => {
-				console.log('unsubscribing from drafts')
 				unsubscribe()
 				setDrafts(null)
 				setDraftsByID({})
