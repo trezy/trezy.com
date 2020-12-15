@@ -8,3 +8,5 @@ logs/
 public/prism-grammars
 
 .now
+
+.vercel
