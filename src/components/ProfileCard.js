@@ -24,7 +24,7 @@ import MarkdownRenderer from 'components/MarkdownRenderer'
 function ProfileCard(props) {
 	const {
 		linkToProfile,
-		user,
+		profile,
 	} = props
 	const {
 		bio,
@@ -34,14 +34,14 @@ function ProfileCard(props) {
 		socialMedia,
 		username,
 		website,
-	} = user || {}
+	} = profile || {}
 
 	return (
 		<header className="block no-pad">
 			<div className="card profile">
 				<Image
 					alt={`${displayName}'s avatar`}
-					src={getAvatar(user)} />
+					src={getAvatar(profile)} />
 
 				<header>
 					{linkToProfile && (
@@ -127,7 +127,7 @@ ProfileCard.defaultProps = {
 
 ProfileCard.propTypes = {
 	linkToProfile: PropTypes.bool,
-	user: PropTypes.object.isRequired,
+	profile: PropTypes.object.isRequired,
 }
 
 

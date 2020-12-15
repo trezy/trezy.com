@@ -1,19 +1,7 @@
-// Module imports
-import {
-	isEmpty,
-	isLoaded,
-	useFirestoreConnect,
-} from 'react-redux-firebase'
-import Link from 'next/link'
-import React from 'react'
-
-
-
-
-
 // Component imports
+import { RolesContextProvider } from 'contexts/RolesContext'
+import { UserAdmin } from 'components/Admin/Users'
 import PageWrapper from 'components/PageWrapper'
-import ProfileCard from 'components/ProfileCard'
 import RequireAuthentication from 'components/RequireAuthentication'
 
 
@@ -21,15 +9,6 @@ import RequireAuthentication from 'components/RequireAuthentication'
 
 
 export default function UserAdminPage() {
-	const auth = useAuthSelector()
-	const users = useUsersSelector()
-
-	useFirestoreConnect([{
-		collection: 'users',
-		// limit: 50,
-		// orderBy: ['username', 'desc'],
-	}])
-
 	return (
 		<PageWrapper
 			breadcrumbs={[
@@ -38,21 +17,9 @@ export default function UserAdminPage() {
 			]}
 			title="Manage Users">
 			<RequireAuthentication>
-				<section className="block">
-					{isLoaded(users) && (
-						<ul className="card-list">
-							{users.map(user => (
-								<li key={user.id}>
-									<ProfileCard
-										linkToProfile
-										user={user} />
-								</li>
-							))}
-						</ul>
-					)}
-
-					{!isLoaded(users) && 'Loading...'}
-				</section>
+				<RolesContextProvider>
+					<UserAdmin />
+				</RolesContextProvider>
 			</RequireAuthentication>
 		</PageWrapper>
 	)

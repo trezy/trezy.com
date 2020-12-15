@@ -27,6 +27,7 @@ const AuthContext = React.createContext({
 	isLoaded: false,
 	logout: () => {},
 	profile: null,
+	refreshUser: () => {},
 	settings: null,
 	updateProfile: () => {},
 	updateSettings: () => {},
@@ -57,16 +58,7 @@ const AuthContextProvider = props => {
 		if (user) {
 			analytics.setUserId(user.uid)
 			analytics.setUserProperties({ isAuthor: 1 })
-
-			user
-				.getIdToken()
-				.then(idToken => {
-					setCookie(null, 'firebaseAuthToken', idToken, { maxAge: 60 * 60 * 24 * 30 })
-				})
-
 			analytics.logEvent('login', { method: '' })
-		} else {
-			destroyCookie(null, 'firebaseAuthToken')
 		}
 
 		setUser(user)
@@ -76,7 +68,23 @@ const AuthContextProvider = props => {
 		setUser,
 	])
 
+	const handleIDTokenChange = useCallback(user => {
+		if (user) {
+			user
+				.getIdToken()
+				.then(idToken => {
+					setCookie(null, 'firebaseAuthToken', idToken, {
+						maxAge: 60 * 60 * 24 * 30,
+						path: '/',
+					})
+				})
+		} else {
+			destroyCookie(null, 'firebaseAuthToken')
+		}
+	}, [])
+
 	const logout = useCallback(() => {
+		destroyCookie(null, 'firebaseAuthToken')
 		auth.signOut()
 	}, [])
 
@@ -87,6 +95,8 @@ const AuthContextProvider = props => {
 			.update(patch)
 	}, [user])
 
+	const refreshUser = useCallback(() => user.reload(), [user])
+
 	const updateProfile = useCallback(profilePatch => {
 		applyDocumentPatch('profiles', profilePatch)
 	}, [applyDocumentPatch])
@@ -96,6 +106,7 @@ const AuthContextProvider = props => {
 	}, [applyDocumentPatch])
 
 	useEffect(() => auth.onAuthStateChanged(handleAuthStateChange), [handleAuthStateChange])
+	useEffect(() => auth.onIdTokenChanged(handleIDTokenChange), [handleIDTokenChange])
 
 	useEffect(async () => {
 		const unsubscribers = []
@@ -140,6 +151,7 @@ const AuthContextProvider = props => {
 				isLoaded,
 				logout,
 				profile,
+				refreshUser,
 				settings,
 				updateProfile,
 				updateSettings,

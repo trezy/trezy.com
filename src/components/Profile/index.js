@@ -36,7 +36,7 @@ function Profile(props) {
 		<PageWrapper
 			showHeader={false}
 			title={`${profile.displayName}'s Profile`}>
-			<ProfileCard user={profile} />
+			<ProfileCard profile={profile} />
 
 			<section className="block">
 				<header>

@@ -24,6 +24,7 @@ import { useAuth } from 'contexts/AuthContext'
 
 const ProfilesContext = React.createContext({
 	addProfile: () => {},
+	connectProfiles: () => {},
 	isLoaded: false,
 	profilesByID: {},
 	profilesByUsername: {},
@@ -36,15 +37,18 @@ const ProfilesContext = React.createContext({
 
 const ProfilesContextProvider = props => {
 	const { children } = props
-	const { user } = useAuth
+	const {
+		claims,
+		user,
+	} = useAuth()
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('profiles'))
 	const connections = useRef({})
+	const connectUnsubscriber = useRef(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [profilesByID, setProfilesByID] = useState({})
 	const [profilesByUsername, setProfilesByUsername] = useState({})
-
 	const [profilesToWatch, setProfilesToWatch] = useState({})
 
 	const handleSnapshot = useCallback(snapshot => {
@@ -140,18 +144,22 @@ const ProfilesContextProvider = props => {
 		})
 
 		setProfilesToWatch(previousValue => {
-			const newValue = { ...previousValue }
+			if (previousValue[data.username] || previousValue[data.id]) {
+				const newValue = { ...previousValue }
 
-			if (!newValue[data.username]) {
-				newValue[data.username] = newValue[data.id]
-			} else if (!newValue[data.id]) {
-				newValue[data.id] = newValue[data.username]
+				if (!newValue[data.username]) {
+					newValue[data.username] = newValue[data.id]
+				} else if (!newValue[data.id]) {
+					newValue[data.id] = newValue[data.username]
+				}
+
+				newValue[data.username].loading = false
+				newValue[data.id].loading = false
+
+				return newValue
 			}
 
-			newValue[data.username].loading = false
-			newValue[data.id].loading = false
-
-			return newValue
+			return previousValue
 		})
 
 		setIsLoaded(true)
@@ -233,10 +241,34 @@ const ProfilesContextProvider = props => {
 		setProfilesToWatch,
 	])
 
+	const connectProfiles = useCallback(() => {
+		useEffect(() => {
+			let query = collection
+
+			console.log({claims})
+			// if (!claims?.['views.admin.users']) {
+			// 	query = query.where('visibility', '!=', 'private')
+			// }
+
+			return query
+				// .orderBy('visibility', 'desc')
+				// .orderBy('username', 'desc')
+				.limit(50)
+				.onSnapshot(handleQuerySnapshot)
+		}, [
+			claims,
+			handleQuerySnapshot,
+		])
+	}, [
+		claims,
+		handleQuerySnapshot,
+	])
+
 	return (
 		<ProfilesContext.Provider
 			value={{
 				addProfile,
+				connectProfiles,
 				isLoaded,
 				profilesByID,
 				profilesByUsername,
