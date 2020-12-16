@@ -59,7 +59,7 @@ const ArticleContextProvider = props => {
 		articleFromSSR ||
 		(isNew ? articleDefaults : null)
 	)
-	const [isLoaded, setisLoaded] = useState(isNew)
+	const [isLoaded, setIsLoaded] = useState(isNew)
 	const [responses, setResponses] = useState(null)
 
 	const handleArticleSnapshot = useCallback(snapshot => {
@@ -77,10 +77,10 @@ const ArticleContextProvider = props => {
 			})
 		}
 
-		setisLoaded(true)
+		setIsLoaded(true)
 	}, [
 		setArticle,
-		setisLoaded,
+		setIsLoaded,
 	])
 
 	const handleResponsesSnapshot = useCallback(snapshot => {
