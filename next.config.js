@@ -89,6 +89,26 @@ module.exports = {
 				destination: '/settings/profile',
 				permanent: true,
 			},
+			{
+				source: '/code-of-conduct',
+				destination: '/legal/code-of-conduct',
+				permanent: true,
+			},
+			{
+				source: '/cookie-policy',
+				destination: '/legal/cookie-policy',
+				permanent: true,
+			},
+			{
+				source: '/privacy-policy',
+				destination: '/legal/privacy-policy',
+				permanent: true,
+			},
+			{
+				source: '/terms-of-service',
+				destination: '/legal/terms-of-service',
+				permanent: true,
+			},
 		]
 	},
 
