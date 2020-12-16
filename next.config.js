@@ -89,6 +89,8 @@ module.exports = {
 				destination: '/settings/profile',
 				permanent: true,
 			},
+
+			// Legacy URLs
 			{
 				source: '/code-of-conduct',
 				destination: '/legal/code-of-conduct',
@@ -107,6 +109,16 @@ module.exports = {
 			{
 				source: '/terms-of-service',
 				destination: '/legal/terms-of-service',
+				permanent: true,
+			},
+			{
+				source: '/index',
+				destination: '/',
+				permanent: true,
+			},
+			{
+				source: '/mozy',
+				destination: '/',
 				permanent: true,
 			},
 		]
