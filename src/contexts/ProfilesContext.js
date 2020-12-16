@@ -245,7 +245,6 @@ const ProfilesContextProvider = props => {
 		useEffect(() => {
 			let query = collection
 
-			console.log({claims})
 			// if (!claims?.['views.admin.users']) {
 			// 	query = query.where('visibility', '!=', 'private')
 			// }
