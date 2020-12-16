@@ -31,6 +31,7 @@ export {
 	faServer,
 	faSignInAlt,
 	faSignOutAlt,
+	faSlidersH,
 	faSpaceShuttle,
 	faSpinner,
 	faSquareFull,

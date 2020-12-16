@@ -124,6 +124,10 @@ function ApplicationNav(props) {
 						icon="address-card"
 						title="My Profile" />
 					<NavLink
+						href="/settings"
+						icon="sliders-h"
+						title="Settings" />
+					<NavLink
 						href="/dashboard/blog"
 						icon="sign-out-alt"
 						onClick={handleLogout}
