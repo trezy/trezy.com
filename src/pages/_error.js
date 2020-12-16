@@ -5,20 +5,46 @@ import PageWrapper from 'components/PageWrapper'
 
 
 
+// Local constants
+const PAGE_DATA = {
+	405: {
+		body: (
+			<>
+				<p>Uh, whatever you just did? Yeah, that thing just is <em>definitely</em> not supported.</p>
+				<p>If you're trying to hack into the site, then, like... stop, I guess? That's just rude.</p>
+			</>
+		),
+		title: 'What do you think you\'re doing‽',
+	},
+	500: {
+		body: (
+			<>
+				<p>Okay, so... this is embarassing. I'm not sure what happened, but I <em>do</em> know that it's not good.</p>
+				<p>Whatever just happened has been reported to the proper authorities or whatever.</p>
+			</>
+		),
+		title: 'Aw, butts.',
+	},
+}
+
+
+
+
+
 function ErrorPage(props) {
 	const { statusCode } = props
 
 	const {
 		body,
 		title,
-	} = pageData[statusCode] || {}
+	} = PAGE_DATA[statusCode] || {}
 
 	return (
 		<PageWrapper
 			description="An error has occured."
 			title={`Error: ${statusCode} - ${title || 'Unrecognized Error'}`}>
 
-			{Boolean(!pageData[statusCode]) && (
+			{Boolean(!PAGE_DATA[statusCode]) && (
 				<section className="block">
 					<h2><code>{statusCode}</code> Unrecognized Error</h2>
 
@@ -26,7 +52,7 @@ function ErrorPage(props) {
 				</section>
 			)}
 
-			{Boolean(pageData[statusCode]) && (
+			{Boolean(PAGE_DATA[statusCode]) && (
 				<section className="block">
 					<h2><code>{statusCode}</code> {title}</h2>
 
