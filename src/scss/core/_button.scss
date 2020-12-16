@@ -9,4 +9,8 @@ button {
 	font-size: inherit;
 	line-height: 1;
 	padding: 0;
+
+	> * {
+		pointer-events: none;
+	}
 }
