@@ -44,13 +44,9 @@
 			&:focus,
 			&:hover {
 				background-color: var(--brand-primary);
-				color: var(--inverted-text-color);
+				color: var(--white);
 				outline: none;
 				width: calc(100%);
-
-				@media (prefers-color-scheme: dark) {
-					color: var(--text-color);
-				}
 			}
 
 			[data-icon],
@@ -89,7 +85,7 @@
 
 	.subnav {
 		> ul {
-			background-color: var(--light-grey);
+			background-color: var(--background-color-alt);
 			color: var(--background-color);
 			overflow: hidden;
 			transition-duration: 0.2s;

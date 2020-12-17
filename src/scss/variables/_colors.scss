@@ -80,6 +80,7 @@
 			@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 			@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 			@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
+			@include generateHSLCustomPropertiesFromHex(background-color-alt, #373737);
 			@include generateHSLCustomPropertiesFromHex(main-background-color, #000000);
 		}
 	}

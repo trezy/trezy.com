@@ -5,6 +5,7 @@
 	--button-shadow-color-l: var(--background-color-l);
 	--button-shadow-opacity: 0;
 
+	color: var(--white);
 	padding: var(--gutter) calc(var(--gutter) * 2);
 	position: relative;
 	opacity: 1;
@@ -101,11 +102,5 @@
 
 	&.primary {
 		--button-background-color: var(--brand-primary);
-
-		color: var(--background-color);
-
-		@media (prefers-color-scheme: dark) {
-			color: var(--text-color);
-		}
 	}
 }
