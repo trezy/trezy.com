@@ -11,7 +11,7 @@
 	}
 
 	button {
-		background-color: var(--dark-grey);
+		background-color: var(--background-color);
 		border-radius: 0.5rem 0.5rem 0 0;
 		margin-right: 0.2rem;
 		padding: calc(var(--gutter) / 2) var(--gutter);
@@ -21,11 +21,12 @@
 
 		&:focus,
 		&:hover {
-			background-color: var(--light-grey);
+			background-color: var(--background-color-hover);
 		}
 
 		&.is-active {
 			background-color: var(--brand-primary);
+			color: var(--white);
 		}
 	}
 }
