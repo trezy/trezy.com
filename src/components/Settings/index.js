@@ -36,6 +36,10 @@ const PasswordSettings = dynamic(
 	() => import('components/Settings/PasswordSettings').then(mod => mod.PasswordSettings),
 	{ loading: () => <Loading /> },
 )
+const PreferencesSettings = dynamic(
+	() => import('components/Settings/PreferencesSettings').then(mod => mod.PreferencesSettings),
+	{ loading: () => <Loading /> },
+)
 const ProfileSettings = dynamic(
 	() => import('components/Settings/ProfileSettings').then(mod => mod.ProfileSettings),
 	{ loading: () => <Loading /> },
@@ -52,6 +56,7 @@ function Settings(props) {
 	} = useRemoteConfig()
 	const [tabs, setTabs] = useState({
 		Profile: <ProfileSettings />,
+		Preferences: <PreferencesSettings />,
 		Account: <AccountSettings />,
 		// Password: <PasswordSettings />,
 	})
