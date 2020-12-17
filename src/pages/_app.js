@@ -27,9 +27,9 @@ import { ProfilesContextProvider } from 'contexts/ProfilesContext'
 import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext'
 import { reportWebVitals } from 'helpers/reportWebVitals'
 import { useFontawesome } from 'hooks/useFontawesome'
-import { useLocalForage } from 'hooks/useLocalForage'
 import { useNProgress } from 'hooks/useNProgress'
 import { usePageviews } from 'hooks/usePageviews'
+import { useTheme } from 'hooks/useTheme'
 import Banner from 'components/Banner'
 
 
@@ -47,6 +47,7 @@ function App(props) {
 	useFontawesome()
 	useNProgress()
 	usePageviews()
+	useTheme()
 
 	return (
 		<AuthContextProvider>

@@ -66,10 +66,19 @@
 
 	--transparent: transparent;
 
-	@media (prefers-color-scheme: dark) {
+	&.dark {
 		@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 		@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 		@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
 		@include generateHSLCustomPropertiesFromHex(main-background-color, #000000);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		&:not(.light) {
+			@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
+			@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
+			@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
+			@include generateHSLCustomPropertiesFromHex(main-background-color, #000000);
+		}
 	}
 }

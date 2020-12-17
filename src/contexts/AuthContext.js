@@ -16,7 +16,9 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { updateTheme } from 'helpers/updateTheme'
 import { useFirebase } from 'hooks/useFirebase'
+import { useLocalForage } from 'hooks/useLocalForage'
 
 
 
@@ -45,6 +47,7 @@ const AuthContextProvider = props => {
 		auth,
 		firestore,
 	} = useFirebase()
+	const LocalForage = useLocalForage()
 	const [claims, setClaims] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(true)
 	const [profile, setProfile] = useState(null)
@@ -143,6 +146,17 @@ const AuthContextProvider = props => {
 		setSettings,
 		user,
 	])
+
+	useEffect(async () => {
+		let theme = await LocalForage.getItem('theme')
+
+		if (settings?.theme && (settings.theme !== theme)) {
+			theme = settings.theme
+			LocalForage.setItem('theme', theme)
+		}
+
+		updateTheme(theme)
+	}, [settings])
 
 	return (
 		<AuthContext.Provider
