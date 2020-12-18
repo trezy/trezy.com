@@ -16,10 +16,6 @@
 		transform: translate(-50%, -50%);
 	}
 
-	&:after {
-		background-color: hsla(var(--brand-primary-hsl), 0.5);
-	}
-
 	@media (min-width: 1300px) {
 		&, &:focus {
 			opacity: 0;
