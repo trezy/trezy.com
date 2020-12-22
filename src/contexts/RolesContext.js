@@ -6,7 +6,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-// import LocalForage from 'localforage'
 import PropTypes from 'prop-types'
 
 

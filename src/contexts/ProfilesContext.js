@@ -6,7 +6,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-// import LocalForage from 'localforage'
 import PropTypes from 'prop-types'
 
 
@@ -17,7 +16,6 @@ import PropTypes from 'prop-types'
 import { firestore } from 'helpers/firebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 import { useAuth } from 'contexts/AuthContext'
-// import { useAsync } from 'hooks/useAsync'
 
 
 

@@ -6,7 +6,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-// import LocalForage from 'localforage'
 import PropTypes from 'prop-types'
 
 
@@ -16,7 +15,6 @@ import PropTypes from 'prop-types'
 // Local imports
 import { useFirebase } from 'hooks/useFirebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
-// import { useAsync } from 'hooks/useAsync'
 
 
 

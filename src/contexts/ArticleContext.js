@@ -6,7 +6,6 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-// import LocalForage from 'localforage'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v4'
 
@@ -21,7 +20,6 @@ import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnap
 import articleDefaults from 'models/article'
 import createSlugFromTitleString from 'helpers/createSlugFromTitleString'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
-// import { useAsync } from 'hooks/useAsync'
 
 
 
