@@ -67,7 +67,7 @@
 
 	--transparent: transparent;
 
-	&.dark {
+	&[next-color-mode="dark"] {
 		@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 		@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 		@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
@@ -76,7 +76,7 @@
 	}
 
 	@media (prefers-color-scheme: dark) {
-		&:not(.light) {
+		&:not([next-color-mode="light"]) {
 			@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 			@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 			@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);

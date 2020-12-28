@@ -1,18 +1,12 @@
 // Module imports
-import React from 'react'
-import uuid from 'uuid/v4'
-
-
-
-
-
-// Module imports
 import NextDocument, {
 	Head,
 	Html,
 	Main,
 	NextScript,
 } from 'next/document'
+import { ColorModeScript } from 'next-color-mode'
+import uuid from 'uuid/v4'
 
 
 
@@ -53,6 +47,8 @@ function Document() {
 
 				<link rel="webmention" href="https://webmention.io/trezy.com/webmention" />
 				<link rel="pingback" href="https://webmention.io/trezy.com/xmlrpc" />
+
+				<ColorModeScript />
 			</Head>
 
 			<body>

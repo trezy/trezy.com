@@ -6286,6 +6286,11 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+next-color-mode@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/next-color-mode/-/next-color-mode-0.0.1.tgz#8871f69c3ce7b622e02a63348c4385075501a1cf"
+  integrity sha512-Q3YDh2u/VK0S3vQueTkoYF/j+jK5NMQY+kHb5+FTewN2oQ+mIDrhl4EUTAPn5q5y6UVgD9neI63GjoO9Lko+FA==
+
 next-redux-wrapper@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-4.0.1.tgz#70f2d83b5bd0fb07ec19e6e70bea6b179d295fd7"

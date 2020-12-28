@@ -10,6 +10,8 @@ import 'scss/app.scss'
 
 
 // Module imports
+import { ColorModeContextProvider } from 'next-color-mode'
+import { parseCookies } from 'nookies'
 import { Provider } from 'react-redux'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
@@ -29,7 +31,6 @@ import { reportWebVitals } from 'helpers/reportWebVitals'
 import { useFontawesome } from 'hooks/useFontawesome'
 import { useNProgress } from 'hooks/useNProgress'
 import { usePageviews } from 'hooks/usePageviews'
-import { useTheme } from 'hooks/useTheme'
 import Banner from 'components/Banner'
 
 
@@ -47,32 +48,33 @@ function App(props) {
 	useFontawesome()
 	useNProgress()
 	usePageviews()
-	useTheme()
 
 	return (
-		<AuthContextProvider>
-			<RemoteConfigContextProvider>
-				<ProfilesContextProvider>
-					<ArticlesContextProvider>
-						<Provider store={store}>
-							<div role="application">
-								<NextHead>
-									<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+		<ColorModeContextProvider>
+			<AuthContextProvider>
+				<RemoteConfigContextProvider>
+					<ProfilesContextProvider>
+						<ArticlesContextProvider>
+							<Provider store={store}>
+								<div role="application">
+									<NextHead>
+										<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-									<link
-										href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
-										rel="stylesheet" />
-								</NextHead>
+										<link
+											href="https://fonts.googleapis.com/css?family=Source+Code+Pro&amp;display=swap"
+											rel="stylesheet" />
+									</NextHead>
 
-								<Banner isServer={isServer} />
+									<Banner isServer={isServer} />
 
-								<Component {...pageProps} />
-							</div>
-						</Provider>
-					</ArticlesContextProvider>
-				</ProfilesContextProvider>
-			</RemoteConfigContextProvider>
-		</AuthContextProvider>
+									<Component {...pageProps} />
+								</div>
+							</Provider>
+						</ArticlesContextProvider>
+					</ProfilesContextProvider>
+				</RemoteConfigContextProvider>
+			</AuthContextProvider>
+		</ColorModeContextProvider>
 	)
 }
 

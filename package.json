@@ -33,6 +33,7 @@
 		"micro-cors": "^0.1.1",
 		"moment": "^2.25.3",
 		"next": "10",
+		"next-color-mode": "^0.0.1",
 		"next-redux-wrapper": "^4.0.1",
 		"next-safe": "^1.0.3",
 		"nookies": "^2.5.0",
