@@ -3,10 +3,9 @@
 .env
 .env.build
 yarn-error.log
+yalc.lock
+.vercel/
+.yalc/
 node_modules/
 logs/
 public/prism-grammars
-
-.now
-
-.vercel
