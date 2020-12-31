@@ -33,6 +33,7 @@ function ArticlePage(props) {
 			slug={slug}>
 			<PageWrapper
 				description={article?.synopsis}
+				showHeader={false}
 				title={createTitleStringFromArticle(article)}>
 				{!article && (
 					<section className="block">
@@ -41,7 +42,15 @@ function ArticlePage(props) {
 				)}
 
 				{Boolean(article) && (
-					<Article />
+					<>
+						<header className="block no-top-margin">
+							<h2>{article.title}</h2>
+
+							<ArticleMeta {...article} />
+						</header>
+
+						<Article />
+					</>
 				)}
 			</PageWrapper>
 		</ArticleContextProvider>
