@@ -3,7 +3,6 @@
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0;
-	font-family: 'Source Code Pro', monospace;
 	height: calc(100vh - (var(--gutter) * 2));
 	left: var(--gutter);
 	min-width: var(--banner-width);
