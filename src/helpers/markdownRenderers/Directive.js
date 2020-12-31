@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { Figure } from 'components/Figure'
+import { FigureCaption } from 'components/FigureCaption'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
 
@@ -16,8 +18,12 @@ import Tweet from 'components/Tweet'
 
 // Local constants
 const availableDirectives = {
+	containerDirective: {
+		figure: Figure,
+	},
 	leafDirective: {
 		codepen: Codepen,
+		figcaption: FigureCaption,
 		tweet: Tweet,
 	},
 }
@@ -33,6 +39,13 @@ const Directive = props => {
 		name,
 		node,
 	} = props
+
+	console.log({
+		attributes,
+		'node.type': node.type,
+		name,
+		props,
+	})
 
 	const DirectiveComponent = availableDirectives[node.type]?.[name.toLowerCase()]
 
