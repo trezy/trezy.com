@@ -55,7 +55,7 @@ export function ResponseForm() {
 
 	const handleFormClick = useCallback(({ target }) => {
 		if (formElement.current.contains(target)) {
-			inputElement.current.focus()
+			inputElement.current?.focus()
 		}
 	}, [])
 
