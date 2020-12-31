@@ -135,7 +135,7 @@ export function ResponseForm() {
 								<FontAwesomeIcon
 									fixedWidth
 									icon={['fab', 'markdown']} />
-								Markdown supported
+								{' '}Markdown supported
 							</small>
 
 							<menu
