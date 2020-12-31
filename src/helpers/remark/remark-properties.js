@@ -60,7 +60,9 @@ const properties = () => {
 					return accumulator
 				}, {})
 
-			targetNode.data = props
+			if (targetNode) {
+				targetNode.data = props
+			}
 
 			return [visitWithParents.SKIP, childIndex]
 		}
