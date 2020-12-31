@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { Abbreviation } from 'components/Abbreviation'
 import { Figure } from 'components/Figure'
 import { FigureCaption } from 'components/FigureCaption'
 import Codepen from 'components/Codepen'
@@ -25,6 +26,9 @@ const availableDirectives = {
 		codepen: Codepen,
 		figcaption: FigureCaption,
 		tweet: Tweet,
+	},
+	textDirective: {
+		abbr: Abbreviation,
 	},
 }
 
@@ -48,6 +52,7 @@ const Directive = props => {
 	})
 
 	const DirectiveComponent = availableDirectives[node.type]?.[name.toLowerCase()]
+	console.log({DirectiveComponent})
 
 	if (!DirectiveComponent) {
 		return null
