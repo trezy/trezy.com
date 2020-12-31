@@ -16,7 +16,10 @@
 		color: var(--brand-primary);
 		content: '>';
 		grid-area: 'caret';
+		margin-left: 0;
 		margin-right: 0.5rem;
+		transition-duration: 0.2s;
+		transition-property: margin-left;
 	}
 
 	.prefix {
@@ -44,6 +47,7 @@
 			animation-iteration-count: infinite;
 			animation-name: full-pulse;
 			animation-timing-function: linear;
+			margin-left: 0.5rem;
 		}
 	}
 }
