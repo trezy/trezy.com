@@ -1,43 +1,12 @@
 .response-form {
 	background-color: var(--background-color);
-	bottom: var(--gutter);
+	border-style: solid;
+	border-color: var(--brand-primary);
+	border-width: 0;
+	border-top-width: 0.1rem;
 	cursor: text;
 	margin-top: var(--gutter);
 	padding: var(--gutter);
-	position: sticky;
-
-	&:after,
-	&:before {
-		border-style: solid;
-		border-color: var(--brand-primary);
-		border-width: 0;
-		content: '';
-		display: block;
-		height: 1rem;
-		left: 0;
-		position: absolute;
-		right: 0;
-	}
-
-	&:after {
-		background-image: linear-gradient(
-			to bottom,
-			var(--background-color),
-			var(--transparent)
-		);
-		border-top-width: 0.1rem;
-		top: 100%;
-	}
-
-	&:before {
-		background-image: linear-gradient(
-			to top,
-			var(--background-color),
-			var(--transparent)
-		);
-		border-bottom-width: 0.1rem;
-		bottom: 100%;
-	}
 
 	.published-message {
 		align-items: center;
