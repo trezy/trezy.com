@@ -12,7 +12,8 @@ import TweetEmbed from 'react-tweet-embed'
 const Tweet = memo(props => {
 	const {
 		id,
-		includeConversation,
+		showCards,
+		showConversation,
 	} = props
 	const { colorMode } = useColorMode()
 	const { locale } = useRouter()
@@ -22,8 +23,12 @@ const Tweet = memo(props => {
 		lang: locale,
 	}
 
-	if (!includeConversation) {
+	if (!showConversation) {
 		tweetOptions.conversation = 'none'
+	}
+
+	if (!showCards) {
+		tweetOptions.cards = 'hidden'
 	}
 
 	if (colorMode === 'dark') {
@@ -38,12 +43,14 @@ const Tweet = memo(props => {
 })
 
 Tweet.defaultProps = {
-	includeConversation: false,
+	showCards: false,
+	showConversation: false,
 }
 
 Tweet.propTypes = {
 	id: PropTypes.string.isRequired,
-	includeConversation: PropTypes.bool,
+	showCards: PropTypes.bool,
+	showConversation: PropTypes.bool,
 }
 
 
