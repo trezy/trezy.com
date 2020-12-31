@@ -61,6 +61,7 @@ module.exports = {
 					"'unsafe-inline'",
 					'https://*.firebaseio.com',
 					'https://apis.google.com',
+					'https://static.codepen.io',
 					`http${isDev ? '' : 's'}://platform.twitter.com`,
 					`http${isDev ? '' : 's'}://www.googletagmanager.com`,
 				],
