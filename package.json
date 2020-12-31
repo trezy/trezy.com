@@ -46,7 +46,7 @@
 		"react-countup": "^4.3.3",
 		"react-dom": "^17.0.1",
 		"react-markdown": "^5.0.2",
-		"react-redux": "^7.2.0",
+		"react-redux": "^7.2.2",
 		"react-svg-inline": "^2.1.1",
 		"react-tweet-embed": "^1.2.2",
 		"redux": "^4.0.5",
