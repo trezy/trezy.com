@@ -1,6 +1,7 @@
 // Module imports
 import behead from 'remark-behead'
 import directive from 'remark-directive'
+import gfm from 'remark-gfm'
 import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 
@@ -26,6 +27,7 @@ export const config = {
 	allowDangerousHtml: false,
 	plugins: [
 		[behead, { depth: 1 }],
+		gfm,
 		properties,
 		directive,
 		squeezeParagraphs,
