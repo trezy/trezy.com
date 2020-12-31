@@ -10,7 +10,7 @@ import 'scss/app.scss'
 
 
 // Module imports
-import { ColorModeContextProvider } from 'next-color-mode'
+import { ColorModeContextProvider } from 'react-color-mode'
 import { parseCookies } from 'nookies'
 import { Provider } from 'react-redux'
 import NextApp from 'next/app'

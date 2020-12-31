@@ -9,7 +9,7 @@ import {
 	destroyCookie,
 	setCookie,
 } from 'nookies'
-import { useColorMode } from 'next-color-mode'
+import { useColorMode } from 'react-color-mode'
 import PropTypes from 'prop-types'
 
 
@@ -46,7 +46,7 @@ const AuthContextProvider = props => {
 		auth,
 		firestore,
 	} = useFirebase()
-	const { updateColorMode } = useColorMode()
+	const { updateColorModePreference } = useColorMode()
 	const [claims, setClaims] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(true)
 	const [profile, setProfile] = useState(null)
@@ -154,7 +154,7 @@ const AuthContextProvider = props => {
 		}
 
 		if (theme) {
-			updateColorMode(theme)
+			updateColorModePreference(theme)
 		}
 	}, [settings])
 

@@ -67,7 +67,7 @@
 
 	--transparent: transparent;
 
-	&[next-color-mode="dark"] {
+	&[react-color-mode="dark"] {
 		@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 		@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 		@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
@@ -76,7 +76,7 @@
 	}
 
 	@media (prefers-color-scheme: dark) {
-		&:not([next-color-mode="light"]) {
+		&:not([react-color-mode="light"]) {
 			@include generateHSLCustomPropertiesFromHex(text-color, #ffffff);
 			@include generateHSLCustomPropertiesFromHex(inverted-text-color, #1a1a1a);
 			@include generateHSLCustomPropertiesFromHex(background-color, #1a1a1a);
