@@ -44,13 +44,6 @@ const Directive = props => {
 		node,
 	} = props
 
-	console.log({
-		attributes,
-		'node.type': node.type,
-		name,
-		props,
-	})
-
 	const DirectiveComponent = availableDirectives[node.type]?.[name.toLowerCase()]
 	console.log({DirectiveComponent})
 
