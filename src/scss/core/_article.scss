@@ -8,4 +8,9 @@ article {
 			margin-top: 5rem;
 		}
 	}
+
+	figure:not(:first-child) {
+		margin-bottom: 5rem;
+		margin-top: 5rem;
+	}
 }
