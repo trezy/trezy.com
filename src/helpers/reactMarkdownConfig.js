@@ -15,9 +15,6 @@ import {
 	Image,
 	List,
 } from 'helpers/markdownRenderers'
-import {
-	properties,
-} from 'helpers/remark'
 
 
 
@@ -28,7 +25,6 @@ export const config = {
 	plugins: [
 		[behead, { depth: 1 }],
 		gfm,
-		properties,
 		directive,
 		squeezeParagraphs,
 	],
