@@ -1,7 +1,4 @@
 // Module imports
-import React, {
-	createRef,
-} from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 
 
@@ -9,28 +6,18 @@ import ReactMarkdown from 'react-markdown/with-html'
 
 
 // Local imports
-import config from 'helpers/reactMarkdownConfig'
+import { config } from 'helpers/reactMarkdownConfig'
 
 
 
 
 
-const MarkdownRenderer = props => {
-	const markdownWrapperRef = createRef(null)
-
+export default function MarkdownRenderer(props) {
 	return (
-		<>
-			<div ref={markdownWrapperRef}>
-				<ReactMarkdown
-					{...config}
-					{...props} />
-			</div>
-		</>
+		<div>
+			<ReactMarkdown
+				{...config}
+				{...props} />
+		</div>
 	)
 }
-
-
-
-
-
-export default MarkdownRenderer

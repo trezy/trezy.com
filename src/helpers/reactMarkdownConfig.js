@@ -1,6 +1,6 @@
 // Module imports
 import behead from 'remark-behead'
-import shortcodes from 'remark-shortcodes'
+import directive from 'remark-directive'
 import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 
@@ -10,6 +10,7 @@ import squeezeParagraphs from 'remark-squeeze-paragraphs'
 // Local imports
 import {
 	Code,
+	Directive,
 	Image,
 	List,
 	Shortcode,
@@ -22,12 +23,12 @@ import {
 
 
 
-const config = {
-	allowDangerousHtml: true,
+export const config = {
+	allowDangerousHtml: false,
 	plugins: [
 		[behead, { depth: 1 }],
 		properties,
-		shortcodes,
+		directive,
 		squeezeParagraphs,
 	],
 	renderers: {
@@ -36,11 +37,8 @@ const config = {
 		imageReference: Image,
 		list: List,
 		shortcode: Shortcode,
+		textDirective: Directive,
+		leafDirective: Directive,
+		containerDirective: Directive,
 	},
 }
-
-
-
-
-
-export default config
