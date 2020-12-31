@@ -23,7 +23,7 @@ function BannerToggle(props) {
 		<Button
 			aria-label={`${isOpen ? 'Collapse' : 'Expand'} main navigation`}
 			aria-pressed={isOpen}
-			className="button iconic primary"
+			className="iconic primary"
 			id="banner-control"
 			onClick={onClick}>
 			<FontAwesomeIcon
