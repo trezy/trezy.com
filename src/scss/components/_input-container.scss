@@ -9,7 +9,6 @@
 	display: grid;
 	grid-template-areas: 'caret prefix input';
 	grid-template-columns: auto auto 1fr;
-	padding-bottom: 0.5rem;
 	transition-duration: 0.2s;
 	transition-property: box-shadow;
 
