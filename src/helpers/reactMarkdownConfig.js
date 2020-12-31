@@ -13,7 +13,6 @@ import {
 	Directive,
 	Image,
 	List,
-	Shortcode,
 } from 'helpers/markdownRenderers'
 import {
 	properties,
@@ -36,7 +35,6 @@ export const config = {
 		image: Image,
 		imageReference: Image,
 		list: List,
-		shortcode: Shortcode,
 		textDirective: Directive,
 		leafDirective: Directive,
 		containerDirective: Directive,

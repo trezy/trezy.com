@@ -55,7 +55,6 @@
 		"redux-thunk": "^2.3.0",
 		"remark-behead": "^2.3.2",
 		"remark-directive": "^1.0.1",
-		"remark-shortcodes": "^0.3.1",
 		"remark-squeeze-paragraphs": "^4.0.0",
 		"transform-string-case": "^1.1.0",
 		"unist-util-visit-parents": "^3.1.1",
