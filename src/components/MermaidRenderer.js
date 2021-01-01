@@ -5,6 +5,7 @@ import {
 } from 'react'
 import mdastToString from 'mdast-util-to-string'
 import PropTypes from 'prop-types'
+import uuid from 'uuid/v4'
 
 
 
@@ -23,6 +24,7 @@ function MermaidRenderer(props) {
 		node,
 	} = props
 	const [svg, setSVG] = useState(null)
+	const [id] = useState(uuid())
 
 	useEffect(async () => {
 		if (!mermaid) {
@@ -30,7 +32,7 @@ function MermaidRenderer(props) {
 			mermaid.initialize({ startOnLoad: false })
 		}
 
-		mermaid.render('foo', mdastToString(node), renderedSVG => setSVG(renderedSVG))
+		mermaid.render(id, mdastToString(node), renderedSVG => setSVG(renderedSVG))
 	}, [])
 
 	return (
