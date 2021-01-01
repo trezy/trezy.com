@@ -1,18 +1,7 @@
 a {
-	position: relative;
-	text-decoration: underline;
-	text-decoration-color: transparent;
-	transition-duration: 0.2s;
-	transition-property: text-decoration-color;
-
 	&,
 	&:active,
 	&:visited {
 		color: var(--brand-primary);
-	}
-
-	&:focus,
-	&:hover {
-		text-decoration-color: var(--brand-primary);
 	}
 }
