@@ -130,8 +130,8 @@ module.exports = {
 	async rewrites() {
 		return [
 			{
-				source: '/sitemap.xml',
-				destination: '/api/sitemap',
+				source: '/@:username',
+				destination: '/profile/@:username',
 			},
 			{
 				source: '/sitemap-base.xml',
