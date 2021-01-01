@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { useAuth } from 'contexts/AuthContext'
 import { useProfiles } from 'contexts/ProfilesContext'
 import PageWrapper from 'components/PageWrapper'
 import Profile from 'components/Profile'
@@ -28,9 +29,14 @@ function ProfilePage(props) {
 		profilesByUsername,
 		watchProfile,
 	} = useProfiles()
+	const authContext = useAuth()
 	const router = useRouter()
 	const [profileFromSSR, setProfileFromSSR] = useState(props.profile)
-	const profile = profileFromSSR || profilesByUsername[username]
+	let profile = profileFromSSR || profilesByUsername[username]
+
+	if (!username) {
+		profile = authContext.profile
+	}
 
 	useEffect(() => {
 		setProfileFromSSR(null)

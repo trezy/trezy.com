@@ -28,6 +28,7 @@ function ApplicationNav(props) {
 	const {
 		claims,
 		logout,
+		profile,
 		user,
 	} = useAuth()
 	const router = useRouter()
@@ -101,26 +102,26 @@ function ApplicationNav(props) {
 				<SubNav
 					className="account-navigation"
 					icon={() => {
-						if (!user) {
+						if (!profile) {
 							return null
 						}
 
 						return (
 							<img
-								alt={`${user.displayName}'s avatar`}
+								alt={`${profile.displayName}'s avatar`}
 								className="avatar"
 								role="presentation"
-								src={getAvatar(user)} />
+								src={getAvatar(profile)} />
 						)
 					}}
 					label="My Account"
-					title={!user ? 'Loading user data...' : user.displayName}>
+					title={!profile ? 'Loading profile data...' : user.displayName}>
 					<NavLink
 						href="/dashboard/blog"
 						icon="pen"
 						title="My Articles" />
 					<NavLink
-						href={!user ? '/profile' : `/profile/@${user.username}`}
+						href="/profile"
 						icon="address-card"
 						title="My Profile" />
 					<NavLink
