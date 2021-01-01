@@ -30,6 +30,8 @@
 		"localforage": "^1.7.3",
 		"lodash": "^4.17.15",
 		"mdast-builder": "^1.1.1",
+		"mdast-util-to-string": "^2.0.0",
+		"mermaid": "^8.8.4",
 		"micro-cors": "^0.1.1",
 		"moment": "^2.25.3",
 		"next": "10",

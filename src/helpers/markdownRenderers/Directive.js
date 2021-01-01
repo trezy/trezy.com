@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { Abbreviation } from 'components/Abbreviation'
 import { Figure } from 'components/Figure'
 import { FigureCaption } from 'components/FigureCaption'
+import { MermaidRenderer } from 'components/MermaidRenderer'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
 
@@ -20,6 +21,7 @@ import Tweet from 'components/Tweet'
 // Local constants
 const availableDirectives = {
 	containerDirective: {
+		mermaid: MermaidRenderer,
 		figure: Figure,
 	},
 	leafDirective: {
@@ -45,14 +47,15 @@ const Directive = props => {
 	} = props
 
 	const DirectiveComponent = availableDirectives[node.type]?.[name.toLowerCase()]
-	console.log({DirectiveComponent})
 
 	if (!DirectiveComponent) {
 		return null
 	}
 
 	return (
-		<DirectiveComponent {...attributes}>
+		<DirectiveComponent
+			{...attributes}
+			node={node}>
 			{children}
 		</DirectiveComponent>
 	)
