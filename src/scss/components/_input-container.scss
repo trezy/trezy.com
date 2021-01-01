@@ -5,7 +5,7 @@
 	border-style: solid;
 	border-width: 0;
 	border-bottom-width: 0.1rem;
-	box-shadow: 0 0 1rem 0 hsla(var(--brand-primary-h), var(--brand-primary-s), var(--brand-primary-l), var(--shadow-opacity));
+	box-shadow: 0 0 0 0.4rem hsla(var(--brand-primary-hsl), var(--shadow-opacity));
 	display: grid;
 	grid-template-areas: 'caret prefix input';
 	grid-template-columns: auto auto 1fr;
@@ -39,7 +39,7 @@
 	}
 
 	&:focus-within{
-		--shadow-opacity: 1;
+		--shadow-opacity: 0.4;
 
 		&:before {
 			animation-direction: alternate;
