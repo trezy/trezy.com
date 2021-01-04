@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 // Local imports
 import { Abbreviation } from 'components/Abbreviation'
 import { DITAA } from 'helpers/markdownRenderers/DITAA'
+import { PlantUML } from 'helpers/markdownRenderers/PlantUML'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
 
@@ -20,6 +21,7 @@ import Tweet from 'components/Tweet'
 const availableDirectives = {
 	containerDirective: {
 		ditaa: DITAA,
+		plantuml: PlantUML,
 		figure: Figure,
 	},
 	leafDirective: {
