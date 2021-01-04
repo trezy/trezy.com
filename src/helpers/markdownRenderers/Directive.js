@@ -9,6 +9,8 @@ import PropTypes from 'prop-types'
 // Local imports
 import { Abbreviation } from 'components/Abbreviation'
 import { DITAA } from 'helpers/markdownRenderers/DITAA'
+import { Figure } from 'helpers/markdownRenderers/Figure'
+import { FigureCaption } from 'helpers/markdownRenderers/FigureCaption'
 import { PlantUML } from 'helpers/markdownRenderers/PlantUML'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
