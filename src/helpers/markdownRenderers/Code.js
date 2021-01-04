@@ -3,6 +3,7 @@ import React, {
 	useEffect,
 	useRef,
 } from 'react'
+import classnames from 'classnames'
 import Prism from 'prismjs/components/prism-core'
 /* eslint-disable import/no-unassigned-import */
 import 'prismjs/plugins/autoloader/prism-autoloader'
@@ -43,7 +44,9 @@ const Code = props => {
 	return (
 		<pre className="line-numbers">
 			<code
-				className={`language-${language}`}
+				className={classnames({
+					[`language-${language}`]: Boolean(language),
+				})}
 				ref={elementRef}>
 				{value}
 			</code>
@@ -52,7 +55,11 @@ const Code = props => {
 }
 
 Code.propTypes = {
-	language: PropTypes.string.isRequired,
+	language: '',
+}
+
+Code.propTypes = {
+	language: PropTypes.string,
 	value: PropTypes.string.isRequired,
 }
 
