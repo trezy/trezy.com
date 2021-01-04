@@ -11,6 +11,7 @@ import { Abbreviation } from 'components/Abbreviation'
 import { DITAA } from 'helpers/markdownRenderers/DITAA'
 import { Figure } from 'helpers/markdownRenderers/Figure'
 import { FigureCaption } from 'helpers/markdownRenderers/FigureCaption'
+import { Mermaid } from 'helpers/markdownRenderers/Mermaid'
 import { PlantUML } from 'helpers/markdownRenderers/PlantUML'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
@@ -23,6 +24,7 @@ import Tweet from 'components/Tweet'
 const availableDirectives = {
 	containerDirective: {
 		ditaa: DITAA,
+		mermaid: Mermaid,
 		plantuml: PlantUML,
 		figure: Figure,
 	},
