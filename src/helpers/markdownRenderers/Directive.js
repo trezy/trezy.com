@@ -8,9 +8,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { Abbreviation } from 'components/Abbreviation'
-import { Figure } from 'components/Figure'
-import { FigureCaption } from 'components/FigureCaption'
-import { MermaidRenderer } from 'components/MermaidRenderer'
+import { DITAA } from 'helpers/markdownRenderers/DITAA'
 import Codepen from 'components/Codepen'
 import Tweet from 'components/Tweet'
 
@@ -21,7 +19,7 @@ import Tweet from 'components/Tweet'
 // Local constants
 const availableDirectives = {
 	containerDirective: {
-		mermaid: MermaidRenderer,
+		ditaa: DITAA,
 		figure: Figure,
 	},
 	leafDirective: {
