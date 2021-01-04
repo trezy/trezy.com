@@ -166,7 +166,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					<figcaption>MacBook Pro Specs</figcaption>
+					<header>MacBook Pro Specs</header>
 
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -249,7 +249,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					<figcaption>Docking Gear</figcaption>
+					<header>Docking Gear</header>
 
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -355,7 +355,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					<figcaption>Streaming Machine (Internals)</figcaption>
+					<header>Streaming Machine (Internals)</header>
 
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -445,7 +445,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					<figcaption>Streaming Machine (Peripherals)</figcaption>
+					<header>Streaming Machine (Peripherals)</header>
 
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -543,7 +543,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					<figcaption>Other Gear</figcaption>
+					<header>Other Gear</header>
 
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
