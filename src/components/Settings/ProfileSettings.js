@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import { motion } from 'framer-motion'
 
 
 
@@ -18,7 +19,8 @@ import Input from 'components/Input'
 
 
 
-export function ProfileSettings() {
+export function ProfileSettings(props) {
+	const { motionSettings } = props
 	const {
 		profile,
 		updateProfile,
@@ -90,7 +92,9 @@ export function ProfileSettings() {
 		(website !== profile?.website)
 
 	return (
-		<section className="block">
+		<motion.section
+			className="block"
+			{...motion}>
 			<form onSubmit={handleSubmit}>
 				<div className="field horizontal">
 					<label>Display Name</label>
@@ -128,6 +132,6 @@ export function ProfileSettings() {
 					</menu>
 				</div>
 			</form>
-		</section>
+		</motion.section>
 	)
 }

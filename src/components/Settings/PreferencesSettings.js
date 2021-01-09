@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import { motion } from 'framer-motion'
 
 
 
@@ -23,7 +24,8 @@ import Input from 'components/Input'
 
 
 
-export function PreferencesSettings() {
+export function PreferencesSettings(props) {
+	const { motionSettings } = props
 	const {
 		isLoaded,
 		settings,
@@ -78,7 +80,9 @@ export function PreferencesSettings() {
 	const isDirty = theme !== settings?.theme
 
 	return (
-		<section className="block">
+		<motion.section
+			className="block"
+			{...motion}>
 			<form onSubmit={handleSubmit}>
 				<div className="field horizontal">
 					<label>Theme</label>
@@ -112,6 +116,6 @@ export function PreferencesSettings() {
 					</menu>
 				</div>
 			</form>
-		</section>
+		</motion.section>
 	)
 }

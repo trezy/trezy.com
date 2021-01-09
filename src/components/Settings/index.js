@@ -5,45 +5,23 @@ import {
 	useState,
 } from 'react'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 
 
 
 
 
 // Component imports
+import { AccountSettings } from 'components/Settings/AccountSettings'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { Loading } from 'components/Loading'
+import { NotificationsSettings } from 'components/Settings/NotificationsSettings'
+import { PasswordSettings } from 'components/Settings/PasswordSettings'
+import { PreferencesSettings } from 'components/Settings/PreferencesSettings'
+import { ProfileSettings } from 'components/Settings/ProfileSettings'
 import { Tabs } from 'components/Tabs'
 import { useRemoteConfig } from 'contexts/RemoteConfigContext'
 import PageWrapper from 'components/PageWrapper'
 import RequireAuthentication from 'components/RequireAuthentication'
-
-
-
-
-
-// Dynamic components
-const AccountSettings = dynamic(
-	() => import('components/Settings/AccountSettings').then(mod => mod.AccountSettings),
-	{ loading: () => <Loading /> },
-)
-const NotificationsSettings = dynamic(
-	() => import('components/Settings/NotificationsSettings').then(mod => mod.NotificationsSettings),
-	{ loading: () => <Loading /> },
-)
-const PasswordSettings = dynamic(
-	() => import('components/Settings/PasswordSettings').then(mod => mod.PasswordSettings),
-	{ loading: () => <Loading /> },
-)
-const PreferencesSettings = dynamic(
-	() => import('components/Settings/PreferencesSettings').then(mod => mod.PreferencesSettings),
-	{ loading: () => <Loading /> },
-)
-const ProfileSettings = dynamic(
-	() => import('components/Settings/ProfileSettings').then(mod => mod.ProfileSettings),
-	{ loading: () => <Loading /> },
-)
 
 
 
