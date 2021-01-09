@@ -32,13 +32,13 @@ const RequireAuthentication = ({ children }) => {
 
 	if (!isLoaded) {
 		return (
-			<section>Verifying authentication...</section>
+			<section className="block">Verifying authentication...</section>
 		)
 	}
 
 	if (!user) {
 		return (
-			<section>Not logged in; Redirecting...</section>
+			<section className="block">Not logged in; Redirecting...</section>
 		)
 	}
 

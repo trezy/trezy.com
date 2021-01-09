@@ -48,7 +48,7 @@ const AuthContextProvider = props => {
 	} = useFirebase()
 	const { updateColorModePreference } = useColorMode()
 	const [claims, setClaims] = useState(null)
-	const [isLoaded, setIsLoaded] = useState(true)
+	const [isLoaded, setIsLoaded] = useState(false)
 	const [profile, setProfile] = useState(null)
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
