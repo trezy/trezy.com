@@ -1,7 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 
 // Module imports
-import { motion } from 'framer-motion'
+import {
+	motion,
+	useReducedMotion,
+} from 'framer-motion'
 import { useEffect } from 'react'
 import classnames from 'classnames'
 import Head from 'next/head'
@@ -56,6 +59,7 @@ function PageWrapper(props) {
 		showHeader,
 		title,
 	} = props
+	const shouldReduceMotion = useReducedMotion()
 
 	useEffect(() => {
 		/* eslint-disable no-console */
@@ -100,7 +104,7 @@ function PageWrapper(props) {
 				initial={{
 					opacity: 0,
 					transition: PAGE_VARIANTS_TRANSITION,
-					x: '-100vw',
+					x: shouldReduceMotion ? 0 : '-100vw',
 				}}
 				exit={{
 					opacity: 0,
