@@ -2,7 +2,7 @@
 
 // Module imports
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const nextSafe = require('next-safe')
+const nextSafe = require('next-safe').default
 const path = require('path')
 
 

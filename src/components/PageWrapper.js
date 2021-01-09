@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 // Module imports
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import classnames from 'classnames'
 import Head from 'next/head'
@@ -21,6 +22,26 @@ import ContentInfo from 'components/ContentInfo'
 // Component constants
 const MAX_TITLE_LENGTH = 50
 const MAX_DESCR_LENGTH = 300
+const PAGE_VARIANTS_TRANSITION = {
+	duration: 0.2,
+}
+const PAGE_VARIANTS = {
+  enter: {
+		opacity: 1,
+		transition: PAGE_VARIANTS_TRANSITION,
+		x: 0,
+	},
+  initial: {
+		opacity: 0,
+		transition: PAGE_VARIANTS_TRANSITION,
+		x: '-100vw',
+	},
+  exit: {
+		opacity: 0,
+		transition: PAGE_VARIANTS_TRANSITION,
+		x: 0,
+	},
+}
 
 
 
@@ -70,7 +91,24 @@ function PageWrapper(props) {
 				<meta property="twitter:description" content={description} />
 			</Head>
 
-			<main className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}>
+			<motion.main
+				animate={{
+					opacity: 1,
+					transition: PAGE_VARIANTS_TRANSITION,
+					x: 0,
+				}}
+				initial={{
+					opacity: 0,
+					transition: PAGE_VARIANTS_TRANSITION,
+					x: '-100vw',
+				}}
+				exit={{
+					opacity: 0,
+					transition: PAGE_VARIANTS_TRANSITION,
+					x: 0,
+				}}
+				className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}
+				key={title}>
 				{showHeader && (
 					<header className="block">
 						<h2>{title}</h2>
@@ -84,7 +122,7 @@ function PageWrapper(props) {
 				{children}
 
 				<ContentInfo />
-			</main>
+			</motion.main>
 		</>
 	)
 }

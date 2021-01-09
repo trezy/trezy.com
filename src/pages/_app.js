@@ -10,9 +10,11 @@ import 'scss/app.scss'
 
 
 // Module imports
+import { AnimatePresence } from 'framer-motion'
 import { ColorModeContextProvider } from 'react-color-mode'
 import { parseCookies } from 'nookies'
 import { Provider } from 'react-redux'
+import { useRouter } from 'next/router'
 import NextApp from 'next/app'
 import NextHead from 'next/head'
 import withRedux from 'next-redux-wrapper'
@@ -37,6 +39,12 @@ import Banner from 'components/Banner'
 
 
 
+function handleExitComplete() {
+  if (typeof window !== 'undefined') {
+    window.scrollTo({ top: 0 })
+  }
+}
+
 function App(props) {
 	const {
 		Component,
@@ -44,6 +52,7 @@ function App(props) {
 		pageProps,
 		store,
 	} = props
+	const router = useRouter()
 
 	useFontawesome()
 	useNProgress()
@@ -67,7 +76,13 @@ function App(props) {
 
 									<Banner isServer={isServer} />
 
-									<Component {...pageProps} />
+									<AnimatePresence
+										exitBeforeEnter
+										onExitComplete={handleExitComplete}>
+										<Component
+											key={router.route}
+											{...pageProps} />
+									</AnimatePresence>
 								</div>
 							</Provider>
 						</ArticlesContextProvider>
