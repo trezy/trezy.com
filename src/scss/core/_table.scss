@@ -3,7 +3,10 @@ table {
 	border-top-color: var(--border-color);
 	border-top-style: solid;
 	border-top-width: 0.1rem;
-	width: 100%;
+	left: 50%;
+	position: relative;
+	transform: translateX(-50%);
+	max-width: 110%;
 
 	tr {
 		background-color: var(--transparent);
@@ -27,7 +30,6 @@ table {
 	th {
 		font-weight: bold;
 		text-align: left;
-		white-space: nowrap;
 	}
 
 	td {}
