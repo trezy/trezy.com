@@ -51,12 +51,7 @@ export default function Version(props) {
 }
 
 export async function getStaticProps() {
-	console.log({
-		string: process.env.npm_config_user_agent,
-		regex: /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+ (.*))/.exec(process.env.npm_config_user_agent || ''),
-	})
-
-	// const [, yarnVersion, nodeVersion, buildEnvironment] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+ (.*))/.exec(process.env.npm_config_user_agent || '')
+	const [, yarnVersion, nodeVersion, buildEnvironment] = (/yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+ (.*))/.exec(process.env.npm_config_user_agent || '') || [])
 
 	const repoLink = `https://github.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`
 
@@ -66,9 +61,9 @@ export async function getStaticProps() {
 			builtAt: Date.now(),
 			commitLink: `${repoLink}/commit/${process.env.VERCEL_GIT_COMMIT_SHA}`,
 			nextVersion: '?', //process.env.npm_package_dependencies_next,
-			nodeVersion: '?',
+			nodeVersion,
 			repoLink,
-			yarnVersion: '?',
+			yarnVersion,
 		},
 	}
 }
