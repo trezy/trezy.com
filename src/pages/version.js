@@ -40,12 +40,12 @@ export default function Version(props) {
 					<dd>v{environment.next.version}</dd>
 
 					<dt>Platform</dt>
-					<dd style={{ textTransform: 'capitalize' }}>{environment.platform}</dd>
+					<dd className="capitalize">{environment.platform}</dd>
 
 					{Boolean(environment.deploymentType) && (
 						<>
 							<dt>Deployment Type</dt>
-							<dd style={{ textTransform: 'capitalize' }}>{environment.deploymentType}</dd>
+							<dd className="capitalize">{environment.deploymentType}</dd>
 						</>
 					)}
 
