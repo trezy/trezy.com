@@ -39,6 +39,23 @@ export default function Version(props) {
 					<dt>Next.js Version</dt>
 					<dd>v{environment.next.version}</dd>
 
+					<dt>Platform</dt>
+					<dd style={{ textTransform: 'capitalize' }}>{environment.platform}</dd>
+
+					{Boolean(environment.deploymentType) && (
+						<>
+							<dt>Deployment Type</dt>
+							<dd style={{ textTransform: 'capitalize' }}>{environment.deploymentType}</dd>
+						</>
+					)}
+
+					{Boolean(environment.region) && (
+						<>
+							<dt>Region</dt>
+							<dd>{environment.region}</dd>
+						</>
+					)}
+
 					<dt>Built</dt>
 					<dd>{(new Date(builtAt)).toString()}</dd>
 				</dl>
