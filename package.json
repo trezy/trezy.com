@@ -29,6 +29,8 @@
 		"firebase-functions": "^3.13.0",
 		"framer-motion": "^3.2.1",
 		"gemoji": "^6.1.0",
+		"git-rev-promises": "^1.1.0",
+		"isomorphic-git": "^1.8.0",
 		"language-tags": "^1.0.5",
 		"localforage": "^1.9.0",
 		"lodash": "^4.17.20",
@@ -64,7 +66,8 @@
 		"unist-util-visit-parents": "^3.1.1",
 		"uuid": "^8.3.2",
 		"webpack": "^5.14.0",
-		"xml": "^1.0.1"
+		"xml": "^1.0.1",
+		"yaml": "^1.10.0"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-decorators": "^7.12.12",
