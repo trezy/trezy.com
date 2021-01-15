@@ -158,13 +158,14 @@ module.exports = {
 		// 	test: /\.js$/u,
 		// })
 
-		config.plugins.push(new CopyWebpackPlugin([
-			{
-				flatten: true,
-				from: path.resolve('node_modules', 'prismjs', 'components', '*.min.js'),
-				to: path.resolve('public', 'prism-grammars'),
-			},
-		]))
+		config.plugins.push(new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.resolve('node_modules', 'prismjs', 'components', '*.min.js'),
+					to: path.resolve('public', 'prism-grammars', '[name].[ext]'),
+				},
+			],
+		}))
 
 		return config
 	},

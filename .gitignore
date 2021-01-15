@@ -9,3 +9,11 @@ yalc.lock
 node_modules/
 logs/
 public/prism-grammars
+
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

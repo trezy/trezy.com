@@ -6,7 +6,6 @@ import NextDocument, {
 	NextScript,
 } from 'next/document'
 import { ColorModeScript } from 'react-color-mode'
-import uuid from 'uuid/v4'
 
 
 
