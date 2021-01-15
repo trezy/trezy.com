@@ -179,15 +179,15 @@ export async function getStaticProps() {
 				region: process.env.VERCEL_REGION || '',
 			},
 			repo: {
-				branch: process.env.VERCEL_GIT_COMMIT_REF || gitBranch,
+				branch: gitBranch,
 				commit: {
 					author: {
 						name: process.env.VERCEL_GIT_COMMIT_AUTHOR_NAME || gitCommitAuthorName,
 						username: process.env.VERCEL_GIT_COMMIT_AUTHOR_LOGIN || '',
 					},
-					hash: process.env.VERCEL_GIT_COMMIT_SHA || gitCommitHash,
+					hash: gitCommitHash,
 					shortHash: gitCommitShortHash,
-					message: process.env.VERCEL_GIT_COMMIT_MESSAGE || gitCommitMessage,
+					message: gitCommitMessage,
 				},
 				owner: process.env.VERCEL_GIT_REPO_OWNER || '',
 				slug: process.env.VERCEL_GIT_REPO_SLUG || '',
