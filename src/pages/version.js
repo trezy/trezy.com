@@ -1,109 +1,13 @@
-// Module imports
-import React from 'react'
-import moment from 'moment'
-
-
-
-
-
 // Local imports
-import PageWrapper from 'components/PageWrapper'
+import { VersionPage } from 'components/VersionPage'
 
 
 
 
 
 export default function Version(props) {
-	const {
-		builtAt,
-		environment,
-		repo,
-	} = props
-
-	const authorLink = `https://github.com/${repo.commit.author.username}`
-	const ownerLink = `https://github.com/${repo.owner}`
-	const repoLink = `${ownerLink}/${repo.slug}`
-	const commitLink = `${repoLink}/commit/${repo.commit.hash}`
-
 	return (
-		<PageWrapper title="Version Information">
-			<section className="block">
-				<header>
-					<h3>Environment</h3>
-				</header>
-
-				<dl>
-					<dt>Node Version</dt>
-					<dd>v{environment.node.version}</dd>
-
-					<dt>Next.js Version</dt>
-					<dd>v{environment.next.version}</dd>
-
-					<dt>Platform</dt>
-					<dd className="capitalize">{environment.platform}</dd>
-
-					{Boolean(environment.deploymentType) && (
-						<>
-							<dt>Deployment Type</dt>
-							<dd className="capitalize">{environment.deploymentType}</dd>
-						</>
-					)}
-
-					{Boolean(environment.region) && (
-						<>
-							<dt>Region</dt>
-							<dd>{environment.region}</dd>
-						</>
-					)}
-
-					<dt>Built</dt>
-					<dd>{(new Date(builtAt)).toString()}</dd>
-				</dl>
-			</section>
-
-			<section className="block">
-				<header>
-					<h3>Git</h3>
-				</header>
-
-				<dl>
-					<dt>Commit</dt>
-					<dd>
-						<a href={commitLink}>{repo.commit.shortHash}</a>
-						{': '}
-						{repo.commit.message}
-						<br />
-						{Boolean(repo.commit.author.username) && (
-							<small>
-								{'Authored by '}
-								<a href={authorLink}>{repo.commit.author.name || repo.commit.author.username}</a>
-							</small>
-						)}
-					</dd>
-
-					<dt>Repo</dt>
-					<dd>
-						{(repo.owner && repo.slug) && (
-							<>
-								<a href={ownerLink}>{repo.owner}</a>
-								{'/'}
-								<a href={repoLink}>{repo.slug}</a>
-								<br />
-							</>
-						)}
-
-						{(!repo.owner || !repo.slug) && (
-							<>Unknown<br /></>
-						)}
-
-
-						<small>
-							Branch: {repo.branch}
-						</small>
-					</dd>
-				</dl>
-			</section>
-		</PageWrapper>
+		<VersionPage {...props} />
 	)
 }
 
