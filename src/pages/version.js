@@ -186,7 +186,7 @@ export async function getStaticProps() {
 						username: process.env.VERCEL_GIT_COMMIT_AUTHOR_LOGIN || '',
 					},
 					hash: process.env.VERCEL_GIT_COMMIT_SHA || gitCommitHash,
-					shortHash: process.env.VERCEL_GIT_COMMIT_SHA || gitCommitShortHash,
+					shortHash: gitCommitShortHash,
 					message: process.env.VERCEL_GIT_COMMIT_MESSAGE || gitCommitMessage,
 				},
 				owner: process.env.VERCEL_GIT_REPO_OWNER || '',
