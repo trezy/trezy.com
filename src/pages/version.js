@@ -51,16 +51,20 @@ export default function Version(props) {
 }
 
 export async function getStaticProps() {
-	const [, yarnVersion, nodeVersion] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+)/.exec(process.env.npm_config_user_agent || '')
+	// const [, yarnVersion, nodeVersion] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+)/.exec(process.env.npm_config_user_agent || '')
+
+	console.log(process.env)
+
+	const repoLink = `https://github.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`
 
 	return {
 		props: {
 			builtAt: Date.now(),
-			commitLink: `https://github.com/${process.env.VERCEL_GITHUB_ORG}/${process.env.VERCEL_GITHUB_REPO}/commit/${process.env.VERCEL_GITHUB_COMMIT_SHA}`,
+			commitLink: `${repoLink}/commit/${process.env.VERCEL_GIT_COMMIT_SHA}`,
 			nextVersion: process.env.npm_package_dependencies_next,
-			nodeVersion,
-			repoLink: `https://github.com/${process.env.VERCEL_GITHUB_ORG}/${process.env.VERCEL_GITHUB_REPO}`,
-			yarnVersion,
+			nodeVersion: '?',
+			repoLink,
+			yarnVersion: '?',
 		},
 	}
 }
