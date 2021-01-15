@@ -51,7 +51,7 @@ export default function Version(props) {
 }
 
 export async function getStaticProps() {
-	// const [, yarnVersion, nodeVersion] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+)/.exec(process.env.npm_config_user_agent || '')
+	const [, yarnVersion, nodeVersion, buildEnvironment] = /yarn\/([\d\.]+) npm\/\? node\/v([\d\.]+ (.*))/.exec(process.env.npm_config_user_agent || '')
 
 	console.log(process.env)
 
@@ -59,12 +59,13 @@ export async function getStaticProps() {
 
 	return {
 		props: {
+			buildEnvironment,
 			builtAt: Date.now(),
 			commitLink: `${repoLink}/commit/${process.env.VERCEL_GIT_COMMIT_SHA}`,
-			nextVersion: process.env.npm_package_dependencies_next,
-			nodeVersion: '?',
+			nextVersion: '?', //process.env.npm_package_dependencies_next,
+			nodeVersion,
 			repoLink,
-			yarnVersion: '?',
+			yarnVersion,
 		},
 	}
 }
