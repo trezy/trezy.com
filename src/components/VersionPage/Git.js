@@ -20,7 +20,9 @@ export function Git(props) {
 					<a href={commitLink}>{repo.commit.shortHash}</a>
 					{': '}
 					{repo.commit.message}
-					<br />
+				</dd>
+
+				<dd>
 					{Boolean(repo.commit.author.username) && (
 						<small>
 							{'Authored by '}
@@ -43,8 +45,8 @@ export function Git(props) {
 					{(!repo.owner || !repo.slug) && (
 						<>Unknown<br /></>
 					)}
-
-
+				</dd>
+				<dd>
 					<small>
 						Branch: {repo.branch}
 					</small>

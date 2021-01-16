@@ -3,10 +3,4 @@ form:not(.no-style) {
 	flex-direction: column;
 	flex-grow: 1;
 	flex-shrink: 1;
-
-	> fieldset {
-		&:not(:last-child) {
-			margin-bottom: var(--gutter);
-		}
-	}
 }
