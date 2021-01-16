@@ -28,6 +28,7 @@
 		"firebase-admin": "^9.4.2",
 		"firebase-functions": "^3.13.0",
 		"framer-motion": "^3.2.1",
+		"fuse.js": "^6.4.6",
 		"gemoji": "^6.1.0",
 		"git-rev-promises": "^1.1.0",
 		"isomorphic-git": "^1.8.0",
