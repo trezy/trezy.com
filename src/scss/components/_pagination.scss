@@ -1,0 +1,6 @@
+.pagination {
+	display: flex;
+	gap: var(--gutter);
+	justify-content: center;
+	// grid-template-columns: repeat(auto-fill, min-content);
+}
