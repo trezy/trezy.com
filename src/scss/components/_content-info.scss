@@ -9,7 +9,7 @@
 		'trezy account resources'
 		'social social social';
 	grid-template-columns: repeat(3, 1fr);
-	padding: 5rem calc((50% - 60rem) + 10rem);
+	padding: 5rem max(calc(50% - (80rem / 2)), 10rem);
 
 	header {
 		font-weight: bold;
