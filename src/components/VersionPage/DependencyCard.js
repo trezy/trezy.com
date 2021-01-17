@@ -20,16 +20,16 @@ export function DependencyCard(props) {
 
 			<div className="content">
 				<dl>
-					<dt>Dependency Matchers</dt>
-					{matchers.split(', ').map(item => (
-						<dd key={item}>{item}</dd>
-					))}
+					<dt>Version</dt>
+					<dd>{details.version}</dd>
 
 					<dt>Resolution</dt>
 					<dd>{details.resolution}</dd>
 
-					<dt>Version</dt>
-					<dd>{details.version}</dd>
+					<dt>Matchers</dt>
+					{matchers.split(', ').map(item => (
+						<dd key={item}>{item}</dd>
+					))}
 
 					{Boolean(details.dependencies) && (
 						<>
