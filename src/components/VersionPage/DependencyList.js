@@ -43,7 +43,7 @@ export function DependencyList(props) {
 
 	return (
 		<>
-			<ul>
+			<ul className="card-list">
 				{dependencies.reduce(reducer, [])}
 			</ul>
 		</>
