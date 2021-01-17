@@ -3,7 +3,7 @@
 	border-style: solid;
 	border-bottom-width: 0.2rem;
 	margin-top: var(--gutter);
-	padding: 0 native-max(calc(50% - 60rem), 10rem);
+	padding: 0 native-max(calc(50% - (80rem / 2)), 10rem);
 
 	+ .block,
 	+ .article-list .block {
