@@ -1,5 +1,7 @@
 export {
 	faAddressCard,
+	faArrowLeft,
+	faArrowRight,
 	faBan,
 	faBars,
 	faBook,

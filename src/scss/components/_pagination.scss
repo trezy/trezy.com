@@ -2,5 +2,15 @@
 	display: flex;
 	gap: var(--gutter);
 	justify-content: center;
-	// grid-template-columns: repeat(auto-fill, min-content);
+
+	.page-list {
+		display: flex;
+		gap: var(--gutter);
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.button {
+		padding: var(--gutter);
+	}
 }
