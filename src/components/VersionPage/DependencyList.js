@@ -10,7 +10,6 @@ import {
 
 // Local imports
 import { DependencyCard } from './DependencyCard'
-import { Pagination } from 'components/Pagination'
 
 
 
@@ -21,11 +20,6 @@ export function DependencyList(props) {
 		dependencies,
 		isFiltered,
 	} = props
-	const [currentPage, setCurrentPage] = useState(1)
-
-	const handlePageChange = useCallback(pageNumber => {
-		setCurrentPage(+pageNumber)
-	}, [setCurrentPage])
 
 	const reducer = useCallback((accumulator, dependency) => {
 		let dependencyData = isFiltered ? dependency.item : dependency
@@ -42,20 +36,16 @@ export function DependencyList(props) {
 		}
 
 		return accumulator
-	})
-
-	const sliceStart = (currentPage - 1) * 10
+	}, [
+		dependencies,
+		isFiltered,
+	])
 
 	return (
 		<>
 			<ul>
-				{dependencies.slice(sliceStart, sliceStart + 10).reduce(reducer, [])}
+				{dependencies.reduce(reducer, [])}
 			</ul>
-
-			<Pagination
-				currentPage={currentPage}
-				onPageChange={handlePageChange}
-				totalPageCount={Math.ceil(dependencies.length / 10)} />
 		</>
 	)
 }
