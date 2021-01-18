@@ -53,69 +53,67 @@ function ProfileCard(props) {
 					{!linkToProfile && `${displayName || username}`}
 				</header>
 
-				<dl className="content">
-					<dt>Username</dt>
+				<div className="content">
+					<dl>
+						<dt>Username</dt>
 
-					<dd>
-						{Boolean(username) && (
-							`@${username}`
+						<dd>
+							{Boolean(username) && (
+								`@${username}`
+							)}
+
+							{!username && (
+								<em>No username</em>
+							)}
+						</dd>
+
+						<dt className="full-width">Bio</dt>
+
+						<dd className="full-width">
+							{Boolean(bio) && (
+								<MarkdownRenderer children={bio} />
+							)}
+
+							{!bio && (
+								<p><em>No bio... yet</em></p>
+							)}
+						</dd>
+
+						{website && (
+							<>
+								<dt>Website</dt>
+								<dd>
+									<ExternalLink href={website}>
+										{website}
+									</ExternalLink>
+								</dd>
+							</>
 						)}
 
-						{!username && (
-							<em>No username</em>
+						{socialMedia?.length && (
+							<>
+								<dt>Social</dt>
+								<dd>
+									<ul className="inline">
+										{socialMedia.map(({ type, url }) => (
+											<li key={url}>
+												<a
+													href={url}
+													rel="me noopener noreferrer"
+													target="_blank">
+													<FontAwesomeIcon
+														fixedWidth
+														icon={['fab', type]}
+														title={type} />
+												</a>
+											</li>
+										))}
+									</ul>
+								</dd>
+							</>
 						)}
-					</dd>
-
-					<dt>Bio</dt>
-
-					{Boolean(bio) && (
-						<dd>
-							<MarkdownRenderer children={bio} />
-						</dd>
-					)}
-
-					{!bio && (
-						<dd>
-							<p>
-								<em>No bio... yet</em>
-							</p>
-						</dd>
-					)}
-
-					{website && (
-						<>
-							<dt>Website</dt>
-							<dd>
-								<ExternalLink href={website}>
-									{website}
-								</ExternalLink>
-							</dd>
-						</>
-					)}
-
-					{socialMedia?.length && (
-						<>
-							<dt>Social</dt>
-							<dd>
-								<ul className="inline">
-									{socialMedia.map(({ type, url }) => (
-										<li key={url}>
-											<a
-												href={url}
-												rel="me noopener noreferrer"
-												target="_blank">
-												<FontAwesomeIcon
-													fixedWidth
-													icon={['fab', type]}
-													title={type} />
-											</a>
-										</li>
-									))}
-								</ul>
-							</dd>
-						</>
-					)}
-				</dl>
+					</dl>
+				</div>
 			</div>
 		</header>
 	)

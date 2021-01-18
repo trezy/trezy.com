@@ -9,7 +9,7 @@ dl {
 		font-weight: bold;
 
 		&.full-width {
-			~ dd {
+			+ dd {
 				margin-top: 0;
 
 				> dl > dt {
@@ -60,6 +60,7 @@ dl {
 
 		&.full-width {
 			grid-column: span 2;
+			white-space: initial;
 		}
 	}
 
