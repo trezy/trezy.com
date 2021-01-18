@@ -3,7 +3,14 @@
 	border-style: solid;
 	border-bottom-width: 0.2rem;
 	margin-top: var(--gutter);
+	overflow-x: auto;
 	padding: 0 native-max(calc(50% - (80rem / 2)), 10rem);
+	text-overflow: initial;
+	white-space: nowrap;
+
+	@media (max-width: 1200px) {
+		padding: 0 10vw;
+	}
 
 	+ .block,
 	+ .article-list .block {
