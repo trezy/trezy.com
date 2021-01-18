@@ -7,45 +7,41 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
+import { useBanner } from 'contexts/BannerContext'
 import Button from 'components/Button'
 
 
 
 
 
-function BannerToggle(props) {
+function BannerToggle() {
 	const {
-		isOpen,
-		onClick,
-	} = props
+		bannerIsOpen,
+		toggleBanner,
+	} = useBanner()
 
 	return (
 		<Button
-			aria-label={`${isOpen ? 'Collapse' : 'Expand'} main navigation`}
-			aria-pressed={isOpen}
+			aria-label={`${bannerIsOpen ? 'Collapse' : 'Expand'} main navigation`}
+			aria-pressed={bannerIsOpen}
 			className="iconic primary"
 			id="banner-control"
-			onClick={onClick}>
+			onClick={toggleBanner}>
 			<FontAwesomeIcon
 				data-animate
-				data-animation={`fade-${isOpen ? 'out' : 'in'}`}
+				data-animation={`fade-${bannerIsOpen ? 'out' : 'in'}`}
 				data-animation-duration="0.2s"
 				fixedWidth
 				icon="bars" />
 
 			<FontAwesomeIcon
 				data-animate
-				data-animation={`fade-${isOpen ? 'in' : 'out'}`}
+				data-animation={`fade-${bannerIsOpen ? 'in' : 'out'}`}
 				data-animation-duration="0.2s"
 				fixedWidth
 				icon="times" />
 		</Button>
 	)
-}
-
-BannerToggle.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClick: PropTypes.func.isRequired,
 }
 
 export { BannerToggle }

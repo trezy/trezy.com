@@ -26,6 +26,7 @@ function SubNav(props) {
 		icon,
 		iconPrefix,
 		label,
+		tabIndex,
 		title,
 	} = props
 	const {
@@ -84,6 +85,10 @@ SubNav.propTypes = {
 	]),
 	iconPrefix: PropTypes.string,
 	label: PropTypes.string,
+	tabIndex: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 	title: PropTypes.string,
 }
 

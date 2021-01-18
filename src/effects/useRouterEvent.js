@@ -1,3 +1,4 @@
+// Module imports
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 

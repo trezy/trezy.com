@@ -61,6 +61,7 @@ function Nav(props) {
 	return (
 		<NavContext.Provider
 			value={{
+				isOpen,
 				openSubNav,
 				toggleSubNav,
 			}}>
@@ -74,7 +75,8 @@ function Nav(props) {
 				className={className}
 				onMouseOver={handleLeaveIntent}
 				onMouseOut={handleEnterIntent}>
-				<ul hidden={!isOpen}>
+				{/* <ul hidden={!isOpen}> */}
+				<ul>
 					{children}
 				</ul>
 			</nav>

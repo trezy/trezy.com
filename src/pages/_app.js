@@ -26,6 +26,7 @@ import withRedux from 'next-redux-wrapper'
 // Local imports
 import { ArticlesContextProvider } from 'contexts/ArticlesContext'
 import { AuthContextProvider } from 'contexts/AuthContext'
+import { BannerContextProvider } from 'contexts/BannerContext'
 import { initStore } from 'store'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext'
 import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext'
@@ -64,27 +65,29 @@ function App(props) {
 				<RemoteConfigContextProvider>
 					<ProfilesContextProvider>
 						<ArticlesContextProvider>
-							<Provider store={store}>
-								<div id="application-wrapper">
-									<NextHead>
-										<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+							<BannerContextProvider>
+								<Provider store={store}>
+									<div id="application-wrapper">
+										<NextHead>
+											<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 
-										<link
-											href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-											rel="stylesheet" />
-									</NextHead>
+											<link
+												href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+												rel="stylesheet" />
+										</NextHead>
 
-									<Banner isServer={isServer} />
+										<Banner isServer={isServer} />
 
-									<AnimatePresence
-										exitBeforeEnter
-										onExitComplete={handleExitComplete}>
-										<Component
-											key={router.route}
-											{...pageProps} />
-									</AnimatePresence>
-								</div>
-							</Provider>
+										<AnimatePresence
+											exitBeforeEnter
+											onExitComplete={handleExitComplete}>
+											<Component
+												key={router.route}
+												{...pageProps} />
+										</AnimatePresence>
+									</div>
+								</Provider>
+							</BannerContextProvider>
 						</ArticlesContextProvider>
 					</ProfilesContextProvider>
 				</RemoteConfigContextProvider>

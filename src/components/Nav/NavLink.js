@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
+import { useNav } from 'components/Nav/Nav'
 import Button from 'components/Button'
 import ExternalLink from 'components/ExternalLink'
 
@@ -31,6 +32,7 @@ function NavLink(props) {
 		onClick,
 		title,
 	} = props
+	const { isOpen } = useNav()
 
 	let iconComponent = icon
 
@@ -60,7 +62,8 @@ function NavLink(props) {
 				{...extraProps}
 				className={classnames({ iconic: iconOnly })}
 				disabled={disabled}
-				onClick={handleClick}>
+				onClick={handleClick}
+				tabIndex={isOpen ? null : -1}>
 				{iconComponent}
 				{Boolean(title) && (
 					<span>{title}</span>
@@ -78,6 +81,7 @@ function NavLink(props) {
 					iconic: iconOnly,
 				})}
 				href={href}
+				tabIndex={isOpen ? null : -1}
 				target="_blank">
 				{iconComponent}
 				{Boolean(title) && (
@@ -98,7 +102,8 @@ function NavLink(props) {
 				className={classnames({
 					disabled,
 					iconic: iconOnly,
-				})}>
+				})}
+				tabIndex={isOpen ? null : -1}>
 				{iconComponent}
 				{Boolean(title) && (
 					<span>{title}</span>

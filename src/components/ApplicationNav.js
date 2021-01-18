@@ -14,37 +14,38 @@ import {
 	SubNav,
 } from 'components/Nav'
 import { useAuth } from 'contexts/AuthContext'
+import { useBanner } from 'contexts/BannerContext'
 import getAvatar from 'helpers/getAvatar'
 
 
 
 
 
-function ApplicationNav(props) {
-	const {
-		close,
-		isOpen,
-	} = props
+function ApplicationNav() {
 	const {
 		claims,
 		logout,
 		profile,
 		user,
 	} = useAuth()
+	const {
+		bannerIsOpen,
+		closeBanner,
+	} = useBanner()
 	const router = useRouter()
 
 	const handleLogout = useCallback(() => {
 		logout()
-		close()
+		closeBanner()
 		router.push('/login')
 	}, [
-		close,
+		closeBanner,
 		logout,
 		router,
 	])
 
 	return (
-		<Nav isOpen={isOpen}>
+		<Nav isOpen={bannerIsOpen}>
 			<NavLink
 				href="/"
 				icon="home"
@@ -137,11 +138,6 @@ function ApplicationNav(props) {
 			)}
 		</Nav>
 	)
-}
-
-ApplicationNav.propTypes = {
-	close: PropTypes.func.isRequired,
-	isOpen: PropTypes.bool.isRequired,
 }
 
 export { ApplicationNav }
