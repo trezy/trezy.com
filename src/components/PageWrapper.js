@@ -15,6 +15,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { useBanner } from 'contexts/BannerContext'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ContentInfo from 'components/ContentInfo'
 
@@ -40,6 +41,63 @@ function PageWrapper(props) {
 		title,
 	} = props
 	const shouldReduceMotion = useReducedMotion()
+	const {
+		bannerIsOpen,
+		bannerIsTogglable,
+	} = useBanner()
+
+	const variants = {
+		bannerIsClosed: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.2,
+			},
+			opacity: 1,
+			originX: 'right',
+			originY: 'top',
+			scale: 1,
+			x: 0,
+			y: 0,
+		},
+		bannerIsOpen: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.2,
+			},
+			opacity: 1,
+			originX: 'right',
+			originY: 'top',
+			scale: 0.8,
+			x: 0,
+			y: '20vh',
+		},
+		exit: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.5,
+			},
+			opacity: 0,
+			scale: 1,
+			x: 0,
+			y: '200vh',
+		},
+		initial: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.2,
+			},
+			opacity: 0,
+			originX: '50vw',
+			originY: '50vh',
+			scale: 1,
+			x: '100%',
+			y: 0,
+		},
+	}
+
+	let animation = null
+
+	if (bannerIsOpen && bannerIsTogglable) {
+		animation = 'bannerIsOpen'
+	} else {
+		animation = 'bannerIsClosed'
+	}
 
 	useEffect(() => {
 		/* eslint-disable no-console */
@@ -76,32 +134,12 @@ function PageWrapper(props) {
 			</Head>
 
 			<motion.main
-				animate={{
-					opacity: 1,
-					transition: {
-						duration: 0.2,
-					},
-					scale: 1,
-					y: 0,
-				}}
-				initial={{
-					opacity: 0,
-					transition: {
-						duration: 0.2,
-					},
-					scale: shouldReduceMotion ? 1 : 0.5,
-					y: 0,
-				}}
-				exit={{
-					opacity: 0,
-					transition: {
-						duration: 0.5,
-					},
-					scale: 1,
-					y: '200vh',
-				}}
+				animate={animation}
+				initial={variants.initial}
+				exit={variants.exit}
 				className={classnames('page', className, title.toLowerCase().replace(/\s/gu, '-').replace(/[^a-z0-9-]/gu, ''))}
-				key={title}>
+				key={title}
+				variants={variants}>
 				{showHeader && (
 					<header className="block">
 						<h2>{title}</h2>

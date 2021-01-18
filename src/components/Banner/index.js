@@ -1,4 +1,8 @@
 // Local imports
+import {
+	motion,
+	useReducedMotion,
+} from 'framer-motion'
 import { ApplicationNav } from 'components/ApplicationNav'
 import { BannerToggle } from 'components/Banner/BannerToggle'
 import { SocialNav } from 'components/SocialNav'
@@ -17,12 +21,30 @@ function Banner() {
 		closeBanner,
 		toggleBanner,
 	} = useBanner()
+	const shouldReduceMotion = useReducedMotion()
+
+	const variants = {
+		closed: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.2,
+			},
+			x: 'calc(-100% - var(--gutter))',
+		},
+		open: {
+			transition: {
+				duration: shouldReduceMotion ? 0 : 0.2,
+			},
+			x: 0,
+		},
+	}
 
 	return (
-		<header
+		<motion.header
+			animate={bannerIsOpen ? 'open' : 'closed'}
 			aria-expanded={bannerIsOpen}
 			hidden={bannerIsOpen}
-			role="banner">
+			role="banner"
+			variants={variants}>
 			<h1 className="brand">&lt;trezy-who/&gt;</h1>
 
 			{bannerIsTogglable && (
@@ -32,7 +54,7 @@ function Banner() {
 			<ApplicationNav />
 
 			<SocialNav isOpen={bannerIsOpen} />
-		</header>
+		</motion.header>
 	)
 }
 

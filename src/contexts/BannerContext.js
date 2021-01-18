@@ -52,11 +52,12 @@ function BannerContextProvider(props) {
 	const closeBanner = useCallback(() => {
 		document.querySelector('[role=banner] *:focus')?.blur()
 
-		if (bannerIsOpen) {
+		if (bannerIsTogglable && bannerIsOpen) {
 			setBannerIsOpen(false)
 		}
 	}, [
 		bannerIsOpen,
+		bannerIsTogglable,
 		setBannerIsOpen,
 	])
 
@@ -82,16 +83,9 @@ function BannerContextProvider(props) {
 
 	const handleWindowResize = useCallback(debounce(() => {
 		setBannerIsTogglable(window.innerWidth <= RESIZE_BREAKPOINT)
-	}, RESIZE_DEBOUNCE_TIME), [
-		setBannerIsTogglable,
-	])
+	}, RESIZE_DEBOUNCE_TIME), [setBannerIsTogglable])
 
-	useWindowEvent('resize', handleWindowResize, [handleWindowResize])
-
-	useRouterEvent('routeChangeComplete', closeBanner, [closeBanner])
-	useRouterEvent('routeChangeError', closeBanner, [closeBanner])
-
-	useDocumentEvent('keyup', ({ key }) => {
+	const handleEscapeKey = useCallback(({ key }) => {
 		if (bannerIsOpen && (key.toLowerCase() === 'escape')) {
 			closeBanner()
 		}
@@ -99,6 +93,13 @@ function BannerContextProvider(props) {
 		bannerIsOpen,
 		closeBanner,
 	])
+
+	useWindowEvent('resize', handleWindowResize, [handleWindowResize])
+
+	useRouterEvent('routeChangeComplete', closeBanner, [closeBanner])
+	useRouterEvent('routeChangeError', closeBanner, [closeBanner])
+
+	useDocumentEvent('keyup', handleEscapeKey, [])
 
 	useEffect(() => {
 		if (!bannerIsTogglable) {

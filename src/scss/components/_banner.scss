@@ -137,16 +137,12 @@
 	@media (max-width: 1300px) {
 		background-color: var(--background-color);
 		position: fixed;
-		transform: translateX(calc(-100% - var(--gutter)));
 		will-change: transform;
 		z-index: 2;
 
 		&[aria-expanded=true] {
-			transform: translateX(0);
-
 			~ main {
 				pointer-events: none;
-				transform: scale(0.8) translateY(20vh);
 
 				&:after {
 					pointer-events: initial;
