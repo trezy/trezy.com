@@ -60,6 +60,7 @@ function Pagination(props) {
 	return (
 		<div className="pagination">
 			<Button
+				disabled={currentPage === 1}
 				onClick={handlePageButtonClick}
 				value={previousPage}>
 				<FontAwesomeIcon
@@ -97,6 +98,7 @@ function Pagination(props) {
 			)}
 
 			<Button
+				disabled={currentPage === totalPageCount}
 				onClick={handlePageButtonClick}
 				value={nextPage}>
 				<FontAwesomeIcon
