@@ -58,6 +58,7 @@
 		& > * {
 			margin-left: 10vw;
 			margin-right: 10vw;
+			max-width: calc(100% - 20vw);
 		}
 	}
 }

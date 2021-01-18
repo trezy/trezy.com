@@ -11,9 +11,31 @@
 	grid-template-columns: repeat(3, 1fr);
 	padding: 5rem max(calc(50% - (80rem / 2)), 10rem);
 
+	@media (max-width: 1200px) {
+		padding-left: 10vw;
+		padding-right: 10vw;
+	}
+
+	@media (max-width: 450px) {
+		grid-template-areas:
+			'trezy'
+			'account'
+			'resources'
+			'social';
+		grid-template-columns: 1fr;
+	}
+
+	& > * {
+		max-width: initial;
+	}
+
 	header {
 		font-weight: bold;
 		margin-bottom: var(--gutter);
+
+		@media (max-width: 450px) {
+			margin-bottom: 0;
+		}
 	}
 
 	.trezy {
@@ -35,6 +57,10 @@
 			grid-area: social;
 			margin-top: 10rem;
 
+			@media (max-width: 450px) {
+				margin-top: 0;
+			}
+
 			ul {
 				display: flex;
 				flex-wrap: wrap;
@@ -43,6 +69,10 @@
 			a {
 				padding: 1rem;
 			}
+		}
+
+		@media (max-width: 450px) {
+			margin-bottom: var(--gutter);
 		}
 	}
 }
