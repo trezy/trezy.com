@@ -18,133 +18,17 @@ export default function Experience() {
 	return (
 		<PageWrapper title="Experience">
 			<section className="block hero">
-				{/* eslint-disable-next-line no-magic-numbers */}
-				<p>As a software engineer for over {moment(new Date('January 1, 1999')).fromNow(true)}, I've got an extensive resume. However, not everybody wants to spend hours catching up on my career. Instead, I keep a full list of my work experience right here on my website. If you're looking for your next Front End Developer, Developer Advocate, or Accessibility Engineer, make sure to connect. <span aria-label="Grinning face emoji" role="img">😁</span></p>
+				<p>Lead Software Engineer with {moment(new Date('January 1, 1999')).fromNow(true)} of experience leading the design, development, and deployment of web applications and backend platforms with a focus on the frontend. Hands-on Technical Leader with a passion for building and empowering teams to create and implement innovative solutions that maximize functionality and usability while maintaining stability and performance.</p>
 			</section>
-
-			<Employer
-				name="Lands' End"
-				url="https://www.landsend.com">
-				<Position
-					accomplishments={[
-						"Containerize our front-end stack, including 7 separate Angular apps and 1 Java app",
-						"Improved Developer Experience and test/deployment speed by refactoring front-end stack from 7 repos to a single monorepo",
-					]}
-					description=""
-					startDate="August 2020"
-					tech={[
-						'Angular 7',
-						'Apollo',
-						'Docker',
-						'GraphQL',
-						'Grunt',
-						'Jest',
-						'NgRx',
-						'Rx.js',
-						'Storybook',
-						'TypeScript',
-					]}
-					title="Staff Front End Engineer, Lead" />
-			</Employer>
-
-			<Employer
-				name="Webflow"
-				url="http://webflow.com/">
-				<Position
-					accomplishments={[
-						'Rearchitected Tracktastic from the ground up',
-						'Fixed numerous memory leaks, bringing the memory footprint to consistently under 20MB from its previous 150MB/hour',
-						'Designed and developed a new web interface to augment the UX of Tracktastic\'s chat interface',
-					]}
-					description={`I assumed the responsibilities of architecting and developing the company\'s internal status tracking chat bot, Tracktastic. The bot began as a hack job, described by its developer as, "a raging dumpster fire that just needed to work."
-
-I took the bot from a very basic Slack app to an integrated API with well-architected data structures, a companion web app, and a substantially improved UX.`}
-					endDate="June 2020"
-					startDate="August 2019"
-					tech={[
-						'Angular.js',
-						'Buildkite',
-						'Docker',
-						'Express.js',
-						'Flow',
-						'Jade/Pug',
-						'JavaScript',
-						'MongoDB',
-						'Mongoose.js',
-						'Next.js',
-						'React.js',
-						'Redux',
-						'Sass',
-						'TypeScript',
-					]}
-					title="Senior Software Engineer" />
-			</Employer>
-
-			<Employer
-				name="Mobile Doorman"
-				url="http://mobiledoorman.com/">
-				<Position
-					accomplishments={[
-						'Lead weekly triage meetings with engineers and QA, making our way down the list of tier 3 bug reports that nobody had been able to crack alone',
-						'Rearchitected our messaging core data structures, unlocking the potential for hundreds of new features and removing the need for engineers to dance around the former monolithic constructs',
-					]}
-					description="My directive at Mobile Doorman was to lead-by-example and elevate a team of very talented engineers from junior to mid-level. I accomplished this by regularly taking initiative on new projects, as well as diving into projects that had been long-neglected."
-					endDate="August 2019"
-					startDate="February 2019"
-					tech={[
-						'Babel',
-						'CircleCI',
-						'CodeShip',
-						'ESLint',
-						'Javascript',
-						'Next.js',
-						'Nuxt.js',
-						'PostCSS',
-						'React.js',
-						'Ruby on Rails',
-						'Sass',
-						'Vue.js',
-						'Webpack',
-					]}
-					title="Senior Software Engineer" />
-			</Employer>
-
-			<Employer
-				name="Roll For Guild"
-				url="http://rollforguild.com/">
-				<Position
-					accomplishments={[
-						'Launched a fully-functional social network in under 3 months',
-						'Grew a user base of more than 400 users in less than 2 months',
-						'Implemented processes for constant improvement of our agile workflow',
-					]}
-					description="At Roll For Guild, our goal was to make it easier for tabletop roleplaying gamers to find each other. As the CTO, I lead our engineering team, vetted potential engineering hires, and managed and tweaked our agile process."
-					endDate="August 2018"
-					startDate="October 2017"
-					tech={[
-						'Babel',
-						'Echarts',
-						'Elixir',
-						'Enzyme',
-						'ESLint',
-						'Javascript',
-						'Jest',
-						'Koa.js',
-						'Next.js',
-						'Phoenix',
-						'React.js',
-						'Redux.js',
-						'Webpack',
-					]}
-					title="Chief Technology Officer" />
-			</Employer>
 
 			<Employer
 				name="Trezy.com"
 				url="http://trezy.com/">
 				<Position
-					description="As a consultant, I\'ve helped companies from all over the world take their engineering teams from dysfunctional to superior. I help companies by embedding with their engineering teams and coaching them through developing better bonds, streamlining their agile process, and better engaging with their mission."
-					startDate="January 2017"
+					accomplishments={[
+						'Embed within 17 client engineering teams to guide, mentor, & coach staff on streamlining the SDLC through agile coaching and aligning each member of the team with the greater organizational mission to deliver the highest quality products.',
+					]}
+					startDate="2009"
 					tech={[
 						'Angular.js',
 						'Ansible',
@@ -173,15 +57,132 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 			</Employer>
 
 			<Employer
+				name="Lands' End"
+				url="https://www.landsend.com">
+				<Position
+					accomplishments={[
+						'Reduced developer onboarding setup time from 2 weeks to 1 day and test/deployment speed from three 15 minute non-concurrent tests to one 20 minute test by containerizing the front-end stack for 7 separate Angular apps and 1 Java app.',
+						'ADD MENTORING STUFF HERE',
+					]}
+					startDate="2020"
+					tech={[
+						'Angular 7',
+						'Apollo',
+						'Docker',
+						'GraphQL',
+						'Grunt',
+						'Jest',
+						'NgRx',
+						'Rx.js',
+						'Storybook',
+						'TypeScript',
+					]}
+					title="Lead Staff Software Engineer" />
+			</Employer>
+
+			<Employer
+				name="Webflow"
+				url="http://webflow.com/">
+				<Position
+					accomplishments={[
+						'Re-architected the company\'s internal status tracking chatbot, Tracktastic, from a basic Slack app to an integrated API with well-architected data structures, a companion web app, and a substantially improved UX.',
+						'Fixed numerous memory leaks to reduce the memory footprint to <20MB total from its previous 150MB/hour.',
+						'Designed and developed a new web interface to augment the UX of Tracktastic\'s chat interface that improved tracking of team statuses by allowing managers to access, filter, and sort team updates.',
+						'Improved Tracktastic response time by 300% by refactoring status tracking and transferring code from a legacy serverless deployment architecture to an internal Kubernetes deployment',
+					]}
+					endDate="2020"
+					startDate="2019"
+					tech={[
+						'Angular.js',
+						'Buildkite',
+						'Docker',
+						'Express.js',
+						'Flow',
+						'Jade/Pug',
+						'JavaScript',
+						'MongoDB',
+						'Mongoose.js',
+						'Next.js',
+						'React.js',
+						'Redux',
+						'Sass',
+						'TypeScript',
+					]}
+					title="Senior Software Engineer" />
+			</Employer>
+
+			<Employer
+				name="Mobile Doorman"
+				url="http://mobiledoorman.com/">
+				<Position
+					accomplishments={[
+						'Reduced inbox loading times and increased field flexibility by re-architecting messaging core data structures to allow for message threads with multiple users and unlock the potential for hundreds of new features.',
+						'Increased the speed of page load times by 500% by converting the frontend app from Ruby-on-Rails to Vue.js.',
+						'Reduced 90% of common errors before code review by implementing Danger CI to script checks for testing.',
+						'Led weekly triage meetings with up to 3 engineers and 2 QA engineers to solve 120+ high-priority bugs monthly.',
+						'Eliminated $1,000 in monthly costs by transitioning the Node app build/test/deploy and Ruby-on-Rails test/deploy pipelines from CodeShip to CircleCI.',
+					]}
+					endDate="2019"
+					startDate="2019"
+					tech={[
+						'Babel',
+						'CircleCI',
+						'CodeShip',
+						'ESLint',
+						'Javascript',
+						'Next.js',
+						'Nuxt.js',
+						'PostCSS',
+						'React.js',
+						'Ruby on Rails',
+						'Sass',
+						'Vue.js',
+						'Webpack',
+					]}
+					title="Staff Software Engineer" />
+			</Employer>
+
+			<Employer
+				name="Roll For Guild"
+				url="http://rollforguild.com/">
+				<Position
+					accomplishments={[
+						'Launched a fully-functional social network in <3 months with a team of 5 engineers to connect tabletop roleplaying gamers.',
+						'Secured 400+ users in <2 months and reduced deployment time by 48% by containerizing Node and Elixir infrastructure.',
+					]}
+					endDate="2018"
+					startDate="2017"
+					tech={[
+						'Babel',
+						'Echarts',
+						'Elixir',
+						'Enzyme',
+						'ESLint',
+						'Javascript',
+						'Jest',
+						'Koa.js',
+						'Next.js',
+						'Phoenix',
+						'React.js',
+						'Redux.js',
+						'Webpack',
+					]}
+					title="Chief Technology Officer" />
+			</Employer>
+
+			<Employer
 				name="Adorable.io"
 				url="http://adorable.io/">
 				<Position
 					accomplishments={[
-						'Increased client\'s engineering team engagement by 40% by coaching them through revising their agile process (measured by post-contract employee survey)',
+						'Developed a web app with automated features to help photographers and illustrators upload, manage, and sell images.',
+						'Created a field app in Electron for Getty Images to allow photographers to process/preload images from an SD card without an internet connection while working with the engineering manager to implement agile processes and increase productivity.',
+						'Built a React Native app for Cardigan that enabled users to share their digital business cards with or without network access.',
+						'Designed and developed video components in React using HEVC and HEIC tech for GoPro’s marketing websites.',
+						'Provided agile coaching and engineering mentorship to 4 internal engineers to improve efficiency and grow skillsets.',
 					]}
-					description="As a consultant with Adorable, I worked closely with our clients to help them architect and develop applications, as well as coaching them through the process of implementing and revising agile workflows. I also mentored junior engineers to get them up-to-speed and ready to take on full projects."
-					endDate="February 2017"
-					startDate="March 2016"
+					endDate="2017"
+					startDate="2016"
 					tech={[
 						'Alt.js',
 						'Angular.js',
@@ -211,12 +212,12 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				url="http://inin.com/">
 				<Position
 					accomplishments={[
-						'Developed a 98% client-side realtime video chat platform with DVR-style capabilities (recording, rewind, resync, picture-in-picture) in less than a week',
-						'Developed a full VR prototype application in less than 2 days',
+						'Developed a client-side real-time video chat platform with recording, rewind, resync, and picture-in-picture capability',
+						'Developed a full VR prototype application that was integrated into existing tools with a customer-facing & an internal guide app that created guided VR experiences by matching users with CSRs through a QR code to lead interactive virtual tours.',
+						'Mentored 2 junior engineers and interns on JavaScript testing landscapes, application architectures, & agile methodologies.',
 					]}
-					description="At Interactive Intelligence my team was building a client-side voice, video, and text messaging application. I also mentored interns and junior engineers."
-					endDate="February 2016"
-					startDate="July 2014"
+					endDate="2016"
+					startDate="2014"
 					tech={[
 						'Angular.js',
 						'Chai',
@@ -235,12 +236,11 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				url="http://shopbop.com/">
 				<Position
 					accomplishments={[
-						'Developed a library for XSS protection',
-						'Developed a library for advanced client-side form validations',
+						'Rebuilt and transferred the existing website to a newer AWS system for the company’s acquisition by Amazon and built a new CMS that allowed developers to customize the system and help content managers better promote products.',
+						'Developed libraries and advanced client-side form validations for XSS protection.',
 					]}
-					description="My team at SHOPBOP/East Dane was tasked with maintenance of the current websites, as well as architecture and development of a new website."
-					endDate="July 2014"
-					startDate="February 2014"
+					endDate="2014"
+					startDate="2014"
 					title="Front End Developer" />
 			</Employer>
 
@@ -248,9 +248,12 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="Great Wolf Resorts"
 				url="http://greatwolf.com/">
 				<Position
-					description="My responsibilities at Great Wolf included maintaining and upgrading the company website and working with the engineering and UX teams to develop the company style guide."
-					endDate="February 2014"
-					startDate="September 2013"
+					accomplishments={[
+						'Maintained and upgraded the company website by optimizing JS and CSS code to increase performance and implementing new features to drive conversion.',
+						'Developed the company style guide to create brand consistency by aligning colors and imagery.',
+					]}
+					endDate="2014"
+					startDate="2013"
 					tech={[
 						'Drupal',
 						'Javascript',
@@ -267,12 +270,11 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				url="http://amfam.com/">
 				<Position
 					accomplishments={[
-						'Developed a REST API in VB.NET that collected data from all across the internal network',
-						'Developed a robust gamified website complete with charts, graphs, leaderboards, and achievements',
+						'Built a gamified internal website with charts, graphs, leaderboards, and achievements to drive sales team engagement.',
+						'Developed a REST API in VB.NET that collected and tracked user data from the internal LDAP network and policy sales numbers for the team and individuals.',
 					]}
-					description="On the Life Insurance team, I built an internal website to help gamify Life Insurance sales."
-					endDate="September 2013"
-					startDate="April 2013"
+					endDate="2013"
+					startDate="2013"
 					tech={[
 						'CSS',
 						'Javascript',
@@ -283,12 +285,10 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 
 				<Position
 					accomplishments={[
-						'Developed a WAI-ARIA quick reference guide',
-						'Developed the company\'s first accessibility-first style guide',
+						'Developed a WAI-ARIA quick reference guide and the company\'s first accessibility-first style guide before conducting testing to identify improvements using screen readers, keyboard alternatives, and voice assistants for all internal and external apps.',
 					]}
-					description="At AmFam, my directive was to determine accessibility best practices. I worked with differently-abled people across the spectrum, as well as with various alternative input devices (screen readers, keyboard alternatives, voice assistants, etc), to test our application."
-					endDate="April 2013"
-					startDate="August 2012"
+					endDate="2013"
+					startDate="2012"
 					tech={[
 						'CSS',
 						'Javascript',
@@ -301,11 +301,11 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="ESDN"
 				url="http://esdn.com/">
 				<Position
-					description={`* Participated in daily scrum, review, and retrospective meetings.
-	* Utilized Javascript, jQuery, and CSS to create a rich user experience.
-	* Took an animated client on-boarding video about the company from concept to completion.`}
-					endDate="August 2012"
-					startDate="June 2011"
+					accomplishments={[
+						'Built an injectable, JavaScript eCommerce solution with JavaScript and Bash that allowed jewelry retailers to control which resellers could sell their products while providing resellers access to a full range of retailers.',
+					]}
+					endDate="2012"
+					startDate="2011"
 					title="Front End Developer" />
 			</Employer>
 
@@ -313,14 +313,12 @@ I took the bot from a very basic Slack app to an integrated API with well-archit
 				name="Genesis Health Technologies"
 				url="http://www.genesishealthtechnologies.com/">
 				<Position
-					description={`* Participated in weekly status meetings to present my progress and refine project goals.
-	* Reviewed business needs to assist the business team in delivering clear and concise goals for the website.
-	* Built the company's public-facing website.
-	* Created the company's internal site for users to review statistics collected from their GHT devices.
-	* Utilized Javascript, jQuery, and CSS to create a rich user experience.
-	* Utilized PHP and MySQL to create a robust website backend and custom CMS.`}
-					endDate="June 2011"
-					startDate="July 2009"
+					accomplishments={[
+						'Built the company\'s public-facing website to drive brand awareness, lead generation, and customer acquisition.',
+						'Created a customer-facing site for users to review a logbook of their blood glucose readings collected from their GHT devices with graphs to visualize risk levels over time.',
+					]}
+					endDate="2011"
+					startDate="2009"
 					title="Front End Developer" />
 			</Employer>
 		</PageWrapper>

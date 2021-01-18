@@ -44,7 +44,15 @@ function Position(props) {
 			<h4>{title}</h4>
 
 			<div className="meta">
-				<span><time>{startDate}</time> - <time>{endDate || 'Present'}</time></span>
+				<span>
+					<time>{startDate}</time>
+					{(startDate !== endDate) && (
+						<>
+							{' - '}
+							<time>{endDate}</time>
+						</>
+					)}
+				</span>
 			</div>
 
 			<MarkdownRenderer children={description} />
@@ -54,12 +62,14 @@ function Position(props) {
 
 Position.defaultProps = {
 	accomplishments: null,
-	endDate: null,
+	description: '',
+	endDate: 'Present',
 	tech: null,
 }
 
 Position.propTypes = {
 	accomplishments: PropTypes.arrayOf(PropTypes.string),
+	description: PropTypes.string,
 	endDate: PropTypes.string,
 	startDate: PropTypes.string.isRequired,
 	tech: PropTypes.arrayOf(PropTypes.string),
