@@ -1,16 +1,33 @@
 .pagination {
+	background-image: linear-gradient(
+		to bottom,
+		transparent calc(50% - 1px),
+		var(--light-grey),
+		transparent calc(50% + 1px),
+	);
 	display: flex;
 	gap: var(--gutter);
 	justify-content: center;
+
+	@media (max-width: 500px) {
+		gap: calc(var(--gutter) / 2);
+	}
 
 	.page-list {
 		display: flex;
 		gap: var(--gutter);
 		margin-left: auto;
 		margin-right: auto;
+		@media (max-width: 500px) {
+			gap: calc(var(--gutter) / 2);
+		}
 	}
 
 	.button {
 		padding: var(--gutter);
+
+		@media (max-width: 500px) {
+			padding: calc(var(--gutter) / 2);
+		}
 	}
 }
