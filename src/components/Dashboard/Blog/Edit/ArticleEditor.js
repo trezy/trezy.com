@@ -116,7 +116,7 @@ export function ArticleEditor(props) {
 	return (
 		<PageWrapper
 			showHeader={false}
-			title={`Editing Article: ${title}`}>
+			title="Editing Article">
 			<RequireAuthentication>
 				<form onSubmit={handleSubmit}>
 					<header className="block no-top-margin">
