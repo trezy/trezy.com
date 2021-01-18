@@ -62,7 +62,7 @@ export default function Experience() {
 				<Position
 					accomplishments={[
 						'Reduced developer onboarding setup time from 2 weeks to 1 day and test/deployment speed from three 15 minute non-concurrent tests to one 20 minute test by containerizing the front-end stack for 7 separate Angular apps and 1 Java app.',
-						'ADD MENTORING STUFF HERE',
+						'Provided engineering mentorship to 8 engineers to grow skillsets, encourage experimentation, and increase learning opportunities.',
 					]}
 					startDate="2020"
 					tech={[
