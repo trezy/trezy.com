@@ -30,6 +30,7 @@ const MarkdownEditor = forwardRef((props, ref) => {
 		<>
 			{!previewMode && (
 				<Input
+					className="markdown-editor"
 					disabled={disabled}
 					hidden={previewMode}
 					multiline={multiline}
