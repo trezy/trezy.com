@@ -31,10 +31,10 @@ const Response = props => {
 
 	const {
 		profilesByID,
-		watchProfile,
+		useProfileWatcher,
 	} = useProfiles()
 
-	watchProfile({ id: authorID })
+	useProfileWatcher({ id: authorID })
 
 	const author = profilesByID[authorID]
 	const isPending = isPendingAkismetVerification || isPendingHumanVerification

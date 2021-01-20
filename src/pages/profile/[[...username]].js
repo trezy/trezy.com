@@ -27,7 +27,7 @@ function ProfilePage(props) {
 	const {
 		addProfile,
 		profilesByUsername,
-		watchProfile,
+		useProfileWatcher,
 	} = useProfiles()
 	const authContext = useAuth()
 	const router = useRouter()
@@ -38,6 +38,8 @@ function ProfilePage(props) {
 		profile = authContext.profile
 	}
 
+	const userOwnsProfile = profile?.id === authContext.user?.id
+
 	useEffect(() => {
 		setProfileFromSSR(null)
 
@@ -47,12 +49,12 @@ function ProfilePage(props) {
 	}, [])
 
 	useEffect(() => {
-		if (profile?.visibility === 'private') {
-			router.reload()
+		if ((profile?.visibility === 'private') && !userOwnsProfile) {
+			window.location.reload()
 		}
 	}, [profile])
 
-	watchProfile({ username })
+	useProfileWatcher({ username })
 
 	if (!profile) {
 		return (

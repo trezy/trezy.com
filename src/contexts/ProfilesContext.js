@@ -26,7 +26,7 @@ const ProfilesContext = React.createContext({
 	isLoaded: false,
 	profilesByID: {},
 	profilesByUsername: {},
-	watchProfile: () => {},
+	useProfileWatcher: () => {},
 })
 
 
@@ -82,43 +82,25 @@ const ProfilesContextProvider = props => {
 			data: snapshot.data(),
 			id: snapshot.id,
 		})
-		// const data = {
-		// 	...snapshot.data(),
-		// 	id: snapshot.id,
-		// }
+		const data = {
+			...snapshot.data(),
+			id: snapshot.id,
+		}
 
-		// setProfilesByID(previousValue => {
-		// 	return {
-		// 		...previousValue,
-		// 		[data.id]: data,
-		// 	}
-		// })
+		setProfilesByID(previousValue => {
+			const newValue = { ...previousValue }
+			delete newValue[data.id]
+			return newValue
+		})
 
-		// setProfilesByUsername(previousValue => {
-		// 	return {
-		// 		...previousValue,
-		// 		[data.username]: data,
-		// 	}
-		// })
-
-		// setProfilesToWatch(previousValue => {
-		// 	const newValue = { ...previousValue }
-
-		// 	if (!newValue[data.username]) {
-		// 		newValue[data.username] = newValue[data.id]
-		// 	} else if (!newValue[data.id]) {
-		// 		newValue[data.id] = newValue[data.username]
-		// 	}
-
-		// 	newValue[data.username].loading = false
-		// 	newValue[data.id].loading = false
-
-		// 	return newValue
-		// })
+		setProfilesByUsername(previousValue => {
+			const newValue = { ...previousValue }
+			delete newValue[data.username]
+			return newValue
+		})
 	}, [
 		setProfilesByID,
 		setProfilesByUsername,
-		setProfilesToWatch,
 	])
 
 	const handleDocumentSnapshot = useCallback(snapshot => {
@@ -183,7 +165,12 @@ const ProfilesContextProvider = props => {
 		})
 	}, [handleDocumentSnapshot])
 
-	const watchProfile = useCallback(({ username, id }) => {
+	const useProfileWatcher = useCallback(contextProps => {
+		const {
+			id,
+			onRemoved,
+			username,
+		} = contextProps
 		useEffect(() => {
 			setProfilesToWatch(previousValue => {
 				const newValue = { ...previousValue }
@@ -269,7 +256,7 @@ const ProfilesContextProvider = props => {
 				isLoaded,
 				profilesByID,
 				profilesByUsername,
-				watchProfile,
+				useProfileWatcher,
 			}}>
 			{children}
 		</ProfilesContext.Provider>
