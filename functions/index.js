@@ -141,3 +141,21 @@ exports.onUserUpdate = functions.firestore.document('users/{userID}').onUpdate((
 		updateUserClaims(snapshot.after)
 	}
 })
+
+exports.onUserRegister = functions.auth.user().onCreate(async user => {
+	await Promise.all([
+		firestore.collection('profiles').doc(user.uid).set({
+			avatarURL: user.photoURL || '',
+			bio: '',
+			displayName: user.displayName || '',
+			username: user.displayName?.toLowerCase().replace(/\s/gu, '-').replace(/[^\w]/gu, '') || '',
+			visibility: 'private',
+			website: '',
+		}),
+		firestore.collection('settings').doc(user.uid).set({
+			email: user.email || '',
+			role: 'member',
+			theme: 'system',
+		}),
+	])
+})

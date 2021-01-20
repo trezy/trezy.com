@@ -2,6 +2,7 @@
 .next
 .env
 .env.build
+firebase-debug.log
 yarn-error.log
 yalc.lock
 .vercel/
