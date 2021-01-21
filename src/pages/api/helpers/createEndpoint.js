@@ -12,8 +12,17 @@ import httpStatus from 'helpers/httpStatus'
 
 
 
+
 // Local constants
-const defaultMiddlewares = [cors()]
+const DEFAULT_MIDDLEWARES = [cors({
+	origin: (() => {
+		if (process.env.VERCEL_ENV === 'production') {
+			return 'https://trezy.com'
+		}
+
+		return '*'
+	})(),
+})]
 
 
 
@@ -27,7 +36,7 @@ const createEndpoint = options => {
 	} = options
 
 	const allMiddlewares = [
-		...defaultMiddlewares,
+		...DEFAULT_MIDDLEWARES,
 		...middlewares,
 	]
 
