@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { Anchor } from 'components/Anchor'
-import { useArticles } from 'contexts/ArticlesContext'
+import { useArticlesContext } from 'contexts/ArticlesContext'
 import Alert from 'components/Alert'
 import ArticleMeta from 'components/ArticleMeta'
 
@@ -21,25 +21,30 @@ const ArticleList = props => {
 	const {
 		authorID,
 		className,
-		includeDraft,
+		includeDrafts,
 		includeStyles,
 		limit,
 	} = props
 	const {
 		articles: articlesFromContext,
 		drafts,
-		connectAuthorID,
-		connectDrafts,
-	} = useArticles()
+		useArticles,
+	} = useArticlesContext()
 
-	let articles = includeDraft ? drafts : (articlesFromContext || props.articles)
+	useArticles({
+		authorID,
+		includeDrafts,
+		preloadedArticles: props.articles,
+	}, [
+		authorID,
+		includeDrafts,
+	])
+
+	let articles = includeDrafts ? drafts : (articlesFromContext || props.articles)
 
 	if (Boolean(articles) && limit) {
 		articles = articles.slice(0, limit)
 	}
-
-	connectAuthorID(authorID)
-	connectDrafts()
 
 	if (!articles?.length) {
 		return (
@@ -96,7 +101,7 @@ ArticleList.defaultProps = {
 	articles: null,
 	authorID: null,
 	className: '',
-	includeDraft: false,
+	includeDrafts: false,
 	includeStyles: true,
 	limit: null,
 }
@@ -105,7 +110,7 @@ ArticleList.propTypes = {
 	articles: PropTypes.array,
 	authorID: PropTypes.string,
 	className: PropTypes.string,
-	includeDraft: PropTypes.bool,
+	includeDrafts: PropTypes.bool,
 	includeStyles: PropTypes.bool,
 	limit: PropTypes.number,
 }

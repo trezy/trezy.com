@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 
 // Component imports
-import { useArticles } from 'contexts/ArticlesContext'
+import { useArticlesContext } from 'contexts/ArticlesContext'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
 
@@ -17,19 +17,11 @@ import PageWrapper from 'components/PageWrapper'
 function Blog(props) {
 	const { articles } = props
 	const {
-		addArticle,
 		articlesByID,
-	} = useArticles()
+		useArticles,
+	} = useArticlesContext()
 
-	useEffect(() => {
-		if (articles.length) {
-			articles.forEach(article => {
-				if (!articlesByID[article.id]) {
-					addArticle(article)
-				}
-			})
-		}
-	}, [])
+	useArticles({ preloadedArticles: articles })
 
 	return (
 		<PageWrapper

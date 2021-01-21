@@ -53,8 +53,18 @@ const AuthContextProvider = props => {
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
 
-	const handleProfileSnapshot = useCallback(doc => setProfile(doc.data()), [setProfile])
-	const handleSettingsSnapshot = useCallback(doc => setSettings(doc.data()), [setSettings])
+	const handleProfileSnapshot = useCallback(doc => {
+		setProfile({
+			...doc.data(),
+			id: doc.id,
+		})
+	}, [setProfile])
+	const handleSettingsSnapshot = useCallback(doc => {
+		setSettings({
+			...doc.data(),
+			id: doc.id,
+		})
+	}, [setSettings])
 
 	const handleAuthStateChange = useCallback(user => {
 		if (user) {

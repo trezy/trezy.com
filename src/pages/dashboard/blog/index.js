@@ -48,14 +48,10 @@ export default function BlogDashboard() {
 					onClick={setActiveTab}
 					tabs={TAB_NAMES} />
 
-				{(user && (activeTab === 'Published')) && (
-					<ArticleList authorID={user.uid} />
-				)}
-
-				{(user && (activeTab === 'Drafts')) && (
+				{user && (
 					<ArticleList
 						authorID={user.uid}
-						includeDraft />
+						includeDrafts={activeTab === 'Drafts'} />
 				)}
 
 				<menu

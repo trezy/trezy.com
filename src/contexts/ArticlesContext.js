@@ -3,6 +3,7 @@ import React, {
 	useCallback,
 	useContext,
 	useEffect,
+	useReducer,
 	useRef,
 	useState,
 } from 'react'
@@ -13,24 +14,24 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { articlesInitialState } from 'contexts/articlesInitialState'
+import { articlesReducer } from 'contexts/articlesReducer'
 import { useFirebase } from 'hooks/useFirebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 
 
 
 
+
+// Local constants
 const ArticlesContext = React.createContext({
-	addArticle: () => {},
-	articles: null,
+	articles: [],
 	articlesByID: {},
 	articlesBySlug: {},
-	connectArticleBySlug: () => {},
-	connectAuthorID: () => {},
-	connectDrafts: () => {},
-	drafts: null,
+	drafts: [],
 	draftsByID: {},
 	draftsBySlug: {},
-	disconnectArticleBySlug: () => {},
+	useArticles: () => {},
 })
 
 
@@ -40,6 +41,8 @@ const ArticlesContext = React.createContext({
 const ArticlesContextProvider = props => {
 	const { children } = props
 	const { firestore } = useFirebase()
+	const [state, dispatch] = useReducer(articlesReducer, articlesInitialState)
+
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('articles'))
@@ -53,149 +56,86 @@ const ArticlesContextProvider = props => {
 	const [draftsBySlug, setDraftsBySlug] = useState({})
 	const [includeDrafts, setIncludeDrafts] = useState(false)
 
-	const handleDraftsSnapshot = useCallback(snapshot => {
-		setDraftsByID(updateStateObjectFromSnapshot(snapshot, 'id'))
-		setDraftsBySlug(updateStateObjectFromSnapshot(snapshot, 'slug'))
-	}, [
-		setDraftsByID,
-		setDraftsBySlug,
-	])
-
 	const handleSnapshot = useCallback(snapshot => {
-		setArticlesByID(updateStateObjectFromSnapshot(snapshot, 'id'))
-		setArticlesBySlug(updateStateObjectFromSnapshot(snapshot, 'slug'))
-	}, [
-		setArticlesByID,
-		setArticlesBySlug,
-	])
+		const payload = {}
 
-	const addArticle = useCallback(article => {
-		setArticlesByID(previousValue => {
-			return {
-				...previousValue,
-				[article.id]: article,
+		snapshot.docChanges().forEach(change => {
+			const {
+				doc,
+				type,
+			} = change
+			const data = {
+				...doc.data(),
+				id: doc.id,
 			}
+
+			let key = 'update'
+
+			if (type === 'removed') {
+				key = 'remove'
+			}
+
+			if (!payload[key]) {
+				payload[key] = []
+			}
+
+			payload[key].push(data)
 		})
-		setArticlesBySlug(previousValue => {
-			return {
-				...previousValue,
-				[article.slug]: article,
-			}
+
+		dispatch({
+			payload,
+			type: 'MODIFY ARTICLES',
 		})
-	}, [
-		setArticlesByID,
-		setArticlesBySlug,
-	])
+	}, [dispatch])
 
-	const connectArticleBySlug = useCallback(slug => {
-		connections.current[`slug:${slug}`] = collection
-			.where('slug', '==', slug)
-			.onSnapshot(handleSnapshot)
-	}, [handleSnapshot])
+	const connectArticles = useCallback(options => {
+		if (options.preloadedArticles) {
+			dispatch({
+				payload: {
+					update: options.preloadedArticles,
+				},
+				type: 'MODIFY ARTICLES',
+			})
+		}
 
-	const disconnectArticleBySlug = useCallback(slug => {
-		connections.current[`slug:${slug}`]()
-		delete connections.current[`slug:${slug}`]
-	}, [])
-
-	const connectAuthorID = useCallback(newAuthorID => {
-		useEffect(() => {
-			if (authorID !== newAuthorID) {
-				setAuthorID(newAuthorID)
-			}
-
-			return () => setAuthorID(null)
-		}, [])
-	}, [setAuthorID])
-
-	const connectDrafts = useCallback(() => {
-		useEffect(() => {
-			setIncludeDrafts(true)
-
-			return () => setIncludeDrafts(false)
-		}, [])
-	}, [setIncludeDrafts])
-
-	useEffect(() => {
-		setArticles(Object.values(articlesByID))
-	}, [
-		articlesByID,
-		setArticles,
-	])
-
-	useEffect(() => {
-		setDrafts(Object.values(draftsByID))
-	}, [
-		draftsByID,
-		setDrafts,
-	])
-
-	useEffect(() => {
 		let query = collection
 
-		if (authorID) {
-			query = query.where('authorID', '==', authorID)
+		if (options.authorID) {
+			query = query.where('authorID', '==', options.authorID)
+		}
+
+		if (options.includeDrafts) {
+			query = query
+				.where('isDraft', '==', true)
+				.orderBy('createdAt', 'desc')
+		} else {
+			query = query
+				.where('isDraft', '==', false)
+				.orderBy('publishedAt', 'desc')
 		}
 
 		const unsubscribe = query
-			.where('isDraft', '==', false)
-			.orderBy('publishedAt', 'desc')
 			.limit(25)
 			.onSnapshot(handleSnapshot)
 
 		return () => {
 			unsubscribe()
-			setDrafts(null)
-			setDraftsByID({})
-			setDraftsBySlug({})
+			dispatch({ type: 'RESET ARTICLES' })
 		}
 	}, [
-		includeDrafts,
+		dispatch,
 		handleSnapshot,
-		setDrafts,
-		setDraftsByID,
-		setDraftsBySlug,
 	])
 
-	useEffect(() => {
-		if (includeDrafts && authorID) {
-			const unsubscribe = collection
-				.where('isDraft', '==', true)
-				.where('authorID', '==', authorID)
-				.orderBy('createdAt', 'desc')
-				.limit(25)
-				.onSnapshot(handleDraftsSnapshot)
-
-			return () => {
-				unsubscribe()
-				setDrafts(null)
-				setDraftsByID({})
-				setDraftsBySlug({})
-			}
-		}
-	}, [
-		authorID,
-		handleSnapshot,
-		setDrafts,
-		setDraftsByID,
-		setDraftsBySlug,
-		includeDrafts,
-	])
+	const useArticles = useCallback((options, dependencies = []) => {
+		useEffect(() => connectArticles(options), [connectArticles, ...dependencies])
+	}, [connectArticles])
 
 	return (
 		<ArticlesContext.Provider
 			value={{
-				addArticle,
-				articles,
-				articlesByID,
-				articlesBySlug,
-				connectArticleBySlug,
-				connectAuthorID,
-				connectDrafts,
-				drafts,
-				draftsByID,
-				draftsBySlug,
-				disconnectArticleBySlug,
+				...state,
+				useArticles,
 			}}>
 			{children}
 		</ArticlesContext.Provider>
@@ -206,7 +146,7 @@ ArticlesContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useArticles = () => useContext(ArticlesContext)
+const useArticlesContext = () => useContext(ArticlesContext)
 
 
 
@@ -215,5 +155,5 @@ const useArticles = () => useContext(ArticlesContext)
 export {
 	ArticlesContext,
 	ArticlesContextProvider,
-	useArticles,
+	useArticlesContext,
 }

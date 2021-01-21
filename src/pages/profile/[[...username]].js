@@ -38,7 +38,7 @@ function ProfilePage(props) {
 		profile = authContext.profile
 	}
 
-	const userOwnsProfile = profile?.id === authContext.user?.id
+	const userOwnsProfile = authContext.isLoaded && (profile?.id === authContext.user?.uid)
 
 	useEffect(() => {
 		setProfileFromSSR(null)
