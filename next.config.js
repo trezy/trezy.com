@@ -67,6 +67,7 @@ module.exports = {
 				],
 				'style-src': [
 					"'self'",
+					"'unsafe-inline'",
 					'https://fonts.googleapis.com',
 				],
 			},
