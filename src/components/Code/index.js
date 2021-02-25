@@ -27,7 +27,7 @@ if (typeof window !== 'undefined') {
 
 
 
-const Code = props => {
+function Code(props) {
 	const elementRef = useRef(null)
 	const {
 		language,
@@ -37,7 +37,8 @@ const Code = props => {
 	useEffect(() => {
 		Prism.highlightElement(elementRef.current)
 	}, [
-		elementRef,
+		elementRef.current,
+		language,
 		value,
 	])
 

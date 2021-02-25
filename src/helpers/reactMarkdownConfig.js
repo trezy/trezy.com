@@ -9,8 +9,8 @@ import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 
 // Local imports
+import { Code } from 'components/Code'
 import {
-	Code,
 	Directive,
 	Image,
 	List,
