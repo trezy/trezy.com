@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 // Local imports
 import { useBanner } from 'contexts/BannerContext'
 import Breadcrumbs from 'components/Breadcrumbs'
-import ContentInfo from 'components/ContentInfo'
+import { ContentInfo } from 'components/ContentInfo'
 
 
 
