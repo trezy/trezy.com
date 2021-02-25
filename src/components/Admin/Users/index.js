@@ -1,5 +1,9 @@
 // Module imports
-import { useCallback } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useState,
+} from 'react'
 import Link from 'next/link'
 
 
@@ -7,10 +11,13 @@ import Link from 'next/link'
 
 
 // Component imports
+import { Code } from 'components/Code'
 import { useAuth } from 'contexts/AuthContext'
 import { useProfiles } from 'contexts/ProfilesContext'
 import { useRoles } from 'contexts/RolesContext'
 import Button from 'components/Button'
+import getAvatar from 'helpers/getAvatar'
+import Image from 'components/Image'
 import ProfileCard from 'components/ProfileCard'
 
 
@@ -19,18 +26,15 @@ import ProfileCard from 'components/ProfileCard'
 
 export function UserAdmin() {
 	const {
-		connectProfiles,
-		isLoaded: profilesIsLoaded,
-		profilesByID,
-	} = useProfiles()
+		refreshUser,
+		user,
+	} = useAuth()
 	const {
 		isLoaded: rolesIsLoaded,
 		roles,
 	} = useRoles()
-	const {
-		refreshUser,
-		user,
-	} = useAuth()
+	const [isLoaded, setIsLoaded] = useState(false)
+	const [users, setUsers] = useState([])
 
 	const addRole = useCallback(async event => {
 		const { target } = event
@@ -52,14 +56,106 @@ export function UserAdmin() {
 		}
 	}, [user])
 
-	const mapProfile = useCallback(profile => (
-		<li key={profile.id}>
-			<ProfileCard
-				linkToProfile
-				profile={profile} />
+	const getUsers = useCallback(async () => {
+		const response = await fetch('/api/users')
+		const { users } = await response.json()
+		setUsers(users)
+		setIsLoaded(true)
+	}, [
+		setIsLoaded,
+		setUsers,
+	])
 
-			{rolesIsLoaded && (
-				<menu type="toolbar">
+	const mapUser = useCallback(user => {
+		const {
+			auth,
+			profile,
+			settings,
+		} = user
+
+		return (
+			<li
+				className="block no-pad"
+				key={auth.uid}>
+				<Image
+					alt={`${profile.displayName}'s avatar`}
+					src={getAvatar(profile)} />
+
+				<div className="details">
+					<header>
+						<h3>{profile.displayName}</h3>
+					</header>
+
+					<dl>
+						<dt>ID</dt>
+						<dd>{auth.uid}</dd>
+
+						{Boolean(auth.email) && (
+							<>
+								<dt>Email</dt>
+								<dd>
+									<a href={`mailto:${auth.email}`}>
+										{auth.email}
+									</a>
+								</dd>
+							</>
+						)}
+
+						<dt>Member Since</dt>
+						<dd>{auth.metadata.creationTime}</dd>
+
+						<dt>Last Login</dt>
+						<dd>{auth.metadata.lastSignInTime}</dd>
+
+						<dt>Verified</dt>
+						<dd>{auth.emailVerified ? 'Yes' : 'No'}</dd>
+
+						<dt>Profile Visibility</dt>
+						<dd>{profile.visibility}</dd>
+					</dl>
+
+					<header><h4>Linked Accounts</h4></header>
+
+					<ul className="bulleted">
+						{auth.providerData.map(providerData => {
+							const { providerId } = providerData
+
+							const providerName = {
+								'google.com': 'Google',
+								'twitter.com': 'Twitter',
+							}[providerId]
+
+							return (
+								<li id={providerData.uid}>
+									{providerName || providerId}
+								</li>
+							)
+						})}
+					</ul>
+
+					<header><h4>Raw User Data</h4></header>
+
+					<details>
+						<header><h5>Auth</h5></header>
+						<Code
+							language="json"
+							value={JSON.stringify(auth, null, 2)} />
+
+						<header><h5>Profile</h5></header>
+						<Code
+							language="json"
+							value={JSON.stringify(profile, null, 2)} />
+
+						<header><h5>Settings</h5></header>
+						<Code
+							language="json"
+							value={JSON.stringify(settings, null, 2)} />
+					</details>
+				</div>
+
+				<menu
+					className="actions"
+					type="toolbar">
 					{Object.entries(roles).map(([roleID, role]) => (
 						<Button
 							data-user-id={profile.id}
@@ -70,25 +166,21 @@ export function UserAdmin() {
 						</Button>
 					))}
 				</menu>
-			)}
-		</li>
-	), [
-		addRole,
-		roles,
-		rolesIsLoaded,
-	])
+			</li>
+		)
+	}, [])
 
-	connectProfiles()
+	useEffect(() => getUsers(), [getUsers])
 
 	return (
-		<section className="block">
-			{(profilesIsLoaded && rolesIsLoaded) && (
-				<ul className="card-list">
-					{Object.values(profilesByID).map(mapProfile)}
+		<section>
+			{!isLoaded && 'Loading...'}
+
+			{isLoaded && (
+				<ul className="users-list">
+					{users.map(mapUser)}
 				</ul>
 			)}
-
-			{!profilesIsLoaded && 'Loading...'}
 		</section>
 	)
 }

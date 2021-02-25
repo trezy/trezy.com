@@ -1,6 +1,7 @@
 menu {
 	align-items: stretch;
 	display: flex;
+	gap: var(--gutter);
 	justify-content: flex-end;
 
 	span {

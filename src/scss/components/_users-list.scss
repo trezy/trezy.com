@@ -1,0 +1,32 @@
+.users-list > li {
+	display: grid;
+	gap: var(--gutter);
+	grid-template-areas:
+		'avatar details'
+		'actions actions';
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto auto;
+	max-width: 100%;
+	padding-right: var(--gutter) !important;
+
+	.image-wrapper {
+		grid-area: avatar;
+		width: 10rem;
+	}
+
+	.details {
+		grid-area: details;
+		overflow: hidden;
+
+		pre {
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.actions {
+		align-self: start;
+		grid-area: actions;
+	}
+}
