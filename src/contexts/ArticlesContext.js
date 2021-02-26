@@ -46,15 +46,6 @@ const ArticlesContextProvider = props => {
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('articles'))
-	const connections = useRef({})
-	const [articles, setArticles] = useState(null)
-	const [articlesByID, setArticlesByID] = useState({})
-	const [articlesBySlug, setArticlesBySlug] = useState({})
-	const [authorID, setAuthorID] = useState(null)
-	const [drafts, setDrafts] = useState(null)
-	const [draftsByID, setDraftsByID] = useState({})
-	const [draftsBySlug, setDraftsBySlug] = useState({})
-	const [includeDrafts, setIncludeDrafts] = useState(false)
 
 	const handleSnapshot = useCallback(snapshot => {
 		const payload = {}

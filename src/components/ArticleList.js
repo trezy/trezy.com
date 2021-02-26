@@ -9,9 +9,9 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { Anchor } from 'components/Anchor'
+import { ArticleMeta } from 'components/ArticleMeta'
 import { useArticlesContext } from 'contexts/ArticlesContext'
 import Alert from 'components/Alert'
-import ArticleMeta from 'components/ArticleMeta'
 
 
 
@@ -82,7 +82,7 @@ const ArticleList = props => {
 								</Anchor>
 							</h3>
 
-							<ArticleMeta {...article} />
+							<ArticleMeta article={article} />
 
 							{synopsis && (
 								<span className="synopsis">

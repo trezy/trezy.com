@@ -3,11 +3,12 @@ import React, {
 	useCallback,
 	useContext,
 	useEffect,
+	useReducer,
 	useRef,
 	useState,
 } from 'react'
-import PropTypes from 'prop-types'
 import { v4 as uuid } from 'uuid'
+import PropTypes from 'prop-types'
 
 
 
@@ -16,6 +17,7 @@ import { v4 as uuid } from 'uuid'
 // Local imports
 import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
+import { calculateReadtime } from 'helpers/calculateReadtime'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 import articleDefaults from 'models/article'
 import createSlugFromTitleString from 'helpers/createSlugFromTitleString'
@@ -24,27 +26,82 @@ import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 
 
 
-const ArticleContext = React.createContext({
+
+// Constants
+const INITIAL_STATE = {
 	article: null,
-	isLoaded: false,
-	publishResponse: () => {},
+	isLoadingArticle: true,
+	isLoadingResponses: true,
 	responses: null,
+}
+
+
+
+
+
+function reducer(state, action) {
+	const {
+		payload,
+		type,
+	} = action
+	const newState = { ...state }
+
+	switch (type) {
+		case 'attempt article retrieval':
+			newState.isLoadingArticle = true
+			break
+
+		case 'received article':
+			newState.isLoadingArticle = false
+			newState.article = {
+				...payload,
+				readtime: calculateReadtime(payload.body),
+			}
+			break
+
+		case 'received responses':
+			newState.isLoadingResponses = false
+			newState.responses = payload
+			break
+
+		default:
+			console.warn(`Unrecognized action type: ${type}`, payload)
+			return state
+	}
+
+	return newState
+}
+
+
+
+
+const ArticleContext = React.createContext({
+	...INITIAL_STATE,
+	publishResponse: () => {},
 	saveArticle: () => {},
 })
 
-
-
-
-
 const ArticleContextProvider = props => {
 	const {
-		article: articleFromSSR,
 		children,
 		id,
 		isNew,
 		slug,
 	} = props
+	console.log('===== BEEP BEEP BEEP =====')
+	console.log({props, readtime: calculateReadtime(props.article.body)})
+	const [state, dispatch] = useReducer(reducer, {
+		...INITIAL_STATE,
+		article: props.article ? {
+			...props.article,
+			readtime: calculateReadtime(props.article.body)
+		} : null,
+		isLoading: Boolean(props.article),
+	})
+	console.log({state})
+	console.log('===== BEEP BEEP BEEP =====')
 	const {
+		database,
 		firebase,
 		firestore,
 	} = useFirebase()
@@ -52,34 +109,31 @@ const ArticleContextProvider = props => {
 	const {
 		current: collection,
 	} = useRef(firestore?.collection('articles'))
-	const connections = useRef({})
-	const [article, setArticle] = useState(
-		articleFromSSR ||
-		(isNew ? articleDefaults : null)
-	)
-	const [isLoaded, setIsLoaded] = useState(isNew)
-	const [responses, setResponses] = useState(null)
+
+	const { article } = state
 
 	const handleArticleSnapshot = useCallback(snapshot => {
+		let article = null
+
 		if (snapshot.forEach) {
 			snapshot.forEach(doc => {
-				setArticle({
+				article = {
 					...doc.data(),
 					id: doc.id,
-				})
+				}
 			})
 		} else {
-			setArticle({
+			article = {
 				...snapshot.data(),
 				id: snapshot.id,
-			})
+			}
 		}
 
-		setIsLoaded(true)
-	}, [
-		setArticle,
-		setIsLoaded,
-	])
+		dispatch({
+			payload: article,
+			type: 'received article',
+		})
+	}, [dispatch])
 
 	const handleResponsesSnapshot = useCallback(snapshot => {
 		const newResponses = []
@@ -89,8 +143,11 @@ const ArticleContextProvider = props => {
 			id: doc.id,
 		}))
 
-		setResponses(newResponses)
-	}, [setResponses])
+		dispatch({
+			payload: newResponses,
+			type: 'received responses',
+		})
+	}, [dispatch])
 
 	const publishResponse = useCallback(async response => {
 		if (!user) {
@@ -166,10 +223,14 @@ const ArticleContextProvider = props => {
 	// Connect the article
 	useEffect(() => {
 		if (!isNew) {
+			dispatch({ type: 'attempt article retrieval' })
+
 			let query = collection
 
 			if (slug) {
-				query = query.where('slug', '==', slug)
+				query = query
+					.where('slug', '==', slug)
+					.where('isDraft', '==', false)
 			} else if (id) {
 				query = query.doc(id)
 			}
@@ -205,10 +266,8 @@ const ArticleContextProvider = props => {
 	return (
 		<ArticleContext.Provider
 			value={{
-				article,
-				isLoaded,
+				...state,
 				publishResponse,
-				responses,
 				saveArticle,
 			}}>
 			{children}

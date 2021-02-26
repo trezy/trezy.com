@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -11,28 +10,33 @@ import React from 'react'
 // Local imports
 import { firebase } from 'helpers/firebase'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
+import { useArticle } from 'contexts/ArticleContext'
 import { useAuth } from 'contexts/AuthContext'
 
 
 
 
 
-const ArticleMeta = props => {
+export function ArticleMeta(props) {
+	const article = useArticle().article || props.article
 	const {
 		authorID,
 		id,
 		isDraft,
-	} = props
+		readtime,
+	} = article
 	const { Timestamp } = firebase.firestore
 	const { user } = useAuth()
 	const isEditable = user?.uid === authorID
 
-	// Convert timestamps back to Firebase Timestamp objects
-	const timestamps = {}
+	const primaryDate = isDraft ? 'publishedAt' : 'createdAt'
 
+	// Convert timestamps to Moments
+	const timestamps = {}
 	const timestampKeys = ['createdAt', 'publishedAt', 'updatedAt']
+
 	timestampKeys.forEach(key => {
-		let timestamp = props[key]
+		let timestamp = article[key]
 
 		if (timestamp instanceof Timestamp) {
 			timestamp = timestamp.toMillis()
@@ -40,9 +44,6 @@ const ArticleMeta = props => {
 
 		timestamps[key] = moment(timestamp)
 	})
-
-	// Convert timestamps to Moments
-	const primaryDate = isDraft ? 'publishedAt' : 'createdAt'
 
 	return (
 		<div className="meta">
@@ -76,6 +77,24 @@ const ArticleMeta = props => {
 				</span>
 			)}
 
+			{Boolean(readtime) && (
+				<span>
+					<FontAwesomeIcon
+						fixedWidth
+						icon="clock" />
+					{' '}
+					{/* Less than a minute */}
+					{(readtime < (60 * 1000)) && (
+						'Less than 1 min read'
+					)}
+
+					{/* More than a minute, less than 90 */}
+					{(readtime > (60 * 1000)) && (
+						`${Math.round(readtime / 1000 / 60)} min read`
+					)}
+				</span>
+			)}
+
 			{isEditable && (
 				<span>
 					<Link href={`/dashboard/blog/edit/${id}`}>
@@ -86,33 +105,3 @@ const ArticleMeta = props => {
 		</div>
 	)
 }
-
-ArticleMeta.defaultProps = {
-	authorID: null,
-	publishedAt: null,
-	updatedAt: null,
-}
-
-ArticleMeta.propTypes = {
-	authorID: PropTypes.string,
-	createdAt: PropTypes.oneOfType([
-		PropTypes.object,
-		PropTypes.number,
-	]).isRequired,
-	id: PropTypes.string.isRequired,
-	isDraft: PropTypes.bool.isRequired,
-	publishedAt: PropTypes.oneOfType([
-		PropTypes.object,
-		PropTypes.number,
-	]),
-	updatedAt: PropTypes.oneOfType([
-		PropTypes.object,
-		PropTypes.number,
-	]),
-}
-
-
-
-
-
-export default ArticleMeta

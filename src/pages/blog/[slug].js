@@ -11,9 +11,9 @@ import {
 	firebase,
 	firestore,
 } from 'helpers/firebase'
-import { ArticleContextProvider } from 'contexts/ArticleContext'
 import { Article } from 'components/Article'
-import ArticleMeta from 'components/ArticleMeta'
+import { ArticleContextProvider } from 'contexts/ArticleContext'
+import { ArticleMeta } from 'components/ArticleMeta'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
@@ -46,7 +46,7 @@ function ArticlePage(props) {
 						<header className="block no-top-margin">
 							<h2>{article.title}</h2>
 
-							<ArticleMeta {...article} />
+							<ArticleMeta />
 						</header>
 
 						<Article />

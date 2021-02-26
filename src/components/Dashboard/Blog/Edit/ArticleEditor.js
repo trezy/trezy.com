@@ -33,7 +33,7 @@ export function ArticleEditor(props) {
 	} = useAuth()
 	const {
 		article: articleFromContext,
-		isLoaded,
+		isLoadingArticle,
 		saveArticle,
 	} = useArticle()
 	const router = useRouter()
@@ -96,7 +96,7 @@ export function ArticleEditor(props) {
 	}, [setTitle])
 
 	useEffect(() => {
-		if (isLoaded && article) {
+		if (!isLoadingArticle && article) {
 			setBody(article.body)
 			setSynopsis(article.synopsis)
 			setSubtitle(article.subtitle)
@@ -104,7 +104,7 @@ export function ArticleEditor(props) {
 		}
 	}, [
 		article,
-		isLoaded,
+		isLoadingArticle,
 		setBody,
 		setSynopsis,
 		setSubtitle,
@@ -122,7 +122,7 @@ export function ArticleEditor(props) {
 					<header className="block no-top-margin">
 						<h2>
 							<Input
-								disabled={!isLoaded || isUpdating}
+								disabled={isLoadingArticle || isUpdating}
 								label="Title"
 								onChange={handleTitleChange}
 								placeholder="Title"
@@ -136,7 +136,7 @@ export function ArticleEditor(props) {
 							<div className="field">
 								<Input
 									aria-label="Subtitle"
-									disabled={!isLoaded || isUpdating}
+									disabled={isLoadingArticle || isUpdating}
 									label="Subtitle"
 									onChange={handleSubtitleChange}
 									placeholder="Subtitle"
@@ -147,7 +147,7 @@ export function ArticleEditor(props) {
 							<div className="field">
 								<MarkdownEditor
 									aria-label="Synopsis"
-									disabled={!isLoaded || isUpdating}
+									disabled={isLoadingArticle || isUpdating}
 									label="Synopsis"
 									onChange={handleSynopsisChange}
 									placeholder="Synopsis"
@@ -161,7 +161,7 @@ export function ArticleEditor(props) {
 						<div className="field">
 							<MarkdownEditor
 								aria-label="Body"
-								disabled={!isLoaded || isUpdating}
+								disabled={isLoadingArticle || isUpdating}
 								label="Body"
 								onChange={handleBodyChange}
 								placeholder="Body"
@@ -173,14 +173,14 @@ export function ArticleEditor(props) {
 							className="floaty-menu floaty-bottom"
 							type="toolbar">
 							<Button
-								disabled={!isLoaded || isUpdating}
+								disabled={isLoadingArticle || isUpdating}
 								onClick={handlePreviewMode}>
 								Preview
 							</Button>
 
 							<Button
 								className="primary"
-								disabled={!isLoaded || isUpdating}
+								disabled={isLoadingArticle || isUpdating}
 								type="submit"
 								value="save">
 								Save
@@ -189,7 +189,7 @@ export function ArticleEditor(props) {
 							{(article?.isDraft && canPublish) && (
 								<Button
 									className="primary"
-									disabled={!isLoaded || isUpdating}
+									disabled={isLoadingArticle || isUpdating}
 									onClick={handlePublish}
 									type="submit"
 									value="publish">

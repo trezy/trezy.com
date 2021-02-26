@@ -1,3 +1,10 @@
+// Local imports
+import { calculateReadtime } from 'helpers/calculateReadtime'
+
+
+
+
+
 export const articlesReducer = (state, action) => {
 	const {
 		payload,
@@ -22,6 +29,7 @@ export const articlesReducer = (state, action) => {
 				newState.draftsByID[item.id] = item
 				newState.draftsBySlug[item.slug] = item
 			} else {
+				item.readtime = calculateReadtime(item.body)
 				newState.articlesByID[item.id] = item
 				newState.articlesBySlug[item.slug] = item
 			}
