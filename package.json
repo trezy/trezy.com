@@ -43,7 +43,7 @@
 		"next-gitinfo": "^1.1.0",
 		"next-redux-wrapper": "^4.0.1",
 		"next-safe": "^2.0.0",
-		"nookies": "^2.5.0",
+		"nookies": "^2.5.2",
 		"nprogress": "^0.2.0",
 		"numeral": "^2.0.6",
 		"pako": "^2.0.3",
