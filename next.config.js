@@ -4,6 +4,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const nextSafe = require('next-safe').default
 const path = require('path')
+const withGitInfo = require('next-gitinfo')
 
 
 
@@ -16,7 +17,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 
 
-module.exports = {
+module.exports = withGitInfo({
 	async headers() {
 		const headers = nextSafe({
 			contentSecurityPolicy: {
@@ -170,4 +171,4 @@ module.exports = {
 
 		return config
 	},
-}
+})

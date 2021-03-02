@@ -7354,6 +7354,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"graceful-fs@npm:^4.1.11":
+  version: 4.2.6
+  resolution: "graceful-fs@npm:4.2.6"
+  checksum: 84d39c7756892553da990a9db7e45f844b3309b37b5a00174cbb4748476f2250c54f24594d4d252f64f085c65c2fdac7c809419bf6d55f0e6e42eb07ac0f5bf2
+  languageName: node
+  linkType: hard
+
 "graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.2, graceful-fs@npm:^4.2.3, graceful-fs@npm:^4.2.4":
   version: 4.2.4
   resolution: "graceful-fs@npm:4.2.4"
@@ -8501,6 +8508,15 @@ fsevents@~2.3.1:
   version: 1.2.0
   resolution: "khroma@npm:1.2.0"
   checksum: 85045692c8822d3a858e78796123af6f4ccc3f7d9bd53443307cf91042ba1abb1b16b202658ad8835c10e87e8b39ac4456bad8a737a471cfbb4c6b99fcd829a7
+  languageName: node
+  linkType: hard
+
+"klaw-sync@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "klaw-sync@npm:6.0.0"
+  dependencies:
+    graceful-fs: ^4.1.11
+  checksum: 40112f582d6b906ff556f2c8b67376bc1cad1939da981ac8265fcf6e46cad3bd521e7b9d1bd7e63016d744e7952eca4cb7a0da77466732c6b4e7fd51d42d76a4
   languageName: node
   linkType: hard
 
@@ -9723,6 +9739,17 @@ fsevents@~2.3.1:
   version: 1.0.6
   resolution: "netmask@npm:1.0.6"
   checksum: 966fe6128f2f9b541387ffa13dd9d9bc910a1b376652a6cdc99d05c7a5dd1b2725f4c6c91b1286996d6c9f6664489fca463149d60c84eb63a915e466ee584e56
+  languageName: node
+  linkType: hard
+
+"next-gitinfo@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "next-gitinfo@npm:1.1.0"
+  dependencies:
+    klaw-sync: ^6.0.0
+  peerDependencies:
+    next: ^10.0.7
+  checksum: a869e4bbb46bef310a4ab8d6f043d2d10fbdad25e2a202f982d406a1e05437b6323f53cd4cbb1adcd8c06d5d30c3fd8dc94ebaeb83f407956564e89b30bfd537
   languageName: node
   linkType: hard
 
@@ -13496,6 +13523,7 @@ fsevents@~2.3.1:
     moment: ^2.29.1
     mri: ^1.1.6
     next: 10.0.5
+    next-gitinfo: ^1.1.0
     next-redux-wrapper: ^4.0.1
     next-safe: ^2.0.0
     nookies: ^2.5.0
