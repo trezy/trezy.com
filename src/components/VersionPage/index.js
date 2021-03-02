@@ -40,10 +40,6 @@ export function VersionPage(props) {
 				tabs={tabNames} />
 
 			{tabs[activeTab]}
-
-			{/* <Environment {...props} />
-			<Git {...props} />
-			<Dependencies {...props} /> */}
 		</PageWrapper>
 	)
 }
