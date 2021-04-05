@@ -67,7 +67,7 @@
 		"transform-string-case": "^1.1.0",
 		"unist-util-visit-parents": "^3.1.1",
 		"uuid": "^8.3.2",
-		"webpack": "^5.14.0",
+		"webpack": "^5.30.0",
 		"xml": "^1.0.1",
 		"yaml": "^1.10.0"
 	},
