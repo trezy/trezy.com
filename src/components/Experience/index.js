@@ -28,7 +28,7 @@ export default function Experience() {
 					accomplishments={[
 						'Embed within 17 client engineering teams to guide, mentor, & coach staff on streamlining the SDLC through agile coaching and aligning each member of the team with the greater organizational mission to deliver the highest quality products.',
 					]}
-					startDate="2009"
+					startDate="2005"
 					tech={[
 						'Angular.js',
 						'Ansible',
