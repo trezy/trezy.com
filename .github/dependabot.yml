@@ -1,0 +1,84 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mermaid
+    versions:
+    - 8.9.0
+    - 8.9.1
+    - 8.9.2
+  - dependency-name: firebase-tools
+    versions:
+    - 9.2.2
+    - 9.3.0
+    - 9.4.0
+    - 9.5.0
+    - 9.6.0
+    - 9.6.1
+    - 9.8.0
+    - 9.9.0
+  - dependency-name: firebase
+    versions:
+    - 8.2.10
+    - 8.2.4
+    - 8.2.5
+    - 8.2.6
+    - 8.2.7
+    - 8.2.8
+    - 8.2.9
+    - 8.3.0
+    - 8.3.1
+    - 8.3.2
+    - 8.3.3
+    - 8.4.0
+    - 8.4.1
+  - dependency-name: webpack
+    versions:
+    - 5.18.0
+    - 5.19.0
+    - 5.20.0
+    - 5.20.1
+    - 5.20.2
+    - 5.21.2
+    - 5.22.0
+    - 5.23.0
+    - 5.24.0
+    - 5.24.1
+    - 5.24.2
+    - 5.24.3
+    - 5.24.4
+    - 5.25.1
+    - 5.26.0
+    - 5.26.2
+    - 5.26.3
+    - 5.27.1
+    - 5.27.2
+    - 5.28.0
+    - 5.30.0
+    - 5.31.0
+    - 5.33.2
+    - 5.35.0
+    - 5.35.1
+    - 5.36.0
+  - dependency-name: eslint
+    versions:
+    - 7.18.0
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: sass
+    versions:
+    - 1.32.5
+    - 1.32.6
+    - 1.32.7
+    - 1.32.8
+  - dependency-name: firebase-functions
+    versions:
+    - 3.13.1
