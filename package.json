@@ -36,7 +36,7 @@
 		"localforage": "^1.9.0",
 		"lodash": "^4.17.20",
 		"mdast-builder": "^1.1.1",
-		"mermaid": "^8.8.4",
+		"mermaid": "^8.11.2",
 		"micro-cors": "^0.1.1",
 		"moment": "^2.29.1",
 		"next": "10.0.5",
