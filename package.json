@@ -39,7 +39,7 @@
 		"mermaid": "^8.8.4",
 		"micro-cors": "^0.1.1",
 		"moment": "^2.29.1",
-		"next": "10.0.5",
+		"next": "11.1.0",
 		"next-gitinfo": "^1.1.0",
 		"next-redux-wrapper": "^4.0.1",
 		"next-safe": "^2.0.0",
