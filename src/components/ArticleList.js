@@ -1,5 +1,4 @@
 // Module imports
-import { useEffect } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -10,7 +9,6 @@ import PropTypes from 'prop-types'
 // Local imports
 import { Anchor } from 'components/Anchor'
 import { ArticleMeta } from 'components/ArticleMeta'
-import { useArticlesContext } from 'contexts/ArticlesContext'
 import Alert from 'components/Alert'
 
 
@@ -19,28 +17,11 @@ import Alert from 'components/Alert'
 
 const ArticleList = props => {
 	const {
-		authorID,
 		className,
-		includeDrafts,
 		includeStyles,
 		limit,
 	} = props
-	const {
-		articles: articlesFromContext,
-		drafts,
-		useArticles,
-	} = useArticlesContext()
-
-	useArticles({
-		authorID,
-		includeDrafts,
-		preloadedArticles: props.articles,
-	}, [
-		authorID,
-		includeDrafts,
-	])
-
-	let articles = includeDrafts ? drafts : (articlesFromContext || props.articles)
+	let { articles } = props
 
 	if (Boolean(articles) && limit) {
 		articles = articles.slice(0, limit)

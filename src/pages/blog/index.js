@@ -1,12 +1,12 @@
 // Module imports
-import { useEffect } from 'react'
+import { createClient as createContentfulClient } from 'contentful'
 
 
 
 
 
 // Component imports
-import { useArticlesContext } from 'contexts/ArticlesContext'
+import { calculateReadtime } from 'helpers/calculateReadtime'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
 
@@ -16,12 +16,6 @@ import PageWrapper from 'components/PageWrapper'
 
 function Blog(props) {
 	const { articles } = props
-	const {
-		articlesByID,
-		useArticles,
-	} = useArticlesContext()
-
-	useArticles({ preloadedArticles: articles })
 
 	return (
 		<PageWrapper
@@ -32,26 +26,27 @@ function Blog(props) {
 	)
 }
 
-export async function getServerSideProps(context) {
-	const { firestore } = await import('helpers/firebase')
-	const articles = []
-	const articlesSnapshot = await firestore
-		.collection('articles')
-		.where('isDraft', '==', false)
-		.orderBy('publishedAt', 'desc')
-		.get()
-
-	articlesSnapshot.forEach(doc => {
-		const article = doc.data()
-		article.createdAt = article.createdAt.toMillis()
-		article.publishedAt = article.publishedAt.toMillis()
-		article.updatedAt = article.updatedAt.toMillis()
-		articles.push(article)
+export async function getStaticProps() {
+	const contentfulClient = createContentfulClient({
+		space: process.env.CONTENTFUL_API_SPACE_ID,
+		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
 	})
+
+	const contentfulResponse = await contentfulClient
+		.getEntries({
+			content_type: 'article',
+		})
 
 	return {
 		props: {
-			articles,
+			articles: contentfulResponse.items.map(item => {
+				return {
+					...item.fields,
+					createdAt: item.fields.legacyPublishedAt || item.fields.legacyCreatedAt || item.sys.createdAt,
+					readtime: calculateReadtime(item.fields.body),
+					updatedAt: item.sys.updatedAt,
+				}
+			}),
 		},
 	}
 }

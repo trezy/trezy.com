@@ -1,5 +1,5 @@
 // Module imports
-import { useEffect } from 'react'
+import { createClient as createContentfulClient } from 'contentful'
 import PropTypes from 'prop-types'
 
 
@@ -7,86 +7,109 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import {
-	firebase,
-	firestore,
-} from 'helpers/firebase'
-import { Article } from 'components/Article'
-import { ArticleContextProvider } from 'contexts/ArticleContext'
 import { ArticleMeta } from 'components/ArticleMeta'
+import { calculateReadtime } from 'helpers/calculateReadtime'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
-import Responses from 'components/Responses'
 
 
 
 
 
 function ArticlePage(props) {
-	const { slug } = props
-	const article = props.article
+	const { article } = props
 
 	return (
-		<ArticleContextProvider
-			article={article}
-			slug={slug}>
-			<PageWrapper
-				description={article?.synopsis}
-				showHeader={false}
-				title={createTitleStringFromArticle(article)}>
-				{!article && (
-					<section className="block">
-						Loading...
-					</section>
-				)}
+		<PageWrapper
+			description={article.synopsis}
+			showHeader={false}
+			title={createTitleStringFromArticle(article)}>
+			<header className="block no-top-margin">
+				<h2>{article.title}</h2>
 
-				{Boolean(article) && (
-					<>
-						<header className="block no-top-margin">
-							<h2>{article.title}</h2>
+				<ArticleMeta article={article} />
+			</header>
 
-							<ArticleMeta />
-						</header>
-
-						<Article />
-					</>
-				)}
-			</PageWrapper>
-		</ArticleContextProvider>
+			<article className="block">
+				<MarkdownRenderer children={article.body} />
+			</article>
+		</PageWrapper>
 	)
 }
 
 ArticlePage.propTypes = {
-	slug: PropTypes.string.isRequired,
+	article: PropTypes.shape({}).isRequired,
 }
 
-export async function getServerSideProps(context) {
-	const { slug } = context.params
-	let article = null
-
-	const articleSnapshot = await firestore
-		.collection('articles')
-		.where('isDraft', '==', false)
-		.where('slug', '==', slug)
-		.get()
-
-	articleSnapshot.forEach(doc => {
-		article = doc.data()
-		article.createdAt = article.createdAt.toMillis()
-		article.publishedAt = article.publishedAt.toMillis()
-		article.updatedAt = article.updatedAt.toMillis()
+export async function getStaticPaths() {
+	const contentfulClient = createContentfulClient({
+		space: process.env.CONTENTFUL_API_SPACE_ID,
+		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
 	})
 
-	if (!article) {
+	const contentfulResponse = await contentfulClient
+		.getEntries({
+			content_type: 'article',
+			select: [
+				'fields.slug',
+				'fields.oldSlugs',
+			],
+		})
+
+	const paths = []
+
+	contentfulResponse.items.map(article => {
+		paths.push({
+			params: {
+				slug: article.fields.slug,
+			},
+		})
+
+		if (article.fields.oldSlugs?.length) {
+			article.fields.oldSlugs.forEach(slug => {
+				paths.push({
+					params: { slug },
+				})
+			})
+		}
+	})
+
+	return {
+		fallback: true,
+		paths,
+	}
+}
+
+export async function getStaticProps(context) {
+	const { slug } = context.params
+	const contentfulClient = createContentfulClient({
+		space: process.env.CONTENTFUL_API_SPACE_ID,
+		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
+	})
+
+	const contentfulResponse = await contentfulClient
+		.getEntries({
+			content_type: 'article',
+			'fields.slug': slug,
+			limit: 1,
+		})
+
+	if (!contentfulResponse.total === 0) {
 		return { notFound: true }
 	}
 
+	const contentfulArticle = contentfulResponse.items[0]
+
+	const article = {
+		...contentfulArticle.fields,
+		createdAt: contentfulArticle.fields.legacyPublishedAt || contentfulArticle.fields.legacyCreatedAt || contentfulArticle.sys.createdAt,
+		readtime: calculateReadtime(contentfulArticle.fields.body),
+		updatedAt: contentfulArticle.sys.updatedAt,
+	}
+
 	return {
-		props: {
-			article,
-			slug,
-		},
+		props: { article },
 	}
 }
 

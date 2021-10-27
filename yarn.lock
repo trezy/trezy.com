@@ -3303,6 +3303,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "axios@npm:0.24.0"
+  dependencies:
+    follow-redirects: ^1.14.4
+  checksum: e741dfea07def55be7b1082824d71f54f7859b9c3c75a86c6a74b91c6e48bb461aceac683f77867313f89ff40ef5f2d1d2a1fe1953fcb71bdc1c1fc0fc069925
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^2.2.0":
   version: 2.2.0
   resolution: "axobject-query@npm:2.2.0"
@@ -4417,6 +4426,41 @@ __metadata:
   version: 1.0.4
   resolution: "content-type@npm:1.0.4"
   checksum: ff6e19cbf281c23d5608723a6dc60ac97e2280bd4d21602511283112321e6c1555895e395555e367672b54a0f1585276284b7c3c8be313aca73902ac2f2609fd
+  languageName: node
+  linkType: hard
+
+"contentful-resolve-response@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "contentful-resolve-response@npm:1.3.0"
+  dependencies:
+    fast-copy: ^2.1.0
+  checksum: 7aab926c340502fdfaa7d7191cc07368258c3c1525d06a73b0dddfad0bc52e40194bb5a27e2c14395924de1e161a962aad8200d7128f96974c1618ed6a35aad1
+  languageName: node
+  linkType: hard
+
+"contentful-sdk-core@npm:^6.9.0":
+  version: 6.10.3
+  resolution: "contentful-sdk-core@npm:6.10.3"
+  dependencies:
+    fast-copy: ^2.1.0
+    lodash.isplainobject: ^4.0.6
+    lodash.isstring: ^4.0.1
+    p-throttle: ^4.1.1
+    qs: ^6.9.4
+  checksum: 3ade1aa8bea7b982e145104120fec12ddd41a0b66935e8022ace067fd7d92e02dfc7b94efd643bc72c59f9820b81aa5fd53a70ed6ae9a3d3e5ee04f9174c90cd
+  languageName: node
+  linkType: hard
+
+"contentful@npm:^9.1.4":
+  version: 9.1.4
+  resolution: "contentful@npm:9.1.4"
+  dependencies:
+    axios: ^0.24.0
+    contentful-resolve-response: ^1.3.0
+    contentful-sdk-core: ^6.9.0
+    fast-copy: ^2.1.0
+    json-stringify-safe: ^5.0.1
+  checksum: b0548b3151dd195a333b49ac283b9bfbf19d8be9144b1cc5dc73d4b0e37ebc91c2e860b13d5e37ae8817f4fec0aa2014263a2a75e41859983b4afad5bca48e19
   languageName: node
   linkType: hard
 
@@ -6478,6 +6522,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-copy@npm:^2.1.0":
+  version: 2.1.1
+  resolution: "fast-copy@npm:2.1.1"
+  checksum: cda3ac140dde8a491781b737b3439ee30fba71515407d847c4566d3b008a3be8b8f606453caccc5974ddbf14ba7d865f2e0598043bd865a60c8a4cd370f977ea
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -6838,6 +6889,16 @@ __metadata:
     debug:
       optional: true
   checksum: c7c6c905876b939af04a1b27afa70e9c0ab5015d96f5ee49dd80db6952dc8c960b96a229647504468615d8a1a400da9bec9449e2aea9f9c6da6fdca0ba17d4c2
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.14.4":
+  version: 1.14.4
+  resolution: "follow-redirects@npm:1.14.4"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 93def3c22eba16caa4ff6f6956ccfda5a50e889545b1ba0046194dd8e368ff79ba6ef681b06e6dc7032b50bc93ca59e9441aa8143cb26f43f40a20bbd6374639
   languageName: node
   linkType: hard
 
@@ -8339,7 +8400,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"json-stringify-safe@npm:~5.0.1":
+"json-stringify-safe@npm:^5.0.1, json-stringify-safe@npm:~5.0.1":
   version: 5.0.1
   resolution: "json-stringify-safe@npm:5.0.1"
   checksum: 261dfb8eb3e72c8b0dda11fd7c20c151ffc1d1b03e529245d51708c8dd8d8c6a225880464adf41a570dff6e5c805fd9d1f47fed948cfb526e4fbe5a67ce4e5f4
@@ -10307,6 +10368,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"p-throttle@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "p-throttle@npm:4.1.1"
+  checksum: c3a7b84a4547b3473833b8a6721c48ca06a73cd0e5da327d1002899fb128dfd7f40786aa5c00a7e64e1f29529066897ce53598bee2f090024a6a3ad2772dc4f1
+  languageName: node
+  linkType: hard
+
 "p-try@npm:^1.0.0":
   version: 1.0.0
   resolution: "p-try@npm:1.0.0"
@@ -11445,6 +11513,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.9.4":
+  version: 6.10.1
+  resolution: "qs@npm:6.10.1"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 25e50a9107322027a998ba4eacec3df4b575c4f0a02cf0602002242d09ac997ab783384b6e90d6264a4d8387de3d17fb177d9c304a0dd9ec706a3087a069b204
+  languageName: node
+  linkType: hard
+
 "qs@npm:~6.5.2":
   version: 6.5.2
   resolution: "qs@npm:6.5.2"
@@ -12496,7 +12573,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"side-channel@npm:^1.0.2, side-channel@npm:^1.0.3":
+"side-channel@npm:^1.0.2, side-channel@npm:^1.0.3, side-channel@npm:^1.0.4":
   version: 1.0.4
   resolution: "side-channel@npm:1.0.4"
   dependencies:
@@ -13466,6 +13543,7 @@ fsevents@~2.3.1:
     babel-loader: ^8.2.2
     babel-plugin-prismjs: ^2.0.1
     classnames: ^2.2.6
+    contentful: ^9.1.4
     convert-object-keys: ^1.0.1
     copy-webpack-plugin: ^7.0.0
     dotenv: ^8.2.0
