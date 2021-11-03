@@ -5,7 +5,6 @@
 	"license": "BSD-3-Clause",
 	"scripts": {
 		"build": "next build",
-		"deploy": "vercel",
 		"dev": "NODE_OPTIONS='--inspect' next dev",
 		"start": "next start"
 	},
@@ -52,25 +51,13 @@
 		"remark-gfm": "^1.0.0",
 		"remark-squeeze-paragraphs": "^4.0.0",
 		"uuid": "^8.3.2",
-		"webpack": "^5.61.0",
 		"xml": "^1.0.1",
 		"yaml": "^1.10.2"
 	},
 	"devDependencies": {
-		"@fuelrats/eslint-config-react": "1.0.6",
 		"@svgr/webpack": "^5.5.0",
-		"babel-eslint": "^10.1.0",
 		"copy-webpack-plugin": "^7.0.0",
-		"eslint": "^6.8.0",
-		"eslint-config-airbnb": "^18.2.1",
-		"eslint-loader": "^4.0.2",
-		"eslint-plugin-babel": "^5.3.1",
-		"eslint-plugin-import": "^2.22.1",
-		"eslint-plugin-jsx-a11y": "^6.4.1",
-		"eslint-plugin-react": "^7.22.0",
-		"eslint-plugin-react-hooks": "^4.2.0",
 		"firebase-tools": "^9.21.0",
-		"sass": "^1.43.4",
-		"vercel": "^21.3.3"
+		"sass": "^1.43.4"
 	}
 }
