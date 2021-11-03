@@ -139,15 +139,6 @@ export async function getStaticProps(context) {
 		}
 	}
 
-	if (!username.startsWith('@')) {
-		return {
-			redirect: {
-				destination: `/profile/@${username}`,
-				permanent: true,
-			},
-		}
-	}
-
 	const safeUsername = username.startsWith('@') ? username.substring(1) : username
 	const profileQuerySnapshot = await firestore
 		.collection('profiles')
@@ -171,8 +162,6 @@ export async function getStaticProps(context) {
 			content_type: 'article',
 			'fields.authorIDs': [profileSnapshot.id],
 		})
-
-	console.log({ contentfulResponse })
 
 	return {
 		props: {
