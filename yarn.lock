@@ -9104,12 +9104,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"next-safe@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "next-safe@npm:2.0.0"
+"next-safe@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "next-safe@npm:3.1.0"
   peerDependencies:
-    next: ^9.5.0
-  checksum: 1ee862c5dc7a9742866a6ee22a18b6b6e7eac385e3a2fc6874f701d5075068dc2dee424d35e5830198df49080ec3f716539e4f24b58750385d6908255d7b44de
+    next: ^9.5.0 || ^10.2.1 || ^11.1.0
+  checksum: 6fc8127e388996c17f614cbdf2e7871fa616371ee00b23774468ca46cf65c1e4ba76d6e4a345827ce73476365b07a0ab93f5733bf285a840a44815cb5d2a9f77
   languageName: node
   linkType: hard
 
@@ -11827,7 +11827,7 @@ fsevents@~2.3.2:
     micro-cors: ^0.1.1
     moment: ^2.29.1
     next: 12.0.2
-    next-safe: ^2.0.0
+    next-safe: ^3.1.0
     nookies: ^2.5.2
     nprogress: ^0.2.0
     numeral: ^2.0.6

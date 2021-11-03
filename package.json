@@ -32,7 +32,7 @@
 		"micro-cors": "^0.1.1",
 		"moment": "^2.29.1",
 		"next": "12.0.2",
-		"next-safe": "^2.0.0",
+		"next-safe": "^3.1.0",
 		"nookies": "^2.5.2",
 		"nprogress": "^0.2.0",
 		"numeral": "^2.0.6",

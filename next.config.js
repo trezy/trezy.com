@@ -3,7 +3,7 @@
 // Module imports
 const contentful = require('contentful')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const nextSafe = require('next-safe').default
+const nextSafe = require('next-safe')
 const path = require('path')
 
 
