@@ -1,5 +1,4 @@
 // Module imports
-import { createClient as createContentfulClient } from 'contentful'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,10 +7,10 @@ import React from 'react'
 
 
 // Component imports
-import { calculateReadtime } from 'helpers/calculateReadtime'
 import ArticleList from 'components/ArticleList'
 import ClientList from 'components/ClientList'
 import PageWrapper from 'components/PageWrapper'
+import * as Contentful from 'helpers/Contentful'
 
 
 
@@ -64,28 +63,10 @@ function Home(props) {
 }
 
 export async function getStaticProps() {
-	const contentfulClient = createContentfulClient({
-		space: process.env.CONTENTFUL_API_SPACE_ID,
-		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
-	})
-
-	const contentfulResponse = await contentfulClient
-		.getEntries({
-			content_type: 'article',
-		})
+	const articles = await Contentful.getAllArticles()
 
 	return {
-		props: {
-			articles: contentfulResponse.items.map(item => {
-				return {
-					...item.fields,
-					id: item.sys.id,
-					createdAt: item.fields.legacyPublishedAt || item.fields.legacyCreatedAt || item.sys.createdAt,
-					readtime: calculateReadtime(item.fields.body),
-					updatedAt: item.sys.updatedAt,
-				}
-			}),
-		},
+		props: { articles },
 		revalidate:
 			1 /* hours */ *
 			60 /* minutes */ *
