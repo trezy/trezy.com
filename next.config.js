@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 // Module imports
+const contentful = require('contentful')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const nextSafe = require('next-safe').default
 const path = require('path')
@@ -87,7 +88,7 @@ module.exports = {
 	},
 
 	async redirects() {
-		return [
+		const redirectObjects = [
 			{
 				source: '/profile',
 				destination: '/',
@@ -138,6 +139,33 @@ module.exports = {
 				permanent: true,
 			},
 		]
+
+		const contentfulClient = contentful.createClient({
+			accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
+			space: process.env.CONTENTFUL_API_SPACE_ID,
+		})
+		const contentfulResponse = await contentfulClient
+			.getEntries({ content_type: 'article' })
+
+		contentfulResponse.items.forEach(item => {
+			redirectObjects.push({
+				source: `/blog/${item.sys.id}`,
+				destination: `/blog/${item.fields.slug}`,
+				permanent: true,
+			})
+
+			if (item.fields.oldSlugs) {
+				item.fields.oldSlugs.forEach(oldSlug => {
+					redirectObjects.push({
+						source: `/blog/${oldSlug}`,
+						destination: `/blog/${item.fields.slug}`,
+						permanent: true,
+					})
+				})
+			}
+		})
+
+		return redirectObjects
 	},
 
 	async rewrites() {
@@ -163,13 +191,6 @@ module.exports = {
 			test: /\.svg$/,
 			loader: '@svgr/webpack',
 		})
-
-		// config.module.rules.unshift({
-		// 	enforce: 'pre',
-		// 	exclude: /node_modules/u,
-		// 	loader: 'eslint-loader',
-		// 	test: /\.js$/u,
-		// })
 
 		config.plugins.push(new CopyWebpackPlugin({
 			patterns: [

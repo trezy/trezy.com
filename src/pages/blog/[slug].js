@@ -1,5 +1,5 @@
 // Module imports
-import { createClient as createContentfulClient } from 'contentful'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 
@@ -8,10 +8,10 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import { ArticleMeta } from 'components/ArticleMeta'
-import { calculateReadtime } from 'helpers/calculateReadtime'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
+import * as Contentful from 'helpers/Contentful'
 
 
 
@@ -19,6 +19,13 @@ import PageWrapper from 'components/PageWrapper'
 
 function ArticlePage(props) {
 	const { article } = props
+	const Router = useRouter()
+
+	if (Router.isFallback) {
+    return (
+			<div>{'Loading...'}</div>
+		)
+  }
 
 	return (
 		<PageWrapper
@@ -43,69 +50,25 @@ ArticlePage.propTypes = {
 }
 
 export async function getStaticPaths() {
-	const contentfulClient = createContentfulClient({
-		space: process.env.CONTENTFUL_API_SPACE_ID,
-		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
-	})
-
-	const contentfulResponse = await contentfulClient
-		.getEntries({
-			content_type: 'article',
-			select: [
-				'fields.slug',
-				'fields.oldSlugs',
-			],
-		})
-
-	const paths = []
-
-	contentfulResponse.items.map(article => {
-		paths.push({
-			params: {
-				slug: article.fields.slug,
-			},
-		})
-
-		if (article.fields.oldSlugs?.length) {
-			article.fields.oldSlugs.forEach(slug => {
-				paths.push({
-					params: { slug },
-				})
-			})
-		}
-	})
+	const articles = await Contentful.getAllArticles()
 
 	return {
 		fallback: true,
-		paths,
+		paths: articles.map(article => ({
+			params: {
+				slug: article.slug,
+			},
+		})),
 	}
 }
 
 export async function getStaticProps(context) {
 	const { slug } = context.params
-	const contentfulClient = createContentfulClient({
-		space: process.env.CONTENTFUL_API_SPACE_ID,
-		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
-	})
 
-	const contentfulResponse = await contentfulClient
-		.getEntries({
-			content_type: 'article',
-			'fields.slug': slug,
-			limit: 1,
-		})
+	const article = await Contentful.getArticle(slug)
 
-	if (!contentfulResponse.total === 0) {
+	if (!article) {
 		return { notFound: true }
-	}
-
-	const contentfulArticle = contentfulResponse.items[0]
-
-	const article = {
-		...contentfulArticle.fields,
-		createdAt: contentfulArticle.fields.legacyPublishedAt || contentfulArticle.fields.legacyCreatedAt || contentfulArticle.sys.createdAt,
-		readtime: calculateReadtime(contentfulArticle.fields.body),
-		updatedAt: contentfulArticle.sys.updatedAt,
 	}
 
 	return {

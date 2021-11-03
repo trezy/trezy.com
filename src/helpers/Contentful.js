@@ -39,3 +39,19 @@ export async function getAllArticles() {
 
 	return contentfulResponse.items.map(parseArticle)
 }
+
+export async function getArticle(slug) {
+	const contentfulClient = getClient()
+	const contentfulResponse = await contentfulClient
+		.getEntries({
+			content_type: 'article',
+			'fields.slug': slug,
+			limit: 1,
+		})
+
+	if (!contentfulResponse.total === 0) {
+		return null
+	}
+
+	return parseArticle(contentfulResponse.items[0])
+}
