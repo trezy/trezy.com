@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 [data-animate] {
 	&[data-animate='true'],
 	&:not([data-animate='false']) {
@@ -24,13 +26,13 @@
 		$milliseconds: 100;
 
 		@while $milliseconds < 10001 {
-			&[data-animation-delay='#{$milliseconds / 1000}'],
-			&[data-animation-delay='#{$milliseconds / 1000}s'],
+			&[data-animation-delay='#{math.div($milliseconds, 1000)}'],
+			&[data-animation-delay='#{math.div($milliseconds, 1000)}s'],
 			&[data-animation-delay='#{$milliseconds}ms'] {
 				animation-delay: #{$milliseconds}ms;
 			}
-			&[data-animation-duration='#{$milliseconds / 1000}'],
-			&[data-animation-duration='#{$milliseconds / 1000}s'],
+			&[data-animation-duration='#{math.div($milliseconds, 1000)}'],
+			&[data-animation-duration='#{math.div($milliseconds, 1000)}s'],
 			&[data-animation-duration='#{$milliseconds}ms'] {
 				animation-duration: #{$milliseconds}ms;
 			}
