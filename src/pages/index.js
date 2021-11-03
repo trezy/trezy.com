@@ -79,6 +79,7 @@ export async function getStaticProps() {
 			articles: contentfulResponse.items.map(item => {
 				return {
 					...item.fields,
+					id: item.sys.id,
 					createdAt: item.fields.legacyPublishedAt || item.fields.legacyCreatedAt || item.sys.createdAt,
 					readtime: calculateReadtime(item.fields.body),
 					updatedAt: item.sys.updatedAt,
