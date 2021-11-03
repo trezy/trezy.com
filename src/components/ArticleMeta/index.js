@@ -16,18 +16,12 @@ import { useAuth } from 'contexts/AuthContext'
 
 export function ArticleMeta(props) {
 	const { article } = props
-	const {
-		authorID,
-		id,
-		readtime,
-	} = article
-	const { user } = useAuth()
-	const isEditable = user?.uid === authorID
+	const { readtime } = article
 
 	const [
 		publishedAt,
 		updatedAt,
-	 ] = useMemo(() => {
+	] = useMemo(() => {
 		const formatter = new Intl.DateTimeFormat('en-US', {
 			dateStyle: 'medium',
 		})
@@ -76,14 +70,6 @@ export function ArticleMeta(props) {
 					`${Math.round(readtime / 1000 / 60)} min read`
 				)}
 			</span>
-
-			{isEditable && (
-				<span>
-					<Link href={`/dashboard/blog/edit/${id}`}>
-						<a>Edit</a>
-					</Link>
-				</span>
-			)}
 		</div>
 	)
 }
