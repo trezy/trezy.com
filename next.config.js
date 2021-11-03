@@ -89,6 +89,18 @@ module.exports = {
 	async redirects() {
 		return [
 			{
+				source: '/profile',
+				destination: '/',
+				permanent: false,
+			},
+
+			{
+				source: '/profile/:path*',
+				destination: '/',
+				permanent: false,
+			},
+
+			{
 				source: '/settings',
 				destination: '/settings/profile',
 				permanent: true,
