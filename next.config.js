@@ -87,8 +87,12 @@ module.exports = {
 		]
 	},
 
+  images: {
+    domains: ['images.ctfassets.net'],
+  },
+
 	async redirects() {
-		const redirectObjects = [
+		const redirects = [
 			{
 				source: '/profile',
 				destination: '/',
@@ -148,7 +152,7 @@ module.exports = {
 			.getEntries({ content_type: 'article' })
 
 		contentfulResponse.items.forEach(item => {
-			redirectObjects.push({
+			redirects.push({
 				source: `/blog/${item.sys.id}`,
 				destination: `/blog/${item.fields.slug}`,
 				permanent: true,
@@ -156,7 +160,7 @@ module.exports = {
 
 			if (item.fields.oldSlugs) {
 				item.fields.oldSlugs.forEach(oldSlug => {
-					redirectObjects.push({
+					redirects.push({
 						source: `/blog/${oldSlug}`,
 						destination: `/blog/${item.fields.slug}`,
 						permanent: true,
@@ -165,7 +169,7 @@ module.exports = {
 			}
 		})
 
-		return redirectObjects
+		return redirects
 	},
 
 	async rewrites() {
