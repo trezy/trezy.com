@@ -8,6 +8,7 @@ import React from 'react'
 
 
 // Component imports
+import { Block } from 'components/Block'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import ExternalLink from 'components/ExternalLink'
 import PageWrapper from 'components/PageWrapper'
@@ -22,7 +23,7 @@ const BASE_DELAY = 0.6
 const BASE_DURATION = 0.5
 const linkPropTypes = { children: PropTypes.string.isRequired }
 
-const AmazonLink = props => {
+function AmazonLink(props) {
 	const {
 		children,
 		id,
@@ -39,35 +40,52 @@ AmazonLink.propTypes = {
 	id: PropTypes.string.isRequired,
 }
 
-const MacbookProLink = ({ children }) => (
+function AirpodsLink({ children }) {
+	return (
+		<ExternalLink href="https://www.apple.com/shop/product/MLWK3AM/A/airpods-pro">
+			{children}
+		</ExternalLink>
+	)
+}
+AirpodsLink.propTypes = { ...linkPropTypes }
+
+function MacbookProLink({ children }) {
+	return (
 	<ExternalLink href="https://www.apple.com/macbook-pro-13/">
 		{children}
 	</ExternalLink>
 )
+}
 MacbookProLink.propTypes = { ...linkPropTypes }
 
-const MagicKeyboardLink = ({ children }) => (
-	<ExternalLink href="https://www.apple.com/shop/product/MRMH2LL/A/magic-keyboard-with-numeric-keypad-us-english-space-gray?fnode=4c">
+function MagicKeyboardLink({ children }) {
+	return (
+		<ExternalLink href="https://www.apple.com/shop/product/MK2C3LL/A/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-us-english">
 		{children}
 	</ExternalLink>
 )
+}
 MagicKeyboardLink.propTypes = { ...linkPropTypes }
 
-const MagicTrackpadLink = ({ children }) => (
-	<ExternalLink href="https://www.apple.com/shop/product/MRMF2/magic-trackpad-2-space-gray">
+function MagicTrackpadLink({ children }) {
+	return (
+		<ExternalLink href="https://www.apple.com/shop/product/MK2D3AM/A/magic-trackpad">
 		{children}
 	</ExternalLink>
 )
+}
 MagicTrackpadLink.propTypes = { ...linkPropTypes }
 
-const LaptopStandLink = ({ children }) => (
+function LaptopStandLink({ children }) {
+	return (
 	<AmazonLink id="B0772LBQXM">
 		{children}
 	</AmazonLink>
 )
+}
 LaptopStandLink.propTypes = { ...linkPropTypes }
 
-const ChipIcon = props => {
+function ChipIcon(props) {
 	const {
 		className,
 		type,
@@ -138,18 +156,23 @@ export default function UsesPage() {
 	}
 	ListItem.propTypes = {
 		children: PropTypes.any.isRequired,
-		delay: PropTypes.number.isRequired,
+		delay: PropTypes.oneOfType([
+			PropTypes.number,
+			PropTypes.string,
+		]).isRequired,
 	}
 
 	return (
 		<PageWrapper
 			description="With inspiration from https://uses.tech, this page lists the software and hardware I use on a daily basis."
 			title="Uses">
-			<section
-				className="block"
+			<Block>
+				<p>{'Taking inspiration from '}<ExternalLink href="https://uses.tech">{'uses.tech'}</ExternalLink>{', this page lists the software and hardware I use for work, streaming, and gaming. Note that almost every link on this page is an affiliate link from which I may receive commissions.'}</p>
+			</Block>
+
+			<Block
 				data-animate
 				data-animation="fade-in-from-left"
-				/* eslint-disable-next-line no-magic-numbers */
 				data-animation-delay={`${getDelay()}s`}>
 				<h2>{'Mobile Gear'}</h2>
 
@@ -158,7 +181,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'I\'m a big fan of fruity products, so you\'ll notice the majority of my mobile gear is made by Apple. I do most of my work on a '}<MacbookProLink>{'13" MacBook Pro (2017)'}</MacbookProLink>{' but, honestly, it\'s about time for an upgrade. The '}<abbr title="128 Gigabyte">{'128GB'}</abbr>{' '}<abbr title="Solid State Drive">{'SSD'}</abbr>{' absolutely is not big enough, and the machine barely slogs through when I\'m running more than two Docker containers.'}
+					{'I\'m a big fan of fruity products, so you\'ll notice the majority of my mobile gear is made by Apple. I do most of my work on a '}<MacbookProLink>{'13" M1 MacBook Pro (2020)'}</MacbookProLink>{' and it does a '}<em>{'wonderful'}</em>{' job.'}
 				</p>
 
 				<figure
@@ -174,7 +197,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="microchip" />
 							</span>
 
-							{'2.3 GHz Dual-Core Intel Core i5'}
+							{'8-Core M1 '}<abbr title={'Central Processing Unit'}>{'CPU'}</abbr>{''}
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -182,7 +205,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="memory" />
 							</span>
 
-							{'8GB RAM'}
+							{'16'}<abbr title={'Gigabyte'}>{'GB'}</abbr>{' '}<abbr title={'Random Access Memory'}>{'RAM'}</abbr>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -190,22 +213,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="hdd" />
 							</span>
 
-							{'128GB SSD'}
-						</ListItem>
-
-						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
-							<span className="fa-li">
-								<span className="fa-layers">
-									<FontAwesomeIcon
-										icon="ban"
-										transform="grow-8" />
-									<FontAwesomeIcon
-										icon="fingerprint"
-										transform="shrink-2" />
-								</span>
-							</span>
-
-							<strong>{'No touchbar'}</strong>
+							{'1'}<abbr title={'Terabyte'}>{'TB'}</abbr>{' '}<abbr title={'Solid State Drive'}>{'SSD'}</abbr>
 						</ListItem>
 					</ul>
 				</figure>
@@ -215,7 +223,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'I use '}<ExternalLink href="https://www.apple.com/shop/product/MWP22AM/A/airpods-pro">{'Apple AirPods Pro'}</ExternalLink>{' for listening to my jams while I\'m on the go. I use my '}<ExternalLink href="https://www.apple.com/shop/buy-ipad/ipad-pro">{'11" iPad Pro'}</ExternalLink>{' as a second screen sometimes, though more often than not I prefer working on a single screen.'}
+					{'I use '}<AirpodsLink>{'Apple AirPods Pro'}</AirpodsLink>{' for listening to my jams while I\'m on the go. I use my '}<ExternalLink href="https://www.apple.com/shop/buy-ipad/ipad-pro">{'11" iPad Pro'}</ExternalLink>{' as a second screen sometimes, though more often than not I prefer working on a single screen.'}
 				</p>
 
 				<p
@@ -225,15 +233,14 @@ export default function UsesPage() {
 					data-animation-duration={BASE_DURATION}>
 					{'I also carry an Apple '}<MagicKeyboardLink>{'Magic Keyboard'}</MagicKeyboardLink>{', a '}<MagicTrackpadLink>{'Magic Trackpad 2'}</MagicTrackpadLink>{', and a '}<LaptopStandLink>{'Jubor laptop stand'}</LaptopStandLink>{'. These prevent my back from hating me for hunching over a laptop for several hours. Finally, I pack it all into a '}<AmazonLink id="B072XLW95H">{'handmade, vintage leather rucksack'}</AmazonLink>{'. '}<span aria-label="Grinning face emoji" role="img">{'😁'}</span>
 				</p>
-			</section>
+			</Block>
 
-			<section
-				className="block"
+			<Block
 				data-animate
 				data-animation="fade-in-from-left"
-				/* eslint-disable-next-line no-magic-numbers */
 				data-animation-delay={`${getDelay()}s`}
-				data-animation-duration={BASE_DURATION}>
+				data-animation-duration={BASE_DURATION}
+				headerImageSource="https://images.ctfassets.net/6gqb05wxpzzi/6ZqMj0ZJ32pLLDSis6Npin/90d500d845aef705fcd403473163095e/IMG_2426.jpg">
 				<h2>{'Home Office'}</h2>
 
 				<p
@@ -241,7 +248,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'When working from home, I usually hook my MacBook up to a docking station with an external monitor so I can get a little more screen real estate:'}
+					{'When working from home, I usually hook my MacBook up to a docking station with an external monitor for more screen real estate:'}
 				</p>
 
 				<figure
@@ -287,9 +294,9 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="headphones" />
 							</span>
 
-							<ExternalLink href="https://www.apple.com/shop/product/MWP22/airpods-pro">
+							<AirpodsLink>
 								{'Apple AirPods Pro'}
-							</ExternalLink>
+							</AirpodsLink>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -297,7 +304,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="space-shuttle" />
 							</span>
 
-							<AmazonLink id="B07MZZGLCM">
+							<AmazonLink id="B08DG87N7Z">
 								{'Henge Vertical Docking Station'}
 							</AmazonLink>
 						</ListItem>
@@ -307,8 +314,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={['fab', 'usb']} />
 							</span>
 
-							<AmazonLink id="B07D42ZV9D">
-								{'j5create USB-C Mini Dock'}
+							<AmazonLink id="B08G9WDH6B">
+								{'Brydge Stone Pro'}
 							</AmazonLink>
 						</ListItem>
 
@@ -317,21 +324,20 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="chair" />
 							</span>
 
-							<AmazonLink id="B07BDHGYXR">
-								{'Vitesse Gaming Chair'}
-							</AmazonLink>
+							<ExternalLink href="https://secretlab.co/products/titan-evo-2022-series">
+								{'SecretLabs TITAN Evo 2022 Series'}
+							</ExternalLink>
 						</ListItem>
 					</ul>
 				</figure>
-			</section>
+			</Block>
 
-			<section
-				className="block"
+			<Block
 				data-animate
 				data-animation="fade-in-from-left"
-				/* eslint-disable-next-line no-magic-numbers */
 				data-animation-delay={`${getDelay()}s`}
-				data-animation-duration={BASE_DURATION}>
+				data-animation-duration={BASE_DURATION}
+				headerImageSource="https://images.ctfassets.net/6gqb05wxpzzi/6SUOkjkIqVNwuXa7KXs8Ti/336130aa6b059410a3d35bbc007cd64d/IMG_2485-1.jpg">
 				<h2>{'Streaming'}</h2>
 
 				<p
@@ -347,7 +353,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'On my streaming machine, I run '}<ExternalLink href="https://streamlabs.com/">{'StreamLabs OBS'}</ExternalLink>{'. Finally, I combine the input from my MacBook Pro and my Logitech C922 Pro Webcam to create the stream!'}
+					{'On my streaming machine, I run '}<ExternalLink href="https://obsproject.com/"><abbr title="Open Broadcaster Software">{'OBS'}</abbr></ExternalLink>{' to combine the input from my MacBook Pro and my Logitech cameras to create the stream!'}
 				</p>
 
 				<figure
@@ -363,8 +369,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="microchip" />
 							</span>
 
-							<AmazonLink id="B007SZ0EOM">
-								{'3.1 GHz Quad-Core Intel Core i7-3770S'}
+							<AmazonLink id="B07SXMZLPJ">
+								{'AMD Ryzen 7 3800X'}
 							</AmazonLink>
 						</ListItem>
 
@@ -373,9 +379,9 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="microchip" />
 							</span>
 
-							<ExternalLink href="https://www.newegg.com/p/N82E16813130643">
-								{'MSI Z77A-GD65 Motherboard'}
-							</ExternalLink>
+							<AmazonLink id="B07WL5MFXL">
+								{'Gigabyte X570 AORUS Elite Wi-Fi Motherboard'}
+							</AmazonLink>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -383,8 +389,18 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="thermometer-half" />
 							</span>
 
-							<AmazonLink id="B079NXZQBC">
-								{'Corsair H60 CPU Cooler'}
+							<AmazonLink id="B08CXDWFKC">
+								{'Lian Li Galahad AIO (240mm)'}
+							</AmazonLink>
+						</ListItem>
+
+						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+							<span className="fa-li">
+								<FontAwesomeIcon icon="thermometer-half" />
+							</span>
+
+							<AmazonLink id="B08HKDBW6F">
+								{'Lian Li SL120 Uni Fan (9x)'}
 							</AmazonLink>
 						</ListItem>
 
@@ -393,18 +409,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="memory" />
 							</span>
 
-							<AmazonLink id="B0064DQR9U">
-								{'32GB G.SKILL Ripjaws X Series RAM (4x 8GB)'}
-							</AmazonLink>
-						</ListItem>
-
-						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
-							<span className="fa-li">
-								<ChipIcon type="wifi" />
-							</span>
-
-							<AmazonLink id="B01H9QMOMY">
-								{'ASUS 4x4 AC3100 WiFi Card'}
+							<AmazonLink id="B016ORTNI2">
+								{'Corsair LPX 32GB RAM (2x 16GB)'}
 							</AmazonLink>
 						</ListItem>
 
@@ -413,8 +419,8 @@ export default function UsesPage() {
 								<ChipIcon type="video" />
 							</span>
 
-							<AmazonLink id="B00CDIVL2S">
-								{'Blackmagic Design DeckLink (x2)'}
+							<AmazonLink id="B019M5IB2C">
+								{'Magewell Pro Capture Card'}
 							</AmazonLink>
 						</ListItem>
 
@@ -423,9 +429,9 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="plug" />
 							</span>
 
-							<ExternalLink href="https://www.newegg.com/p/N82E16817182084">
-								{'Rosewill Fortress 750-watt Power Supply'}
-							</ExternalLink>
+							<AmazonLink id="B07F84FJ1G">
+								{'Corsair SF Series 600-watt Power Supply'}
+							</AmazonLink>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -433,8 +439,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="server" />
 							</span>
 
-							<AmazonLink id="B00FFJ0H3Q">
-								{'Cooler Master HAF XB EVO Case'}
+							<AmazonLink id="B096JF2JT5">
+								{'Lian Li O11 Dynamic Mini Case - Snow White Edition'}
 							</AmazonLink>
 						</ListItem>
 					</ul>
@@ -513,6 +519,16 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon="camera-retro" />
 							</span>
 
+							<AmazonLink id="B01N5UOYC4">
+								{'Logitech Brio Camera'}
+							</AmazonLink>
+						</ListItem>
+
+						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+							<span className="fa-li">
+								<FontAwesomeIcon icon="camera-retro" />
+							</span>
+
 							<AmazonLink id="B01LXCDPPK">
 								{'Logitech C922 Pro Camera'}
 							</AmazonLink>
@@ -535,7 +551,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'While this setup is great, it\'s not doing all of the work! I\'m also using several additional pieces of gear to really make the stream stand out.'}
+					{'While this setup is great, it\'s not doing all of the work! I have several other pieces of gear that really make my streams stand out.'}
 				</p>
 
 				<figure
@@ -587,7 +603,7 @@ export default function UsesPage() {
 						</ListItem>
 					</ul>
 				</figure>
-			</section>
+			</Block>
 		</PageWrapper>
 	)
 }
