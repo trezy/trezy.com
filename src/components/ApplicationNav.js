@@ -87,17 +87,6 @@ function ApplicationNav() {
 				</SubNav>
 			)}
 
-			{(user && (claims?.['views.tools'])) && (
-				<SubNav
-					icon="tools"
-					title="Tools">
-					<NavLink
-						href="/tools/movie-buddy"
-						icon="film"
-						title="Movie List" />
-				</SubNav>
-			)}
-
 			{Boolean(user) && (
 				<SubNav
 					className="account-navigation"
