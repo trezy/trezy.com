@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { Switch } from 'components/Switch'
-import Input from 'components/Input'
 
 
 

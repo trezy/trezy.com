@@ -1,9 +1,4 @@
 // Module imports
-import {
-	useCallback,
-	useEffect,
-	useState,
-} from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -19,17 +14,10 @@ import ProfileCard from 'components/ProfileCard'
 
 
 
-// Local constants
-const SAVE_ALERT_DURATION = 5000
-
-
-
-
-
 function Profile(props) {
 	const {
+		articles,
 		profile,
-		username,
 	} = props
 
 	return (
@@ -45,6 +33,7 @@ function Profile(props) {
 
 				<ArticleList
 					authorID={profile.id}
+					articles={articles}
 					includeStyles={false} />
 			</section>
 		</PageWrapper>

@@ -1,7 +1,6 @@
 // Module imports
 import { useCallback } from 'react'
 import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
 
 
 
@@ -117,14 +116,6 @@ function ApplicationNav() {
 					}}
 					label="My Account"
 					title={!profile ? 'Loading profile data...' : user.displayName}>
-					<NavLink
-						href="/dashboard/blog"
-						icon="pen"
-						title="My Articles" />
-					<NavLink
-						href="/profile"
-						icon="address-card"
-						title="My Profile" />
 					<NavLink
 						href="/settings"
 						icon="sliders-h"

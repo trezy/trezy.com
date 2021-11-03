@@ -1,10 +1,3 @@
-// Module imports
-import PropTypes from 'prop-types'
-
-
-
-
-
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useBanner } from 'contexts/BannerContext'

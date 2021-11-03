@@ -9,12 +9,9 @@ import React from 'react'
 
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import Button from 'components/Button'
 import ExternalLink from 'components/ExternalLink'
 import getAvatar from 'helpers/getAvatar'
 import Image from 'components/Image'
-import Input from 'components/Input'
-import MarkdownEditor from 'components/MarkdownEditor'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 
 

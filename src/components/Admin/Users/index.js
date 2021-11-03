@@ -13,12 +13,10 @@ import Link from 'next/link'
 // Component imports
 import { Code } from 'components/Code'
 import { useAuth } from 'contexts/AuthContext'
-import { useProfiles } from 'contexts/ProfilesContext'
 import { useRoles } from 'contexts/RolesContext'
 import Button from 'components/Button'
 import getAvatar from 'helpers/getAvatar'
 import Image from 'components/Image'
-import ProfileCard from 'components/ProfileCard'
 
 
 

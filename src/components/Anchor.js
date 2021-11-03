@@ -25,8 +25,6 @@ function Anchor(props) {
 	} = props
 	const {
 		analytics,
-		auth,
-		firestore,
 	} = useFirebase()
 
 	const handleClick = useCallback(event => {

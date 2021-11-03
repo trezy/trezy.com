@@ -12,10 +12,7 @@ import { useRouter } from 'next/router'
 
 // Component imports
 import { AccountSettings } from 'components/Settings/AccountSettings'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import { Loading } from 'components/Loading'
 import { NotificationsSettings } from 'components/Settings/NotificationsSettings'
-import { PasswordSettings } from 'components/Settings/PasswordSettings'
 import { PreferencesSettings } from 'components/Settings/PreferencesSettings'
 import { ProfileSettings } from 'components/Settings/ProfileSettings'
 import { Tabs } from 'components/Tabs'

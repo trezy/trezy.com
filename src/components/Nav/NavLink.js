@@ -14,7 +14,6 @@ import PropTypes from 'prop-types'
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useNav } from 'components/Nav/Nav'
-import Button from 'components/Button'
 import ExternalLink from 'components/ExternalLink'
 
 

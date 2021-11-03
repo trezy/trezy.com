@@ -1,7 +1,6 @@
 // Module imports
 import {
 	useCallback,
-	useEffect,
 	useState,
 } from 'react'
 

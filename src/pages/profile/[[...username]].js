@@ -3,6 +3,7 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import { createClient as createContentfulClient } from 'contentful'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
@@ -11,6 +12,8 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { calculateReadtime } from 'helpers/calculateReadtime'
+import { firestore } from 'helpers/firebase'
 import { useAuth } from 'contexts/AuthContext'
 import { useProfiles } from 'contexts/ProfilesContext'
 import PageWrapper from 'components/PageWrapper'
@@ -22,6 +25,7 @@ import Profile from 'components/Profile'
 
 function ProfilePage(props) {
 	const {
+		articles,
 		username,
 	} = props
 	const {
@@ -68,23 +72,62 @@ function ProfilePage(props) {
 
 	return (
 		<Profile
+			articles={articles}
 			profile={profile}
 			username={username} />
 	)
 }
 
 ProfilePage.defaultProps = {
+	articles: [],
 	profile: null,
 	username: '',
 }
 
 ProfilePage.propTypes = {
+	articles: PropTypes.array,
 	profile: PropTypes.object,
 	username: PropTypes.string,
 }
 
-export async function getServerSideProps(context) {
-	const { firestore } = await import('helpers/firebase')
+export async function getStaticPaths() {
+	const paths = [
+		{
+			params: {
+				username: [],
+			},
+		},
+	]
+	const profilesSnapshot = await firestore
+		.collection('profiles')
+		.where('visibility', '!=', 'private')
+		.get()
+
+	profilesSnapshot.forEach(profileSnapshot => {
+		const { username } = profileSnapshot.data()
+
+		if (username) {
+			paths.push({
+				params: {
+					username: [username],
+				},
+			})
+
+			paths.push({
+				params: {
+					username: [`@${username}`],
+				},
+			})
+		}
+	})
+
+	return {
+		fallback: true,
+		paths,
+	}
+}
+
+export async function getStaticProps(context) {
 	const username = context.params.username?.[0]
 
 	if (!username) {
@@ -106,31 +149,52 @@ export async function getServerSideProps(context) {
 	}
 
 	const safeUsername = username.startsWith('@') ? username.substring(1) : username
-	let profile = null
-	let profileSnapshot = null
+	const profileQuerySnapshot = await firestore
+		.collection('profiles')
+		.where('visibility', '!=', 'private')
+		.where('username', '==', safeUsername)
+		.get()
 
-	try {
-		profileSnapshot = await firestore
-			.collection('profiles')
-			.where('visibility', '!=', 'private')
-			.where('username', '==', safeUsername)
-			.get()
-
-		profileSnapshot.forEach(doc => {
-			profile = {
-				...doc.data(),
-				id: doc.id,
-			}
-		})
-	} catch (error) {
-		console.log('ERROR', error)
+	if (profileQuerySnapshot.size === 0) {
+		return { notFound: true }
 	}
+
+	const profileSnapshot = profileQuerySnapshot.docs[0]
+
+	const contentfulClient = createContentfulClient({
+		space: process.env.CONTENTFUL_API_SPACE_ID,
+		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
+	})
+
+	const contentfulResponse = await contentfulClient
+		.getEntries({
+			content_type: 'article',
+			'fields.authorIDs': [profileSnapshot.id],
+		})
+
+	console.log({ contentfulResponse })
 
 	return {
 		props: {
-			profile,
+			articles: contentfulResponse.items.map(item => {
+				return {
+					...item.fields,
+					id: item.sys.id,
+					createdAt: item.fields.legacyPublishedAt || item.fields.legacyCreatedAt || item.sys.createdAt,
+					readtime: calculateReadtime(item.fields.body),
+					updatedAt: item.sys.updatedAt,
+				}
+			}),
+			profile: {
+				...profileSnapshot.data(),
+				id: profileSnapshot.id,
+			},
 			username: safeUsername,
 		},
+		revalidate:
+			1 /* minutes */ *
+			60 /* seconds */ *
+			1000 /* milliseconds */,
 	}
 }
 

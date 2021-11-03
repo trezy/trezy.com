@@ -61,14 +61,8 @@ export function ContentInfo() {
 
 				<ul>
 					<li>
-						<Link href="/profile">
-							<a>My Profile</a>
-						</Link>
-					</li>
-
-					<li>
-						<Link href="/profile">
-							<a>My Articles</a>
+						<Link href="/settings">
+							<a>Settings</a>
 						</Link>
 					</li>
 				</ul>
