@@ -98,7 +98,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3":
+"@babel/core@npm:^7.12.3":
   version: 7.12.10
   resolution: "@babel/core@npm:7.12.10"
   dependencies:
@@ -3335,36 +3335,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^8.2.2":
-  version: 8.2.2
-  resolution: "babel-loader@npm:8.2.2"
-  dependencies:
-    find-cache-dir: ^3.3.1
-    loader-utils: ^1.4.0
-    make-dir: ^3.1.0
-    schema-utils: ^2.6.5
-  peerDependencies:
-    "@babel/core": ^7.0.0
-    webpack: ">=2"
-  checksum: 362bb715736abec0162bdf8dc2a523a09c46c7b14aef13d9c6548ff609b8cb3879129822a5096401cd955230d836bde19037d9cbebeced940d5348c64959bec3
-  languageName: node
-  linkType: hard
-
 "babel-plugin-dynamic-import-node@npm:^2.3.3":
   version: 2.3.3
   resolution: "babel-plugin-dynamic-import-node@npm:2.3.3"
   dependencies:
     object.assign: ^4.1.0
   checksum: 6745b8edca96f6c8bc34ab65935b5676358d2e55323e8e823b8de7aa353e3e6398a495ce434c9c36ad5fb1609467a1b1a0028946e1490bf7de8f97df3ae7f3b1
-  languageName: node
-  linkType: hard
-
-"babel-plugin-prismjs@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "babel-plugin-prismjs@npm:2.0.1"
-  peerDependencies:
-    prismjs: ^1.18.0
-  checksum: 57ec51405a900d7bf3ea4eaaf4b2a602a093b9cee89af1ba7d77c864c1de9f0bf40424e1cd1cf03e5f48c362fb8a602642007dc6d93444c7dc66cd730003ad91
   languageName: node
   linkType: hard
 
@@ -5700,13 +5676,6 @@ __metadata:
   version: 6.2.0
   resolution: "dotenv@npm:6.2.0"
   checksum: 2589b4c8e3d9a54eaad276d0a6a3821eb73250b439edd7ba70147dfe4e12148461919817506c7dfae3f1ea72a88cb38bf01b0656fe0c28e8e51df9391ef76e73
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "dotenv@npm:8.2.0"
-  checksum: 16cb89cbd7b98b053899b8aba8c5044c8fb61a2db8a81fe70360b75035fce5fed53bd7a34d772be717d0880c0321122a4c09423f518025e1b52d96791521b1a7
   languageName: node
   linkType: hard
 
@@ -8713,17 +8682,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "loader-utils@npm:1.4.0"
-  dependencies:
-    big.js: ^5.2.2
-    emojis-list: ^3.0.0
-    json5: ^1.0.1
-  checksum: 9fd690e57ad78d32ff2942383b4a7a175eba575280ba5aca3b4d03183fec34aa0db314f49bd3301adf7e60b02471644161bf53149e8f2d18fd6a52627e95a927
-  languageName: node
-  linkType: hard
-
 "localforage@npm:^1.9.0":
   version: 1.9.0
   resolution: "localforage@npm:1.9.0"
@@ -9074,7 +9032,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"make-dir@npm:^3.0.0, make-dir@npm:^3.0.2, make-dir@npm:^3.1.0":
+"make-dir@npm:^3.0.0, make-dir@npm:^3.0.2":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
   dependencies:
@@ -9661,13 +9619,6 @@ fsevents@~2.3.1:
     on-finished: ~2.3.0
     on-headers: ~1.0.2
   checksum: 64328f82f69a826254a364de5ab2ce992d807149ee8050a7978e0e043e098c247ba55f74f3ad1354f80e744680a0c9ab1ed9a8c2a1d5bb81824cea547d0dc234
-  languageName: node
-  linkType: hard
-
-"mri@npm:^1.1.6":
-  version: 1.1.6
-  resolution: "mri@npm:1.1.6"
-  checksum: 87a09465063063da6d69d98ac75a6206a597c7533561c74e8aab5e6490ebe2a0e94c583fb6e02429e1f4291286a9549eb6a9699c83f5bad252c2c9b4eada97da
   languageName: node
   linkType: hard
 
@@ -13528,7 +13479,6 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "trezy.com@workspace:."
   dependencies:
-    "@babel/core": ^7.12.10
     "@babel/plugin-proposal-decorators": ^7.12.12
     "@fortawesome/fontawesome-svg-core": ^1.2.34
     "@fortawesome/free-brands-svg-icons": ^5.15.2
@@ -13540,13 +13490,10 @@ fsevents@~2.3.1:
     "@types/react": ^17.0.0
     axios: ^0.21.1
     babel-eslint: ^10.1.0
-    babel-loader: ^8.2.2
-    babel-plugin-prismjs: ^2.0.1
     classnames: ^2.2.6
     contentful: ^9.1.4
     convert-object-keys: ^1.0.1
     copy-webpack-plugin: ^7.0.0
-    dotenv: ^8.2.0
     emoji-regex: ^9.2.0
     eslint: ^6.8.0
     eslint-config-airbnb: ^18.2.1
@@ -13572,7 +13519,6 @@ fsevents@~2.3.1:
     mermaid: ^8.8.4
     micro-cors: ^0.1.1
     moment: ^2.29.1
-    mri: ^1.1.6
     next: 10.0.5
     next-redux-wrapper: ^4.0.1
     next-safe: ^2.0.0

@@ -13,7 +13,6 @@
 		"webpack": "^5.0.0"
 	},
 	"dependencies": {
-		"@babel/core": "^7.12.10",
 		"@fortawesome/fontawesome-svg-core": "^1.2.34",
 		"@fortawesome/free-brands-svg-icons": "^5.15.2",
 		"@fortawesome/free-regular-svg-icons": "^5.15.2",
@@ -76,10 +75,7 @@
 		"@fuelrats/eslint-config-react": "1.0.6",
 		"@svgr/webpack": "^5.5.0",
 		"babel-eslint": "^10.1.0",
-		"babel-loader": "^8.2.2",
-		"babel-plugin-prismjs": "^2.0.1",
 		"copy-webpack-plugin": "^7.0.0",
-		"dotenv": "^8.2.0",
 		"eslint": "^6.8.0",
 		"eslint-config-airbnb": "^18.2.1",
 		"eslint-loader": "^4.0.2",
@@ -89,7 +85,6 @@
 		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"firebase-tools": "^9.2.1",
-		"mri": "^1.1.6",
 		"postcss-easy-import": "^3.0.0",
 		"postcss-flexbugs-fixes": "^5.0.2",
 		"postcss-preset-env": "^6.7.0",
