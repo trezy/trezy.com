@@ -9,8 +9,8 @@ import {
 
 
 // Local imports
+import { Button } from 'components/Button'
 import { useAuth } from 'contexts/AuthContext'
-import Button from 'components/Button'
 import Input from 'components/Input'
 
 

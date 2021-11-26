@@ -13,9 +13,9 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
+import { Button } from 'components/Button'
 import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
-import Button from 'components/Button'
 import PageWrapper from 'components/PageWrapper'
 
 

@@ -1,7 +1,7 @@
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useBanner } from 'contexts/BannerContext'
-import Button from 'components/Button'
+import { Button } from 'components/Button'
 
 
 

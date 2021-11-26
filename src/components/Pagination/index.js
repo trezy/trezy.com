@@ -7,8 +7,8 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { Button } from 'components/Button'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import Button from 'components/Button'
 
 
 

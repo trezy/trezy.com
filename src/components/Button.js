@@ -1,7 +1,6 @@
 // Module imports
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -14,7 +13,7 @@ import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 
-const Button = props => {
+export default function Button(props) {
 	const {
 		children,
 		className,
@@ -78,9 +77,3 @@ Button.propTypes = {
 		'submit',
 	]),
 }
-
-
-
-
-
-export default Button
