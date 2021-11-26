@@ -1,7 +1,6 @@
 // Module imports
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -14,7 +13,7 @@ import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 
-const Alert = props => {
+export function Alert(props) {
 	const {
 		children,
 		type,
@@ -63,9 +62,3 @@ Alert.propTypes = {
 	]).isRequired,
 	type: PropTypes.string.isRequired,
 }
-
-
-
-
-
-export default Alert

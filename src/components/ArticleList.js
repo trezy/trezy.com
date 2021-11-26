@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 // Local imports
 import { Anchor } from 'components/Anchor'
 import { ArticleMeta } from 'components/ArticleMeta'
-import Alert from 'components/Alert'
+import { Alert } from 'components/Alert'
 
 
 
