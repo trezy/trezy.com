@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import ExternalLink from 'components/ExternalLink'
+import { ExternalLink } from 'components/ExternalLink'
 
 import AmazonSVG from 'public/images/logos/amazon.svg'
 import AmfamSVG from 'public/images/logos/amfam.svg'

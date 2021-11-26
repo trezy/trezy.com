@@ -8,8 +8,8 @@ import React from 'react'
 
 
 // Local imports
+import { ExternalLink } from 'components/ExternalLink'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import ExternalLink from 'components/ExternalLink'
 import getAvatar from 'helpers/getAvatar'
 import Image from 'components/Image'
 import MarkdownRenderer from 'components/MarkdownRenderer'

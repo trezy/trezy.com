@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import { ExternalLink } from 'components/ExternalLink'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useNav } from 'components/Nav/Nav'
-import ExternalLink from 'components/ExternalLink'
 
 
 

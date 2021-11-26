@@ -9,8 +9,8 @@ import React from 'react'
 
 // Component imports
 import { Block } from 'components/Block'
+import { ExternalLink } from 'components/ExternalLink'
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import ExternalLink from 'components/ExternalLink'
 import PageWrapper from 'components/PageWrapper'
 
 

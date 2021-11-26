@@ -6,7 +6,7 @@ import React from 'react'
 
 
 // Component imports
-import ExternalLink from 'components/ExternalLink'
+import { ExternalLink } from 'components/ExternalLink'
 import PageWrapper from 'components/PageWrapper'
 
 
