@@ -7,8 +7,8 @@ import React from 'react'
 
 
 // Component imports
+import { ClientList } from 'components/ClientList'
 import ArticleList from 'components/ArticleList'
-import ClientList from 'components/ClientList'
 import PageWrapper from 'components/PageWrapper'
 import * as Contentful from 'helpers/Contentful'
 

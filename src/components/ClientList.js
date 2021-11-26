@@ -1,6 +1,5 @@
 // Module imports
 import PropTypes from 'prop-types'
-import React from 'react'
 
 
 
@@ -58,7 +57,7 @@ Client.propTypes = {
 
 
 
-export default function ClientList() {
+export function ClientList() {
 	return (
 		<ul className="client-list">
 			<Client
