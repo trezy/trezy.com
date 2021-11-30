@@ -1,5 +1,5 @@
 // Module imports
-import React, {
+import {
 	useCallback,
 	useContext,
 	useEffect,

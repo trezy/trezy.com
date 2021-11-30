@@ -1,9 +1,8 @@
 // Module imports
-import React, {
+import {
 	useCallback,
 	useContext,
 	useEffect,
-	useRef,
 	useState,
 } from 'react'
 import { debounce } from 'lodash'

@@ -1,10 +1,3 @@
-// Module imports
-import React from 'react'
-
-
-
-
-
 // Local imports
 import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 

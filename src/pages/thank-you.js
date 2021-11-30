@@ -1,5 +1,5 @@
 // Module imports
-import React, {
+import {
 	createRef,
 	useEffect,
 } from 'react'
