@@ -1,5 +1,6 @@
 // Module imports
 import {
+	createContext,
 	useCallback,
 	useContext,
 	useEffect,
@@ -20,7 +21,7 @@ import { useAuth } from 'contexts/AuthContext'
 
 
 
-const ProfilesContext = React.createContext({
+export const ProfilesContext = createContext({
 	addProfile: () => {},
 	connectProfiles: () => {},
 	isLoaded: false,
@@ -33,7 +34,7 @@ const ProfilesContext = React.createContext({
 
 
 
-const ProfilesContextProvider = props => {
+export function ProfilesContextProvider(props) {
 	const { children } = props
 	const {
 		claims,
@@ -267,14 +268,4 @@ ProfilesContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useProfiles = () => useContext(ProfilesContext)
-
-
-
-
-
-export {
-	ProfilesContext,
-	ProfilesContextProvider,
-	useProfiles,
-}
+export const useProfiles = () => useContext(ProfilesContext)

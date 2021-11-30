@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 
 
-const Image = props => {
+export function Image(props) {
 	const {
 		alt,
 		node,
@@ -65,9 +65,3 @@ Image.propTypes = {
 	src: PropTypes.string.isRequired,
 	title: PropTypes.string,
 }
-
-
-
-
-
-export { Image }

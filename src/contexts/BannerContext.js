@@ -1,5 +1,6 @@
 // Module imports
 import {
+	createContext,
 	useCallback,
 	useContext,
 	useEffect,
@@ -29,7 +30,7 @@ const INITIAL_STATE = {
 const RESIZE_BREAKPOINT = 1300
 const RESIZE_DEBOUNCE_TIME = 500
 
-const BannerContext = React.createContext({
+export const BannerContext = createContext({
 	...INITIAL_STATE,
 	closeBanner: () => {},
 	openBanner: () => {},
@@ -41,7 +42,7 @@ const BannerContext = React.createContext({
 
 
 
-function BannerContextProvider(props) {
+export function BannerContextProvider(props) {
 	const { children } = props
 	const [bannerIsOpen, setBannerIsOpen] = useState(INITIAL_STATE.bannerIsOpen)
 	const [bannerIsTogglable, setBannerIsTogglable] = useState(
@@ -126,14 +127,4 @@ BannerContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useBanner = () => useContext(BannerContext)
-
-
-
-
-
-export {
-	BannerContext,
-	BannerContextProvider,
-	useBanner,
-}
+export const useBanner = () => useContext(BannerContext)

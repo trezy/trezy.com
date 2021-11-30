@@ -1,5 +1,6 @@
 // Module imports
 import {
+	createContext,
 	useCallback,
 	useContext,
 	useEffect,
@@ -31,7 +32,7 @@ const REMOTE_CONFIG_MAP = [
 		type: Boolean,
 	},
 ]
-const RemoteConfigContext = React.createContext({
+export const RemoteConfigContext = createContext({
 	isLoaded: false,
 	config: null,
 })
@@ -40,7 +41,7 @@ const RemoteConfigContext = React.createContext({
 
 
 
-function RemoteConfigContextProvider(props) {
+export function RemoteConfigContextProvider(props) {
 	const { children } = props
 	const {
 		isLoaded: userIsLoaded,
@@ -103,14 +104,4 @@ RemoteConfigContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useRemoteConfig = () => useContext(RemoteConfigContext)
-
-
-
-
-
-export {
-	RemoteConfigContext,
-	RemoteConfigContextProvider,
-	useRemoteConfig,
-}
+export const useRemoteConfig = () => useContext(RemoteConfigContext)

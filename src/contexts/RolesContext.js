@@ -1,5 +1,6 @@
 // Module imports
 import {
+	createContext,
 	useCallback,
 	useContext,
 	useEffect,
@@ -18,7 +19,7 @@ import { useFirebase } from 'hooks/useFirebase'
 
 
 
-const RolesContext = React.createContext({
+export const RolesContext = createContext({
 	isLoaded: false,
 	roles: null,
 })
@@ -27,7 +28,7 @@ const RolesContext = React.createContext({
 
 
 
-const RolesContextProvider = props => {
+export function RolesContextProvider(props) {
 	const {
 		children,
 	} = props
@@ -83,14 +84,4 @@ RolesContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useRoles = () => useContext(RolesContext)
-
-
-
-
-
-export {
-	RolesContext,
-	RolesContextProvider,
-	useRoles,
-}
+export const useRoles = () => useContext(RolesContext)

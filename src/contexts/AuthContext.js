@@ -1,5 +1,6 @@
 // Module imports
 import {
+	createContext,
 	useCallback,
 	useContext,
 	useEffect,
@@ -23,7 +24,7 @@ import { useFirebase } from 'hooks/useFirebase'
 
 
 
-const AuthContext = React.createContext({
+export const AuthContext = createContext({
 	claims: null,
 	isLoaded: false,
 	logout: () => {},
@@ -39,7 +40,7 @@ const AuthContext = React.createContext({
 
 
 
-const AuthContextProvider = props => {
+export function AuthContextProvider(props) {
 	const { children } = props
 	const {
 		analytics,
@@ -190,14 +191,4 @@ AuthContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
 }
 
-const useAuth = () => useContext(AuthContext)
-
-
-
-
-
-export {
-	AuthContext,
-	AuthContextProvider,
-	useAuth,
-}
+export const useAuth = () => useContext(AuthContext)

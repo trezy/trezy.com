@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 
 
-const List = props => {
+export function List(props) {
 	const {
 		children,
 		ordered,
@@ -34,9 +34,3 @@ List.propTypes = {
 	ordered: PropTypes.bool.isRequired,
 	start: PropTypes.number,
 }
-
-
-
-
-
-export { List }
