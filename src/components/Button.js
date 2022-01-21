@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 
-export default function Button(props) {
+export function Button(props) {
 	const {
 		children,
 		className,
