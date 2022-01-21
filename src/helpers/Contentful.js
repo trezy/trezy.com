@@ -34,7 +34,7 @@ export async function getAllArticles() {
 	const contentfulResponse = await contentfulClient
 		.getEntries({
 			content_type: 'article',
-			order: '-fields.legacyPublishedAt,-fields.legacyCreatedAt,-sys.createdAt',
+			order: '-sys.createdAt,-fields.legacyPublishedAt,-fields.legacyCreatedAt',
 		})
 
 	return contentfulResponse.items.map(parseArticle)
