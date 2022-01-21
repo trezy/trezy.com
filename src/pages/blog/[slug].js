@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 
 // Component imports
 import { ArticleMeta } from 'components/ArticleMeta'
+import { Block } from 'components/Block/index.js'
 import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
 import MarkdownRenderer from 'components/MarkdownRenderer'
 import PageWrapper from 'components/PageWrapper'
@@ -32,15 +33,21 @@ function ArticlePage(props) {
 			description={article.synopsis}
 			showHeader={false}
 			title={createTitleStringFromArticle(article)}>
-			<header className="block no-top-margin">
+			<Block
+				elementType="header"
+				headerImageAlt={article.headerImage?.fields.description}
+				headerImageHeight={article.headerImage?.fields.file.details.image.height}
+				headerImageSource={article.headerImage?.fields.file.url.replace(/^\/\//, 'https://')}
+				headerImageWidth={article.headerImage?.fields.file.details.image.width}>
 				<h2>{article.title}</h2>
 
 				<ArticleMeta article={article} />
-			</header>
+			</Block>
 
-			<article className="block">
+
+			<Block elementType="article">
 				<MarkdownRenderer children={article.body} />
-			</article>
+			</Block>
 		</PageWrapper>
 	)
 }

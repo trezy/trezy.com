@@ -1,7 +1,11 @@
 // Module imports
-import { useMemo } from 'react'
+import {
+	Children,
+	createElement,
+} from 'react'
 import classnames from 'classnames'
 import Image from 'next/image'
+import PropTypes from 'prop-types'
 
 
 
@@ -11,35 +15,79 @@ export function Block(props) {
 	const {
 		children,
 		className,
+		elementType,
+		headerImageAlt,
+		headerImageHeight,
 		headerImageSource,
+		headerImageWidth,
 	} = props
 
-	const dataAttributes = useMemo(() => {
-		const propEntries = Object.entries(props)
-
-		return propEntries.reduce((accumulator, [key, value]) => {
+	const dataAttributes = Object
+		.entries(props)
+		.reduce((accumulator, [key, value]) => {
 			if (key.startsWith('data-')) {
 				accumulator[key] = value
 			}
 
 			return accumulator
 		}, {})
-	}, [props])
 
-	return (
-		<div
-			className={classnames('block', className)}
-			{...dataAttributes}>
-			{Boolean(headerImageSource) && (
-				<div className="block-header-image">
-					<Image
-						layout="fill"
-						objectFit="cover"
-						src={headerImageSource} />
-				</div>
-			)}
+	let headerImage = null
 
-			{children}
-		</div>
-	)
+	if (headerImageSource) {
+		headerImage = (
+			<div className="block-header-image">
+				<Image
+					alt={headerImageAlt}
+					height={headerImageHeight}
+					layout="fill"
+					objectFit="cover"
+					src={headerImageSource}
+					width={headerImageWidth} />
+			</div>
+		)
+	}
+
+	return createElement(elementType, {
+		...dataAttributes,
+		className: classnames('block', className),
+	}, [
+		headerImage,
+		...Children.toArray(children),
+	])
+
+	// return (
+	// 	<div
+	// 		className={classnames('block', className)}
+	// 		{...dataAttributes}>
+
+	// 		{children}
+	// 	</div>
+	// )
+}
+
+Block.defaultProps = {
+	children: null,
+	className: '',
+	elementType: 'div',
+	headerImageAlt: '',
+	headerImageHeight: 0,
+	headerImageSource: '',
+	headerImageWidth: 0,
+}
+
+Block.propTypes = {
+	children: PropTypes.node,
+	className: PropTypes.string,
+	elementType: PropTypes.string,
+	headerImageAlt: PropTypes.string,
+	headerImageHeight: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
+	headerImageSource: PropTypes.string,
+	headerImageWidth: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 }

@@ -1,4 +1,6 @@
 // Module imports
+import { useMemo } from 'react'
+import NextImage from 'next/image'
 import PropTypes from 'prop-types'
 
 
@@ -9,7 +11,6 @@ export function Image(props) {
 	const {
 		alt,
 		node,
-		src,
 		title,
 	} = props
 	const {
@@ -18,13 +19,25 @@ export function Image(props) {
 		figure,
 		id,
 	} = node.data || {}
+	const src = useMemo(() => {
+		return props.src.replace(/^\/\//, 'https://')
+	}, [props.src])
 
-	const passableProps = {
-		...props,
+	const passableProps = useMemo(() => {
+		const parsedProps = {
+			...props,
+			className,
+			id,
+		}
+
+		delete parsedProps.node
+
+		return parsedProps
+	}, [
 		className,
 		id,
-	}
-	delete passableProps.node
+		props,
+	])
 
 	if (!alt && !title) {
 		console.error('Images must have an alt and/or title attribute.')
@@ -37,9 +50,10 @@ export function Image(props) {
 					<figcaption>{caption}</figcaption>
 				)}
 
-				<img
+				<NextImage
 					{...passableProps}
 					alt={alt || title}
+					src={src}
 					title={title || alt} />
 			</figure>
 		)
