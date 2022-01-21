@@ -53,9 +53,9 @@ function SocialNav(props) {
 
 			<NavLink
 				{...defaultOptions}
-				icon="twitch"
-				title="Twitch"
-				href="https://twitch.tv/TrezyCodes" />
+				icon="youtube"
+				title="YouTube"
+				href="https://youtube.com/c/TrezyCodes1" />
 
 			<NavLink
 				{...defaultOptions}

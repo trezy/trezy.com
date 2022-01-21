@@ -14,4 +14,5 @@ export {
 	faTwitter,
 	faTwitch,
 	faUsb,
+	faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
