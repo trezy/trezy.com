@@ -1,4 +1,5 @@
 // Module imports
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -21,7 +22,7 @@ export function List(props) {
 
 	const listElementType = ordered ? 'ol' : 'ul'
 
-	return React.createElement(listElementType, attributes, children)
+	return createElement(listElementType, attributes, children)
 }
 
 List.defaultProps = {
