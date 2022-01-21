@@ -45,7 +45,7 @@ export function ArticleMeta(props) {
 				Published {publishedAt}
 			</span>
 
-			{(article.updatedAt !== article.createdAt) && (
+			{(publishedAt !== updatedAt) && (
 				<span>
 					<FontAwesomeIcon
 						fixedWidth
