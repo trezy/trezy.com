@@ -7,15 +7,15 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { Anchor } from 'components/Anchor'
-import { ArticleMeta } from 'components/ArticleMeta'
 import { Alert } from 'components/Alert'
+import { ArticleSummary } from 'components/ArticleSummary'
+import { useCallback, useMemo } from 'react'
 
 
 
 
 
-const ArticleList = props => {
+export default function ArticleList(props) {
 	const {
 		className,
 		includeStyles,
@@ -23,11 +23,37 @@ const ArticleList = props => {
 	} = props
 	let { articles } = props
 
-	if (Boolean(articles) && limit) {
-		articles = articles.slice(0, limit)
-	}
+	const mapArticles = useCallback(article => {
+		return (
+			<li
+				className={classnames({
+					block: includeStyles,
+				})}
+				key={article.id}>
+				<ArticleSummary article={article} />
+			</li>
+		)
+	}, [includeStyles])
 
-	if (!articles?.length) {
+	const mappedArticles = useMemo(() => {
+		let articlesToMap = articles
+
+		if (articles) {
+			if (limit) {
+				articlesToMap = articles.slice(0, limit)
+			}
+
+			return articlesToMap.map(mapArticles)
+		}
+
+		return null
+	}, [
+		articles,
+		limit,
+		mapArticles,
+	])
+
+	if (!mappedArticles) {
 		return (
 			<Alert type="informational">
 				No articles found! <span aria-label="Sobbing face emoji" role="img">😭</span>
@@ -37,43 +63,7 @@ const ArticleList = props => {
 
 	return (
 		<ol className={classnames('article-list', className)}>
-			{Boolean(articles) && articles.map(article => {
-				const {
-					id,
-					slug,
-					synopsis,
-					title,
-				} = article
-
-				return (
-					<li
-						className={classnames({
-							block: includeStyles,
-						})}
-						key={id}>
-						<article className="summary">
-							<h3>
-								<Anchor
-									href={`/blog/${slug}`}
-									tracking={['select_content', {
-										content_type: 'article',
-										item_id: id,
-									}]}>
-									{title}
-								</Anchor>
-							</h3>
-
-							<ArticleMeta article={article} />
-
-							{synopsis && (
-								<span className="synopsis">
-									{synopsis}
-								</span>
-							)}
-						</article>
-					</li>
-				)
-			})}
+			{mappedArticles}
 		</ol>
 	)
 }
@@ -95,9 +85,3 @@ ArticleList.propTypes = {
 	includeStyles: PropTypes.bool,
 	limit: PropTypes.number,
 }
-
-
-
-
-
-export default ArticleList

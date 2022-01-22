@@ -18,7 +18,7 @@ import * as Contentful from 'helpers/Contentful'
 
 
 
-function ArticlePage(props) {
+export default function ArticlePage(props) {
 	const { article } = props
 	const Router = useRouter()
 
@@ -82,5 +82,3 @@ export async function getStaticProps(context) {
 		props: { article },
 	}
 }
-
-export default ArticlePage

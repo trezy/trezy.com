@@ -7,7 +7,7 @@ import * as Contentful from 'helpers/Contentful'
 
 
 
-function Blog(props) {
+export default function Blog(props) {
 	const { articles } = props
 
 	return (
@@ -33,9 +33,3 @@ export async function getStaticProps() {
 			1000 /* milliseconds */,
 	}
 }
-
-
-
-
-
-export default Blog
