@@ -23,6 +23,22 @@ h2 {
 
 h3 {
 	font-size: 2em;
+
+	&:after {
+		background-color: currentColor;
+		bottom: 0;
+		content: '';
+		left: -2.5rem;
+		height: 1px;
+		opacity: 0.3;
+		position: absolute;
+		right: -2.5rem;
+
+		@media (max-width: 600px) {
+			left: -1rem;
+			right: -1rem;
+		}
+	}
 }
 
 h4 {
