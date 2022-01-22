@@ -3197,6 +3197,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browserslist@npm:^4.19.1":
+  version: 4.19.1
+  resolution: "browserslist@npm:4.19.1"
+  dependencies:
+    caniuse-lite: ^1.0.30001286
+    electron-to-chromium: ^1.4.17
+    escalade: ^3.1.1
+    node-releases: ^2.0.1
+    picocolors: ^1.0.0
+  bin:
+    browserslist: cli.js
+  checksum: 340af7f0527f903445bf6dd3231d2031666db6c262cc56211f8ec2895a6f570152ed17f239331de400d54f823312d9f8e64f186132e0a310e2bcbd94cf7b354b
+  languageName: node
+  linkType: hard
+
 "buffer-crc32@npm:^0.2.1, buffer-crc32@npm:^0.2.13":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -3309,7 +3324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001283":
+"caniuse-lite@npm:^1.0.30001283, caniuse-lite@npm:^1.0.30001286":
   version: 1.0.30001301
   resolution: "caniuse-lite@npm:1.0.30001301"
   checksum: 57201278cc09e0a445befea4dc6bb8ea52d5049a83d087139eb3cc550ace06de9600067dfb7c20eee8f3598b085e99250e7a5b99d3cebd03c3ede886c2654337
@@ -5172,6 +5187,13 @@ __metadata:
   version: 1.3.639
   resolution: "electron-to-chromium@npm:1.3.639"
   checksum: bf8b79e55d50ddcd55b029feb161a56250f3a8980b5c11b47055fd983b9306ad8c69c0501eef9317e0e03f8c5d69fecb97338c08df8c9456953f5741646794c1
+  languageName: node
+  linkType: hard
+
+"electron-to-chromium@npm:^1.4.17":
+  version: 1.4.50
+  resolution: "electron-to-chromium@npm:1.4.50"
+  checksum: fba0d6a2932025dcd54ffb7b8c2eb0573a3e8289dc5133e1ef703916766325ff21452a3b279cce2a2e3c8371199f0574add5056bdc3e17bc00b0665b3e7e8017
   languageName: node
   linkType: hard
 
@@ -8584,6 +8606,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"node-releases@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "node-releases@npm:2.0.1"
+  checksum: 4113fdc41979e65416d84e0cf0456c3097a045dfa0a10196689f07c32de854204e3f4e1631bb06f4e903cc68c12455b8525e92e19956f64364b7202ca93846d6
+  languageName: node
+  linkType: hard
+
 "nookies@npm:^2.5.2":
   version: 2.5.2
   resolution: "nookies@npm:2.5.2"
@@ -9010,6 +9039,13 @@ fsevents@~2.3.2:
   version: 2.1.0
   resolution: "performance-now@npm:2.1.0"
   checksum: bb4ebed0b03d6c3ad3ae4eddd1182c895d385cff9096af441c19c130aaae3ea70229438ebc3297dfc52c86022f6becf177a810050823d01bf5280779cd2de624
+  languageName: node
+  linkType: hard
+
+"picocolors@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "picocolors@npm:1.0.0"
+  checksum: 6616d34dd03bde8881c63402dea34f0b5972845b04b791b234446d4a408bc3d7f932acea3970a6b671d8f5c5aae1b1ce9fc1f89b0ed9a363469cf9da8e916b71
   languageName: node
   linkType: hard
 
@@ -10862,6 +10898,7 @@ fsevents@~2.3.2:
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.16
     "@svgr/webpack": ^5.5.0
+    browserslist: ^4.19.1
     classnames: ^2.3.1
     contentful: ^9.1.5
     copy-webpack-plugin: ^7.0.0
