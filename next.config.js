@@ -111,6 +111,25 @@ module.exports = {
 				permanent: true,
 			},
 
+			// Socials
+			{
+				source: '/discord',
+				destination: 'https://discord.gg/ZGeCAqAVac',
+				permanent: false,
+			},
+
+			{
+				source: '/github',
+				destination: 'https://github.com/trezy',
+				permanent: false,
+			},
+
+			{
+				source: '/twitter',
+				destination: 'https://twitter.com/TrezyCodes',
+				permanent: false,
+			},
+
 			// Legacy URLs
 			{
 				source: '/code-of-conduct',
