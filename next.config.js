@@ -132,6 +132,12 @@ module.exports = {
 			},
 
 			{
+				source: '/instagram',
+				destination: 'https://instagram.com/TrezyCodes',
+				permanent: false,
+			},
+
+			{
 				source: '/twitter',
 				destination: 'https://twitter.com/TrezyCodes',
 				permanent: false,
