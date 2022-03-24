@@ -17,6 +17,7 @@
 		"@fortawesome/free-regular-svg-icons": "^5.15.4",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.16",
+		"@lyket/react": "^1.4.8",
 		"classnames": "^2.3.1",
 		"contentful": "^9.1.5",
 		"firebase": "^8.10.0",

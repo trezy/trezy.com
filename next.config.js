@@ -125,6 +125,12 @@ module.exports = {
 			},
 
 			{
+				source: '/imdb',
+				destination: 'https://imdb.com/name/nm5442490',
+				permanent: false,
+			},
+
+			{
 				source: '/twitter',
 				destination: 'https://twitter.com/TrezyCodes',
 				permanent: false,
