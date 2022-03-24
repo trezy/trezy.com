@@ -31,6 +31,7 @@ module.exports = {
 					'https://www.googleapis.com',
 					'https://www.google-analytics.com',
 					'https://api.ipify.org',
+					'https://api.lyket.dev',
 					'https://api.themoviedb.org',
 					'https://apis.google.com',
 					'https://*.firebaseio.com',
@@ -133,6 +134,12 @@ module.exports = {
 			{
 				source: '/twitter',
 				destination: 'https://twitter.com/TrezyCodes',
+				permanent: false,
+			},
+
+			{
+				source: '/youtube',
+				destination: 'https://youtube.com/TrezyCodes1',
 				permanent: false,
 			},
 
