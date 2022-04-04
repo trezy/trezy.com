@@ -12,11 +12,18 @@ import { calculateReadtime } from 'helpers/calculateReadtime'
 
 
 
-function getClient() {
-	return createContentfulClient({
-		space: process.env.CONTENTFUL_API_SPACE_ID,
+function getClient(isPreview = false) {
+	const clientConfig = {
 		accessToken: process.env.CONTENTFUL_API_ACCESS_TOKEN,
-	})
+		space: process.env.CONTENTFUL_API_SPACE_ID,
+	}
+
+	if (isPreview) {
+		clientConfig.accessToken = process.env.CONTENTFUL_PREVIEW_API_ACCESS_TOKEN
+		clientConfig.host = 'preview.contentful.com'
+	}
+
+	return createContentfulClient(clientConfig)
 }
 
 function parseArticle(article) {
@@ -40,8 +47,8 @@ export async function getAllArticles() {
 	return contentfulResponse.items.map(parseArticle)
 }
 
-export async function getArticle(slug) {
-	const contentfulClient = getClient()
+export async function getArticle(slug, isPreview) {
+	const contentfulClient = getClient(isPreview)
 	const contentfulResponse = await contentfulClient
 		.getEntries({
 			content_type: 'article',

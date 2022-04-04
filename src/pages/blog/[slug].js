@@ -72,7 +72,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
 	const { slug } = context.params
 
-	const article = await Contentful.getArticle(slug)
+	const article = await Contentful.getArticle(slug, context.preview)
 
 	if (!article) {
 		return { notFound: true }
