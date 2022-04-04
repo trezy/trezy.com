@@ -27,7 +27,6 @@
 		"fuse.js": "^6.5.3",
 		"git-rev-promises": "^1.1.0",
 		"isomorphic-git": "^1.17.0",
-		"localforage": "^1.10.0",
 		"lodash": "^4.17.21",
 		"mermaid": "^8.14.0",
 		"micro-cors": "^0.1.1",
