@@ -30,7 +30,6 @@
 		"lodash": "^4.17.21",
 		"mermaid": "^8.14.0",
 		"micro-cors": "^0.1.1",
-		"moment": "^2.29.2",
 		"next": "12.1.4",
 		"next-safe": "^3.2.1",
 		"nookies": "^2.5.2",

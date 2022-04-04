@@ -8781,13 +8781,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.29.2":
-  version: 2.29.2
-  resolution: "moment@npm:2.29.2"
-  checksum: 0969327a44aa49dc32bf510b620763c8c5a0d65308331b01ce007bc071a48d18dbd4e51018464b5c0ac415fd655206ae3e678037b08381f3330574bbd408c035
-  languageName: node
-  linkType: hard
-
 "morgan@npm:^1.10.0, morgan@npm:^1.8.2":
   version: 1.10.0
   resolution: "morgan@npm:1.10.0"
@@ -11367,7 +11360,6 @@ resolve@^1.12.0:
     lodash: ^4.17.21
     mermaid: ^8.14.0
     micro-cors: ^0.1.1
-    moment: ^2.29.2
     next: 12.1.4
     next-safe: ^3.2.1
     nookies: ^2.5.2

@@ -1,10 +1,3 @@
-// Module imports
-import moment from 'moment'
-
-
-
-
-
 // Local imports
 import createSitemapEndpoint from 'pages/api/helpers/createSitemapEndpoint'
 import firebase from 'helpers/firebase'
@@ -27,6 +20,12 @@ const {
 
 	articlesSnapshot.forEach(doc => articles.push(doc.data()))
 
+	const dateFormatter = new Intl.DateTimeFormat('en-US', {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+	})
+
 	return {
 		urlset: [
 			{
@@ -40,10 +39,30 @@ const {
 					updatedAt,
 				} = article
 
+				const updatedAtString = dateFormatter
+					.formatToParts(updatedAt.toDate())
+					.reduce((accumulator, part) => {
+						switch (part.type) {
+							case 'day':
+								accumulator = accumulator.replace('DD', part.value)
+								break
+
+							case 'month':
+								accumulator = accumulator.replace('MM', part.value)
+								break
+
+							case 'year':
+								accumulator = accumulator.replace('YYYY', part.value)
+								break
+						}
+
+						return accumulator
+					}, 'YYYY-MM-DD')
+
 				return {
 					url: [
 						{ loc: `https://trezy.com/blog/${slug}` },
-						{ lastmod: moment(updatedAt.toDate()).format('YYYY-MM-DD') },
+						{ lastmod: updatedAtString },
 						{ changefreq: 'yearly' },
 					],
 				}

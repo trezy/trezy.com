@@ -1,5 +1,5 @@
 // Module imports
-import moment from 'moment'
+import { useMemo } from 'react'
 
 
 
@@ -14,11 +14,22 @@ import PageWrapper from 'components/PageWrapper'
 
 
 
+// Constants
+const FIRST_YEAR_AS_A_DEVELOPER = 1999
+
+
+
+
+
 export default function Experience() {
+	const yearsOfExperience = useMemo(() => {
+		return new Date().getUTCFullYear() - FIRST_YEAR_AS_A_DEVELOPER
+	}, [])
+
 	return (
 		<PageWrapper title="Experience">
 			<section className="block hero">
-				<p>Lead Software Engineer with {moment(new Date('January 1, 1999')).fromNow(true)} of experience leading the design, development, and deployment of web applications and backend platforms with a focus on the frontend. Hands-on Technical Leader with a passion for building and empowering teams to create and implement innovative solutions that maximize functionality and usability while maintaining stability and performance.</p>
+				<p>Lead Software Engineer with {yearsOfExperience} of experience leading the design, development, and deployment of web applications and backend platforms with a focus on the frontend. Hands-on Technical Leader with a passion for building and empowering teams to create and implement innovative solutions that maximize functionality and usability while maintaining stability and performance.</p>
 			</section>
 
 			<Employer
