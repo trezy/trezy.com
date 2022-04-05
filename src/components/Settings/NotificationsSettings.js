@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
@@ -11,7 +12,6 @@ import {
 
 // Local imports
 import { Button } from 'components/Button'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { NotificationsSettingRow } from 'components/Settings/NotificationsSettingRow'
 import { useAuth } from 'contexts/AuthContext'
 

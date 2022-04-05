@@ -1,4 +1,5 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
@@ -8,7 +9,6 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { Button } from 'components/Button'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 

@@ -3,6 +3,7 @@ import {
 	useCallback,
 	useMemo,
 } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
@@ -13,7 +14,6 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { ExternalLink } from 'components/ExternalLink'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useNav } from 'components/Nav/Nav'
 
 

@@ -1,6 +1,12 @@
+// Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
+
+
+
 // Local imports
 import { Button } from 'components/Button'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import { useBanner } from 'contexts/BannerContext'
 
 

@@ -1,4 +1,5 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -8,7 +9,6 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { ExternalLink } from 'components/ExternalLink'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import getAvatar from 'helpers/getAvatar'
 import Image from 'components/Image'
 import MarkdownRenderer from 'components/MarkdownRenderer'

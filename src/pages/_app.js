@@ -15,6 +15,10 @@ import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { ColorModeContextProvider } from 'react-color-mode'
 import NextHead from 'next/head'
+import {
+	config,
+	library,
+} from '@fortawesome/fontawesome-svg-core'
 
 
 
@@ -26,13 +30,20 @@ import { BannerContextProvider } from 'contexts/BannerContext.js'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext.js'
 import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext.js'
 import { reportWebVitals } from 'helpers/reportWebVitals.js'
-import { useFontawesome } from 'hooks/useFontawesome.js'
 import { useNProgress } from 'hooks/useNProgress.js'
+import * as fasIcons from 'helpers/fasIconLibrary'
+import * as fabIcons from 'helpers/fabIconLibrary'
+import * as farIcons from 'helpers/farIconLibrary'
 import Banner from 'components/Banner/index.js'
 
 
 
 
+
+config.autoAddCss = false
+library.add(fasIcons)
+library.add(fabIcons)
+library.add(farIcons)
 
 function handleExitComplete() {
   if (typeof window !== 'undefined') {
@@ -48,7 +59,6 @@ export default function App(props) {
 	} = props
 	const router = useRouter()
 
-	useFontawesome()
 	useNProgress()
 
 	return (

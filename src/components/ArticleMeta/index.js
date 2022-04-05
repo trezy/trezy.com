@@ -1,14 +1,6 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo } from 'react'
-import Link from 'next/link'
-
-
-
-
-
-// Local imports
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
-import { useAuth } from 'contexts/AuthContext'
 
 
 

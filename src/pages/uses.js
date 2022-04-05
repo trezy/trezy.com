@@ -1,4 +1,5 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -9,7 +10,6 @@ import PropTypes from 'prop-types'
 // Component imports
 import { Block } from 'components/Block'
 import { ExternalLink } from 'components/ExternalLink'
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 import PageWrapper from 'components/PageWrapper'
 
 

@@ -1,12 +1,6 @@
 // Module imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-
-
-
-
-
-// Local imports
-import { FontAwesomeIcon } from 'components/FontAwesomeIcon'
 
 
 
