@@ -20,8 +20,17 @@
 				border-radius: 1rem;
 				font-size: 1.25em;
 				padding: 0.75rem 1rem;
+				position: relative;
+				transform: scale(1);
 				transition-duration: 0.2s;
-				transition-property: background-color;
+				transition-property:
+					background-color,
+					transform;
+
+				&:focus, &:hover {
+					transform: scale(1.2);
+					z-index: 1;
+				}
 
 				> span {
 					align-items: center;
@@ -32,10 +41,15 @@
 				.badge {
 					background-color: white;
 					border-radius: 0.3rem;
+					bottom: calc(100% - 1rem);
+					color: black;
 					font-size: 0.5em;
 					font-weight: bold;
+					left: calc(100% - 1rem);
 					padding: 0.2rem 0.5rem;
+					position: absolute;
 					vertical-align: middle;
+					z-index: 1;
 				}
 
 				&.is-active {
