@@ -1,4 +1,5 @@
 // Module imports
+import { useMemo } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -19,6 +20,7 @@ export function Button(props) {
 		className,
 		icon,
 		iconPrefix,
+		isStyled,
 		type,
 	} = props
 
@@ -27,6 +29,7 @@ export function Button(props) {
 	delete passableProps.className
 	delete passableProps.icon
 	delete passableProps.iconPrefix
+	delete passableProps.isStyled
 
 	let iconComponent = icon
 
@@ -43,12 +46,21 @@ export function Button(props) {
 		)
 	}
 
+	const compiledClassNames = useMemo(() => {
+		return classnames(className, {
+			button: isStyled,
+		})
+	}, [
+		className,
+		isStyled,
+	])
+
 	return (
 		// We're disabling the required type linter for the next line because the
 		// `type` attribute is enforced by the proptypes
 		// eslint-disable-next-line react/button-has-type
 		<button
-			className={classnames('button', className)}
+			className={compiledClassNames}
 			type={type}
 			{...passableProps}>
 			{iconComponent}
@@ -61,6 +73,7 @@ Button.defaultProps = {
 	className: '',
 	icon: null,
 	iconPrefix: 'fas',
+	isStyled: true,
 	type: 'button',
 }
 
@@ -72,6 +85,7 @@ Button.propTypes = {
 		PropTypes.string,
 	]),
 	iconPrefix: PropTypes.string,
+	isStyled: PropTypes.bool,
 	type: PropTypes.oneOf([
 		'button',
 		'submit',

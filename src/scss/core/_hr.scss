@@ -1,3 +1,18 @@
 hr {
+	background-color: currentColor;
+	background-image: none;
+	border: none;
+	bottom: 0;
+	box-shadow: none;
+	color: inherit;
+	height: 1px;
+	margin-left: -2.5rem;
+	margin-right: -2.5rem;
 	margin-top: var(--gutter);
+	opacity: 0.3;
+
+	@media (max-width: 600px) {
+		margin-left: -1rem;
+		margin-right: -1rem;
+	}
 }

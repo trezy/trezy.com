@@ -1,7 +1,5 @@
 // Module imports
-import React, {
-	memo,
-} from 'react'
+import { memo } from 'react'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
 

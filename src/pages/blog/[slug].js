@@ -7,12 +7,13 @@ import PropTypes from 'prop-types'
 
 
 // Component imports
-import { ArticleMeta } from 'components/ArticleMeta'
+import { ArticleMeta } from 'components/ArticleMeta/index.js'
+import { ArticleReactions } from 'components/ArticleReactions.js'
 import { Block } from 'components/Block/index.js'
-import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle'
-import MarkdownRenderer from 'components/MarkdownRenderer'
-import PageWrapper from 'components/PageWrapper'
-import * as Contentful from 'helpers/Contentful'
+import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle.js'
+import MarkdownRenderer from 'components/MarkdownRenderer.js'
+import PageWrapper from 'components/PageWrapper.js'
+import * as Contentful from 'helpers/Contentful.js'
 
 
 
@@ -47,6 +48,8 @@ export default function ArticlePage(props) {
 
 			<Block elementType="article">
 				<MarkdownRenderer children={article.body} />
+
+				<ArticleReactions article={article} />
 			</Block>
 		</PageWrapper>
 	)

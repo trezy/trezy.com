@@ -6,8 +6,9 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { Anchor } from 'components/Anchor'
-import { ArticleMeta } from 'components/ArticleMeta'
+import { Anchor } from 'components/Anchor.js'
+import { ArticleMeta } from 'components/ArticleMeta/index.js'
+import { getArticleURL } from 'helpers/getArticleURL.js'
 
 
 
@@ -20,7 +21,7 @@ export function ArticleSummary(props) {
 		<article className="summary">
 			<h3>
 				<Anchor
-					href={`/blog/${article.slug}`}
+					href={getArticleURL(article)}
 					tracking={['select_content', {
 						content_type: 'article',
 						item_id: article.id,
