@@ -14,6 +14,7 @@ import { useRouter } from 'next/router'
 import { AccountSettings } from 'components/Settings/AccountSettings'
 import { NotificationsSettings } from 'components/Settings/NotificationsSettings'
 import { PreferencesSettings } from 'components/Settings/PreferencesSettings'
+import { PrivacySettings } from 'components/Settings/PrivacySettings'
 import { ProfileSettings } from 'components/Settings/ProfileSettings'
 import { Tabs } from 'components/Tabs'
 import { useRemoteConfig } from 'contexts/RemoteConfigContext'
@@ -32,6 +33,7 @@ function Settings(props) {
 	const [tabs, setTabs] = useState({
 		Profile: <ProfileSettings />,
 		Preferences: <PreferencesSettings />,
+		Privacy: <PrivacySettings />,
 		Account: <AccountSettings />,
 		// Password: <PasswordSettings />,
 	})

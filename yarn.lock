@@ -8803,6 +8803,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"mri@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "mri@npm:1.2.0"
+  checksum: dcbe54fea29fc2fe7522352f9f873dab79969410ee3db97f8e56f06b80fad2d5e789abebf125262aa85dc649d651bd45ee8399fe9d28fe484e706d61648453ec
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -11377,6 +11384,7 @@ resolve@^1.12.0:
     lodash: ^4.17.21
     mermaid: ^8.14.0
     micro-cors: ^0.1.1
+    mri: ^1.2.0
     next: 12.1.4
     next-safe: ^3.2.1
     nookies: ^2.5.2

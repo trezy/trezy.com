@@ -29,7 +29,7 @@ function NotificationsSettingRow(props) {
 
 			<td>
 				<Switch
-					on={notifications[setting]?.textMessage} />
+					isOn={notifications[setting]?.textMessage} />
 				{/* <Input
 					disabled={disabled}
 					name={`${setting}:textMessage`}
@@ -40,7 +40,7 @@ function NotificationsSettingRow(props) {
 
 			<td>
 				<Switch
-					on={notifications[setting]?.email} />
+					isOn={notifications[setting]?.email} />
 				{/* <Input
 					disabled={disabled}
 					name={`${setting}:email`}

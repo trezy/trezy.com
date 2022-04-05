@@ -40,36 +40,35 @@ const firestore = app.firestore()
 const usersCollection = firestore.collection('users')
 
 async function addFieldToUsers(collectionName, fieldName, defaultValue = null) {
-	console.log(collectionName, fieldName, defaultValue)
+	console.log(`Adding ${fieldName} field to ${collectionName} collection with default value of ${defaultValue}.`)
+
+	if (['true', 'false'].includes(defaultValue)) {
+		defaultValue = JSON.parse(defaultValue)
+	}
+
 	const collection = firestore.collection(collectionName)
 
-	console.log('retrieving user docs...')
-	const userDocs = await usersCollection.get()
-	console.log('done.')
-	const users = []
-
-	console.log('extracting user data from docs...')
-	userDocs.forEach(user => {
-		users.push({
-			...user.data(),
-			id: user.id,
-		})
-	})
+	console.log('retrieving users...')
+	let { users } = await firebase.auth().listUsers(1000)
+	users = users.map(user => user.toJSON())
 	console.log('done.')
 
-	await Promise.all(users.map(async user => {
-		const docRef = collection.doc(user.id)
+	let index = 0
+	while (index < users.length) {
+		const user = users[index]
+		index += 1
 
-		console.log(`getting collection data for ${user.displayName || user.username || user.id}...`)
+		const docRef = collection.doc(user.uid)
+		console.log(`getting collection data for ${user.displayName || user.uid}...`)
 		const doc = await docRef.get()
-		console.log(`done retrieving collection data for ${user.displayName || user.username || user.id}.`)
+		console.log('done.')
 
-		if (!doc.data()[fieldName]) {
-			console.log(`updating collection data for ${user.displayName || user.username || user.id}...`)
+		// if (!doc.data()[fieldName]) {
+			console.log(`updating collection data for ${user.displayName || user.uid}...`)
 			await docRef.update({ [fieldName]: defaultValue })
-			console.log(`done updating collection data for ${user.displayName || user.username || user.id}.`)
-		}
-	}))
+			console.log('done.')
+		// }
+	}
 }
 
 addFieldToUsers(args.collection, args.field, args.default)

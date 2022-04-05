@@ -1,4 +1,5 @@
 // Local imports
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -6,19 +7,28 @@ import PropTypes from 'prop-types'
 
 
 function Switch(props) {
-	const { on } = props
+	const {
+		isOn,
+		onChange,
+	} = props
 
 	return (
 		<div className="switch">
 			<input
-				checked={on}
+				checked={isOn}
+				onChange={onChange}
 				type="checkbox" />
 		</div>
 	)
 }
 
+Switch.defaultProps = {
+	onChange: () => {},
+}
+
 Switch.propTypes = {
-	on: PropTypes.bool.isRequired,
+	isOn: PropTypes.bool.isRequired,
+	onChange: PropTypes.func,
 }
 
 export { Switch }
