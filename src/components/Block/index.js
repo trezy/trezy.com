@@ -36,7 +36,9 @@ export function Block(props) {
 
 	if (headerImageSource) {
 		headerImage = (
-			<div className="block-header-image">
+			<div
+				key="header-image"
+				className="block-header-image">
 				<Image
 					alt={headerImageAlt}
 					height={headerImageHeight}
@@ -55,15 +57,6 @@ export function Block(props) {
 		headerImage,
 		...Children.toArray(children),
 	])
-
-	// return (
-	// 	<div
-	// 		className={classnames('block', className)}
-	// 		{...dataAttributes}>
-
-	// 		{children}
-	// 	</div>
-	// )
 }
 
 Block.defaultProps = {
