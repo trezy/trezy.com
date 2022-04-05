@@ -212,10 +212,23 @@ module.exports = {
 
 	async rewrites() {
 		return [
+			// App
 			{
 				source: '/@:username',
 				destination: '/profile/@:username',
 			},
+
+			// RSS
+			{
+				source: '/rss(.xml)?',
+				destination: '/api/blog/rss',
+			},
+			{
+				source: '/blog/rss(.xml)?',
+				destination: '/api/blog/rss',
+			},
+
+			// Sitemaps
 			{
 				source: '/sitemap-base.xml',
 				destination: '/api/sitemap/base',
