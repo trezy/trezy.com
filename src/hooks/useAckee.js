@@ -30,16 +30,27 @@ class Ackee {
 	 * Private static methods
 	\****************************************************************************/
 
-	static initialise(domainID, url) {
+	static initialise(options) {
 		if (!Ackee.#isInitialised) {
+			const {
+				domainID,
+				ignoreLocalhost = true,
+				ignoreOwnVisits = true,
+				url,
+			} = options
+
+			if (!domainID || !url) {
+				throw new Error('Ackee cannot be initialised without a `domainID` and a `url`')
+			}
+
 			Ackee.#domainID = domainID
 			Ackee.#url = url
 
 			if (typeof window !== 'undefined') {
 				Ackee.#instance = ackee.create(Ackee.#url, {
 					detailed: false,
-					ignoreLocalhost: false,
-					ignoreOwnVisits: false,
+					ignoreLocalhost,
+					ignoreOwnVisits,
 				})
 			}
 
@@ -70,8 +81,14 @@ export function useAckee() {
 	const Router = useRouter()
 
 	useEffect(() => {
-		Ackee.initialise(process.env.NEXT_PUBLIC_ACKEE_DOMAIN_ID, process.env.NEXT_PUBLIC_ACKEE_URL)
+		Ackee.initialise({
+			domainID: process.env.NEXT_PUBLIC_ACKEE_DOMAIN_ID,
+			ignoreLocalhost: process.env.NODE_ENV === 'production',
+			url: process.env.NEXT_PUBLIC_ACKEE_URL,
+		})
+
 		Router.events.on('routeChangeComplete', Ackee.record)
+
 		return () => Router.events.off('routeChangeComplete', Ackee.record)
 	}, [])
 
