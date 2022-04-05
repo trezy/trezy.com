@@ -1,7 +1,17 @@
 // Module imports
-import { useCallback, useEffect } from 'react'
+import {
+	useCallback,
+	useEffect,
+} from 'react'
 import { useRouter } from 'next/router'
 import * as ackee from 'ackee-tracker'
+
+
+
+
+
+// Local imports
+import { useAuth } from 'contexts/AuthContext.js'
 
 
 
@@ -12,6 +22,8 @@ class Ackee {
 	 * Private static properties
 	\****************************************************************************/
 
+	static #detailedModeEnabled = false
+
 	static #domainID = null
 
 	static #instance = null
@@ -19,6 +31,8 @@ class Ackee {
 	static #isInitialised = false
 
 	static #previousPath = null
+
+	static #stopRecord = null
 
 	static #url = null
 
@@ -30,9 +44,38 @@ class Ackee {
 	 * Private static methods
 	\****************************************************************************/
 
+	static createRecord(config) {
+		const {
+			detailedMode,
+			path,
+		} = config
+
+		const siteLocation = new URL(path, window.location.origin)
+
+		const { stop } = Ackee.#instance.record(Ackee.#domainID, {
+			...ackee.attributes(detailedMode),
+			siteLocation,
+			siteReferrer: document.referrer,
+		})
+
+		Ackee.#detailedModeEnabled = detailedMode
+		Ackee.#stopRecord = stop
+	}
+
+	static disableDetailedMode() {
+		Ackee.#stopRecord()
+		Ackee.createRecord({ detailedMode: false })
+	}
+
+	static enableDetailedMode() {
+		Ackee.#stopRecord()
+		Ackee.createRecord({ detailedMode: true })
+	}
+
 	static initialise(options) {
 		if (!Ackee.#isInitialised) {
 			const {
+				detailedMode,
 				domainID,
 				ignoreLocalhost = true,
 				ignoreOwnVisits = true,
@@ -48,7 +91,7 @@ class Ackee {
 
 			if (typeof window !== 'undefined') {
 				Ackee.#instance = ackee.create(Ackee.#url, {
-					detailed: false,
+					detailed: detailedMode,
 					ignoreLocalhost,
 					ignoreOwnVisits,
 				})
@@ -58,22 +101,31 @@ class Ackee {
 		}
 	}
 
-	static record(path) {
+	static record(path, detailedMode) {
 		if (Ackee.#previousPath !== path) {
-			const siteLocation = new URL(path, window.location.origin)
-
 			Ackee.#previousPath = path
 
-			Ackee.#instance.record(Ackee.#domainID, {
-				...ackee.attributes(),
-				siteLocation,
-				siteReferrer: document.referrer,
+			Ackee.createRecord({
+				detailedMode,
+				path,
 			})
 		}
 	}
 
 	static trackAction(eventID, config) {
 		Ackee.#instance.action(eventID, config)
+	}
+
+
+
+
+
+	/****************************************************************************\
+	 * Public static getters/setters
+	\****************************************************************************/
+
+	static get detailedModeEnabled() {
+		return Ackee.#detailedModeEnabled
 	}
 }
 
@@ -83,22 +135,38 @@ class Ackee {
 
 export function useAckee() {
 	const Router = useRouter()
+	const { settings } = useAuth()
+
+	const record = useCallback(path => {
+		Ackee.record(path, settings?.allowDetailedAnalytics)
+	}, [settings])
+
+	const trackAction = useCallback((eventID, config) => {
+		Ackee.trackAction(eventID, config)
+	}, [])
 
 	useEffect(() => {
 		Ackee.initialise({
+			detailedMode: settings?.allowDetailedAnalytics,
 			domainID: process.env.NEXT_PUBLIC_ACKEE_DOMAIN_ID,
 			ignoreLocalhost: process.env.NODE_ENV === 'production',
 			url: process.env.NEXT_PUBLIC_ACKEE_URL,
 		})
 
-		Router.events.on('routeChangeComplete', Ackee.record)
+		Router.events.on('routeChangeComplete', record)
 
-		return () => Router.events.off('routeChangeComplete', Ackee.record)
+		return () => Router.events.off('routeChangeComplete', record)
 	}, [])
 
-	const trackAction = useCallback((eventID, config) => {
-		Ackee.trackAction(eventID, config)
-	}, [])
+	useEffect(() => {
+		if (settings !== null) {
+			if (settings.allowDetailedAnalytics && !Ackee.detailedModeEnabled) {
+				Ackee.enableDetailedMode()
+			} else if (!settings.allowDetailedAnalytics && Ackee.detailedModeEnabled) {
+				Ackee.disableDetailedMode()
+			}
+		}
+	}, [settings])
 
 	return { trackAction }
 }

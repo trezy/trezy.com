@@ -29,7 +29,6 @@ import { reportWebVitals } from 'helpers/reportWebVitals.js'
 import { useFontawesome } from 'hooks/useFontawesome.js'
 import { useNProgress } from 'hooks/useNProgress.js'
 import { usePageviews } from 'hooks/usePageviews.js'
-import { useAckee } from 'hooks/useAckee.js'
 import Banner from 'components/Banner/index.js'
 
 
@@ -50,7 +49,6 @@ export default function App(props) {
 	} = props
 	const router = useRouter()
 
-	useAckee()
 	useFontawesome()
 	useNProgress()
 	usePageviews()

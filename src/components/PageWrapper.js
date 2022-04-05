@@ -15,9 +15,10 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useBanner } from 'contexts/BannerContext'
-import Breadcrumbs from 'components/Breadcrumbs'
-import { ContentInfo } from 'components/ContentInfo'
+import { useAckee } from 'hooks/useAckee.js'
+import { useBanner } from 'contexts/BannerContext.js'
+import Breadcrumbs from 'components/Breadcrumbs.js'
+import { ContentInfo } from 'components/ContentInfo.js'
 
 
 
@@ -45,6 +46,8 @@ function PageWrapper(props) {
 		bannerIsOpen,
 		bannerIsTogglable,
 	} = useBanner()
+
+	useAckee()
 
 	const variants = {
 		bannerIsClosed: {
