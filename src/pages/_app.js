@@ -21,15 +21,15 @@ import NextHead from 'next/head'
 
 
 // Local imports
-import { AuthContextProvider } from 'contexts/AuthContext'
-import { BannerContextProvider } from 'contexts/BannerContext'
-import { ProfilesContextProvider } from 'contexts/ProfilesContext'
-import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext'
-import { reportWebVitals } from 'helpers/reportWebVitals'
-import { useFontawesome } from 'hooks/useFontawesome'
-import { useNProgress } from 'hooks/useNProgress'
-import { usePageviews } from 'hooks/usePageviews'
-import Banner from 'components/Banner'
+import { AuthContextProvider } from 'contexts/AuthContext.js'
+import { BannerContextProvider } from 'contexts/BannerContext.js'
+import { ProfilesContextProvider } from 'contexts/ProfilesContext.js'
+import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext.js'
+import { reportWebVitals } from 'helpers/reportWebVitals.js'
+import { useFontawesome } from 'hooks/useFontawesome.js'
+import { useNProgress } from 'hooks/useNProgress.js'
+import { usePageviews } from 'hooks/usePageviews.js'
+import Banner from 'components/Banner.js'
 
 
 
