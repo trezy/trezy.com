@@ -24,6 +24,7 @@ export default function createSitemapEndpoint(xmlObject) {
 			indent: '\t',
 		})
 
+		response.setHeader('cache-control', 'max-age=0, s-maxage=3600')
 		response.setHeader('content-type', 'text/xml')
 		response.status(httpStatus.OK)
 		response.send(body)
