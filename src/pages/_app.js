@@ -28,7 +28,6 @@ import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext.js'
 import { reportWebVitals } from 'helpers/reportWebVitals.js'
 import { useFontawesome } from 'hooks/useFontawesome.js'
 import { useNProgress } from 'hooks/useNProgress.js'
-import { usePageviews } from 'hooks/usePageviews.js'
 import Banner from 'components/Banner/index.js'
 
 
@@ -51,7 +50,6 @@ export default function App(props) {
 
 	useFontawesome()
 	useNProgress()
-	usePageviews()
 
 	return (
 		<LyketProvider apiKey={process.env.NEXT_PUBLIC_LYKET_API_KEY}>

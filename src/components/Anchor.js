@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useFirebase } from 'hooks/useFirebase'
+import { useAckee } from 'hooks/useAckee.js'
 
 
 
@@ -22,20 +22,23 @@ function Anchor(props) {
 		children,
 		href,
 		tracking,
+		trackingID,
 	} = props
-	const {
-		analytics,
-	} = useFirebase()
+	const { trackAction } = useAckee()
 
 	const handleClick = useCallback(event => {
 		event.preventDefault()
 
-		if (tracking) {
-			analytics.logEvent(...tracking)
+		if (trackingID && tracking) {
+			trackAction(trackingID, tracking)
 		}
 
 		router.push(href)
-	}, [])
+	}, [
+		trackAction,
+		tracking,
+		trackingID,
+	])
 
 	return (
 		<a
@@ -50,13 +53,15 @@ function Anchor(props) {
 Anchor.defaultProps = {
 	className: '',
 	tracking: null,
+	trackingID: null,
 }
 
 Anchor.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 	href: PropTypes.string.isRequired,
-	tracking: PropTypes.array,
+	tracking: PropTypes.object,
+	trackingID: PropTypes.string,
 }
 
 export { Anchor }

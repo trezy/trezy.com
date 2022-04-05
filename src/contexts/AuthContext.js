@@ -18,7 +18,8 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useFirebase } from 'hooks/useFirebase'
+import { useAckee } from 'hooks/useAckee.js'
+import { useFirebase } from 'hooks/useFirebase.js'
 
 
 
@@ -43,7 +44,6 @@ export const AuthContext = createContext({
 export function AuthContextProvider(props) {
 	const { children } = props
 	const {
-		analytics,
 		auth,
 		firestore,
 	} = useFirebase()
@@ -53,6 +53,8 @@ export function AuthContextProvider(props) {
 	const [profile, setProfile] = useState(null)
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
+
+	const { trackAction } = useAckee()
 
 	const handleProfileSnapshot = useCallback(doc => {
 		setProfile({
@@ -69,9 +71,10 @@ export function AuthContextProvider(props) {
 
 	const handleAuthStateChange = useCallback(user => {
 		if (user) {
-			analytics.setUserId(user.uid)
-			analytics.setUserProperties({ isAuthor: 1 })
-			analytics.logEvent('login', { method: '' })
+			trackAction('7d097f63-5b01-41ad-b668-d9e5c6a7c923', {
+				key: 'login',
+				value: 1,
+			})
 		}
 
 		setUser(user)

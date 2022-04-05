@@ -29,7 +29,6 @@ module.exports = {
 					'https://firestore.googleapis.com',
 					'https://securetoken.googleapis.com',
 					'https://www.googleapis.com',
-					'https://www.google-analytics.com',
 					'https://api.ipify.org',
 					'https://api.lyket.dev',
 					'https://api.themoviedb.org',

@@ -17,7 +17,7 @@ import { useAuth } from 'contexts/AuthContext.js'
 
 
 
-class Ackee {
+export class Ackee {
 	/****************************************************************************\
 	 * Private static properties
 	\****************************************************************************/
@@ -31,6 +31,8 @@ class Ackee {
 	static #isInitialised = false
 
 	static #previousPath = null
+
+	static #queue = []
 
 	static #stopRecord = null
 
@@ -98,6 +100,19 @@ class Ackee {
 			}
 
 			Ackee.#isInitialised = true
+
+			Ackee.processQueue()
+		}
+	}
+
+	static processQueue() {
+		while (this.#queue.length) {
+			const [
+				method,
+				...args
+			] = this.#queue.shift()
+
+			this.#instance[method](...args)
 		}
 	}
 
@@ -113,7 +128,11 @@ class Ackee {
 	}
 
 	static trackAction(eventID, config) {
-		Ackee.#instance.action(eventID, config)
+		if (this.#isInitialised) {
+			Ackee.#instance.action(eventID, config)
+		} else {
+			this.#queue.push(['action', eventID, config])
+		}
 	}
 
 

@@ -22,10 +22,11 @@ export function ArticleSummary(props) {
 			<h3>
 				<Anchor
 					href={getArticleURL(article)}
-					tracking={['select_content', {
-						content_type: 'article',
-						item_id: article.id,
-					}]}>
+					tracking={{
+						key: article.id,
+						value: 1,
+					}}
+					trackingID="4c774cdd-7673-423b-89de-ae1df9eb4c7e">
 					{article.title}
 				</Anchor>
 			</h3>
