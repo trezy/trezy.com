@@ -9,6 +9,7 @@ import classnames from 'classnames'
 
 // Module imports
 import { Button } from 'components/Button.js'
+import { useAckee } from 'hooks/useAckee.js'
 
 
 
@@ -22,7 +23,18 @@ export function ReactionButton(props) {
 		namespace,
 	} = props
 
+
 	const renderProps = useCallback(({ handlePress, totalLikes, userLiked, isLoading }) => {
+		const { trackAction } = useAckee()
+
+		const handleClick = useCallback(event => {
+			handlePress(event)
+			trackAction('489767f3-4997-4a8e-9ed9-3d4bdf857f53', {
+				key: `${id}-${emojiName}`,
+				value: 1,
+			})
+		}, [handlePress])
+
 		const compiledClassNames = classnames('reaction', {
 			'is-active': userLiked,
 		})
@@ -32,7 +44,7 @@ export function ReactionButton(props) {
 				className={compiledClassNames}
 				disabled={isLoading}
 				isStyled={false}
-				onClick={handlePress}>
+				onClick={handleClick}>
 				{emoji}
 
 				{(totalLikes !== 0) && (

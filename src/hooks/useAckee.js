@@ -1,5 +1,5 @@
 // Module imports
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import * as ackee from 'ackee-tracker'
 
@@ -71,6 +71,10 @@ class Ackee {
 			})
 		}
 	}
+
+	static trackAction(eventID, config) {
+		Ackee.#instance.action(eventID, config)
+	}
 }
 
 
@@ -92,7 +96,9 @@ export function useAckee() {
 		return () => Router.events.off('routeChangeComplete', Ackee.record)
 	}, [])
 
-	return {
-		'function': () => {},
-	}
+	const trackAction = useCallback((eventID, config) => {
+		Ackee.trackAction(eventID, config)
+	}, [])
+
+	return { trackAction }
 }
