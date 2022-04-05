@@ -35,6 +35,7 @@ module.exports = {
 					'https://api.themoviedb.org',
 					'https://apis.google.com',
 					'https://*.firebaseio.com',
+					'https://*.trezy.com',
 					'wss://*.firebaseio.com',
 				],
 				'default-src': [
