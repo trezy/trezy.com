@@ -243,8 +243,8 @@ module.exports = {
 	webpack(config) {
 		config.module.rules.push({
 			exclude: /node_modules/,
-			test: /\.svg$/,
-			loader: '@svgr/webpack',
+			test: /\.svg$/i,
+			use: ['@svgr/webpack'],
 		})
 
 		config.plugins.push(new CopyWebpackPlugin({
