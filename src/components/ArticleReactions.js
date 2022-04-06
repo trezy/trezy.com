@@ -76,7 +76,7 @@ export function ArticleReactions(props) {
 	const mappedReactions = useMemo(() => {
 		return ALLOWED_REACTIONS.map(({ emoji, emojiName }) => (
 			<ReactionButton
-				key={emoji}
+				key={emojiName}
 				emoji={emoji}
 				emojiName={emojiName}
 				id={article.slug}
