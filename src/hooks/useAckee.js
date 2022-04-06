@@ -47,6 +47,10 @@ export class Ackee {
 	\****************************************************************************/
 
 	static createRecord(config) {
+		if (process.env.NEXT_PUBLIC_DISABLE_ACKEE) {
+			return
+		}
+
 		const {
 			detailedMode,
 			path,
@@ -65,16 +69,20 @@ export class Ackee {
 	}
 
 	static disableDetailedMode() {
-		Ackee.#stopRecord()
+		Ackee.#stopRecord?.()
 		Ackee.createRecord({ detailedMode: false })
 	}
 
 	static enableDetailedMode() {
-		Ackee.#stopRecord()
+		Ackee.#stopRecord?.()
 		Ackee.createRecord({ detailedMode: true })
 	}
 
 	static initialise(options) {
+		if (process.env.NEXT_PUBLIC_DISABLE_ACKEE) {
+			return
+		}
+
 		if (!Ackee.#isInitialised) {
 			const {
 				detailedMode,
@@ -128,6 +136,10 @@ export class Ackee {
 	}
 
 	static trackAction(eventID, config) {
+		if (process.env.NEXT_PUBLIC_DISABLE_ACKEE) {
+			return
+		}
+
 		if (this.#isInitialised) {
 			Ackee.#instance.action(eventID, config)
 		} else {
