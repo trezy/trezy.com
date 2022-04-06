@@ -14,6 +14,7 @@ import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle.j
 import MarkdownRenderer from 'components/MarkdownRenderer.js'
 import PageWrapper from 'components/PageWrapper.js'
 import * as Contentful from 'helpers/Contentful.js'
+import * as DevTo from 'helpers/DevTo.js'
 
 
 
@@ -76,6 +77,13 @@ export async function getStaticProps(context) {
 	const { slug } = context.params
 
 	const article = await Contentful.getArticle(slug, context.preview)
+
+	if (article.devToID) {
+		const devToArticle = await DevTo.getArticle(article.devToID)
+
+		article.devToReactions = devToArticle.positive_reactions_count
+		article.devToURL = devToArticle.url
+	}
 
 	if (!article) {
 		return { notFound: true }

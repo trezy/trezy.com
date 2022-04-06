@@ -1,4 +1,13 @@
 // Module imports
+import {
+	faHeart,
+	faHandsClapping,
+	faRocket,
+	faSackDollar,
+	faTrophy,
+} from '@fortawesome/free-solid-svg-icons'
+import { faDev } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
@@ -8,7 +17,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { Button } from 'components/Button.js'
+import { ExternalLink } from './ExternalLink.js'
 import { getArticleURL } from 'helpers/getArticleURL.js'
 import { ReactionButton } from 'components/ReactionButton/index.js'
 
@@ -18,44 +27,44 @@ import { ReactionButton } from 'components/ReactionButton/index.js'
 
 const ALLOWED_REACTIONS = [
 	{
-		emoji: '❤️',
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
+				icon={faHeart} />
+		),
 		emojiName: 'heart',
 	},
 	{
-		emoji: '👍',
-		emojiName: 'thumbs-up',
-	},
-	{
-		emoji: '🦄',
-		emojiName: 'unicorn',
-	},
-	{
-		emoji: '👏',
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
+				icon={faHandsClapping} />
+		),
 		emojiName: 'clap',
 	},
 	{
-		emoji: '☕️',
-		emojiName: 'coffee',
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
+				icon={faRocket} />
+		),
+		emojiName: 'rocket',
 	},
 	{
-		emoji: '🏆',
-		emojiName: 'trophy',
-	},
-	{
-		emoji: '😍',
-		emojiName: 'heart-eyes',
-	},
-	{
-		emoji: '💰',
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
+				icon={faSackDollar} />
+		),
 		emojiName: 'money-bag',
 	},
 	{
-		emoji: '🎉',
-		emojiName: 'party-popper',
-	},
-	{
-		emoji: '🚀',
-		emojiName: 'rocket',
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
+				icon={faTrophy} />
+		),
+		emojiName: 'trophy',
 	},
 ]
 
@@ -89,6 +98,18 @@ export function ArticleReactions(props) {
 
 				<div className="reactions">
 					{mappedReactions}
+
+					{(article.devToReactions > 0) && (
+						<ExternalLink
+							className="reaction is-active"
+							href={article.devToURL}>
+							<FontAwesomeIcon
+								fixedWidth
+								icon={faDev} />
+
+							<span className="badge">{article.devToReactions}</span>
+						</ExternalLink>
+					)}
 				</div>
 			</div>
 		</aside>
