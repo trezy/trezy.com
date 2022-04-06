@@ -17,9 +17,7 @@ export function Block(props) {
 		className,
 		elementType,
 		headerImageAlt,
-		headerImageHeight,
 		headerImageSource,
-		headerImageWidth,
 	} = props
 
 	const dataAttributes = Object
@@ -41,11 +39,10 @@ export function Block(props) {
 				className="block-header-image">
 				<Image
 					alt={headerImageAlt}
-					height={headerImageHeight}
 					layout="fill"
 					objectFit="cover"
-					src={headerImageSource}
-					width={headerImageWidth} />
+					priority
+					src={headerImageSource} />
 			</div>
 		)
 	}
@@ -64,9 +61,7 @@ Block.defaultProps = {
 	className: '',
 	elementType: 'div',
 	headerImageAlt: '',
-	headerImageHeight: 0,
 	headerImageSource: '',
-	headerImageWidth: 0,
 }
 
 Block.propTypes = {
@@ -74,13 +69,5 @@ Block.propTypes = {
 	className: PropTypes.string,
 	elementType: PropTypes.string,
 	headerImageAlt: PropTypes.string,
-	headerImageHeight: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string,
-	]),
 	headerImageSource: PropTypes.string,
-	headerImageWidth: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string,
-	]),
 }

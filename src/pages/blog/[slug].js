@@ -38,9 +38,7 @@ export default function ArticlePage(props) {
 			<Block
 				elementType="header"
 				headerImageAlt={article.headerImage?.fields.description}
-				headerImageHeight={article.headerImage?.fields.file.details.image.height}
-				headerImageSource={article.headerImage?.fields.file.url.replace(/^\/\//, 'https://')}
-				headerImageWidth={article.headerImage?.fields.file.details.image.width}>
+				headerImageSource={article.headerImage?.fields.file.url.replace(/^\/\//, 'https://')}>
 				<h2>{article.title}</h2>
 
 				<ArticleMeta article={article} />
