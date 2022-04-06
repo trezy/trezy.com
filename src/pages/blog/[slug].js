@@ -15,6 +15,7 @@ import MarkdownRenderer from 'components/MarkdownRenderer.js'
 import PageWrapper from 'components/PageWrapper.js'
 import * as Contentful from 'helpers/Contentful.js'
 import * as DevTo from 'helpers/DevTo.js'
+import * as Hashnode from 'helpers/Hashnode.js'
 
 
 
@@ -83,11 +84,21 @@ export async function getStaticProps(context) {
 		article.devToURL = devToArticle.url
 	}
 
+	if (article.hashnodeSlug) {
+		try {
+			const hashnodeArticle = await Hashnode.getArticle(article.hashnodeSlug)
+
+			article.hashnodeReactions = hashnodeArticle.data.post.totalReactions
+			article.hashnodeURL = `${hashnodeArticle.data.post.publication.domain || 'https://hashnode.com'}/${article.hashnodeSlug}`
+		} catch (error) {}
+	}
+
 	if (!article) {
 		return { notFound: true }
 	}
 
 	return {
 		props: { article },
+		revalidate: 600,
 	}
 }

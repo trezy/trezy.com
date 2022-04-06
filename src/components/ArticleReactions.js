@@ -6,7 +6,10 @@ import {
 	faSackDollar,
 	faTrophy,
 } from '@fortawesome/free-solid-svg-icons'
-import { faDev } from '@fortawesome/free-brands-svg-icons'
+import {
+	faDev,
+	faHashnode,
+} from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo } from 'react'
 import Link from 'next/link'
@@ -99,15 +102,29 @@ export function ArticleReactions(props) {
 				<div className="reactions">
 					{mappedReactions}
 
+					<div className="separator" />
+
 					{(article.devToReactions > 0) && (
 						<ExternalLink
-							className="reaction is-active"
+							className="reaction"
 							href={article.devToURL}>
 							<FontAwesomeIcon
 								fixedWidth
 								icon={faDev} />
 
 							<span className="badge">{article.devToReactions}</span>
+						</ExternalLink>
+					)}
+
+					{(article.hashnodeReactions > 0) && (
+						<ExternalLink
+							className="reaction"
+							href={article.hashnodeURL}>
+							<FontAwesomeIcon
+								fixedWidth
+								icon={faHashnode} />
+
+							<span className="badge">{article.hashnodeReactions}</span>
 						</ExternalLink>
 					)}
 				</div>
