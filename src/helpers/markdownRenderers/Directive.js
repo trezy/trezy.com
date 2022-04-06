@@ -7,14 +7,16 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { Abbreviation } from 'components/Abbreviation'
-import { DITAA } from 'helpers/markdownRenderers/DITAA'
-import { Figure } from 'helpers/markdownRenderers/Figure'
-import { FigureCaption } from 'helpers/markdownRenderers/FigureCaption'
-import { Mermaid } from 'helpers/markdownRenderers/Mermaid'
-import { PlantUML } from 'helpers/markdownRenderers/PlantUML'
-import Codepen from 'components/Codepen'
-import Tweet from 'components/Tweet'
+import { Abbreviation } from 'components/Abbreviation.js'
+import { Changelog } from 'helpers/markdownRenderers/Changelog.js'
+import { DITAA } from 'helpers/markdownRenderers/DITAA.js'
+import { Figure } from 'helpers/markdownRenderers/Figure.js'
+import { FigureCaption } from 'helpers/markdownRenderers/FigureCaption.js'
+import { Mermaid } from 'helpers/markdownRenderers/Mermaid.js'
+import { Notice } from 'helpers/markdownRenderers/Notice.js'
+import { PlantUML } from 'helpers/markdownRenderers/PlantUML.js'
+import Codepen from 'components/Codepen.js'
+import Tweet from 'components/Tweet.js'
 
 
 
@@ -23,8 +25,10 @@ import Tweet from 'components/Tweet'
 // Local constants
 const availableDirectives = {
 	containerDirective: {
+		changelog: Changelog,
 		ditaa: DITAA,
 		mermaid: Mermaid,
+		notice: Notice,
 		plantuml: PlantUML,
 		figure: Figure,
 	},

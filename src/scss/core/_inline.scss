@@ -9,7 +9,8 @@ p,
 pre,
 table,
 ul,
-.code-toolbar {
+.code-toolbar,
+.notice {
 	& + & {
 		margin-top: var(--gutter);
 	}
