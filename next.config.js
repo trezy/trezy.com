@@ -33,6 +33,7 @@ module.exports = {
 					'https://api.lyket.dev',
 					'https://api.themoviedb.org',
 					'https://apis.google.com',
+					'https://vitals.vercel-insights.com',
 					'https://*.firebaseio.com',
 					'https://*.trezy.com',
 					'wss://*.firebaseio.com',
