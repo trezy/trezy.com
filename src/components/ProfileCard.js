@@ -25,8 +25,6 @@ function ProfileCard(props) {
 	const {
 		bio,
 		displayName,
-		email,
-		roles,
 		socialMedia,
 		username,
 		website,

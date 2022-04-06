@@ -1,4 +1,8 @@
 // Module imports
+import {
+	faBars,
+	faTimes,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
@@ -31,14 +35,14 @@ function BannerToggle() {
 				data-animation={`fade-${bannerIsOpen ? 'out' : 'in'}`}
 				data-animation-duration="0.2s"
 				fixedWidth
-				icon="bars" />
+				icon={faBars} />
 
 			<FontAwesomeIcon
 				data-animate
 				data-animation={`fade-${bannerIsOpen ? 'in' : 'out'}`}
 				data-animation-duration="0.2s"
 				fixedWidth
-				icon="times" />
+				icon={faTimes} />
 		</Button>
 	)
 }

@@ -1,4 +1,14 @@
 // Module imports
+import {
+	faBook,
+	faHome,
+	faSignInAlt,
+	faSignOutAlt,
+	faSlidersH,
+	faUser,
+	faUsers,
+	faUserShield,
+} from '@fortawesome/free-solid-svg-icons'
 import { useCallback } from 'react'
 import { useRouter } from 'next/router'
 
@@ -47,41 +57,41 @@ function ApplicationNav() {
 		<Nav isOpen={bannerIsOpen}>
 			<NavLink
 				href="/"
-				icon="home"
+				icon={faHome}
 				title="Home" />
 
 			<NavLink
 				href="/blog"
-				icon="book"
+				icon={faBook}
 				title="Blog" />
 
 			<NavLink
 				href="/about"
-				icon="user"
+				icon={faUser}
 				title="About" />
 
 			{!user && (
 				<NavLink
 					href={`/login?destination=${router.asPath}`}
-					icon="sign-in-alt"
+					icon={faSignInAlt}
 					title="Login" />
 			)}
 
 			{(user && (claims?.['views.admin.blog'] || claims?.['views.admin.users'])) && (
 				<SubNav
-					icon="user-shield"
+					icon={faUserShield}
 					title="Admin">
 					{claims['views.admin.blog'] && (
 						<NavLink
 							href="/admin/blog"
-							icon="book"
+							icon={faBook}
 							title="Blog" />
 					)}
 
 					{claims['views.admin.users'] && (
 						<NavLink
 							href="/admin/users"
-							icon="users"
+							icon={faUsers}
 							title="Users" />
 					)}
 				</SubNav>
@@ -107,11 +117,11 @@ function ApplicationNav() {
 					title={!profile ? 'Loading profile data...' : user.displayName}>
 					<NavLink
 						href="/settings"
-						icon="sliders-h"
+						icon={faSlidersH}
 						title="Settings" />
 					<NavLink
 						href="/dashboard/blog"
-						icon="sign-out-alt"
+						icon={faSignOutAlt}
 						onClick={handleLogout}
 						title="Logout" />
 				</SubNav>

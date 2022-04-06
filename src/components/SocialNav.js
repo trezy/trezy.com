@@ -1,4 +1,18 @@
 // Module imports
+import {
+	faCodepen,
+	faDev,
+	faDiscord,
+	faGithub,
+	faInstagram,
+	faLinkedin,
+	faNpm,
+	faPatreon,
+	faSoundcloud,
+	faSpeakerDeck,
+	faTwitter,
+	faYoutube,
+} from '@fortawesome/free-brands-svg-icons'
 import PropTypes from 'prop-types'
 
 
@@ -19,7 +33,6 @@ import {
 const defaultOptions = {
 	extraProps: { rel: 'me' },
 	iconOnly: true,
-	iconPrefix: 'fab',
 }
 
 
@@ -35,73 +48,73 @@ function SocialNav(props) {
 			isOpen={isOpen}>
 			<NavLink
 				{...defaultOptions}
-				icon="twitter"
+				icon={faTwitter}
 				title="Twitter"
 				href="https://twitter.com/TrezyCodes" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="instagram"
+				icon={faInstagram}
 				title="Instagram"
 				href="https://instagram.com/TrezyCodes" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="linkedin"
+				icon={faLinkedin}
 				title="LinkedIn"
 				href="https://linkedin.com/in/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="youtube"
+				icon={faYoutube}
 				title="YouTube"
-				href="https://youtube.com/c/TrezyCodes1" />
+				href="/youtube" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="discord"
+				icon={faDiscord}
 				title="Discord"
-				href="https://discord.gg/k3bth3f" />
+				href="/discord" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="patreon"
+				icon={faPatreon}
 				title="Patreon"
 				href="https://www.patreon.com/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="github"
+				icon={faGithub}
 				title="Github"
 				href="https://github.com/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="codepen"
+				icon={faCodepen}
 				title="Codepen"
 				href="https://codepen.io/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="npm"
+				icon={faNpm}
 				title="npm"
 				href="https://npmjs.com/~trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="dev"
+				icon={faDev}
 				title="DEV Community"
 				href="https://dev.to/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="speaker-deck"
+				icon={faSpeakerDeck}
 				title="SpeakerDeck"
 				href="https://speakerdeck.com/trezy" />
 
 			<NavLink
 				{...defaultOptions}
-				icon="soundcloud"
+				icon={faSoundcloud}
 				title="SoundCloud"
 				href="https://soundcloud.com/TrezyCodes" />
 		</Nav>

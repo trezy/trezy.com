@@ -1,4 +1,8 @@
 // Module imports
+import {
+	faArrowLeft,
+	faArrowRight,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
@@ -65,7 +69,7 @@ function Pagination(props) {
 				value={previousPage}>
 				<FontAwesomeIcon
 					fixedWidth
-					icon="arrow-left" />
+					icon={faArrowLeft} />
 			</Button>
 
 			{(firstPage > 1) && (
@@ -103,7 +107,7 @@ function Pagination(props) {
 				value={nextPage}>
 				<FontAwesomeIcon
 					fixedWidth
-					icon="arrow-right" />
+					icon={faArrowRight} />
 			</Button>
 		</div>
 	)

@@ -12,8 +12,6 @@ export function Button(props) {
 	const {
 		children,
 		className,
-		icon,
-		iconPrefix,
 		isStyled,
 		type,
 	} = props
@@ -21,24 +19,7 @@ export function Button(props) {
 	const passableProps = { ...props }
 	delete passableProps.children
 	delete passableProps.className
-	delete passableProps.icon
-	delete passableProps.iconPrefix
 	delete passableProps.isStyled
-
-	let iconComponent = icon
-
-	if (typeof iconComponent === 'function') {
-		iconComponent = iconComponent(props)
-	}
-
-	if (typeof iconComponent === 'string') {
-		iconComponent = (
-			<FontAwesomeIcon
-				aria-hidden
-				fixedWidth
-				icon={[(iconPrefix || 'fas'), icon]} />
-		)
-	}
 
 	const compiledClassNames = useMemo(() => {
 		return classnames(className, {
@@ -57,7 +38,6 @@ export function Button(props) {
 			className={compiledClassNames}
 			type={type}
 			{...passableProps}>
-			{iconComponent}
 			<span>{children}</span>
 		</button>
 	)
@@ -65,8 +45,6 @@ export function Button(props) {
 
 Button.defaultProps = {
 	className: '',
-	icon: null,
-	iconPrefix: 'fas',
 	isStyled: true,
 	type: 'button',
 }
@@ -74,11 +52,6 @@ Button.defaultProps = {
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
-	icon: PropTypes.oneOfType([
-		PropTypes.node,
-		PropTypes.string,
-	]),
-	iconPrefix: PropTypes.string,
 	isStyled: PropTypes.bool,
 	type: PropTypes.oneOf([
 		'button',

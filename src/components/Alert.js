@@ -1,4 +1,9 @@
 // Module imports
+import {
+	faExclamationCircle,
+	faExclamationTriangle,
+	faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
@@ -20,15 +25,15 @@ export function Alert(props) {
 
 	switch (type) {
 		case 'danger':
-			icon = 'exclamation-triangle'
+			icon = faExclamationTriangle
 			break
 
 		case 'warning':
-			icon = 'exclamation-circle'
+			icon = faExclamationCircle
 			break
 
 		default:
-			icon = 'info-circle'
+			icon = faInfoCircle
 			break
 	}
 
@@ -46,13 +51,6 @@ export function Alert(props) {
 }
 
 Alert.propTypes = {
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf([
-			PropTypes.element,
-			PropTypes.node,
-		]),
-		PropTypes.element,
-		PropTypes.node,
-	]).isRequired,
+	children: PropTypes.node.isRequired,
 	type: PropTypes.string.isRequired,
 }

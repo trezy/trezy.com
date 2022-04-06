@@ -4,6 +4,10 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import {
+	faEnvelope,
+	faMobileAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
@@ -91,14 +95,14 @@ export function NotificationsSettings() {
 							<th scope="column">
 								<FontAwesomeIcon
 									fixedWidth
-									icon="mobile-alt" />
+									icon={faMobileAlt} />
 								Mobile
 							</th>
 
 							<th scope="column">
 								<FontAwesomeIcon
 									fixedWidth
-									icon="envelope" />
+									icon={faEnvelope} />
 								Email
 							</th>
 						</tr>

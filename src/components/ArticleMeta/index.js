@@ -1,4 +1,5 @@
 // Module imports
+import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useMemo } from 'react'
 
@@ -32,8 +33,8 @@ export function ArticleMeta(props) {
 			<span>
 				<FontAwesomeIcon
 					fixedWidth
-					icon="clock" />
-				{' '}
+					icon={faClock} />
+					{' '}
 				Published {publishedAt}
 			</span>
 
@@ -41,7 +42,7 @@ export function ArticleMeta(props) {
 				<span>
 					<FontAwesomeIcon
 						fixedWidth
-						icon="clock" />
+						icon={faClock} />
 					{' '}
 					Updated {updatedAt}
 				</span>
@@ -50,8 +51,8 @@ export function ArticleMeta(props) {
 			<span>
 				<FontAwesomeIcon
 					fixedWidth
-					icon="clock" />
-				{' '}
+					icon={faClock} />
+					{' '}
 				{/* Less than a minute */}
 				{(readtime < (60 * 1000)) && (
 					'Less than 1 min read'

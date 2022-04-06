@@ -27,27 +27,47 @@ function NavLink(props) {
 		href,
 		icon,
 		iconOnly,
-		iconPrefix,
 		onClick,
 		title,
 	} = props
 	const { isOpen } = useNav()
 
-	let iconComponent = icon
-
-	if (typeof icon === 'function') {
-		iconComponent = icon()
-	} else {
-		iconComponent = (
-			<FontAwesomeIcon
-				aria-hidden={!iconOnly}
-				fixedWidth
-				icon={[iconPrefix, icon]}
-				title={title} />
-		)
-	}
-
 	const isExternalLink = useMemo(() => /https?:\/\//gui.test(href), [href])
+
+	const iconComponent = useMemo(() => {
+		if (typeof icon === 'function') {
+			return icon()
+		} else {
+			return (
+				<FontAwesomeIcon
+					aria-hidden={!iconOnly}
+					fixedWidth
+					icon={icon}
+					title={title} />
+			)
+		}
+	}, [
+		icon,
+		iconOnly,
+		title,
+	])
+
+	const titleComponent = useMemo(() => {
+		if (!title) {
+			return null
+		}
+
+		return (
+			<span className={classnames({
+				'screen-reader-only': iconOnly,
+			})}>
+				{title}
+			</span>
+		)
+	}, [
+		iconOnly,
+		title,
+	])
 
 	const handleClick = useCallback(event => {
 		if (onClick) {
@@ -64,9 +84,7 @@ function NavLink(props) {
 				onClick={handleClick}
 				tabIndex={isOpen ? null : -1}>
 				{iconComponent}
-				{Boolean(title) && (
-					<span>{title}</span>
-				)}
+				{titleComponent}
 			</button>
 		)
 	}
@@ -83,13 +101,7 @@ function NavLink(props) {
 				tabIndex={isOpen ? null : -1}
 				target="_blank">
 				{iconComponent}
-				{Boolean(title) && (
-					<span className={classnames({
-						'screen-reader-only': iconOnly,
-					})}>
-						{title}
-					</span>
-				)}
+				{titleComponent}
 			</ExternalLink>
 		)
 	}
@@ -104,9 +116,7 @@ function NavLink(props) {
 				})}
 				tabIndex={isOpen ? null : -1}>
 				{iconComponent}
-				{Boolean(title) && (
-					<span>{title}</span>
-				)}
+				{titleComponent}
 			</a>
 		</Link>
 	)
@@ -118,7 +128,6 @@ NavLink.defaultProps = {
 	href: '',
 	icon: null,
 	iconOnly: false,
-	iconPrefix: 'fas',
 	onClick: null,
 }
 
@@ -128,10 +137,9 @@ NavLink.propTypes = {
 	href: PropTypes.string,
 	icon: PropTypes.oneOfType([
 		PropTypes.func,
-		PropTypes.string,
+		PropTypes.object,
 	]),
 	iconOnly: PropTypes.bool,
-	iconPrefix: PropTypes.string,
 	onClick: PropTypes.func,
 	title: PropTypes.string.isRequired,
 }

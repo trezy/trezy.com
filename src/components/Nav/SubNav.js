@@ -23,7 +23,6 @@ function SubNav(props) {
 		children,
 		className,
 		icon,
-		iconPrefix,
 		label,
 		tabIndex,
 		title,
@@ -53,7 +52,6 @@ function SubNav(props) {
 						'aria-pressed': isOpen,
 					}}
 					icon={icon}
-					iconPrefix={iconPrefix}
 					onClick={handleToggle}
 					title={title} />
 
@@ -70,7 +68,6 @@ function SubNav(props) {
 SubNav.defaultProps = {
 	className: '',
 	icon: null,
-	iconPrefix: 'fas',
 	label: '',
 	title: '',
 }
@@ -80,9 +77,8 @@ SubNav.propTypes = {
 	className: PropTypes.string,
 	icon: PropTypes.oneOfType([
 		PropTypes.func,
-		PropTypes.string,
+		PropTypes.object,
 	]),
-	iconPrefix: PropTypes.string,
 	label: PropTypes.string,
 	tabIndex: PropTypes.oneOfType([
 		PropTypes.number,

@@ -1,4 +1,5 @@
 // Module imports
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 
@@ -16,7 +17,7 @@ export default function Breadcrumbs(props) {
 					<a>
 						<FontAwesomeIcon
 							fixedWidth
-							icon="home" />
+							icon={faHome} />
 					</a>
 				</Link>
 			</li>

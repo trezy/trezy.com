@@ -1,4 +1,25 @@
 // Module imports
+import {
+	faCameraRetro,
+	faChair,
+	faDesktop,
+	faHdd,
+	faHeadphones,
+	faKeyboard,
+	faLightbulb,
+	faMemory,
+	faMicrochip,
+	faMicrophoneAlt,
+	faMouse,
+	faPersonBooth,
+	faPlug,
+	faServer,
+	faSpaceShuttle,
+	faSquareFull,
+	faThermometerHalf,
+	faVideo,
+	faVolumeUp,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
@@ -11,6 +32,7 @@ import PropTypes from 'prop-types'
 import { Block } from 'components/Block'
 import { ExternalLink } from 'components/ExternalLink'
 import PageWrapper from 'components/PageWrapper'
+import { faUsb } from '@fortawesome/free-brands-svg-icons'
 
 
 
@@ -87,23 +109,24 @@ LaptopStandLink.propTypes = { ...linkPropTypes }
 function ChipIcon(props) {
 	const {
 		className,
-		type,
+		icon,
 	} = props
 
 	return (
 		<span className={classnames('fa-layers', 'fa-fw', className)}>
-			<FontAwesomeIcon icon="memory" />
 			<FontAwesomeIcon
-				icon="square-full"
+				icon={faMemory} />
+			<FontAwesomeIcon
+				icon={faSquareFull}
 				transform="shrink-8 left-2 up-2" />
 			<FontAwesomeIcon
-				icon="square-full"
+				icon={faSquareFull}
 				transform="shrink-8 up-2" />
 			<FontAwesomeIcon
-				icon="square-full"
+				icon={faSquareFull}
 				transform="shrink-8 right-2 up-2" />
 			<FontAwesomeIcon
-				icon={type}
+				icon={icon}
 				inverse
 				transform="shrink-8 up-2" />
 		</span>
@@ -114,7 +137,7 @@ ChipIcon.defaultProps = {
 }
 ChipIcon.propTypes = {
 	className: PropTypes.string,
-	type: PropTypes.string.isRequired,
+	icon: PropTypes.object.isRequired,
 }
 
 
@@ -193,7 +216,7 @@ export default function UsesPage() {
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microchip" />
+								<FontAwesomeIcon icon={faMicrochip} />
 							</span>
 
 							{'8-Core M1 '}<abbr title={'Central Processing Unit'}>{'CPU'}</abbr>{''}
@@ -201,7 +224,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="memory" />
+								<FontAwesomeIcon icon={faMemory} />
 							</span>
 
 							{'16'}<abbr title={'Gigabyte'}>{'GB'}</abbr>{' '}<abbr title={'Random Access Memory'}>{'RAM'}</abbr>
@@ -209,7 +232,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="hdd" />
+								<FontAwesomeIcon icon={faHdd} />
 							</span>
 
 							{'1'}<abbr title={'Terabyte'}>{'TB'}</abbr>{' '}<abbr title={'Solid State Drive'}>{'SSD'}</abbr>
@@ -260,7 +283,7 @@ export default function UsesPage() {
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="desktop" />
+								<FontAwesomeIcon icon={faDesktop} />
 							</span>
 
 							<AmazonLink id="B07LBM2DCC">
@@ -270,7 +293,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="keyboard" />
+								<FontAwesomeIcon icon={faKeyboard} />
 							</span>
 
 							<MagicKeyboardLink>
@@ -280,7 +303,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="mouse" />
+								<FontAwesomeIcon icon={faMouse} />
 							</span>
 
 							<MagicTrackpadLink>
@@ -290,7 +313,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="headphones" />
+								<FontAwesomeIcon icon={faHeadphones} />
 							</span>
 
 							<AirpodsLink>
@@ -300,7 +323,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="space-shuttle" />
+								<FontAwesomeIcon icon={faSpaceShuttle} />
 							</span>
 
 							<AmazonLink id="B08DG87N7Z">
@@ -310,7 +333,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={['fab', 'usb']} />
+								<FontAwesomeIcon icon={faUsb} />
 							</span>
 
 							<AmazonLink id="B08G9WDH6B">
@@ -320,7 +343,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="chair" />
+								<FontAwesomeIcon icon={faChair} />
 							</span>
 
 							<ExternalLink href="https://secretlab.co/products/titan-evo-2022-series">
@@ -365,7 +388,7 @@ export default function UsesPage() {
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microchip" />
+								<FontAwesomeIcon icon={faMicrochip} />
 							</span>
 
 							<AmazonLink id="B07SXMZLPJ">
@@ -375,7 +398,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microchip" />
+								<FontAwesomeIcon icon={faMicrochip} />
 							</span>
 
 							<AmazonLink id="B07WL5MFXL">
@@ -385,7 +408,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="thermometer-half" />
+								<FontAwesomeIcon icon={faThermometerHalf} />
 							</span>
 
 							<AmazonLink id="B08CXDWFKC">
@@ -395,7 +418,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="thermometer-half" />
+								<FontAwesomeIcon icon={faThermometerHalf} />
 							</span>
 
 							<AmazonLink id="B08HKDBW6F">
@@ -405,7 +428,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="memory" />
+								<FontAwesomeIcon icon={faMemory} />
 							</span>
 
 							<AmazonLink id="B016ORTNI2">
@@ -415,7 +438,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<ChipIcon type="video" />
+								<ChipIcon icon={faVideo} />
 							</span>
 
 							<AmazonLink id="B019M5IB2C">
@@ -425,7 +448,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="plug" />
+								<FontAwesomeIcon icon={faPlug} />
 							</span>
 
 							<AmazonLink id="B07F84FJ1G">
@@ -435,7 +458,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="server" />
+								<FontAwesomeIcon icon={faServer} />
 							</span>
 
 							<AmazonLink id="B096JF2JT5">
@@ -455,7 +478,7 @@ export default function UsesPage() {
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="desktop" />
+								<FontAwesomeIcon icon={faDesktop} />
 							</span>
 
 							<AmazonLink id="B07LBM2DCC">
@@ -465,7 +488,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="keyboard" />
+								<FontAwesomeIcon icon={faKeyboard} />
 							</span>
 
 							<AmazonLink id="B082GRKQYF">
@@ -475,7 +498,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="mouse" />
+								<FontAwesomeIcon icon={faMouse} />
 							</span>
 
 							<AmazonLink id="B07QX9C9WH">
@@ -485,7 +508,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="headphones" />
+								<FontAwesomeIcon icon={faHeadphones} />
 							</span>
 
 							<AmazonLink id="B07X8SJ8HM">
@@ -495,7 +518,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={['fab', 'usb']} />
+								<FontAwesomeIcon icon={faUsb} />
 							</span>
 
 							<AmazonLink id="B074ZQJW9R">
@@ -505,7 +528,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microphone-alt" />
+								<FontAwesomeIcon icon={faMicrophoneAlt} />
 							</span>
 
 							<AmazonLink id="B00N624FPA">
@@ -515,7 +538,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="camera-retro" />
+								<FontAwesomeIcon icon={faCameraRetro} />
 							</span>
 
 							<AmazonLink id="B01N5UOYC4">
@@ -525,7 +548,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="camera-retro" />
+								<FontAwesomeIcon icon={faCameraRetro} />
 							</span>
 
 							<AmazonLink id="B01LXCDPPK">
@@ -535,7 +558,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="volume-up" />
+								<FontAwesomeIcon icon={faVolumeUp} />
 							</span>
 
 							<AmazonLink id="B003VAHYTG">
@@ -563,7 +586,7 @@ export default function UsesPage() {
 					<ul className="fa-ul">
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="lightbulb" />
+								<FontAwesomeIcon icon={faLightbulb} />
 							</span>
 
 							<AmazonLink id="B07L755X9G">
@@ -573,7 +596,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="person-booth" />
+								<FontAwesomeIcon icon={faPersonBooth} />
 							</span>
 
 							<AmazonLink id="B0743Z892W">
@@ -583,7 +606,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microphone-alt" />
+								<FontAwesomeIcon icon={faMicrophoneAlt} />
 							</span>
 
 							<AmazonLink id="B07FSVL3B4">
@@ -593,7 +616,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon="microphone-alt" />
+								<FontAwesomeIcon icon={faMicrophoneAlt} />
 							</span>
 
 							<AmazonLink id="B071YTY3QS">

@@ -1,4 +1,8 @@
 // Module imports
+import {
+	faGoogle,
+	faTwitter,
+} from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
@@ -8,21 +12,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function ProviderIcon(props) {
 	const { providerId } = props
 
-	let iconType = null
+	let icon = null
 
 	switch (providerId) {
 		case 'google.com':
-			iconType = 'google'
+			icon = faGoogle
 			break
 
 		case 'twitter.com':
-			iconType = 'twitter'
+			icon = faTwitter
 			break
 	}
 
 	return (
 		<FontAwesomeIcon
 			fixedWidth
-			icon={['fab', iconType]} />
+			icon={icon} />
 	)
 }
