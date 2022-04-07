@@ -102,7 +102,9 @@ export function ArticleReactions(props) {
 				<div className="reactions">
 					{mappedReactions}
 
-					<div className="separator" />
+					{((article.devToReactions + article.hashnodeReactions) > 0) && (
+						<div className="separator" />
+					)}
 
 					{(article.devToReactions > 0) && (
 						<ExternalLink
