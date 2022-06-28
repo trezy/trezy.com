@@ -5,6 +5,7 @@ import {
 	faRocket,
 	faSackDollar,
 	faTrophy,
+	faFireFlameCurved,
 } from '@fortawesome/free-solid-svg-icons'
 import {
 	faDev,
@@ -57,6 +58,14 @@ const ALLOWED_REACTIONS = [
 		emoji: (
 			<FontAwesomeIcon
 				fixedWidth
+				icon={faFireFlameCurved} />
+		),
+		emojiName: 'fire',
+	},
+	{
+		emoji: (
+			<FontAwesomeIcon
+				fixedWidth
 				icon={faSackDollar} />
 		),
 		emojiName: 'money-bag',
@@ -102,7 +111,7 @@ export function ArticleReactions(props) {
 				<div className="reactions">
 					{mappedReactions}
 
-					{((article.devToReactions + article.hashnodeReactions) > 0) && (
+					{((article.devToReactions > 0) || (article.hashnodeReactions > 0)) && (
 						<div className="separator" />
 					)}
 
