@@ -57,6 +57,9 @@ module.exports = {
 					'data:',
 					'https://*',
 				],
+				'media-src': [
+					'https://video.twimg.com',
+				],
 				'prefetch-src': [
 					"'self'",
 				],

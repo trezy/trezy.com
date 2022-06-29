@@ -23,6 +23,7 @@ import { useRouter } from 'next/router'
 
 // Local imports
 import { ExternalLink } from './ExternalLink.js'
+import { Video } from './Video.js'
 
 
 
@@ -43,6 +44,7 @@ const Tweet = memo(props => {
 			referencedTweets,
 			replies,
 			retweets,
+			variants,
 		},
 	} = props
 
@@ -188,31 +190,47 @@ const Tweet = memo(props => {
 					className={'media'}
 					data-item-count={media.length}>
 					{media.map((mediaItem, index) => {
-						if (mediaItem?.type !== 'photo') {
+						if (mediaItem?.type && !['photo', 'video'].includes(mediaItem.type)) {
 							return null
 						}
 
-						const imageProps = {
-							alt: mediaItem.altText,
-							key: index,
-							layout: 'fill',
-							objectFit: 'cover',
-							src: mediaItem.url,
-						}
+						switch (mediaItem.type) {
+							case 'photo':
+								const imageProps = {
+									alt: mediaItem.altText,
+									key: index,
+									layout: 'fill',
+									objectFit: 'cover',
+									src: mediaItem.url,
+								}
 
-						if (media.length === 1) {
-							imageProps.height = mediaItem.height
-							imageProps.layout = 'responsive'
-							imageProps.width = mediaItem.width
-						}
+								if (media.length === 1) {
+									imageProps.height = mediaItem.height
+									imageProps.layout = 'responsive'
+									imageProps.width = mediaItem.width
+								}
 
-						return (
-							<li>
-								<ExternalLink href={mediaItem.url}>
-									<Image {...imageProps} />
-								</ExternalLink>
-							</li>
-						)
+								return (
+									<li>
+										<ExternalLink href={mediaItem.url}>
+											<Image {...imageProps} />
+										</ExternalLink>
+									</li>
+								)
+
+							case 'video':
+								return (
+									<Video
+										isAutoplay
+										isLooping
+										isMuted
+										height={mediaItem.height}
+										poster={mediaItem.previewURL}
+										preload={'auto'}
+										sources={mediaItem.variants}
+										width={mediaItem.width} />
+								)
+						}
 					})}
 				</ul>
 			)}

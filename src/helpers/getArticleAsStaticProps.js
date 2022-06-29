@@ -72,7 +72,12 @@ function getTweetMedia(tweetData, twitterResponse) {
 			height: media.height,
 			previewURL: media.preview_image_url || media.url,
 			type: media.type || null,
-			url: media.url,
+			url: media.url || null,
+			variants: media.variants.map(variant => ({
+				bitRate: variant.bit_rate || null,
+				contentType: variant.content_type,
+				url: variant.url,
+			})),
 			width: media.width,
 		}
 	})

@@ -76,6 +76,7 @@ export function getTweets(tweetIDs) {
 				'public_metrics',
 				'type',
 				'url',
+				'variants',
 				'width',
 			].join(','),
 		}
