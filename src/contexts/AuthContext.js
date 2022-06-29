@@ -124,7 +124,7 @@ export function AuthContextProvider(props) {
 	useEffect(() => auth.onAuthStateChanged(handleAuthStateChange), [handleAuthStateChange])
 	useEffect(() => auth.onIdTokenChanged(handleIDTokenChange), [handleIDTokenChange])
 
-	useEffect(async () => {
+	useEffect(() => {
 		const unsubscribers = []
 
 		if (user) {
@@ -160,7 +160,7 @@ export function AuthContextProvider(props) {
 		user,
 	])
 
-	useEffect(async () => {
+	useEffect(() => {
 		let theme = window.localStorage.getItem('theme')
 
 		if (settings?.theme && (settings.theme !== theme)) {
