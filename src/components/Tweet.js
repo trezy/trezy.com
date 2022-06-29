@@ -65,7 +65,7 @@ const Tweet = memo(props => {
 		return tweet.referenceType === 'quoted'
 	})
 
-	const formattedBody = entities.reduce((accumulator, entity, index) => {
+	const formattedBody = entities?.reduce((accumulator, entity, index) => {
 		if (index === 0) {
 			accumulator.unshift((
 				<Fragment key={`${index}-suffix`}>
@@ -123,7 +123,7 @@ const Tweet = memo(props => {
 		}
 
 		return accumulator
-	}, [])
+	}, []) || body
 
 	return (
 		<article className={'tweet'}>
