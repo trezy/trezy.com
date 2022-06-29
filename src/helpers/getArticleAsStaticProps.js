@@ -17,6 +17,21 @@ import * as Twitter from './Twitter.js'
 
 
 
+// Constants
+const mdxOptions = {
+	remarkPlugins: [
+		[behead, { depth: 1 }],
+		gfm,
+		directive,
+		squeezeParagraphs,
+	],
+	rehypePlugins: [],
+}
+
+
+
+
+
 function getReferencedTweets(tweetData, twitterResponse) {
 	return tweetData.referenced_tweets?.map(referencedTweet => {
 		const referencedTweetData = twitterResponse.includes.tweets.find(tweet => {
@@ -153,17 +168,16 @@ export async function getArticleAsStaticProps(context) {
 			})
 
 		props.source = await serialize(article.body, {
-			mdxOptions: {
-				remarkPlugins: [
-					[behead, { depth: 1 }],
-					gfm,
-					directive,
-					squeezeParagraphs,
-				],
-				rehypePlugins: [],
-			},
+			mdxOptions,
 			scope,
 		})
+
+		if (article.changelog) {
+			props.changelog = await serialize(article.changelog, {
+				mdxOptions,
+				scope,
+			})
+		}
 	}
 
 	return { props }

@@ -5,19 +5,27 @@ import PropTypes from 'prop-types'
 
 
 
+// Local imports
+import { MDXRenderer } from '../../components/MDXRenderer.js'
+
+
+
+
+
 function Changelog(props) {
-	const { children } = props
+	const { changelog } = props
 
 	return (
-		<details className="notice">
+		<details className={'notice'}>
 			<summary>{'Changelog'}</summary>
-			{children}
+
+			<MDXRenderer source={changelog} />
 		</details>
 	)
 }
 
 Changelog.propTypes = {
-	children: PropTypes.node.isRequired,
+	changelog: PropTypes.node.isRequired,
 }
 
 export { Changelog }

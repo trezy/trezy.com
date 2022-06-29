@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { ArticleMeta } from '../../components/ArticleMeta/index.js'
 import { ArticleReactions } from '../../components/ArticleReactions.js'
 import { Block } from '../../components/Block/index.js'
+import { Changelog } from '../../helpers/markdownRenderers/Changelog.js'
 import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle.js'
 import { MDXRenderer } from '../../components/MDXRenderer.js'
 import PageWrapper from '../../components/PageWrapper.js'
@@ -23,6 +24,7 @@ import { getArticlesAsStaticPaths } from '../../helpers/getArticlesAsStaticPaths
 export default function ArticlePage(props) {
 	const {
 		article,
+		changelog,
 		source,
 	} = props
 	const Router = useRouter()
@@ -39,7 +41,7 @@ export default function ArticlePage(props) {
 			showHeader={false}
 			title={createTitleStringFromArticle(article)}>
 			<Block
-				elementType="header"
+				elementType={'header'}
 				headerImageAlt={article.headerImage?.fields.description}
 				headerImageSource={article.headerImage?.fields.file.url.replace(/^\/\//, 'https://')}>
 				<h2>{article.title}</h2>
@@ -47,8 +49,11 @@ export default function ArticlePage(props) {
 				<ArticleMeta article={article} />
 			</Block>
 
+			<Block elementType={'article'}>
+				{Boolean(changelog) && (
+					<Changelog changelog={changelog} />
+				)}
 
-			<Block elementType="article">
 				<MDXRenderer source={source}/>
 
 				<ArticleReactions article={article} />
@@ -57,8 +62,13 @@ export default function ArticlePage(props) {
 	)
 }
 
+ArticlePage.defaultProps = {
+	changelog: null,
+}
+
 ArticlePage.propTypes = {
 	article: PropTypes.shape({}).isRequired,
+	changelog: PropTypes.any,
 	source: PropTypes.any.isRequired,
 }
 
