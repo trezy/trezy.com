@@ -10,12 +10,12 @@ import 'scss/app.scss'
 
 
 // Module imports
-import { Provider as LyketProvider } from '@lyket/react'
 import { AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
 import { ColorModeContextProvider } from 'react-color-mode'
-import NextHead from 'next/head'
 import { config as fontAwesomeConfig } from '@fortawesome/fontawesome-svg-core'
+import NextHead from 'next/head'
+import { Provider as LyketProvider } from '@lyket/react'
+import { useRouter } from 'next/router'
 
 
 

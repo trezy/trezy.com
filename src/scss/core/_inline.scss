@@ -10,7 +10,8 @@ pre,
 table,
 ul,
 .code-toolbar,
-.notice {
+.notice,
+.tweet {
 	& + & {
 		margin-top: var(--gutter);
 	}

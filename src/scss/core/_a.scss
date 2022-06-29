@@ -4,4 +4,16 @@ a {
 	&:visited {
 		color: var(--brand-primary);
 	}
+
+	&.no-style {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	&:focus,
+	&:hover {
+		&.highlight-on-interact {
+			text-decoration: underline;
+		}
+	}
 }

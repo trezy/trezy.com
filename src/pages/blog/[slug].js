@@ -1,28 +1,30 @@
 // Module imports
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
+import { useRouter } from 'next/router'
 
 
 
 
 
 // Component imports
-import { ArticleMeta } from 'components/ArticleMeta/index.js'
-import { ArticleReactions } from 'components/ArticleReactions.js'
-import { Block } from 'components/Block/index.js'
-import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle.js'
-import MarkdownRenderer from 'components/MarkdownRenderer.js'
-import PageWrapper from 'components/PageWrapper.js'
-import * as Contentful from 'helpers/Contentful.js'
-import * as DevTo from 'helpers/DevTo.js'
-import * as Hashnode from 'helpers/Hashnode.js'
+import { ArticleMeta } from '../../components/ArticleMeta/index.js'
+import { ArticleReactions } from '../../components/ArticleReactions.js'
+import { Block } from '../../components/Block/index.js'
+import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle.js'
+import { MDXRenderer } from '../../components/MDXRenderer.js'
+import PageWrapper from '../../components/PageWrapper.js'
+import { getArticleAsStaticProps } from '../../helpers/getArticleAsStaticProps.js'
+import { getArticlesAsStaticPaths } from '../../helpers/getArticlesAsStaticPaths.js'
 
 
 
 
 
 export default function ArticlePage(props) {
-	const { article } = props
+	const {
+		article,
+		source,
+	} = props
 	const Router = useRouter()
 
 	if (Router.isFallback) {
@@ -47,7 +49,7 @@ export default function ArticlePage(props) {
 
 
 			<Block elementType="article">
-				<MarkdownRenderer children={article.body} />
+				<MDXRenderer source={source}/>
 
 				<ArticleReactions article={article} />
 			</Block>
@@ -57,48 +59,20 @@ export default function ArticlePage(props) {
 
 ArticlePage.propTypes = {
 	article: PropTypes.shape({}).isRequired,
+	source: PropTypes.any.isRequired,
 }
 
-export async function getStaticPaths() {
-	const articles = await Contentful.getAllArticles()
-
-	return {
-		fallback: true,
-		paths: articles.map(article => ({
-			params: {
-				slug: article.slug,
-			},
-		})),
-	}
-}
+export const getStaticPaths = getArticlesAsStaticPaths
 
 export async function getStaticProps(context) {
-	const { slug } = context.params
+	const { props: articleProps } = await getArticleAsStaticProps(context)
 
-	const article = await Contentful.getArticle(slug, context.preview)
-
-	if (article.devToID) {
-		const devToArticle = await DevTo.getArticle(article.devToID)
-
-		article.devToReactions = devToArticle.positive_reactions_count
-		article.devToURL = devToArticle.url
-	}
-
-	if (article.hashnodeSlug) {
-		try {
-			const hashnodeArticle = await Hashnode.getArticle(article.hashnodeSlug)
-
-			article.hashnodeReactions = hashnodeArticle.data.post.totalReactions
-			article.hashnodeURL = `${hashnodeArticle.data.post.publication.domain || 'https://hashnode.com'}/${article.hashnodeSlug}`
-		} catch (error) {}
-	}
-
-	if (!article) {
+	if (!articleProps.article) {
 		return { notFound: true }
 	}
 
 	return {
-		props: { article },
+		props: { ...articleProps },
 		revalidate: 600,
 	}
 }

@@ -1,0 +1,151 @@
+.tweet {
+	border-color: var(--brand-primary);
+	border-radius: calc(var(--gutter) / 2);
+	border-style: solid;
+	border-width: 0.1rem;
+	line-height: 1.5;
+	padding: var(--gutter);
+
+	header,
+	footer {
+		a {
+			display: flex;
+		}
+	}
+
+	header {
+		align-items: center;
+		display: flex;
+		margin-bottom: var(--gutter);
+
+		.avatar {
+			margin-right: var(--gutter);
+		}
+
+		.display-name {
+			font-weight: bold;
+		}
+
+		.names {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.twitter-logo {
+			align-self: flex-start;
+			color: var(--brand-primary);
+			margin-left: auto;
+		}
+	}
+
+	.body {
+		white-space: pre-wrap;
+	}
+
+	.created-at {
+		font-size: 0.8em;
+	}
+
+	.media {
+		--gap: 0.2rem;
+
+		border-radius: calc(var(--gutter) / 2);
+		display: grid;
+		gap: var(--gap);
+		margin-bottom: var(--gutter);
+		margin-top: var(--gutter);
+		overflow: hidden;
+
+		li {
+			display: block;
+			position: relative;
+		}
+
+		&[data-item-count='1'] {
+			gap: 0;
+		}
+
+		&[data-item-count='2'],
+		&[data-item-count='3'],
+		&[data-item-count='4'] {
+			grid-template-columns: repeat(2, 1fr);
+
+			li {
+				height: 0;
+				overflow: hidden;
+				padding-bottom: 100%;
+				position: relative;
+			}
+		}
+
+		&[data-item-count='3'],
+		&[data-item-count='4'] {
+			grid-template-rows: repeat(2, 1fr);
+
+			li {
+				padding-bottom: 50%;
+			}
+		}
+
+		&[data-item-count='3'] {
+			li:first-child {
+				grid-row: 1 / span 2;
+				padding-bottom: calc(100% + var(--gap));
+			}
+		}
+	}
+
+	footer {
+		display: flex;
+		flex-direction: column;
+		margin-top: var(--gutter);
+
+		.reactions {
+			display: flex;
+			gap: var(--gutter);
+
+			.reaction {
+				align-items: center;
+				display: flex;
+				gap: calc(var(--gutter) / 2);
+			}
+
+			.count {
+				font-size: 0.8em;
+			}
+		}
+	}
+
+	.tweet {
+		--gutter: 1rem;
+
+		font-size: 0.9em;
+		margin-bottom: calc(var(--gutter) * 2);
+		margin-top: calc(var(--gutter) * 2);
+
+		header {
+			.avatar {
+				height: 2.4rem;
+				width: 2.4rem;
+			}
+
+			.created-at {
+				font-size: inherit;
+
+				&:before {
+					content: '·';
+					margin-right: 0.5em;
+				}
+			}
+
+			.names {
+				flex-direction: row;
+				gap: 0.5em;
+			}
+
+			.twitter-logo {
+				display: none;
+			}
+		}
+	}
+}

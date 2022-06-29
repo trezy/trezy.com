@@ -5,8 +5,10 @@ import { createClient as createContentfulClient } from 'contentful'
 
 
 
-// Component imports
-import { calculateReadtime } from 'helpers/calculateReadtime'
+// Local imports
+import { calculateReadtime } from './calculateReadtime.js'
+import * as DevTo from './DevTo.js'
+import * as Hashnode from './Hashnode.js'
 
 
 
@@ -60,5 +62,23 @@ export async function getArticle(slug, isPreview) {
 		return null
 	}
 
-	return parseArticle(contentfulResponse.items[0])
+	const article = parseArticle(contentfulResponse.items[0])
+
+	if (article.devToID) {
+		const devToArticle = await DevTo.getArticle(article.devToID)
+
+		article.devToReactions = devToArticle.positive_reactions_count
+		article.devToURL = devToArticle.url
+	}
+
+	if (article.hashnodeSlug) {
+		try {
+			const hashnodeArticle = await Hashnode.getArticle(article.hashnodeSlug)
+
+			article.hashnodeReactions = hashnodeArticle.data.post.totalReactions
+			article.hashnodeURL = `${hashnodeArticle.data.post.publication.domain || 'https://hashnode.com'}/${article.hashnodeSlug}`
+		} catch (error) {}
+	}
+
+	return article
 }

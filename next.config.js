@@ -32,6 +32,7 @@ module.exports = {
 					'https://api.ipify.org',
 					'https://api.lyket.dev',
 					'https://api.themoviedb.org',
+					'https://api.twitter.com',
 					'https://apis.google.com',
 					'https://vitals.vercel-insights.com',
 					'https://*.firebaseio.com',
@@ -90,7 +91,10 @@ module.exports = {
 	},
 
   images: {
-    domains: ['images.ctfassets.net'],
+    domains: [
+			'images.ctfassets.net',
+			'pbs.twimg.com',
+		],
   },
 
 	async redirects() {
