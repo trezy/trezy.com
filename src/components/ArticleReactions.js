@@ -96,6 +96,27 @@ export function ArticleReactions(props) {
 		))
 	}, [ALLOWED_REACTIONS])
 
+	const twitterDiscussURL = useMemo(() => {
+		const url = new URL('/search', 'https://twitter.com')
+
+		url.searchParams.append('q', encodedArticleURL)
+
+		return url.toString()
+	}, [encodedArticleURL])
+
+	const twitterShareURL = useMemo(() => {
+		const url = new URL('/intent/tweet', 'https://twitter.com')
+
+		url.searchParams.append('text', `Check out "${article.title}"`)
+		url.searchParams.append('url', encodedArticleURL)
+		url.searchParams.append('via', 'TrezyCodes')
+
+		return url.toString()
+	}, [
+		article.title,
+		encodedArticleURL,
+	])
+
 	return (
 		<aside className="article-responses-wrapper">
 			<h3>{'Before you leave...'}</h3>
@@ -104,8 +125,8 @@ export function ArticleReactions(props) {
 
 			<div className="article-responses">
 				<ul className="share-links">
-					<li><Link href={`https://twitter.com/intent/tweet?text=Check out "${article.title}"&url=${encodedArticleURL}}&via=TrezyCodes`}>{'Share on Twitter'}</Link></li>
-					<li><Link href={`https://twitter.com/search?q=${encodedArticleURL}`}>{'Discuss on Twitter'}</Link></li>
+					<li><Link href={twitterShareURL}>{'Share on Twitter'}</Link></li>
+					<li><Link href={twitterDiscussURL}>{'Discuss on Twitter'}</Link></li>
 				</ul>
 
 				<div className="reactions">

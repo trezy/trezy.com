@@ -1,6 +1,9 @@
 // Module imports
 import { LikeButton } from '@lyket/react'
-import { useCallback } from 'react'
+import {
+	useCallback,
+	useMemo,
+} from 'react'
 import classnames from 'classnames'
 
 
@@ -23,6 +26,12 @@ export function ReactionButton(props) {
 		namespace,
 	} = props
 
+	const reactionID = useMemo(() => {
+		return `${id.substring(0, 69)}-${emojiName.substring(0, 10)}`
+	}, [
+		emojiName,
+		id,
+	])
 
 	const renderProps = useCallback(({ handlePress, totalLikes, userLiked, isLoading }) => {
 		const { trackAction } = useAckee()
@@ -30,7 +39,7 @@ export function ReactionButton(props) {
 		const handleClick = useCallback(event => {
 			handlePress(event)
 			trackAction('489767f3-4997-4a8e-9ed9-3d4bdf857f53', {
-				key: `${id}-${emojiName}`,
+				key: reactionID,
 				value: 1,
 			})
 		}, [handlePress])
@@ -56,7 +65,7 @@ export function ReactionButton(props) {
 
 	return (
 		<LikeButton
-			id={`${id}-${emojiName}`}
+			id={reactionID}
 			namespace={namespace}>
 			{renderProps}
 		</LikeButton>
