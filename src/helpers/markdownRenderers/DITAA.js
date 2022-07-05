@@ -9,7 +9,7 @@ function DITAA(props) {
 	return (
 		<Kroki
 			{...props}
-		 	type="ditaa" />
+		 	type={'ditaa'} />
 	)
 }
 

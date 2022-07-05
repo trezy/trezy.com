@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import { encodeDiagram } from 'helpers/encodeDiagram'
-import { mdastNodeToString } from 'helpers/mdastNodeToString'
 
 
 
@@ -16,11 +15,11 @@ import { mdastNodeToString } from 'helpers/mdastNodeToString'
 
 function Kroki(props) {
 	const {
-		node,
+		children,
 		type,
 	} = props
 
-	const [umlHash] = useState(encodeDiagram(mdastNodeToString(node)))
+	const [umlHash] = useState(encodeDiagram(children))
 
 	return (
 		<img src={`https://kroki.io/${type}/svg/${umlHash}`} />
@@ -28,7 +27,7 @@ function Kroki(props) {
 }
 
 Kroki.propTypes = {
-	node: PropTypes.object.isRequired,
+	children: PropTypes.node.isRequired,
 	type: PropTypes.string.isRequired,
 }
 

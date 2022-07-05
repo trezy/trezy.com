@@ -8,6 +8,7 @@ import { MDXRemote } from 'next-mdx-remote'
 // Local imports
 import { Code } from './Code/index.js'
 import Codepen from './Codepen.js'
+import { DITAA } from '../helpers/markdownRenderers/DITAA.js'
 import { Image } from '../helpers/markdownRenderers/Image.js'
 import { Link } from '../helpers/markdownRenderers/Link.js'
 import { OrderedList } from '../helpers/markdownRenderers/OrderedList.js'
@@ -37,6 +38,7 @@ const COMPONENTS = {
 
 	// Custom components
 	Codepen,
+	DITAA,
 }
 
 export function MDXRenderer(props) {
