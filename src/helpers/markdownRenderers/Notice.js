@@ -9,7 +9,7 @@ function Notice(props) {
 	const { children } = props
 
 	return (
-		<div className="notice">
+		<div className={'notice'}>
 			{children}
 		</div>
 	)
