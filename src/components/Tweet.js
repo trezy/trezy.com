@@ -1,6 +1,6 @@
 // Module imports
 import {
-	faBadgeCheck,
+	// faBadgeCheck,
 	faRetweet,
 } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -147,10 +147,10 @@ const Tweet = memo(props => {
 						<span className={'display-name'}>
 							{author.name}
 
-							<FontAwesomeIcon
+							{/* <FontAwesomeIcon
 								fixedWidth
 								icon={faBadgeCheck}
-								title={'Verified'} />
+								title={'Verified'} /> */}
 						</span>
 					</ExternalLink>
 
