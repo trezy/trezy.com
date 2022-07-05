@@ -33,14 +33,13 @@ const COMPONENTS = {
 		)
 	},
 
-	Tweet,
-
 	ul: UnorderedList,
 
 	// Custom components
 	Codepen,
 	DITAA,
 	Notice,
+	Tweet,
 }
 
 export function MDXRenderer(props) {
