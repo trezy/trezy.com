@@ -7,6 +7,7 @@ import { MDXRemote } from 'next-mdx-remote'
 
 // Local imports
 import { Code } from './Code/index.js'
+import Codepen from './Codepen.js'
 import { Image } from '../helpers/markdownRenderers/Image.js'
 import { Link } from '../helpers/markdownRenderers/Link.js'
 import { OrderedList } from '../helpers/markdownRenderers/OrderedList.js'
@@ -25,7 +26,7 @@ const COMPONENTS = {
 	pre: function Pre(node) {
 		return (
 			<Code
-				language={node.children.props.className.replace(/^language-/, '')}
+				language={node.children.props.className?.replace(/^language-/, '')}
 				value={node.children.props.children} />
 		)
 	},
@@ -33,6 +34,9 @@ const COMPONENTS = {
 	Tweet,
 
 	ul: UnorderedList,
+
+	// Custom components
+	Codepen,
 }
 
 export function MDXRenderer(props) {
