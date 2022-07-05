@@ -65,6 +65,7 @@ module.exports = {
 				],
 				'script-src': [
 					"'self'",
+					"'unsafe-eval'",
 					"'unsafe-inline'",
 					'https://*.firebaseio.com',
 					'https://apis.google.com',
