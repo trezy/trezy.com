@@ -167,7 +167,7 @@ export async function getArticleAsStaticProps(context) {
 		}
 
 		article.body = article.body
-			.replaceAll(/<Tweet id=("[0-9]+"|'[0-9]+'|\{"[0-9]+"\}|\{'[0-9]+'\})\s?\/>/gu, (_, idString) => {
+			.replace(/<Tweet id=("[0-9]+"|'[0-9]+'|\{"[0-9]+"\}|\{'[0-9]+'\})\s?\/>/gu, (_, idString) => {
 				const tweetID = idString.replace(/[^0-9]/gu, '')
 				return `<Tweet tweet={tweets['${tweetID}']} />`
 			})
