@@ -50,7 +50,6 @@ module.exports = {
 				'frame-src': [
 					'https://codepen.io',
 					'https://trezy-core.firebaseapp.com',
-					`http${isDev ? '' : 's'}://platform.twitter.com`,
 				],
 				'img-src': [
 					"'self'",
@@ -70,7 +69,6 @@ module.exports = {
 					'https://*.firebaseio.com',
 					'https://apis.google.com',
 					'https://static.codepen.io',
-					`http${isDev ? '' : 's'}://platform.twitter.com`,
 					`http${isDev ? '' : 's'}://www.googletagmanager.com`,
 				],
 				'style-src': [
