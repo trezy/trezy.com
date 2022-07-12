@@ -3,10 +3,14 @@ article {
 	flex-direction: column;
 	justify-content: center;
 
-	h1, h2, h3, h4, h5, h6 {
+	h1, h2, h3, h4 {
 		&:not(:first-child) {
 			margin-top: 5rem;
 		}
+	}
+
+	h5, h6 {
+		margin-bottom: 0;
 	}
 
 	figure:not(:first-child) {
