@@ -1,0 +1,9 @@
+details {
+	background-color: hsla(var(--background-color-alt-hsl), 0.5);
+
+	summary {
+		cursor: pointer;
+		font-weight: bold;
+		padding: var(--gutter);
+	}
+}
