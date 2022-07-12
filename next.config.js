@@ -55,6 +55,7 @@ module.exports = {
 					"'self'",
 					'data:',
 					'https://*',
+					isDev ? 'http://*' : null,
 				],
 				'media-src': [
 					'https://video.twimg.com',
