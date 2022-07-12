@@ -258,7 +258,7 @@ module.exports = {
 			patterns: [
 				{
 					from: path.resolve('node_modules', 'prismjs', 'components', '*.min.js'),
-					to: path.resolve('public', 'prism-grammars', '[name].[ext]'),
+					to: path.resolve('public', 'prism-grammars', '[name][ext]'),
 				},
 			],
 		}))
