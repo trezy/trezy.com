@@ -8,8 +8,10 @@ import {
 	faHeart,
 } from '@fortawesome/free-regular-svg-icons'
 import {
-	memo,
 	Fragment,
+	useEffect,
+	useMemo,
+	useState,
 } from 'react'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -29,7 +31,7 @@ import { Video } from './Video.js'
 
 
 
-const Tweet = memo(props => {
+function Tweet(props) {
 	const {
 		isQuotedTweet,
 		tweet: {
@@ -44,24 +46,36 @@ const Tweet = memo(props => {
 			referencedTweets,
 			replies,
 			retweets,
-			variants,
 		},
 	} = props
 
-	const { locale } = useRouter()
+	const [locale, setLocale] = useState('en-US')
+	const Router = useRouter()
 
 	const createdAtDate = new Date(createdAt)
 
-	const authorUrl = `https://twitter.com/${author.username}`
-	const likeUrl = `https://twitter.com/intent/like?tweet_id=${id}`
-	const replyUrl = `https://twitter.com/intent/tweet?in_reply_to=${id}`
-	const retweetUrl = `https://twitter.com/intent/retweet?tweet_id=${id}`
-	const tweetUrl = `https://twitter.com/${author.username}/status/${id}`
+	const urls = useMemo(() => {
+		return {
+			authorUrl: `https://twitter.com/${author.username}`,
+			likeUrl: `https://twitter.com/intent/like?tweet_id=${id}`,
+			replyUrl: `https://twitter.com/intent/tweet?in_reply_to=${id}`,
+			retweetUrl: `https://twitter.com/intent/retweet?tweet_id=${id}`,
+			tweetUrl: `https://twitter.com/${author.username}/status/${id}`,
+		}
+	}, [
+		author,
+		id,
+	])
 
-	const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'long' })
-	const timeFormatter = new Intl.DateTimeFormat(locale, { timeStyle: 'short' })
+	const formattedCreatedAt = useMemo(() => {
+		const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'long' })
+		const timeFormatter = new Intl.DateTimeFormat(locale, { timeStyle: 'short' })
 
-	const formattedCreatedAt = `${timeFormatter.format(createdAtDate)} – ${dateFormatter.format(createdAtDate)}`
+		return `${timeFormatter.format(createdAtDate)} – ${dateFormatter.format(createdAtDate)}`
+	}, [
+		createdAtDate,
+		locale,
+	])
 
 	const quoteTweet = referencedTweets?.find(tweet => {
 		return tweet.referenceType === 'quoted'
@@ -127,12 +141,19 @@ const Tweet = memo(props => {
 		return accumulator
 	}, []) || body
 
+	useEffect(() => {
+		setLocale(Router.locale)
+	}, [
+		Router.locale,
+		setLocale,
+	])
+
 	return (
 		<article className={'tweet'}>
 			<header>
 				<ExternalLink
 					className={'avatar'}
-					href={authorUrl}>
+					href={urls.author}>
 					<Image
 						alt={author.username}
 						height={48}
@@ -143,7 +164,7 @@ const Tweet = memo(props => {
 				<div className={'names'}>
 					<ExternalLink
 						className={'no-style'}
-						href={authorUrl}>
+						href={urls.author}>
 						<span className={'display-name'}>
 							{author.name}
 
@@ -156,7 +177,7 @@ const Tweet = memo(props => {
 
 					<ExternalLink
 						className={'highlight-on-interact no-style'}
-						href={authorUrl}>
+						href={urls.author}>
 						<span className={'username'}>
 							{`@${author.username}`}
 						</span>
@@ -165,7 +186,7 @@ const Tweet = memo(props => {
 					{isQuotedTweet && (
 						<ExternalLink
 							className={'created-at highlight-on-interact no-style'}
-							href={tweetUrl}>
+							href={urls.tweet}>
 							<time
 								dateTime={createdAtDate.toISOString()}
 								title={`Time Posted: ${createdAtDate.toUTCString()}`}>
@@ -242,7 +263,7 @@ const Tweet = memo(props => {
 			)}
 
 			{isQuotedTweet && (
-				<ExternalLink href={tweetUrl}>
+				<ExternalLink href={urls.tweet}>
 					{'Show this thread'}
 				</ExternalLink>
 			)}
@@ -250,7 +271,7 @@ const Tweet = memo(props => {
 			{!isQuotedTweet && (
 				<ExternalLink
 					className={'created-at highlight-on-interact no-style'}
-					href={tweetUrl}>
+					href={urls.tweet}>
 					<time
 						dateTime={createdAtDate.toISOString()}
 						title={`Time Posted: ${createdAtDate.toUTCString()}`}>
@@ -265,7 +286,7 @@ const Tweet = memo(props => {
 						<li>
 							<ExternalLink
 								className={'no-style reaction'}
-								href={replyUrl}>
+								href={urls.reply}>
 								<FontAwesomeIcon
 									fixedWidth
 									icon={faComment}
@@ -283,7 +304,7 @@ const Tweet = memo(props => {
 						<li>
 							<ExternalLink
 								className={'no-style reaction'}
-								href={retweetUrl}>
+								href={urls.retweet}>
 								<FontAwesomeIcon
 									fixedWidth
 									icon={faRetweet}
@@ -301,7 +322,7 @@ const Tweet = memo(props => {
 						<li>
 							<ExternalLink
 								className={'no-style reaction'}
-								href={likeUrl}>
+								href={urls.like}>
 								<FontAwesomeIcon
 									fixedWidth
 									icon={faHeart}
@@ -320,7 +341,7 @@ const Tweet = memo(props => {
 			)}
 		</article>
 	)
-})
+}
 
 Tweet.defaultProps = {
 	isQuotedTweet: false,

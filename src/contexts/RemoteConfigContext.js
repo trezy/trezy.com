@@ -78,7 +78,9 @@ export function RemoteConfigContextProvider(props) {
 		updateConfig,
 	])
 
-	useEffect(initializeRemoteConfig, [])
+	useEffect(() => {
+		initializeRemoteConfig()
+	}, [initializeRemoteConfig])
 
 	useEffect(() => {
 		if (remoteConfig && isLoaded) {
@@ -86,6 +88,7 @@ export function RemoteConfigContextProvider(props) {
 		}
 	}, [
 		isLoaded,
+		updateConfig,
 		user,
 	])
 

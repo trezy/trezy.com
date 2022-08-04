@@ -1,5 +1,5 @@
 // Local imports
-import { Ackee } from 'hooks/useAckee.js'
+// import { Ackee } from 'hooks/useAckee.js'
 
 
 
@@ -39,8 +39,8 @@ export function reportWebVitals(data) {
 			break
 	}
 
-	Ackee.trackAction('1a4752fb-2ece-4b81-b8ee-d42829975bd9', {
-		key: fullName,
-		value: Math.round(name === 'CLS' ? value * 1000 : value),
-	})
+	// Ackee.trackAction('1a4752fb-2ece-4b81-b8ee-d42829975bd9', {
+	// 	key: fullName,
+	// 	value: Math.round(name === 'CLS' ? value * 1000 : value),
+	// })
 }

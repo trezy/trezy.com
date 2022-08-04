@@ -27,6 +27,5 @@ OrderedList.defaultProps = {
 
 OrderedList.propTypes = {
 	children: PropTypes.node,
-	ordered: PropTypes.bool.isRequired,
 	start: PropTypes.number,
 }

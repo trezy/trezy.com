@@ -1,5 +1,3 @@
-/* eslint-disable react/no-multi-comp */
-
 // Module imports
 import {
 	motion,
@@ -15,7 +13,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useAckee } from 'hooks/useAckee.js'
+// import { useAckee } from 'hooks/useAckee.js'
 import { useBanner } from 'contexts/BannerContext.js'
 import Breadcrumbs from 'components/Breadcrumbs.js'
 import { ContentInfo } from 'components/ContentInfo.js'
@@ -47,7 +45,7 @@ function PageWrapper(props) {
 		bannerIsTogglable,
 	} = useBanner()
 
-	useAckee()
+	// useAckee()
 
 	const variants = {
 		bannerIsClosed: {
@@ -124,7 +122,7 @@ function PageWrapper(props) {
 	return (
 		<>
 			<Head>
-				<title>{title} | Trezy.com</title>
+				<title>{`${title} | Trezy.com`}</title>
 				<meta name="description" content={description} />
 				<meta property="og:description" content={description} />
 				<meta property="og:title" content={title} />

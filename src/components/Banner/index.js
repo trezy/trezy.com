@@ -47,9 +47,9 @@ function Banner() {
 			variants={variants}>
 			<h1 className="brand">&lt;trezy-who/&gt;</h1>
 
-			{bannerIsTogglable && (
-				<BannerToggle />
-			)}
+			<BannerToggle />
+			{/* {bannerIsTogglable && (
+			)} */}
 
 			<ApplicationNav />
 

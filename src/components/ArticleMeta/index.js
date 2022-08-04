@@ -1,7 +1,10 @@
 // Module imports
+import {
+	useLayoutEffect,
+	useMemo,
+} from 'react'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useMemo } from 'react'
 
 
 
@@ -34,7 +37,7 @@ export function ArticleMeta(props) {
 				<FontAwesomeIcon
 					fixedWidth
 					icon={faClock} />
-					{' '}
+				{' '}
 				Published {publishedAt}
 			</span>
 

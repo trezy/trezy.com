@@ -1,6 +1,7 @@
 // Module imports
 import {
 	useCallback,
+	useId,
 	useMemo,
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,6 +32,7 @@ function NavLink(props) {
 		title,
 	} = props
 	const { isOpen } = useNav()
+	const id = useId()
 
 	const isExternalLink = useMemo(() => /https?:\/\//gui.test(href), [href])
 
@@ -43,7 +45,8 @@ function NavLink(props) {
 					aria-hidden={!iconOnly}
 					fixedWidth
 					icon={icon}
-					title={title} />
+					title={title}
+					titleId={id} />
 			)
 		}
 	}, [

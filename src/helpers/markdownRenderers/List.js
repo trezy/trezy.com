@@ -27,11 +27,12 @@ export function List(props) {
 
 List.defaultProps = {
 	children: null,
+	ordered: false,
 	start: 1,
 }
 
 List.propTypes = {
 	children: PropTypes.node,
-	ordered: PropTypes.bool.isRequired,
+	ordered: PropTypes.bool,
 	start: PropTypes.number,
 }

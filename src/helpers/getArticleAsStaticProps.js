@@ -172,6 +172,8 @@ export async function getArticleAsStaticProps(context) {
 				return `<Tweet tweet={tweets['${tweetID}']} />`
 			})
 
+		props.dependencies = article.dependencies || null
+
 		props.source = await serialize(article.body, {
 			mdxOptions,
 			scope,

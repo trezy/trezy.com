@@ -34,6 +34,7 @@ module.exports = {
 					'https://api.themoviedb.org',
 					'https://api.twitter.com',
 					'https://apis.google.com',
+					'https://registry.npmjs.org',
 					'https://vitals.vercel-insights.com',
 					'https://*.firebaseio.com',
 					'https://*.trezy.com',

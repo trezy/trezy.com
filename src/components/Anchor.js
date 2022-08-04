@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import { useAckee } from 'hooks/useAckee.js'
+// import { useAckee } from 'hooks/useAckee.js'
 
 
 
@@ -24,18 +24,18 @@ function Anchor(props) {
 		tracking,
 		trackingID,
 	} = props
-	const { trackAction } = useAckee()
+	// const { trackAction } = useAckee()
 
 	const handleClick = useCallback(event => {
 		event.preventDefault()
 
 		if (trackingID && tracking) {
-			trackAction(trackingID, tracking)
+			// trackAction(trackingID, tracking)
 		}
 
 		router.push(href)
 	}, [
-		trackAction,
+		// trackAction,
 		tracking,
 		trackingID,
 	])

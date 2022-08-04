@@ -1,0 +1,10 @@
+.dependency-table {
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 0.8em;
+	left: initial;
+	transform: initial;
+
+	tr.is-out-of-date {
+		background-color: hsla(var(--red-hsl), 0.5);
+	}
+}

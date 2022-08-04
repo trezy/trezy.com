@@ -22,6 +22,5 @@ UnorderedList.defaultProps = {
 
 UnorderedList.propTypes = {
 	children: PropTypes.node,
-	ordered: PropTypes.bool.isRequired,
 	start: PropTypes.number,
 }

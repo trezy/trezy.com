@@ -30,7 +30,6 @@ import * as API from '../helpers/API.js'
 import { ExternalLink } from './ExternalLink.js'
 import { getArticleURL } from 'helpers/getArticleURL.js'
 import { ReactionButton } from 'components/ReactionButton/index.js'
-import { useAPI } from '../hooks/useAPI.js'
 
 
 

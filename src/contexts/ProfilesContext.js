@@ -79,10 +79,6 @@ export function ProfilesContextProvider(props) {
 	])
 
 	const handleDocumentSnapshotRemoved = useCallback(snapshot => {
-		console.log('handleDocumentSnapshotRemoved', {
-			data: snapshot.data(),
-			id: snapshot.id,
-		})
 		const data = {
 			...snapshot.data(),
 			id: snapshot.id,

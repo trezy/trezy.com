@@ -12,10 +12,13 @@ import { ArticleReactions } from '../../components/ArticleReactions.js'
 import { Block } from '../../components/Block/index.js'
 import { Changelog } from '../../helpers/markdownRenderers/Changelog.js'
 import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle.js'
-import { MDXRenderer } from '../../components/MDXRenderer.js'
-import PageWrapper from '../../components/PageWrapper.js'
+import { DependencyTable } from '../../components/DependencyTable/DependencyTable.js'
 import { getArticleAsStaticProps } from '../../helpers/getArticleAsStaticProps.js'
 import { getArticlesAsStaticPaths } from '../../helpers/getArticlesAsStaticPaths.js'
+import { MDXRenderer } from '../../components/MDXRenderer.js'
+import PageWrapper from '../../components/PageWrapper.js'
+import { Tabs } from '../../components/NewTabs/Tabs.js'
+import { TabPanel } from '../../components/NewTabs/TabPanel.js'
 
 
 
@@ -25,6 +28,7 @@ export default function ArticlePage(props) {
 	const {
 		article,
 		changelog,
+		dependencies,
 		source,
 	} = props
 	const Router = useRouter()
@@ -47,13 +51,36 @@ export default function ArticlePage(props) {
 				<h2>{article.title}</h2>
 
 				<ArticleMeta article={article} />
-			</Block>
 
-			<Block elementType={'article'}>
-				{Boolean(changelog) && (
+				{/* {(Boolean(changelog) || Boolean(dependencies)) && (
+					<Tabs>
+						{Boolean(changelog) && (
+							<TabPanel title={'Changelog'}>
+								<Changelog changelog={changelog} />
+							</TabPanel>
+						)}
+
+						{Boolean(dependencies) && (
+							<TabPanel title={'Dependencies'}>
+								<DependencyTable dependencies={dependencies} />
+							</TabPanel>
+						)}
+					</Tabs>
+				)} */}
+
+				{/* {Boolean(changelog) && (
 					<Changelog changelog={changelog} />
 				)}
 
+				{Boolean(dependencies) && (
+					<details>
+						<summary>{'Dependencies'}</summary>
+						<DependencyTable dependencies={dependencies} />
+					</details>
+				)} */}
+			</Block>
+
+			<Block elementType={'article'}>
 				<MDXRenderer source={source}/>
 
 				<ArticleReactions article={article} />
@@ -64,11 +91,16 @@ export default function ArticlePage(props) {
 
 ArticlePage.defaultProps = {
 	changelog: null,
+	dependencies: null,
 }
 
 ArticlePage.propTypes = {
 	article: PropTypes.shape({}).isRequired,
-	changelog: PropTypes.any,
+	changelog: PropTypes.string,
+	dependencies: PropTypes.shape({
+		dependencies: PropTypes.object,
+		engines: PropTypes.object,
+	}),
 	source: PropTypes.any.isRequired,
 }
 

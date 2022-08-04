@@ -1,6 +1,7 @@
 // Module imports
 import {
 	useCallback,
+	useId,
 	useState,
 } from 'react'
 import PropTypes from 'prop-types'
@@ -24,20 +25,22 @@ function SubNav(props) {
 		className,
 		icon,
 		label,
-		tabIndex,
 		title,
 	} = props
 	const {
 		openSubNav,
 		toggleSubNav,
 	} = useNav()
-	const [id] = useState(uuid())
+	const id = useId()
 
 	const isOpen = (openSubNav === id)
 
 	const handleToggle = useCallback(() => {
 		toggleSubNav(id)
-	}, [toggleSubNav])
+	}, [
+		id,
+		toggleSubNav,
+	])
 
 	return (
 		<li
