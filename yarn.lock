@@ -2135,15 +2135,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/react-fontawesome@npm:^0.1.18":
-  version: 0.1.18
-  resolution: "@fortawesome/react-fontawesome@npm:0.1.18"
+"@fortawesome/react-fontawesome@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@fortawesome/react-fontawesome@npm:0.2.0"
   dependencies:
     prop-types: ^15.8.1
   peerDependencies:
     "@fortawesome/fontawesome-svg-core": ~1 || ~6
-    react: ">=16.x"
-  checksum: e4947690b33bbcf5c1c8ba8a627e9d307deefca9410af8dec5e21c16de57bc094285bd0d733a1f67fdac7811f50e021a59c9afe523f8c314a5116b1742a7cde6
+    react: ">=16.3"
+  checksum: 633bb8e21a9bc3cfc20c6c6f04d6db5742785fd541d15428b8d64f1873a61f87aa930f0f3a8ba7cf1c277fc6a3454f26f98b6ada1d634b763e39e675c40b8043
   languageName: node
   linkType: hard
 
@@ -2572,6 +2572,34 @@ __metadata:
   version: 1.0.0
   resolution: "@panva/asn1.js@npm:1.0.0"
   checksum: 0563c1372d99051d8e2268541a6ef9ec5d0495e9b943b0b1b738eb40ffd21e8bf7690f313d5ce86cccb32e646f9bb75f1af3cd45bce5d04b85ad9c04f0b596aa
+  languageName: node
+  linkType: hard
+
+"@prisma/client@npm:4.1.1":
+  version: 4.1.1
+  resolution: "@prisma/client@npm:4.1.1"
+  dependencies:
+    "@prisma/engines-version": 4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 415c14fb18a4d17a2b472d8e9a8a8c3a32a4ba651cd1fa38eb405b39d5bd5dd5a9f6dd87578efb88ac14304171686d3734d8dba6dd9134794725cc863314ca90
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8":
+  version: 4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8
+  resolution: "@prisma/engines-version@npm:4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8"
+  checksum: 6b13ab7d6d87be7b430a72399caa294e2caee4af4e4a598daa30cb8313992fbd028421411f4ecf9f0518023743032aaf77c63c9bbf2e602cf41f0297cd844b0d
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:4.1.1":
+  version: 4.1.1
+  resolution: "@prisma/engines@npm:4.1.1"
+  checksum: b8c618990320d29aa3f433196324a2ce302cd10bef0955f35fe2ed5f21fddbf159d9561422ed436163f91ed5d973822b6ca2318e228cb81d7183e218bc8ed5ff
   languageName: node
   linkType: hard
 
@@ -3844,12 +3872,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.26.0":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
+"axios@npm:^0.27.0":
+  version: 0.27.2
+  resolution: "axios@npm:0.27.2"
   dependencies:
-    follow-redirects: ^1.14.8
-  checksum: 139698e390e6e875d75efcebc3b4a0bb94b680fab69e4e8632d640bb64d746f4dd3efcedbab69f3e55ae01e4b83e4f530f78800b936ff282c6c24365023d2e89
+    follow-redirects: ^1.14.9
+    form-data: ^4.0.0
+  checksum: 6eaa903e6990054d999376c0679ff2172c7f7874d9ae66b91456a56570cce29f4a81c98bfb112ef2ef774125ef6fa3d73fd507ac153b2d3df644a5e956f9bf07
   languageName: node
   linkType: hard
 
@@ -4094,7 +4123,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.17.5, browserslist@npm:^4.19.1, browserslist@npm:^4.20.2":
+"browserslist@npm:4.21.1, browserslist@npm:^4.21.1":
+  version: 4.21.1
+  resolution: "browserslist@npm:4.21.1"
+  dependencies:
+    caniuse-lite: ^1.0.30001359
+    electron-to-chromium: ^1.4.172
+    node-releases: ^2.0.5
+    update-browserslist-db: ^1.0.4
+  bin:
+    browserslist: cli.js
+  checksum: e4d3b9b7dbccf23087db3f08ef06b0dcbdcc67866a4f6ef646002fe5686490d9ee9a233b0e12bfe70f13a6c363c2848f59a656e3d502e2858afae37a1968b658
+  languageName: node
+  linkType: hard
+
+"browserslist@npm:^4.17.5, browserslist@npm:^4.19.1":
   version: 4.20.2
   resolution: "browserslist@npm:4.20.2"
   dependencies:
@@ -4215,9 +4258,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001283":
-  version: 1.0.30001301
-  resolution: "caniuse-lite@npm:1.0.30001301"
-  checksum: 57201278cc09e0a445befea4dc6bb8ea52d5049a83d087139eb3cc550ace06de9600067dfb7c20eee8f3598b085e99250e7a5b99d3cebd03c3ede886c2654337
+  version: 1.0.30001373
+  resolution: "caniuse-lite@npm:1.0.30001373"
+  checksum: abfdb5f3188eaf5d4547f71dde413d00df71bf8b8f19ce79fb5261659a30926bec3513e238b110705ccb38411453df0188a82d621bb0cfa74c5ec63b99ce3603
   languageName: node
   linkType: hard
 
@@ -4225,6 +4268,13 @@ __metadata:
   version: 1.0.30001325
   resolution: "caniuse-lite@npm:1.0.30001325"
   checksum: b579e4aae3e23f584061dca1a98f65ff18f9823edd94d8ae54bf831d5d2b662a6843d083a5ece40d06a89c43b01f8676eaeb5ed6a3a1b5948f04446bbd2da480
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001359":
+  version: 1.0.30001365
+  resolution: "caniuse-lite@npm:1.0.30001365"
+  checksum: b7a87e8ac22b8a5fe275a9cd9762fce58ac52df98cc726e8c0d2cc0a193755bed922099ab37e5dd3673b0f16ef4f454cefe3cb7ee8e416388db0525907d60730
   languageName: node
   linkType: hard
 
@@ -4625,7 +4675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"combined-stream@npm:^1.0.6, combined-stream@npm:~1.0.6":
+"combined-stream@npm:^1.0.6, combined-stream@npm:^1.0.8, combined-stream@npm:~1.0.6":
   version: 1.0.8
   resolution: "combined-stream@npm:1.0.8"
   dependencies:
@@ -4792,16 +4842,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful@npm:^9.1.18":
-  version: 9.1.18
-  resolution: "contentful@npm:9.1.18"
+"contentful@npm:^9.1.32":
+  version: 9.1.32
+  resolution: "contentful@npm:9.1.32"
   dependencies:
-    axios: ^0.26.0
+    axios: ^0.27.0
     contentful-resolve-response: ^1.3.0
     contentful-sdk-core: ^7.0.1
     fast-copy: ^2.1.0
     json-stringify-safe: ^5.0.1
-  checksum: 21cad3de190959c46b03e2433fdc37117e78999530f6d298c61247381dd968cc614aa97b6f16b072873d0a9725971bc3dfb34dc7b1174ee258b02257ca908a07
+  checksum: 4edc1807b7cd04c725b6237373b188e954d2bab9e384633be41d732baccd60e6351ec757f3c0d201863f8303b9a85603b1336d25a7928228bc02c1aaf2d6f61d
   languageName: node
   linkType: hard
 
@@ -6141,6 +6191,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-to-chromium@npm:^1.4.172":
+  version: 1.4.186
+  resolution: "electron-to-chromium@npm:1.4.186"
+  checksum: de89937517db33e10749a3db1be89db8dd55dbb6dc6404823a1042ac8a03dab5238abc5250feff53ae8bc4cbf8377bd416ee653334e3440e655172f13991fc74
+  languageName: node
+  linkType: hard
+
 "electron-to-chromium@npm:^1.4.84":
   version: 1.4.103
   resolution: "electron-to-chromium@npm:1.4.103"
@@ -6744,8 +6801,8 @@ __metadata:
   linkType: hard
 
 "firebase-functions@npm:^3.20.0":
-  version: 3.20.0
-  resolution: "firebase-functions@npm:3.20.0"
+  version: 3.22.0
+  resolution: "firebase-functions@npm:3.22.0"
   dependencies:
     "@types/cors": ^2.8.5
     "@types/express": 4.17.3
@@ -6754,10 +6811,10 @@ __metadata:
     lodash: ^4.17.14
     node-fetch: ^2.6.7
   peerDependencies:
-    firebase-admin: ^8.0.0 || ^9.0.0 || ^10.0.0
+    firebase-admin: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
   bin:
     firebase-functions: lib/bin/firebase-functions.js
-  checksum: 9beee62760dc97dbf7a6e35487d0fc5b1e64f6568d2c1496e8dd48bac13d73bba23c0a824ccd6fb0bedfab90283e26bff403b773d94b5bbdf0fbaa60f7004679
+  checksum: c2df9b2c8d1fb033e4bb7ba2a1441687231ad570b68f3768fa662dbf643885ee769d10fd7f256485d16be37afab53e79471c3df10e9de8ad34097bb09c40ae69
   languageName: node
   linkType: hard
 
@@ -6871,13 +6928,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.8":
-  version: 1.14.9
-  resolution: "follow-redirects@npm:1.14.9"
+"follow-redirects@npm:^1.14.9":
+  version: 1.15.1
+  resolution: "follow-redirects@npm:1.15.1"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 1b602c548b4194c66d8d530d2c8f76b4116b6c498434acfa561f583f45b571fd9fc042fba778748cd863044051656cf4788ba11c8ff35407223ed0d38ffff0d4
+  checksum: 73c47c2a294638f12b18644d0f6226cbb4594ee87f01a8f38af8462c7211f0c2633f036bf93ada5656db784c4a2b0046e018f95d062578ddb20c82ce684e396c
   languageName: node
   linkType: hard
 
@@ -6885,6 +6942,17 @@ __metadata:
   version: 0.6.1
   resolution: "forever-agent@npm:0.6.1"
   checksum: 9cc0054dd4ea5fc26e014b8c929d1fb9247e931e81165cbd965a712061d65fb84791b2124f64cd79492e516662b94068d29fe1d824732382237321b3f61955fe
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "form-data@npm:4.0.0"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    mime-types: ^2.1.12
+  checksum: ecbe8f41bcf5c415f38e39058b34598a9261bb74a3d54b633d0b5dd8b7cf9a30b0626cd06ae8e79874a2ca88c222041142a7893e5afdd35fdfc3272264d03d44
   languageName: node
   linkType: hard
 
@@ -7066,10 +7134,10 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"fuse.js@npm:^6.5.3":
-  version: 6.5.3
-  resolution: "fuse.js@npm:6.5.3"
-  checksum: 5fd6d7671be70de69121bf6cf14eedec46263cda1ec69d066f3c5c28c751fd2658208de10a831aa842061eaa31640ea4d85cb1fc2fc3f4e4dc0449da9d936385
+"fuse.js@npm:^6.6.2":
+  version: 6.6.2
+  resolution: "fuse.js@npm:6.6.2"
+  checksum: 012c0e3cfd0680e9dbac585e4f719d574af8020e1e61c7d1326a21722e10b3343df87950f1429b2cc1bcabcae22e13fcffbd353c918afe8725ccdbacb4a16b80
   languageName: node
   linkType: hard
 
@@ -8158,9 +8226,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"isomorphic-git@npm:^1.17.0":
-  version: 1.17.0
-  resolution: "isomorphic-git@npm:1.17.0"
+"isomorphic-git@npm:^1.18.3":
+  version: 1.18.3
+  resolution: "isomorphic-git@npm:1.18.3"
   dependencies:
     async-lock: ^1.1.0
     clean-git-ref: ^2.0.1
@@ -8175,7 +8243,7 @@ fsevents@~2.3.2:
     simple-get: ^4.0.1
   bin:
     isogit: cli.cjs
-  checksum: 90b88e1e5e5764803c3c1d9da6e784d580fd8b12018260ed1d04395886d052b8568d874a6a8d9c0db82874f08dbf24484f4ae88ba567cc368079fae27812d292
+  checksum: e6d2c6bb8985c149f81276a46a4b343efdbf348e65bde55ef9415e77a06f2ddfc8675259f52c2dd5fd30c8a3d0f221d5e459ee8ea88b65a3a7ebc34bca410249
   languageName: node
   linkType: hard
 
@@ -10109,6 +10177,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"node-releases@npm:^2.0.5":
+  version: 2.0.6
+  resolution: "node-releases@npm:2.0.6"
+  checksum: 3adab22832bbd640baadb52fcfa6d7d35b30647082a75a4576447bdac46d39fad549f070f71b297ec649cbf5513f2947e91c4a15b1b2436c48eebd63acab0ba4
+  languageName: node
+  linkType: hard
+
 "nookies@npm:^2.5.2":
   version: 2.5.2
   resolution: "nookies@npm:2.5.2"
@@ -10640,10 +10715,22 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"prismjs@npm:^1.27.0":
-  version: 1.27.0
-  resolution: "prismjs@npm:1.27.0"
-  checksum: 518c0a8c2ea1e57ca303b410c0a9e93009f0c449fae69f8b44f1fbab6dc52201d9d8acf1ddb93301115fb5b98ffa00cb5b974d2d902657631218612fbbac57b1
+"prisma@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "prisma@npm:4.1.1"
+  dependencies:
+    "@prisma/engines": 4.1.1
+  bin:
+    prisma: build/index.js
+    prisma2: build/index.js
+  checksum: c97dfa76ce7a26a76c58b7c845d5488e9ac19045371c55f2a54b6a83bcfe52270b8312cb8995e0110dffd3fdc30f38da7da70fb1f2bdf9030325128500814af6
+  languageName: node
+  linkType: hard
+
+"prismjs@npm:^1.28.0":
+  version: 1.28.0
+  resolution: "prismjs@npm:1.28.0"
+  checksum: 4218d6b2de2da2de177a020db46a43561f66cad2b9de17c507da61c2a4d415fad03f0d8268673fc5b2fbdec7afe0658d82442a7452edb251a8e2e47812725873
   languageName: node
   linkType: hard
 
@@ -11571,16 +11658,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.49.11":
-  version: 1.49.11
-  resolution: "sass@npm:1.49.11"
+"sass@npm:^1.53.0":
+  version: 1.53.0
+  resolution: "sass@npm:1.53.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: dccbaee03abb04c304b91dd5b9a6ee23c266ce4bb50be35bea3d9e0937ac96b85cb43a465dce410fae041641fa9de99e503c53198a73cea2e7c64996b718c53d
+  checksum: d136fe1c621fab4a0705ced173b2fd031cd293a33dc8f52490ab7ffee8aa93cadb0f9ee2551ff03ad1a5eafb237df7fd57ab22123006cae83db8fe2a6beaaed5
   languageName: node
   linkType: hard
 
@@ -12514,22 +12601,23 @@ fsevents@~2.3.2:
     "@fortawesome/free-brands-svg-icons": ^6.1.1
     "@fortawesome/free-regular-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
-    "@fortawesome/react-fontawesome": ^0.1.18
+    "@fortawesome/react-fontawesome": ^0.2.0
     "@lyket/react": ^1.4.8
+    "@prisma/client": 4.1.1
     "@svgr/webpack": ^6.2.1
     ackee-tracker: ^5.1.0
-    browserslist: ^4.20.2
+    browserslist: ^4.21.1
     classnames: ^2.3.1
-    contentful: ^9.1.18
+    contentful: ^9.1.32
     copy-webpack-plugin: ^10.2.4
     firebase: ^8.10.1
     firebase-admin: ^9.12.0
     firebase-functions: ^3.20.0
     firebase-tools: ^9.23.3
     framer-motion: ^3.10.6
-    fuse.js: ^6.5.3
+    fuse.js: ^6.6.2
     git-rev-promises: ^1.1.0
-    isomorphic-git: ^1.17.0
+    isomorphic-git: ^1.18.3
     lodash: ^4.17.21
     mermaid: ^8.14.0
     micro-cors: ^0.1.1
@@ -12541,7 +12629,8 @@ fsevents@~2.3.2:
     nprogress: ^0.2.0
     numeral: ^2.0.6
     pako: ^2.0.4
-    prismjs: ^1.27.0
+    prisma: ^4.1.1
+    prismjs: ^1.28.0
     prop-types: ^15.8.1
     react: ^17.0.2
     react-autosize-textarea: ^7.1.0
@@ -12554,7 +12643,7 @@ fsevents@~2.3.2:
     remark-directive: ^1.0.1
     remark-gfm: ^1.0.0
     remark-squeeze-paragraphs: ^4.0.0
-    sass: ^1.49.11
+    sass: ^1.53.0
     uuid: ^8.3.2
     xml: ^1.0.1
     yaml: ^1.10.2
@@ -13029,6 +13118,20 @@ fsevents@~2.3.2:
     readable-stream: ~2.3.6
     setimmediate: ~1.0.4
   checksum: f3711ec6cd18fe2b89dd5160055f52403738c45d220fbd935726f0e66f7f5d53adc34bb9d0a1d21075223ab3f2909c1a7755aa8a8b5059f6fc91d987a8b64b49
+  languageName: node
+  linkType: hard
+
+"update-browserslist-db@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "update-browserslist-db@npm:1.0.4"
+  dependencies:
+    escalade: ^3.1.1
+    picocolors: ^1.0.0
+  peerDependencies:
+    browserslist: ">= 4.21.0"
+  bin:
+    browserslist-lint: cli.js
+  checksum: d3d0d6cd5cdebd28709eec895d70926b86222cd2182dd18812919ad0c1f4feb232553caf7e9407bfcf3dacd0375b973f7504e097f40296a88e28e64f6f1162ef
   languageName: node
   linkType: hard
 

@@ -11,8 +11,13 @@ import {
 	faDev,
 	faHashnode,
 } from '@fortawesome/free-brands-svg-icons'
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useMemo } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -21,9 +26,11 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
+import * as API from '../helpers/API.js'
 import { ExternalLink } from './ExternalLink.js'
 import { getArticleURL } from 'helpers/getArticleURL.js'
 import { ReactionButton } from 'components/ReactionButton/index.js'
+import { useAPI } from '../hooks/useAPI.js'
 
 
 
@@ -83,18 +90,67 @@ const ALLOWED_REACTIONS = [
 export function ArticleReactions(props) {
 	const { article } = props
 
-	const encodedArticleURL = encodeURIComponent(getArticleURL(article))
+	const [reactions, setReactions] = useState({})
+
+	const handleReactionClick = useCallback(type => () => {
+		setReactions(previousState => {
+			const newState = { ...previousState }
+
+			if (!newState[type]) {
+				newState[type] = {
+					count: 0,
+					isActive: false,
+				}
+			}
+
+			if (newState[type].isActive) {
+				newState[type] = {
+					count: newState[type].count - 1,
+					isActive: false,
+				}
+				API.removeArticleReaction(article.id, localStorage.getItem('browserID'), type)
+			} else {
+				newState[type] = {
+					count: newState[type].count + 1,
+					isActive: true,
+				}
+				API.addArticleReaction(article.id, localStorage.getItem('browserID'), type)
+			}
+
+			return newState
+		})
+	}, [
+		article.id,
+		setReactions,
+	])
+
+	const encodedArticleURL = useMemo(() => {
+		let origin = process.env.NEXT_PUBLIC_URL
+
+		if (typeof location !== 'undefined') {
+			origin = location.origin
+		}
+
+		return new URL(getArticleURL(article), origin)
+	}, [article])
 
 	const mappedReactions = useMemo(() => {
-		return ALLOWED_REACTIONS.map(({ emoji, emojiName }) => (
-			<ReactionButton
-				key={emojiName}
-				emoji={emoji}
-				emojiName={emojiName}
-				id={article.slug}
-				namespace="article" />
-		))
-	}, [ALLOWED_REACTIONS])
+		return ALLOWED_REACTIONS.map(({ emoji, emojiName }) => {
+			const reactionData = reactions[emojiName]
+
+			return (
+				<ReactionButton
+					key={emojiName}
+					handleClick={handleReactionClick(emojiName)}
+					isActive={reactionData?.isActive ?? false}
+					reactionCount={reactionData?.count ?? 0}
+					emoji={emoji} />
+			)
+		})
+	}, [
+		ALLOWED_REACTIONS,
+		reactions,
+	])
 
 	const twitterDiscussURL = useMemo(() => {
 		const url = new URL('/search', 'https://twitter.com')
@@ -115,6 +171,37 @@ export function ArticleReactions(props) {
 	}, [
 		article.title,
 		encodedArticleURL,
+	])
+
+	useEffect(() => {
+		(async function foo() {
+			const [
+				allReactions,
+				userReactions,
+			] = await Promise.all([
+				API.getReactionsForArticle(article.id),
+				API.getReactionsForArticle(article.id, localStorage.getItem('browserID')),
+			])
+
+			setReactions(previousState => {
+				const newState = { ...previousState }
+
+				allReactions.forEach(reactionData => {
+					newState[reactionData.type] = previousState[reactionData.type] || {
+						count: 0,
+						isActive: false,
+					}
+
+					newState[reactionData.type].count += reactionData.count
+					newState[reactionData.type].isActive = userReactions.includes(reactionData.type)
+				})
+
+				return newState
+			})
+		})()
+	}, [
+		article,
+		setReactions,
 	])
 
 	return (
