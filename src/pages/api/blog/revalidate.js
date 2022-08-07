@@ -23,7 +23,13 @@ async function handler(request, response) {
 
 	if (requestData.fields) {
 		try {
-			await response.revalidate(`/blog/${requestData.fields.slug['en-US']}`)
+			let slug = requestData.fields?.slug?.['en-US']
+
+			if (!slug) {
+				({ slug } = await Contentful.getArticleByID(requestData.sys.id, true))
+			}
+
+			await response.revalidate(`/blog/${slug}`)
 			await response.revalidate('/blog')
 			await response.revalidate('/')
 
