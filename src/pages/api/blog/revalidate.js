@@ -25,6 +25,7 @@ async function handler(request, response) {
 		try {
 			await response.revalidate(`/blog/${requestData.fields.slug['en-US']}`)
 			await response.revalidate('/blog')
+			await response.revalidate('/')
 
 			response.status(httpStatus.OK)
 			response.json({ revalidated: true })

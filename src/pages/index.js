@@ -66,11 +66,6 @@ export async function getStaticProps() {
 
 	return {
 		props: { articles },
-		revalidate:
-			1 /* hours */ *
-			60 /* minutes */ *
-			60 /* seconds */ *
-			1000 /* milliseconds */,
 	}
 }
 
