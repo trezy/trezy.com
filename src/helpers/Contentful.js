@@ -58,7 +58,7 @@ export async function getArticle(slug, isPreview) {
 			limit: 1,
 		})
 
-	if (!contentfulResponse.total === 0) {
+	if (contentfulResponse.total === 0) {
 		return null
 	}
 
@@ -81,4 +81,15 @@ export async function getArticle(slug, isPreview) {
 	}
 
 	return article
+}
+
+export async function getArticleByID(id, isPreview) {
+	const contentfulClient = getClient(isPreview)
+	const article = await contentfulClient.getEntry(id)
+
+	if (!article) {
+		return null
+	}
+
+	return parseArticle(article)
 }
