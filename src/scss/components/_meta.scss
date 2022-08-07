@@ -1,22 +1,40 @@
 .meta {
-	border-bottom-color: var(--brand-primary);
-	border-bottom-style: solid;
-	border-bottom-width: 0.1rem;
-	border-top-color: var(--brand-primary);
-	border-top-style: solid;
-	border-top-width: 0.1rem;
-	display: flex;
-	font-size: 0.8em;
 	margin-bottom: var(--gutter);
 	margin-top: var(--gutter);
 
-	> *:not(:last-child):after {
-		content: '|';
-		padding-left: var(--gutter);
-		padding-right: var(--gutter);
+	.meta-bar {
+		border-bottom-color: var(--brand-primary);
+		border-bottom-style: solid;
+		border-bottom-width: 0.1rem;
+		border-top-color: var(--brand-primary);
+		border-top-style: solid;
+		border-top-width: 0.1rem;
+		display: flex;
+		font-size: 0.8em;
+
+		> *:not(:last-child):after {
+			content: '|';
+			padding-left: var(--gutter);
+			padding-right: var(--gutter);
+		}
+
+		> .actions {
+			margin-left: auto;
+		}
 	}
 
-	> .actions {
-		margin-left: auto;
+	.meta-tabs {
+		font-size: 0.8em;
+
+		[role='tablist'] {
+			color: var(--brand-primary);
+			display: flex;
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+
+		[role='tabpanel'] {
+			margin-top: 1rem;
+		}
 	}
 }

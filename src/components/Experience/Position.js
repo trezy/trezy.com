@@ -43,16 +43,18 @@ function Position(props) {
 		<li>
 			<h4>{title}</h4>
 
-			<div className="meta">
-				<span>
-					<time>{startDate}</time>
-					{(startDate !== endDate) && (
-						<>
-							{' - '}
-							<time>{endDate}</time>
-						</>
-					)}
-				</span>
+			<div className={'meta'}>
+				<div className={'meta-bar'}>
+					<span>
+						<time>{startDate}</time>
+						{(startDate !== endDate) && (
+							<>
+								{' - '}
+								<time>{endDate}</time>
+							</>
+						)}
+					</span>
+				</div>
 			</div>
 
 			<MarkdownRenderer children={description} />

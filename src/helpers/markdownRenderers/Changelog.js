@@ -16,11 +16,7 @@ function Changelog(props) {
 	const { changelog } = props
 
 	return (
-		<details className={'notice'}>
-			<summary>{'Changelog'}</summary>
-
-			<MDXRenderer source={changelog} />
-		</details>
+		<MDXRenderer source={changelog} />
 	)
 }
 
