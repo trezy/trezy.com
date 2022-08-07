@@ -13,6 +13,13 @@ import semver from 'semver'
 
 
 
+// Local imports
+import { ExternalLink } from 'components/ExternalLink.js'
+
+
+
+
+
 export function DependencyRow(props) {
 	const {
 		name,
@@ -47,7 +54,11 @@ export function DependencyRow(props) {
 
 	return (
 		<tr className={compiledClassName}>
-			<th scope={'row'}>{name}</th>
+			<th scope={'row'}>
+				<ExternalLink href={`https://npmjs.com/package/${name}`}>
+					{name}
+				</ExternalLink>
+			</th>
 			<td>{requiredVersion}</td>
 			<td>
 				{!latestVersion && 'Getting latest version...'}
