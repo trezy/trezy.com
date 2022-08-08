@@ -22,7 +22,7 @@ function apiFetchJSON(...args) {
 export function addArticleReaction(articleID, browserID, type) {
 	const path = `/blog/${articleID}/reactions/${browserID}/${type}`
 
-	return apiFetchJSON(path, { method: 'post' })
+	return apiFetch(path, { method: 'post' })
 }
 
 export function createBrowserID() {
@@ -57,5 +57,5 @@ export async function getBrowserID() {
 export function removeArticleReaction(articleID, browserID, type) {
 	const path = `/blog/${articleID}/reactions/${browserID}/${type}`
 
-	return apiFetchJSON(path, { method: 'delete' })
+	return apiFetch(path, { method: 'delete' })
 }
