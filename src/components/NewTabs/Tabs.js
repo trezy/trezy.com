@@ -102,6 +102,7 @@ export function Tabs(props) {
 			tabPanels.push(cloneElement(child, {
 				...child.props,
 				id: tabID,
+				key: tabID,
 			}))
 		})
 
