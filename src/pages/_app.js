@@ -13,6 +13,7 @@ import 'scss/app.scss'
 import { AnimatePresence } from 'framer-motion'
 import { ColorModeContextProvider } from 'react-color-mode'
 import { config as fontAwesomeConfig } from '@fortawesome/fontawesome-svg-core'
+import NextHead from 'next/head'
 import { useRouter } from 'next/router'
 
 
@@ -53,27 +54,33 @@ export default function App(props) {
 	useNProgress()
 
 	return (
-		<ColorModeContextProvider>
-			<AuthContextProvider>
-				<RemoteConfigContextProvider>
-					<ProfilesContextProvider>
-						<BannerContextProvider>
-							<div id="application-wrapper">
-								<Banner isServer={isServer} />
+		<>
+			<NextHead>
+				<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
+			</NextHead>
 
-								<AnimatePresence
-									exitBeforeEnter
-									onExitComplete={handleExitComplete}>
-									<Component
-										key={router.route}
-										{...pageProps} />
-								</AnimatePresence>
-							</div>
-						</BannerContextProvider>
-					</ProfilesContextProvider>
-				</RemoteConfigContextProvider>
-			</AuthContextProvider>
-		</ColorModeContextProvider>
+			<ColorModeContextProvider>
+				<AuthContextProvider>
+					<RemoteConfigContextProvider>
+						<ProfilesContextProvider>
+							<BannerContextProvider>
+								<div id="application-wrapper">
+									<Banner isServer={isServer} />
+
+									<AnimatePresence
+										exitBeforeEnter
+										onExitComplete={handleExitComplete}>
+										<Component
+											key={router.route}
+											{...pageProps} />
+									</AnimatePresence>
+								</div>
+							</BannerContextProvider>
+						</ProfilesContextProvider>
+					</RemoteConfigContextProvider>
+				</AuthContextProvider>
+			</ColorModeContextProvider>
+		</>
 	)
 }
 

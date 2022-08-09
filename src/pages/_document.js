@@ -15,8 +15,6 @@ function Document() {
 	return (
 		<Html>
 			<Head>
-				<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
-
 				<meta name="application-name" content="Trezy.com" />
 				<meta name="theme-color" content="#0092c7" />
 
