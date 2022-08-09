@@ -47,6 +47,7 @@ export function MDXRenderer(props) {
 	return (
 		<MDXRemote
 			{...source}
-			components={COMPONENTS} />
+			components={COMPONENTS}
+			lazy />
 	)
 }
