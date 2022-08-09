@@ -6,7 +6,21 @@ import PropTypes from 'prop-types'
 
 
 // Local imports
-import MarkdownRenderer from 'components/MarkdownRenderer'
+import MarkdownRenderer from '../MarkdownRenderer.js'
+import { DateTime } from '../DateTime.js'
+
+
+
+
+
+// Constants
+const DEFAULT_TIME_PROPS = {
+	dateFormat: {
+		month: 'long',
+		year: 'numeric',
+	},
+	showTime: false,
+}
 
 
 
@@ -46,11 +60,18 @@ function Position(props) {
 			<div className={'meta'}>
 				<div className={'meta-bar'}>
 					<span>
-						<time>{startDate}</time>
-						{(startDate !== endDate) && (
+						<DateTime
+							{...DEFAULT_TIME_PROPS}
+							value={startDate} />
+
+						{!endDate && ' - Present'}
+
+						{(endDate && (startDate !== endDate)) && (
 							<>
 								{' - '}
-								<time>{endDate}</time>
+								<DateTime
+									{...DEFAULT_TIME_PROPS}
+									value={endDate} />
 							</>
 						)}
 					</span>
@@ -65,7 +86,7 @@ function Position(props) {
 Position.defaultProps = {
 	accomplishments: null,
 	description: '',
-	endDate: 'Present',
+	endDate: null,
 	tech: null,
 }
 
