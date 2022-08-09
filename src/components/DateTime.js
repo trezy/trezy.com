@@ -233,6 +233,7 @@ DateTime.propTypes = {
 		]),
 	}),
 	value: PropTypes.oneOfType([
+		PropTypes.instanceOf(Date),
 		PropTypes.number,
 		PropTypes.string,
 	]).isRequired,
