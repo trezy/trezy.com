@@ -13,7 +13,6 @@ import 'scss/app.scss'
 import { AnimatePresence } from 'framer-motion'
 import { ColorModeContextProvider } from 'react-color-mode'
 import { config as fontAwesomeConfig } from '@fortawesome/fontawesome-svg-core'
-import { Provider as LyketProvider } from '@lyket/react'
 import { useRouter } from 'next/router'
 
 
@@ -54,29 +53,27 @@ export default function App(props) {
 	useNProgress()
 
 	return (
-		<LyketProvider apiKey={process.env.NEXT_PUBLIC_LYKET_API_KEY}>
-			<ColorModeContextProvider>
-				<AuthContextProvider>
-					<RemoteConfigContextProvider>
-						<ProfilesContextProvider>
-							<BannerContextProvider>
-								<div id="application-wrapper">
-									<Banner isServer={isServer} />
+		<ColorModeContextProvider>
+			<AuthContextProvider>
+				<RemoteConfigContextProvider>
+					<ProfilesContextProvider>
+						<BannerContextProvider>
+							<div id="application-wrapper">
+								<Banner isServer={isServer} />
 
-									<AnimatePresence
-										exitBeforeEnter
-										onExitComplete={handleExitComplete}>
-										<Component
-											key={router.route}
-											{...pageProps} />
-									</AnimatePresence>
-								</div>
-							</BannerContextProvider>
-						</ProfilesContextProvider>
-					</RemoteConfigContextProvider>
-				</AuthContextProvider>
-			</ColorModeContextProvider>
-		</LyketProvider>
+								<AnimatePresence
+									exitBeforeEnter
+									onExitComplete={handleExitComplete}>
+									<Component
+										key={router.route}
+										{...pageProps} />
+								</AnimatePresence>
+							</div>
+						</BannerContextProvider>
+					</ProfilesContextProvider>
+				</RemoteConfigContextProvider>
+			</AuthContextProvider>
+		</ColorModeContextProvider>
 	)
 }
 

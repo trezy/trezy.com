@@ -30,7 +30,6 @@ module.exports = {
 					'https://securetoken.googleapis.com',
 					'https://www.googleapis.com',
 					'https://api.ipify.org',
-					'https://api.lyket.dev',
 					'https://api.themoviedb.org',
 					'https://api.twitter.com',
 					'https://apis.google.com',

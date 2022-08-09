@@ -1,9 +1,4 @@
 // Module imports
-import { LikeButton } from '@lyket/react'
-import {
-	useCallback,
-	useMemo,
-} from 'react'
 import classnames from 'classnames'
 
 
