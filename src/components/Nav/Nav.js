@@ -75,9 +75,7 @@ function Nav(props) {
 				className={className}
 				onMouseOver={handleLeaveIntent}
 				onMouseOut={handleEnterIntent}>
-				<ul>
-					{children}
-				</ul>
+				{children}
 			</nav>
 		</NavContext.Provider>
 	)

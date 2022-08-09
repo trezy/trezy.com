@@ -43,6 +43,7 @@ export default function Experience() {
 					tech={[
 						'Angular.js',
 						'Ansible',
+						'AWS',
 						'Babel',
 						'Backbone.js',
 						'Backbone.Marionette.js',
@@ -67,6 +68,7 @@ export default function Experience() {
 						'Sass',
 						'TravisCI',
 						'Vagrant',
+						'Vercel',
 						'Webpack',
 					]}
 					title="Software Engineering Consultant" />

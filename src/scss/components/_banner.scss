@@ -121,13 +121,10 @@
 	}
 
 	nav.social {
+		display: grid;
 		flex-shrink: 0;
+		grid-template-columns: repeat(3, 1fr);
 		margin-top: auto;
-
-		ul {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-		}
 
 		@media (max-height: 670px) {
 			display: none;
