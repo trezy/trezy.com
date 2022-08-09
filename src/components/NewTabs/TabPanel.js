@@ -32,10 +32,12 @@ export function TabPanel(props) {
 
 TabPanel.defaultProps = {
 	children: null,
+	className: '',
 }
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
-	tabID: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	id: PropTypes.string,
 	title: PropTypes.string.isRequired,
 }
