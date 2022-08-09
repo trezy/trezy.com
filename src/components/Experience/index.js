@@ -39,7 +39,7 @@ export default function Experience() {
 					accomplishments={[
 						'Embed within 17 client engineering teams to guide, mentor, & coach staff on streamlining the SDLC through agile coaching and aligning each member of the team with the greater organizational mission to deliver the highest quality products.',
 					]}
-					startDate="2005"
+					startDate="January 2005"
 					tech={[
 						'Angular.js',
 						'Ansible',
@@ -68,6 +68,32 @@ export default function Experience() {
 			</Employer>
 
 			<Employer
+				name="Loophole Labs"
+				url="https://loopholelabs.io">
+				<Position
+					accomplishments={[]}
+					startDate="Septamber 2021"
+					tech={[
+						'Create React App',
+						'Docker',
+						'Go',
+						'Jest',
+						'MDX',
+						'Next.js',
+						'Prism.js',
+						'React',
+						'Rollup',
+						'Rust',
+						'Sass',
+						'Storybook',
+						'Tailwind',
+						'TypeScript',
+						'Webpack',
+					]}
+					title="Founding Engineer (Principal)" />
+			</Employer>
+
+			<Employer
 				name="Lands' End"
 				url="https://www.landsend.com">
 				<Position
@@ -75,7 +101,8 @@ export default function Experience() {
 						'Reduced developer onboarding setup time from 2 weeks to 1 day and test/deployment speed from three 15 minute non-concurrent tests to one 20 minute test by containerizing the front-end stack for 7 separate Angular apps and 1 Java app.',
 						'Provided engineering mentorship to 8 engineers to grow skillsets, encourage experimentation, and increase learning opportunities.',
 					]}
-					startDate="2020"
+					endDate="May 2021"
+					startDate="August 2020"
 					tech={[
 						'Angular 7',
 						'Apollo',
@@ -101,8 +128,8 @@ export default function Experience() {
 						'Designed and developed a new web interface to augment the UX of Tracktastic\'s chat interface that improved tracking of team statuses by allowing managers to access, filter, and sort team updates.',
 						'Improved Tracktastic response time by 300% by refactoring status tracking and transferring code from a legacy serverless deployment architecture to an internal Kubernetes deployment',
 					]}
-					endDate="2020"
-					startDate="2019"
+					endDate="June 2020"
+					startDate="August 2019"
 					tech={[
 						'Angular.js',
 						'Buildkite',
@@ -133,8 +160,8 @@ export default function Experience() {
 						'Led weekly triage meetings with up to 3 engineers and 2 QA engineers to solve 120+ high-priority bugs monthly.',
 						'Eliminated $1,000 in monthly costs by transitioning the Node app build/test/deploy and Ruby-on-Rails test/deploy pipelines from CodeShip to CircleCI.',
 					]}
-					endDate="2019"
-					startDate="2019"
+					endDate="February 2019"
+					startDate="August 2019"
 					tech={[
 						'Babel',
 						'CircleCI',
@@ -161,8 +188,8 @@ export default function Experience() {
 						'Launched a fully-functional social network in <3 months with a team of 5 engineers to connect tabletop roleplaying gamers.',
 						'Secured 400+ users in <2 months and reduced deployment time by 48% by containerizing Node and Elixir infrastructure.',
 					]}
-					endDate="2018"
-					startDate="2017"
+					endDate="August 2018"
+					startDate="October 2017"
 					tech={[
 						'Babel',
 						'Echarts',
@@ -192,8 +219,8 @@ export default function Experience() {
 						'Designed and developed video components in React using HEVC and HEIC tech for GoPro’s marketing websites.',
 						'Provided agile coaching and engineering mentorship to 4 internal engineers to improve efficiency and grow skillsets.',
 					]}
-					endDate="2017"
-					startDate="2016"
+					endDate="February 2017"
+					startDate="March 2016"
 					tech={[
 						'Alt.js',
 						'Angular.js',
@@ -227,8 +254,8 @@ export default function Experience() {
 						'Developed a full VR prototype application that was integrated into existing tools with a customer-facing & an internal guide app that created guided VR experiences by matching users with CSRs through a QR code to lead interactive virtual tours.',
 						'Mentored 2 junior engineers and interns on JavaScript testing landscapes, application architectures, & agile methodologies.',
 					]}
-					endDate="2016"
-					startDate="2014"
+					endDate="February 2016"
+					startDate="July 2014"
 					tech={[
 						'Angular.js',
 						'Chai',
@@ -263,8 +290,8 @@ export default function Experience() {
 						'Maintained and upgraded the company website by optimizing JS and CSS code to increase performance and implementing new features to drive conversion.',
 						'Developed the company style guide to create brand consistency by aligning colors and imagery.',
 					]}
-					endDate="2014"
-					startDate="2013"
+					endDate="July 2014"
+					startDate="February 2013"
 					tech={[
 						'Drupal',
 						'Javascript',
@@ -284,8 +311,8 @@ export default function Experience() {
 						'Built a gamified internal website with charts, graphs, leaderboards, and achievements to drive sales team engagement.',
 						'Developed a REST API in VB.NET that collected and tracked user data from the internal LDAP network and policy sales numbers for the team and individuals.',
 					]}
-					endDate="2013"
-					startDate="2013"
+					endDate="September 2013"
+					startDate="April 2013"
 					tech={[
 						'CSS',
 						'Javascript',
@@ -298,8 +325,8 @@ export default function Experience() {
 					accomplishments={[
 						'Developed a WAI-ARIA quick reference guide and the company\'s first accessibility-first style guide before conducting testing to identify improvements using screen readers, keyboard alternatives, and voice assistants for all internal and external apps.',
 					]}
-					endDate="2013"
-					startDate="2012"
+					endDate="April 2013"
+					startDate="August 2012"
 					tech={[
 						'CSS',
 						'Javascript',
@@ -315,8 +342,8 @@ export default function Experience() {
 					accomplishments={[
 						'Built an injectable, JavaScript eCommerce solution with JavaScript and Bash that allowed jewelry retailers to control which resellers could sell their products while providing resellers access to a full range of retailers.',
 					]}
-					endDate="2012"
-					startDate="2011"
+					endDate="August 2012"
+					startDate="June 2011"
 					title="Front End Developer" />
 			</Employer>
 
@@ -328,8 +355,8 @@ export default function Experience() {
 						'Built the company\'s public-facing website to drive brand awareness, lead generation, and customer acquisition.',
 						'Created a customer-facing site for users to review a logbook of their blood glucose readings collected from their GHT devices with graphs to visualize risk levels over time.',
 					]}
-					endDate="2011"
-					startDate="2009"
+					endDate="June 2011"
+					startDate="July 2009"
 					title="Front End Developer" />
 			</Employer>
 		</PageWrapper>
