@@ -9,21 +9,19 @@ import {
 } from '@fortawesome/free-regular-svg-icons'
 import {
 	Fragment,
-	useEffect,
 	useMemo,
-	useState,
 } from 'react'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 
 
 
 
 
 // Local imports
+import { DateTime } from './DateTime.js'
 import { ExternalLink } from './ExternalLink.js'
 import { Video } from './Video.js'
 
@@ -49,9 +47,6 @@ function Tweet(props) {
 		},
 	} = props
 
-	const [locale, setLocale] = useState('en-US')
-	const Router = useRouter()
-
 	const createdAtDate = new Date(createdAt)
 
 	const urls = useMemo(() => {
@@ -65,16 +60,6 @@ function Tweet(props) {
 	}, [
 		author,
 		id,
-	])
-
-	const formattedCreatedAt = useMemo(() => {
-		const dateFormatter = new Intl.DateTimeFormat(locale, { dateStyle: 'long' })
-		const timeFormatter = new Intl.DateTimeFormat(locale, { timeStyle: 'short' })
-
-		return `${timeFormatter.format(createdAtDate)} – ${dateFormatter.format(createdAtDate)}`
-	}, [
-		createdAtDate,
-		locale,
 	])
 
 	const quoteTweet = referencedTweets?.find(tweet => {
@@ -141,13 +126,6 @@ function Tweet(props) {
 		return accumulator
 	}, []) || body
 
-	useEffect(() => {
-		setLocale(Router.locale)
-	}, [
-		Router.locale,
-		setLocale,
-	])
-
 	return (
 		<article className={'tweet'}>
 			<header>
@@ -187,11 +165,9 @@ function Tweet(props) {
 						<ExternalLink
 							className={'created-at highlight-on-interact no-style'}
 							href={urls.tweet}>
-							<time
-								dateTime={createdAtDate.toISOString()}
-								title={`Time Posted: ${createdAtDate.toUTCString()}`}>
-								{formattedCreatedAt}
-							</time>
+							<DateTime
+								prefix={'Time Posted:'}
+								value={createdAtDate} />
 						</ExternalLink>
 					)}
 				</div>
@@ -272,11 +248,9 @@ function Tweet(props) {
 				<ExternalLink
 					className={'created-at highlight-on-interact no-style'}
 					href={urls.tweet}>
-					<time
-						dateTime={createdAtDate.toISOString()}
-						title={`Time Posted: ${createdAtDate.toUTCString()}`}>
-						{formattedCreatedAt}
-					</time>
+					<DateTime
+						prefix={'Time Posted:'}
+						value={createdAtDate} />
 				</ExternalLink>
 			)}
 

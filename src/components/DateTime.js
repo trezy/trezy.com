@@ -16,9 +16,10 @@ export function DateTime(props) {
 		dateFormat,
 		separator,
 		showDate,
+		showPrefix,
 		showTime,
 		timeFormat,
-		titlePrefix,
+		prefix,
 		value,
 	} = props
 
@@ -36,6 +37,11 @@ export function DateTime(props) {
 	const formattedValue = useMemo(() => {
 		const pieces = []
 
+		if (showPrefix) {
+			const timeFormatter = new Intl.DateTimeFormat(locale, timeFormat)
+			pieces.push(timeFormatter.format(valueAsDate))
+		}
+
 		if (showTime) {
 			const timeFormatter = new Intl.DateTimeFormat(locale, timeFormat)
 			pieces.push(timeFormatter.format(valueAsDate))
@@ -46,11 +52,19 @@ export function DateTime(props) {
 			pieces.push(dateFormatter.format(valueAsDate))
 		}
 
-		return pieces.join(separator)
+		let result = pieces.join(separator)
+
+		if (showPrefix) {
+			result = `${prefix} ${result}`
+		}
+
+		return result
 	}, [
 		dateFormat,
+		prefix,
 		separator,
 		showDate,
+		showPrefix,
 		showTime,
 		locale,
 		timeFormat,
@@ -67,7 +81,7 @@ export function DateTime(props) {
 	return (
 		<time
 			dateTime={valueAsDate.toISOString()}
-			title={`${titlePrefix} ${valueAsDate.toUTCString()}`.trim()}>
+			title={`${prefix} ${valueAsDate.toUTCString()}`.trim()}>
 			{formattedValue}
 		</time>
 	)
@@ -77,8 +91,10 @@ DateTime.defaultProps = {
 	dateFormat: {
 		dateStyle: 'long',
 	},
+	prefix: '',
 	separator: ' - ',
 	showDate: true,
+	showPrefix: false,
 	showTime: true,
 	timeFormat: {
 		timeStyle: 'short',
@@ -164,8 +180,10 @@ DateTime.propTypes = {
 			'numeric',
 		]),
 	}),
+	prefix: PropTypes.string,
 	separator: PropTypes.string,
 	showDate: PropTypes.bool,
+	showPrefix: PropTypes.bool,
 	showTime: PropTypes.bool,
 	timeFormat: PropTypes.shape({
 		dayPeriod: PropTypes.oneOf([
@@ -214,7 +232,6 @@ DateTime.propTypes = {
 			'shortOffset',
 		]),
 	}),
-	titlePrefix: PropTypes.string,
 	value: PropTypes.oneOfType([
 		PropTypes.number,
 		PropTypes.string,
