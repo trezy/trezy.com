@@ -21,7 +21,7 @@ function Changelog(props) {
 }
 
 Changelog.propTypes = {
-	changelog: PropTypes.node.isRequired,
+	changelog: PropTypes.object.isRequired,
 }
 
 export { Changelog }

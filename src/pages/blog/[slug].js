@@ -68,7 +68,7 @@ ArticlePage.defaultProps = {
 
 ArticlePage.propTypes = {
 	article: PropTypes.shape({}).isRequired,
-	changelog: PropTypes.string,
+	changelog: PropTypes.object,
 	dependencies: PropTypes.shape({
 		dependencies: PropTypes.object,
 		engines: PropTypes.object,
