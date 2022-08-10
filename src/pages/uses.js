@@ -14,14 +14,14 @@ import {
 	faPersonBooth,
 	faPlug,
 	faServer,
-	faSpaceShuttle,
+	faSliders,
 	faSquareFull,
 	faThermometerHalf,
 	faVideo,
-	faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
+import { faUsb } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 
 
@@ -32,7 +32,6 @@ import PropTypes from 'prop-types'
 import { Block } from 'components/Block'
 import { ExternalLink } from 'components/ExternalLink'
 import PageWrapper from 'components/PageWrapper'
-import { faUsb } from '@fortawesome/free-brands-svg-icons'
 
 
 
@@ -72,37 +71,37 @@ AirpodsLink.propTypes = { ...linkPropTypes }
 
 function MacbookProLink({ children }) {
 	return (
-	<ExternalLink href="https://www.apple.com/macbook-pro-13/">
-		{children}
-	</ExternalLink>
-)
+		<ExternalLink href="https://www.apple.com/macbook-pro-14-and-16/">
+			{children}
+		</ExternalLink>
+	)
 }
 MacbookProLink.propTypes = { ...linkPropTypes }
 
 function MagicKeyboardLink({ children }) {
 	return (
 		<ExternalLink href="https://www.apple.com/shop/product/MK2C3LL/A/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-us-english">
-		{children}
-	</ExternalLink>
-)
+			{children}
+		</ExternalLink>
+	)
 }
 MagicKeyboardLink.propTypes = { ...linkPropTypes }
 
 function MagicTrackpadLink({ children }) {
 	return (
 		<ExternalLink href="https://www.apple.com/shop/product/MK2D3AM/A/magic-trackpad">
-		{children}
-	</ExternalLink>
-)
+			{children}
+		</ExternalLink>
+	)
 }
 MagicTrackpadLink.propTypes = { ...linkPropTypes }
 
 function LaptopStandLink({ children }) {
 	return (
-	<AmazonLink id="B0772LBQXM">
-		{children}
-	</AmazonLink>
-)
+		<AmazonLink id="B0772LBQXM">
+			{children}
+		</AmazonLink>
+	)
 }
 LaptopStandLink.propTypes = { ...linkPropTypes }
 
@@ -203,7 +202,7 @@ export default function UsesPage() {
 					data-animation="fade-in-from-top-small"
 					data-animation-delay={`${getDelay()}s`}
 					data-animation-duration={BASE_DURATION}>
-					{'I\'m a big fan of fruity products, so you\'ll notice the majority of my mobile gear is made by Apple. I do most of my work on a '}<MacbookProLink>{'13" M1 MacBook Pro (2020)'}</MacbookProLink>{' and it does a '}<em>{'wonderful'}</em>{' job.'}
+					{'I\'m a big fan of fruity products, so you\'ll notice the majority of my mobile gear is made by Apple. I do most of my work on a '}<MacbookProLink>{'14" M1 Max MacBook Pro (2021)'}</MacbookProLink>{' and it does a '}<em>{'wonderful'}</em>{' job.'}
 				</p>
 
 				<figure
@@ -219,7 +218,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faMicrochip} />
 							</span>
 
-							{'8-Core M1 '}<abbr title={'Central Processing Unit'}>{'CPU'}</abbr>{''}
+							{'10-Core M1 Max '}<abbr title={'Central Processing Unit'}>{'CPU'}</abbr>{''}
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -227,7 +226,7 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faMemory} />
 							</span>
 
-							{'16'}<abbr title={'Gigabyte'}>{'GB'}</abbr>{' '}<abbr title={'Random Access Memory'}>{'RAM'}</abbr>
+							{'64'}<abbr title={'Gigabyte'}>{'GB'}</abbr>{' '}<abbr title={'Random Access Memory'}>{'RAM'}</abbr>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
@@ -287,7 +286,7 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B07LBM2DCC">
-								{'AOC 27-inch 4K Frameless Monitor'}
+								{'AOC 27in 4K Frameless Monitor'}
 							</AmazonLink>
 						</ListItem>
 
@@ -323,15 +322,15 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faSpaceShuttle} />
+								<FontAwesomeIcon icon={faUsb} />
 							</span>
 
-							<AmazonLink id="B08DG87N7Z">
-								{'Henge Vertical Docking Station'}
+							<AmazonLink id="B09HL5JM45">
+								{'Brydge Stone Pro TB4'}
 							</AmazonLink>
 						</ListItem>
 
-						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+						{/* <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
 								<FontAwesomeIcon icon={faUsb} />
 							</span>
@@ -339,7 +338,7 @@ export default function UsesPage() {
 							<AmazonLink id="B08G9WDH6B">
 								{'Brydge Stone Pro'}
 							</AmazonLink>
-						</ListItem>
+						</ListItem> */}
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
@@ -422,7 +421,7 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B08HKDBW6F">
-								{'Lian Li SL120 Uni Fan (9x)'}
+								{'Lian Li SL120 Uni Fan (x9)'}
 							</AmazonLink>
 						</ListItem>
 
@@ -432,7 +431,17 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B016ORTNI2">
-								{'Corsair LPX 32GB RAM (2x 16GB)'}
+								{'Corsair LPX 32GB RAM (16GB x2)'}
+							</AmazonLink>
+						</ListItem>
+
+						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+							<span className="fa-li">
+								<ChipIcon icon={faVideo} />
+							</span>
+
+							<AmazonLink id="B07WP6TYQ3">
+								{'PowerColor Red Devil AMD Radeon RX 5700XT Graphics Card'}
 							</AmazonLink>
 						</ListItem>
 
@@ -452,7 +461,7 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B07F84FJ1G">
-								{'Corsair SF Series 600-watt Power Supply'}
+								{'Corsair SF Series 600W Power Supply'}
 							</AmazonLink>
 						</ListItem>
 
@@ -482,7 +491,7 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B07LBM2DCC">
-								{'AOC 27-inch 4K Frameless Monitor'}
+								{'AOC 27-inch 4K Frameless Monitor (x2)'}
 							</AmazonLink>
 						</ListItem>
 
@@ -491,8 +500,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faKeyboard} />
 							</span>
 
-							<AmazonLink id="B082GRKQYF">
-								{'Corsair K95 RGB Platinum Mechanical Keyboard'}
+							<AmazonLink id="B09WS47K4M">
+								{'Keychron K10 Wireless Mechanical Keyboard'}
 							</AmazonLink>
 						</ListItem>
 
@@ -501,8 +510,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faMouse} />
 							</span>
 
-							<AmazonLink id="B07QX9C9WH">
-								{'Corsair Nightsword RGB Mouse'}
+							<AmazonLink id="B07YPBX9Y7">
+								{'Razer Basilisk Wireless Mouse'}
 							</AmazonLink>
 						</ListItem>
 
@@ -511,8 +520,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faHeadphones} />
 							</span>
 
-							<AmazonLink id="B07X8SJ8HM">
-								{'Corsair VOID RGB Elite Wireless Headphones'}
+							<AmazonLink id="B0863TXGM3">
+								{'Sony WH-1000XM4 Wireless Headphones'}
 							</AmazonLink>
 						</ListItem>
 
@@ -531,8 +540,8 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faMicrophoneAlt} />
 							</span>
 
-							<AmazonLink id="B00N624FPA">
-								{'Blue Yeti Microphone'}
+							<AmazonLink id="B09DHXL8L8">
+								{'BEACN Mic'}
 							</AmazonLink>
 						</ListItem>
 
@@ -542,7 +551,7 @@ export default function UsesPage() {
 							</span>
 
 							<AmazonLink id="B01N5UOYC4">
-								{'Logitech Brio Camera'}
+								{'Logitech 4K Brio Camera'}
 							</AmazonLink>
 						</ListItem>
 
@@ -556,7 +565,7 @@ export default function UsesPage() {
 							</AmazonLink>
 						</ListItem>
 
-						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+						{/* <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
 								<FontAwesomeIcon icon={faVolumeUp} />
 							</span>
@@ -564,7 +573,7 @@ export default function UsesPage() {
 							<AmazonLink id="B003VAHYTG">
 								{'Logitech Z623 Speaker System'}
 							</AmazonLink>
-						</ListItem>
+						</ListItem> */}
 					</ul>
 				</figure>
 
@@ -596,6 +605,16 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
+								<FontAwesomeIcon icon={faLightbulb} />
+							</span>
+
+							<AmazonLink id="B082QHRZFW">
+								{'Elgato Key Light Air'}
+							</AmazonLink>
+						</ListItem>
+
+						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+							<span className="fa-li">
 								<FontAwesomeIcon icon={faPersonBooth} />
 							</span>
 
@@ -609,18 +628,28 @@ export default function UsesPage() {
 								<FontAwesomeIcon icon={faMicrophoneAlt} />
 							</span>
 
-							<AmazonLink id="B07FSVL3B4">
-								{'Blue Compass Mic Arm'}
+							<AmazonLink id="B097376LKF">
+								{'Elgato Wave Mic Arm LP'}
 							</AmazonLink>
 						</ListItem>
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faMicrophoneAlt} />
+								<FontAwesomeIcon icon={faKeyboard} />
 							</span>
 
-							<AmazonLink id="B071YTY3QS">
-								{'Knox Gear Shock Mount for Blue Yeti Microphones'}
+							<AmazonLink id="B07RL8H55Z">
+								{'Elgato Stream Deck XL'}
+							</AmazonLink>
+						</ListItem>
+
+						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
+							<span className="fa-li">
+								<FontAwesomeIcon icon={faSliders} />
+							</span>
+
+							<AmazonLink id="B09DJL6CBV">
+								{'BEACN Mix Create'}
 							</AmazonLink>
 						</ListItem>
 					</ul>
