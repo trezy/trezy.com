@@ -12159,7 +12159,7 @@ resolve@^1.14.2:
     semver: ^7.3.7
     uuid: ^8.3.2
     xml: ^1.0.1
-    yaml: ^1.10.2
+    yaml: ^2.2.2
   languageName: unknown
   linkType: soft
 
@@ -13126,10 +13126,10 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"yaml@npm:^1.10.2":
-  version: 1.10.2
-  resolution: "yaml@npm:1.10.2"
-  checksum: 8d72062ea3dbfd8fae3d6ddd5b741c2aeb5835a31b0719bf14fac71dd84adde0829763d6fbac46387309da00af1440194c796da5efc349b0baf9de39d82ae69e
+"yaml@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "yaml@npm:2.2.2"
+  checksum: 20ec9695ab547944bb96b74d9148a247998a59481fad8add3795496ea6c199da293f6239de6bebad2a29a3f45b659af841939ccd0d0d94cc1613b84037584cc1
   languageName: node
   linkType: hard
 
