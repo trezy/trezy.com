@@ -11297,14 +11297,14 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.7":
-  version: 7.3.7
-  resolution: "semver@npm:7.3.7"
+"semver@npm:^7.5.2":
+  version: 7.5.3
+  resolution: "semver@npm:7.5.3"
   dependencies:
     lru-cache: ^6.0.0
   bin:
     semver: bin/semver.js
-  checksum: a9e88cefbcf047c03988182d11bba5a3cacd5216da0803302988b4e8cf08a7cadab1f96d578712c20d906cf4f5f6e76cfa27ae21ac65f63d396015ffe1da1eed
+  checksum: ce78fec4d8f77a3c97b82375ba23adcb376846977de33cdb113013dc02a0d992fe0f4d1537cc472505dc3d5502d2f72f1735775dfb64648bc7ab2c5f5aba8580
   languageName: node
   linkType: hard
 
@@ -12156,7 +12156,7 @@ resolve@^1.14.2:
     remark-gfm: ^1.0.0
     remark-squeeze-paragraphs: ^4.0.0
     sass: ^1.53.0
-    semver: ^7.3.7
+    semver: ^7.5.2
     uuid: ^8.3.2
     xml: ^1.0.1
     yaml: ^1.10.2
