@@ -26,7 +26,7 @@ import { BannerContextProvider } from 'contexts/BannerContext.js'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext.js'
 import { RemoteConfigContextProvider } from 'contexts/RemoteConfigContext.js'
 import { reportWebVitals } from 'helpers/reportWebVitals.js'
-import { useAnalytics } from 'hooks/useAnalytics.js'
+// import { useAnalytics } from 'hooks/useAnalytics.js'
 import { useNProgress } from 'hooks/useNProgress.js'
 import Banner from 'components/Banner/index.js'
 
@@ -50,7 +50,7 @@ export default function App(props) {
 	} = props
 	const router = useRouter()
 
-	useAnalytics()
+	// useAnalytics()
 	useNProgress()
 
 	return (
