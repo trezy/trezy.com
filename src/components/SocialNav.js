@@ -1,5 +1,6 @@
 // Module imports
 import {
+	faBluesky,
 	faCodepen,
 	faDev,
 	faDiscord,
@@ -8,7 +9,6 @@ import {
 	faLinkedin,
 	faMastodon,
 	faNpm,
-	faSoundcloud,
 	faSpeakerDeck,
 	faTwitter,
 	faYoutube,
@@ -46,6 +46,12 @@ function SocialNav(props) {
 		<Nav
 			className={'social'}
 			isOpen={isOpen}>
+			<NavLink
+				{...defaultOptions}
+				icon={faBluesky}
+				title={'Bluesky'}
+				href={'https://bsky.app/profile/trezy.codes'} />
+
 			<NavLink
 				{...defaultOptions}
 				icon={faMastodon}
@@ -111,12 +117,6 @@ function SocialNav(props) {
 				icon={faSpeakerDeck}
 				title={'SpeakerDeck'}
 				href={'https://speakerdeck.com/trezy'} />
-
-			<NavLink
-				{...defaultOptions}
-				icon={faSoundcloud}
-				title={'SoundCloud'}
-				href={'https://soundcloud.com/TrezyCodes'} />
 		</Nav>
 	)
 }
