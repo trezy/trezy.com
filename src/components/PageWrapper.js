@@ -36,6 +36,8 @@ function PageWrapper(props) {
 		children,
 		className = '',
 		description = 'Oh no! This page doesn\'t have a description! \u{1F62C}',
+		image = null,
+		imageAlt = null,
 		showHeader = true,
 		title,
 	} = props
@@ -127,11 +129,20 @@ function PageWrapper(props) {
 				<meta property="og:description" content={description} />
 				<meta property="og:title" content={title} />
 				<meta property="og:type" content="website" />
-				<meta property="twitter:card" content="summary" />
+				<meta property="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
 				<meta property="twitter:site" content="@TrezyCodes" />
 				<meta property="twitter:creator" content="@TrezyCodes" />
 				<meta property="twitter:title" content={title} />
 				<meta property="twitter:description" content={description} />
+				{Boolean(image) && (
+					<>
+						<meta property="og:image" content={image} />
+						{Boolean(imageAlt) && (
+							<meta property="og:image:alt" content={imageAlt} />
+						)}
+						<meta property="twitter:image" content={image} />
+					</>
+				)}
 			</Head>
 
 			<motion.main
@@ -168,6 +179,8 @@ PageWrapper.propTypes = {
 		PropTypes.func,
 		PropTypes.string,
 	]),
+	image: PropTypes.string,
+	imageAlt: PropTypes.string,
 	showHeader: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 }

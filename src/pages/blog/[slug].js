@@ -20,6 +20,8 @@ import PageWrapper from '../../components/PageWrapper.js'
 
 
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://trezy.codes'
+
 export default function ArticlePage(props) {
 	const {
 		article,
@@ -35,11 +37,24 @@ export default function ArticlePage(props) {
 		)
   }
 
+	const articleTitle = createTitleStringFromArticle(article)
+	const headerImageURL = article.headerImage?.fields?.file?.url?.replace(/^\/\//, 'https://')
+	const ogImageParams = new URLSearchParams({ title: articleTitle })
+
+	if (headerImageURL) {
+		ogImageParams.set('image', headerImageURL)
+	}
+
+	const ogImage = `${SITE_URL}/api/og?${ogImageParams.toString()}`
+	const ogImageAlt = article.headerImage?.fields?.description || articleTitle
+
 	return (
 		<PageWrapper
 			description={article.synopsis}
+			image={ogImage}
+			imageAlt={ogImageAlt}
 			showHeader={false}
-			title={createTitleStringFromArticle(article)}>
+			title={articleTitle}>
 			<Block
 				elementType={'header'}
 				headerImageAlt={article.headerImage?.fields.description}
