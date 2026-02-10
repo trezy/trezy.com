@@ -22,10 +22,10 @@ import { useNav } from 'components/Nav/Nav'
 function SubNav(props) {
 	const {
 		children,
-		className,
-		icon,
-		label,
-		title,
+		className = '',
+		icon = null,
+		label = '',
+		title = '',
 	} = props
 	const {
 		openSubNav,
@@ -66,13 +66,6 @@ function SubNav(props) {
 			</nav>
 		</li>
 	)
-}
-
-SubNav.defaultProps = {
-	className: '',
-	icon: null,
-	label: '',
-	title: '',
 }
 
 SubNav.propTypes = {

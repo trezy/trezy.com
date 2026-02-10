@@ -7,8 +7,8 @@ import PropTypes from 'prop-types'
 
 export function OrderedList(props) {
 	const {
-		children,
-		start,
+		children = null,
+		start = 1,
 	} = props
 
 	return (
@@ -18,11 +18,6 @@ export function OrderedList(props) {
 			{children}
 		</ol>
 	)
-}
-
-OrderedList.defaultProps = {
-	children: null,
-	start: 1,
 }
 
 OrderedList.propTypes = {

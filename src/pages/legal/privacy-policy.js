@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
 			<section className="block">
 				<p><em>This policy is effective as of January 1, 2020.</em></p>
 
-				<p>Your privacy is important to us. It is Trezy.com's policy to respect your privacy regarding any information we may collect from you across our website, <Link href="/"><a>http://trezy.com</a></Link>, and other sites we own and operate.</p>
+				<p>Your privacy is important to us. It is Trezy.com's policy to respect your privacy regarding any information we may collect from you across our website, <Link href="/">http://trezy.com</Link>, and other sites we own and operate.</p>
 			</section>
 
 			<section className="block">
@@ -125,7 +125,7 @@ export default function PrivacyPolicy() {
 			<section className="block">
 				<h3>7. Cookies</h3>
 
-				<p>We use "cookies" to collect information about you and your activity across our site. A cookie is a small piece of data that our website stores on your computer, and accesses each time you visit, so we can understand how you use our site. This helps us serve you content based on preferences you have specified. Please refer to our <Link href="/cookie-policy"><a>Cookie Policy</a></Link> for more information.</p>
+				<p>We use "cookies" to collect information about you and your activity across our site. A cookie is a small piece of data that our website stores on your computer, and accesses each time you visit, so we can understand how you use our site. This helps us serve you content based on preferences you have specified. Please refer to our <Link href="/cookie-policy">Cookie Policy</Link> for more information.</p>
 			</section>
 
 			<section className="block">

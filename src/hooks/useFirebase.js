@@ -1,18 +1,16 @@
 // Module imports
-import 'firebase/remote-config'
-
+import { getRemoteConfig } from 'firebase/remote-config'
 
 
 
 
 // Local imports
 import {
+	app,
 	auth,
 	database,
-	firebase,
 	firestore,
 } from 'helpers/firebase'
-
 
 
 
@@ -23,18 +21,16 @@ let remoteConfig = null
 
 
 
-
 export function useFirebase() {
 	if (typeof window !== 'undefined') {
 		if (!remoteConfig) {
-			remoteConfig = firebase.remoteConfig()
+			remoteConfig = getRemoteConfig(app)
 		}
 	}
 
 	return {
 		auth,
 		database,
-		firebase,
 		firestore,
 		remoteConfig,
 	}

@@ -65,10 +65,14 @@ export async function getArticle(slug, isPreview) {
 	const article = parseArticle(contentfulResponse.items[0])
 
 	if (article.devToID) {
-		const devToArticle = await DevTo.getArticle(article.devToID)
+		try {
+			const devToArticle = await DevTo.getArticle(article.devToID)
 
-		article.devToReactions = devToArticle.positive_reactions_count
-		article.devToURL = devToArticle.url
+			article.devToReactions = devToArticle.positive_reactions_count
+			article.devToURL = devToArticle.url
+		} catch (error) {
+			console.warn('Failed to fetch Dev.to article:', error.message)
+		}
 	}
 
 	if (article.hashnodeSlug) {

@@ -7,8 +7,15 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import {
+	collection as firestoreCollection,
+	doc,
+	limit,
+	onSnapshot,
+	query,
+	where,
+} from 'firebase/firestore'
 import PropTypes from 'prop-types'
-
 
 
 
@@ -17,7 +24,6 @@ import PropTypes from 'prop-types'
 import { firestore } from 'helpers/firebase'
 import { updateStateObjectFromSnapshot } from 'helpers/updateStateObjectFromSnapshot'
 import { useAuth } from 'contexts/AuthContext'
-
 
 
 
@@ -33,16 +39,13 @@ export const ProfilesContext = createContext({
 
 
 
-
 export function ProfilesContextProvider(props) {
 	const { children } = props
 	const {
 		claims,
 		user,
 	} = useAuth()
-	const {
-		current: collection,
-	} = useRef(firestore?.collection('profiles'))
+	const collectionRef = useRef(firestore ? firestoreCollection(firestore, 'profiles') : null)
 	const connections = useRef({})
 	const connectUnsubscriber = useRef(null)
 	const [isLoaded, setIsLoaded] = useState(false)
@@ -169,6 +172,9 @@ export function ProfilesContextProvider(props) {
 			username,
 		} = contextProps
 		useEffect(() => {
+			const collection = collectionRef.current
+			if (!collection) return
+
 			setProfilesToWatch(previousValue => {
 				const newValue = { ...previousValue }
 
@@ -176,16 +182,17 @@ export function ProfilesContextProvider(props) {
 					let unsubscribe = null
 
 					if (username) {
-						unsubscribe = collection
-							.where('visibility', '!=', 'private')
-							.where('username', '==', username)
-							.onSnapshot(handleQuerySnapshot)
+						const q = query(
+							collection,
+							where('visibility', '!=', 'private'),
+							where('username', '==', username),
+						)
+						unsubscribe = onSnapshot(q, handleQuerySnapshot)
 					}
 
 					if (id) {
-						unsubscribe = collection
-							.doc(id)
-							.onSnapshot(handleDocumentSnapshot)
+						const docRef = doc(firestore, 'profiles', id)
+						unsubscribe = onSnapshot(docRef, handleDocumentSnapshot)
 					}
 
 					newValue[username || id] = {
@@ -225,17 +232,12 @@ export function ProfilesContextProvider(props) {
 
 	const connectProfiles = useCallback(() => {
 		useEffect(() => {
-			let query = collection
+			const collection = collectionRef.current
+			if (!collection) return
 
-			// if (!claims?.['views.admin.users']) {
-			// 	query = query.where('visibility', '!=', 'private')
-			// }
+			const q = query(collection, limit(50))
 
-			return query
-				// .orderBy('visibility', 'desc')
-				// .orderBy('username', 'desc')
-				.limit(50)
-				.onSnapshot(handleQuerySnapshot)
+			return onSnapshot(q, handleQuerySnapshot)
 		}, [
 			claims,
 			handleQuerySnapshot,

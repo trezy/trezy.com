@@ -1,7 +1,17 @@
+// Module imports
+import {
+	collection,
+	getDocs,
+	query,
+	where,
+} from 'firebase/firestore'
+
+
+
+
 // Local imports
 import createSitemapEndpoint from 'pages/api/helpers/createSitemapEndpoint'
-import firebase from 'helpers/firebase'
-
+import { firestore } from 'helpers/firebase'
 
 
 
@@ -12,11 +22,9 @@ const {
 } = createSitemapEndpoint(async function() {
 	const articles = []
 
-	const articlesSnapshot = await firebase
-		.firestore()
-		.collection('articles')
-		.where('isDraft', '==', false)
-		.get()
+	const articlesRef = collection(firestore, 'articles')
+	const q = query(articlesRef, where('isDraft', '==', false))
+	const articlesSnapshot = await getDocs(q)
 
 	articlesSnapshot.forEach(doc => articles.push(doc.data()))
 

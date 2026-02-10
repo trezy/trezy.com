@@ -22,9 +22,9 @@ export default function CookiePolicy() {
 			description="Cookie Policy"
 			title="Cookie Policy">
 			<section className="block">
-				<p>We use cookies to help improve your experience of <Link href="/"><a>http://trezy.com</a></Link>. This cookie policy is part of Trezy.com's privacy policy, and covers the use of cookies between your device and our site. We also provide basic information on third-party services we may use, who may also use cookies as part of their service, though they are not covered by our policy.</p>
+				<p>We use cookies to help improve your experience of <Link href="/">http://trezy.com</Link>. This cookie policy is part of Trezy.com's privacy policy, and covers the use of cookies between your device and our site. We also provide basic information on third-party services we may use, who may also use cookies as part of their service, though they are not covered by our policy.</p>
 
-				<p>If you don’t wish to accept cookies from us, you should instruct your browser to refuse cookies from <Link href="/"><a>http://trezy.com</a></Link>, with the understanding that we may be unable to provide you with some of your desired content and services.</p>
+				<p>If you don’t wish to accept cookies from us, you should instruct your browser to refuse cookies from <Link href="/">http://trezy.com</Link>, with the understanding that we may be unable to provide you with some of your desired content and services.</p>
 			</section>
 
 			<section className="block">

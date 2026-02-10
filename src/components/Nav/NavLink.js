@@ -23,12 +23,12 @@ import { useNav } from 'components/Nav/Nav'
 
 function NavLink(props) {
 	const {
-		disabled,
-		extraProps,
-		href,
-		icon,
-		iconOnly,
-		onClick,
+		disabled = false,
+		extraProps = {},
+		href = '',
+		icon = null,
+		iconOnly = false,
+		onClick = null,
 		title,
 	} = props
 	const { isOpen } = useNav()
@@ -110,28 +110,18 @@ function NavLink(props) {
 	}
 
 	return (
-		<Link href={href}>
-			<a
-				{...extraProps}
-				className={classnames({
-					disabled,
-					iconic: iconOnly,
-				})}
-				tabIndex={isOpen ? null : -1}>
-				{iconComponent}
-				{titleComponent}
-			</a>
+		<Link
+			href={href}
+			{...extraProps}
+			className={classnames({
+				disabled,
+				iconic: iconOnly,
+			})}
+			tabIndex={isOpen ? null : -1}>
+			{iconComponent}
+			{titleComponent}
 		</Link>
 	)
-}
-
-NavLink.defaultProps = {
-	disabled: false,
-	extraProps: {},
-	href: '',
-	icon: null,
-	iconOnly: false,
-	onClick: null,
 }
 
 NavLink.propTypes = {

@@ -14,11 +14,9 @@ export default function Breadcrumbs(props) {
 		<ul className="breadcrumbs inline slash-separated">
 			<li>
 				<Link href="/">
-					<a>
-						<FontAwesomeIcon
-							fixedWidth
-							icon={faHome} />
-					</a>
+					<FontAwesomeIcon
+						fixedWidth
+						icon={faHome} />
 				</Link>
 			</li>
 
@@ -34,7 +32,7 @@ export default function Breadcrumbs(props) {
 				return (
 					<li key={name}>
 						<Link href={href}>
-							<a>{name}</a>
+							{name}
 						</Link>
 					</li>
 				)

@@ -7,10 +7,10 @@ import PropTypes from 'prop-types'
 
 export function Figure(props) {
 	const {
-		caption,
-		className,
-		imageDescription,
-		imageURL,
+		caption = '',
+		className = '',
+		imageDescription = null,
+		imageURL = null,
 	} = props
 
 	return (
@@ -28,13 +28,6 @@ export function Figure(props) {
 			)}
 		</figure>
 	)
-}
-
-Figure.defaultProps = {
-	caption: '',
-	className: '',
-	imageDescription: null,
-	imageURL: null,
 }
 
 Figure.propTypes = {

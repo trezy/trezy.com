@@ -8,9 +8,9 @@ import PropTypes from 'prop-types'
 
 export function List(props) {
 	const {
-		children,
-		ordered,
-		start,
+		children = null,
+		ordered = false,
+		start = 1,
 	} = props
 	const attributes = {
 		className: ordered ? 'numbered' : 'bulleted',
@@ -23,12 +23,6 @@ export function List(props) {
 	const listElementType = ordered ? 'ol' : 'ul'
 
 	return createElement(listElementType, attributes, children)
-}
-
-List.defaultProps = {
-	children: null,
-	ordered: false,
-	start: 1,
 }
 
 List.propTypes = {

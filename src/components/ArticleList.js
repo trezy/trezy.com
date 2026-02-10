@@ -17,11 +17,11 @@ import { useCallback, useMemo } from 'react'
 
 export default function ArticleList(props) {
 	const {
-		className,
-		includeStyles,
-		limit,
+		className = '',
+		includeStyles = true,
+		limit = null,
 	} = props
-	let { articles } = props
+	let { articles = null } = props
 
 	const mapArticles = useCallback(article => {
 		return (
@@ -66,15 +66,6 @@ export default function ArticleList(props) {
 			{mappedArticles}
 		</ol>
 	)
-}
-
-ArticleList.defaultProps = {
-	articles: null,
-	authorID: null,
-	className: '',
-	includeDrafts: false,
-	includeStyles: true,
-	limit: null,
 }
 
 ArticleList.propTypes = {

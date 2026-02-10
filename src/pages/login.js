@@ -5,9 +5,13 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import {
+	GoogleAuthProvider,
+	TwitterAuthProvider,
+	signInWithPopup,
+} from 'firebase/auth'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-
 
 
 
@@ -21,21 +25,17 @@ import PageWrapper from 'components/PageWrapper'
 
 
 
-
 function Login(props) {
-	const { destination } = props
-	const {
-		auth,
-		firebase,
-	} = useFirebase()
+	const { destination = '' } = props
+	const { auth } = useFirebase()
 	const {
 		isLoaded,
 		user,
 	} = useAuth()
 	const Router = useRouter()
 	const providers = useRef({
-		google: new firebase.auth.GoogleAuthProvider(),
-		twitter: new firebase.auth.TwitterAuthProvider(),
+		google: new GoogleAuthProvider(),
+		twitter: new TwitterAuthProvider(),
 	})
 	const [isLoggingIn, setIsLoggingIn] = useState(false)
 
@@ -43,11 +43,11 @@ function Login(props) {
 		setIsLoggingIn(true)
 
 		try {
-			auth.signInWithPopup(provider)
+			signInWithPopup(auth, provider)
 		} catch (error) {
 			setIsLoggingIn(false)
 		}
-	}, [])
+	}, [auth])
 
 	const handleGoogleLogin = useCallback(() => {
 		handleLogin(providers.current.google)
@@ -78,15 +78,6 @@ function Login(props) {
 						Sign in with Google
 					</Button>
 
-					{/* <Button
-						className="primary"
-						onClick={() => firebase.login({
-							provider: 'github',
-							type: 'popup',
-						})}>
-						Sign in with Github
-					</Button> */}
-
 					<Button
 						className="primary"
 						disabled={isLoggingIn}
@@ -97,10 +88,6 @@ function Login(props) {
 			</section>
 		</PageWrapper>
 	)
-}
-
-Login.defaultProps = {
-	destination: '',
 }
 
 Login.propTypes = {
@@ -116,7 +103,6 @@ export async function getServerSideProps(context) {
 		},
 	}
 }
-
 
 
 

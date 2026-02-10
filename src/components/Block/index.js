@@ -13,11 +13,11 @@ import PropTypes from 'prop-types'
 
 export function Block(props) {
 	const {
-		children,
-		className,
-		elementType,
-		headerImageAlt,
-		headerImageSource,
+		children = null,
+		className = '',
+		elementType = 'div',
+		headerImageAlt = '',
+		headerImageSource = '',
 	} = props
 
 	const dataAttributes = Object
@@ -39,8 +39,8 @@ export function Block(props) {
 				className="block-header-image">
 				<Image
 					alt={headerImageAlt}
-					layout="fill"
-					objectFit="cover"
+					fill
+					style={{ objectFit: 'cover' }}
 					priority
 					src={headerImageSource} />
 			</div>
@@ -54,14 +54,6 @@ export function Block(props) {
 		headerImage,
 		...Children.toArray(children),
 	])
-}
-
-Block.defaultProps = {
-	children: null,
-	className: '',
-	elementType: 'div',
-	headerImageAlt: '',
-	headerImageSource: '',
 }
 
 Block.propTypes = {

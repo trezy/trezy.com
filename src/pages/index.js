@@ -48,7 +48,7 @@ function Home(props) {
 					limit={ARTICLE_LIMIT} />
 
 				<Link href="/blog">
-					<a>See more</a>
+					See more
 				</Link>
 			</section>
 

@@ -13,13 +13,17 @@ import { useRouter } from 'next/router'
 
 export function DateTime(props) {
 	const {
-		dateFormat,
-		separator,
-		showDate,
-		showPrefix,
-		showTime,
-		timeFormat,
-		prefix,
+		dateFormat = {
+			dateStyle: 'long',
+		},
+		separator = ' - ',
+		showDate = true,
+		showPrefix = false,
+		showTime = true,
+		timeFormat = {
+			timeStyle: 'short',
+		},
+		prefix = '',
 		value,
 	} = props
 
@@ -85,21 +89,6 @@ export function DateTime(props) {
 			{formattedValue}
 		</time>
 	)
-}
-
-DateTime.defaultProps = {
-	dateFormat: {
-		dateStyle: 'long',
-	},
-	prefix: '',
-	separator: ' - ',
-	showDate: true,
-	showPrefix: false,
-	showTime: true,
-	timeFormat: {
-		timeStyle: 'short',
-	},
-	titlePrefix: '',
 }
 
 DateTime.propTypes = {

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 function Switch(props) {
 	const {
 		isOn,
-		onChange,
+		onChange = () => {},
 	} = props
 
 	return (
@@ -20,10 +20,6 @@ function Switch(props) {
 				type="checkbox" />
 		</div>
 	)
-}
-
-Switch.defaultProps = {
-	onChange: () => {},
 }
 
 Switch.propTypes = {

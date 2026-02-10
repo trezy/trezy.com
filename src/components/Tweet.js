@@ -31,21 +31,27 @@ import { Video } from './Video.js'
 
 function Tweet(props) {
 	const {
-		isQuotedTweet,
-		tweet: {
-			author,
-			body,
-			createdAt,
-			entities,
-			id,
-			likes,
-			media,
-			quoteRetweets,
-			referencedTweets,
-			replies,
-			retweets,
-		},
+		isQuotedTweet = false,
+		tweet,
 	} = props
+
+	if (!tweet) {
+		return null
+	}
+
+	const {
+		author,
+		body,
+		createdAt,
+		entities,
+		id,
+		likes,
+		media,
+		quoteRetweets,
+		referencedTweets,
+		replies,
+		retweets,
+	} = tweet
 
 	const createdAtDate = new Date(createdAt)
 
@@ -196,14 +202,15 @@ function Tweet(props) {
 								const imageProps = {
 									alt: mediaItem.altText,
 									key: index,
-									layout: 'fill',
-									objectFit: 'cover',
+									fill: true,
+									style: { objectFit: 'cover' },
 									src: mediaItem.url,
 								}
 
 								if (media.length === 1) {
 									imageProps.height = mediaItem.height
-									imageProps.layout = 'responsive'
+									imageProps.fill = undefined
+									imageProps.style = undefined
 									imageProps.width = mediaItem.width
 								}
 
@@ -315,10 +322,6 @@ function Tweet(props) {
 			)}
 		</article>
 	)
-}
-
-Tweet.defaultProps = {
-	isQuotedTweet: false,
 }
 
 Tweet.propTypes = {

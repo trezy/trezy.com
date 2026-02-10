@@ -14,8 +14,8 @@ import { useTabsContext } from './Tabs.js'
 
 export function TabPanel(props) {
 	const {
-		children,
-		className,
+		children = null,
+		className = '',
 		id,
 	} = props
 	const { currentTab } = useTabsContext()
@@ -28,11 +28,6 @@ export function TabPanel(props) {
 			{children}
 		</div>
 	)
-}
-
-TabPanel.defaultProps = {
-	children: null,
-	className: '',
 }
 
 TabPanel.propTypes = {

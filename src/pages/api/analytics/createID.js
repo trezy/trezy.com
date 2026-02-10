@@ -1,6 +1,5 @@
 // Module imports
-import { PrismaClient } from '@prisma/client'
-
+import { v4 as uuid } from 'uuid'
 
 
 
@@ -12,20 +11,12 @@ import httpStatus from 'helpers/httpStatus'
 
 
 
-
 async function handler(request, response) {
-	const prisma = new PrismaClient()
-
-	const { id } = await prisma.browser.create({
-		data: {},
-	})
-
 	response.status(httpStatus.OK)
 	response.json({
-		id,
+		id: uuid(),
 	})
 }
-
 
 
 

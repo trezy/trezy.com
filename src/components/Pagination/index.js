@@ -22,7 +22,7 @@ function Pagination(props) {
 	const {
 		currentPage,
 		onPageChange,
-		pagesToShow,
+		pagesToShow = 5,
 		totalPageCount,
 	} = props
 
@@ -111,10 +111,6 @@ function Pagination(props) {
 			</Button>
 		</div>
 	)
-}
-
-Pagination.defaultProps = {
-	pagesToShow: 5,
 }
 
 Pagination.propTypes = {

@@ -48,8 +48,8 @@ const availableDirectives = {
 
 const Directive = props => {
 	const {
-		attributes,
-		children,
+		attributes = {},
+		children = null,
 		name,
 		node,
 	} = props
@@ -67,11 +67,6 @@ const Directive = props => {
 			{children}
 		</DirectiveComponent>
 	)
-}
-
-Directive.defaultProps = {
-	attributes: {},
-	children: null,
 }
 
 Directive.propTypes = {

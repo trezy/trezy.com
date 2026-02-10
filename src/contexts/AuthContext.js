@@ -10,17 +10,25 @@ import {
 	destroyCookie,
 	setCookie,
 } from 'nookies'
-import { useColorMode } from 'react-color-mode'
+import {
+	onAuthStateChanged,
+	onIdTokenChanged,
+	signOut,
+} from 'firebase/auth'
+import {
+	collection,
+	doc,
+	onSnapshot,
+	updateDoc,
+} from 'firebase/firestore'
+import { useTheme } from 'next-themes'
 import PropTypes from 'prop-types'
 
 
 
 
-
 // Local imports
-// import { useAckee } from 'hooks/useAckee.js'
 import { useFirebase } from 'hooks/useFirebase.js'
-
 
 
 
@@ -40,43 +48,33 @@ export const AuthContext = createContext({
 
 
 
-
 export function AuthContextProvider(props) {
 	const { children } = props
 	const {
 		auth,
 		firestore,
 	} = useFirebase()
-	const { updateColorModePreference } = useColorMode()
+	const { setTheme } = useTheme()
 	const [claims, setClaims] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [profile, setProfile] = useState(null)
 	const [settings, setSettings] = useState(null)
 	const [user, setUser] = useState(null)
 
-	// const { trackAction } = useAckee()
-
-	const handleProfileSnapshot = useCallback(doc => {
+	const handleProfileSnapshot = useCallback(docSnap => {
 		setProfile({
-			...doc.data(),
-			id: doc.id,
+			...docSnap.data(),
+			id: docSnap.id,
 		})
 	}, [setProfile])
-	const handleSettingsSnapshot = useCallback(doc => {
+	const handleSettingsSnapshot = useCallback(docSnap => {
 		setSettings({
-			...doc.data(),
-			id: doc.id,
+			...docSnap.data(),
+			id: docSnap.id,
 		})
 	}, [setSettings])
 
 	const handleAuthStateChange = useCallback(user => {
-		if (user) {
-			// trackAction('7d097f63-5b01-41ad-b668-d9e5c6a7c923', {
-			// 	key: 'login',
-			// 	value: 1,
-			// })
-		}
-
 		setUser(user)
 		setIsLoaded(true)
 	}, [
@@ -101,15 +99,13 @@ export function AuthContextProvider(props) {
 
 	const logout = useCallback(() => {
 		destroyCookie(null, 'firebaseAuthToken')
-		auth.signOut()
-	}, [])
+		signOut(auth)
+	}, [auth])
 
-	const applyDocumentPatch = useCallback((collection, patch) => {
-		return firestore
-			.collection(collection)
-			.doc(user.uid)
-			.update(patch)
-	}, [user])
+	const applyDocumentPatch = useCallback((collectionName, patch) => {
+		const docRef = doc(firestore, collectionName, user.uid)
+		return updateDoc(docRef, patch)
+	}, [firestore, user])
 
 	const refreshUser = useCallback(() => user.reload(), [user])
 
@@ -121,8 +117,8 @@ export function AuthContextProvider(props) {
 		applyDocumentPatch('settings', settingsPatch)
 	}, [applyDocumentPatch])
 
-	useEffect(() => auth.onAuthStateChanged(handleAuthStateChange), [handleAuthStateChange])
-	useEffect(() => auth.onIdTokenChanged(handleIDTokenChange), [handleIDTokenChange])
+	useEffect(() => onAuthStateChanged(auth, handleAuthStateChange), [auth, handleAuthStateChange])
+	useEffect(() => onIdTokenChanged(auth, handleIDTokenChange), [auth, handleIDTokenChange])
 
 	useEffect(() => {
 		const unsubscribers = []
@@ -132,15 +128,11 @@ export function AuthContextProvider(props) {
 				.getIdTokenResult()
 				.then(idTokenResult => setClaims(idTokenResult.claims))
 
-			const profileWatcher = firestore
-				.collection('profiles')
-				.doc(user.uid)
-				.onSnapshot(handleProfileSnapshot)
+			const profileRef = doc(firestore, 'profiles', user.uid)
+			const settingsRef = doc(firestore, 'settings', user.uid)
 
-			const settingsWatcher = firestore
-				.collection('settings')
-				.doc(user.uid)
-				.onSnapshot(handleSettingsSnapshot)
+			const profileWatcher = onSnapshot(profileRef, handleProfileSnapshot)
+			const settingsWatcher = onSnapshot(settingsRef, handleSettingsSnapshot)
 
 			unsubscribers.push(profileWatcher)
 			unsubscribers.push(settingsWatcher)
@@ -152,6 +144,7 @@ export function AuthContextProvider(props) {
 
 		return () => unsubscribers.forEach(unsubscribe => unsubscribe())
 	}, [
+		firestore,
 		handleProfileSnapshot,
 		handleSettingsSnapshot,
 		setClaims,
@@ -161,16 +154,10 @@ export function AuthContextProvider(props) {
 	])
 
 	useEffect(() => {
-		let theme = window.localStorage.getItem('theme')
-
-		if (settings?.theme && (settings.theme !== theme)) {
-			theme = settings.theme
+		if (settings?.theme) {
+			setTheme(settings.theme)
 		}
-
-		if (theme) {
-			updateColorModePreference(theme)
-		}
-	}, [settings])
+	}, [settings, setTheme])
 
 	return (
 		<AuthContext.Provider

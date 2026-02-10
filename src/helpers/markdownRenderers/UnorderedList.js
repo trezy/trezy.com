@@ -6,18 +6,13 @@ import PropTypes from 'prop-types'
 
 
 export function UnorderedList(props) {
-	const { children } = props
+	const { children = null, start = 1 } = props
 
 	return (
 		<ul className={'bulleted'}>
 			{children}
 		</ul>
 	)
-}
-
-UnorderedList.defaultProps = {
-	children: null,
-	start: 1,
 }
 
 UnorderedList.propTypes = {

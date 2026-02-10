@@ -16,7 +16,7 @@ export function Link(node) {
 	if (node.href.startsWith('/')) {
 		return (
 			<NextLink href={node.href}>
-				<a>{node.children}</a>
+				{node.children}
 			</NextLink>
 		)
 	}

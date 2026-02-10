@@ -10,9 +10,9 @@ import PropTypes from 'prop-types'
 export function Button(props) {
 	const {
 		children,
-		className,
-		isStyled,
-		type,
+		className = '',
+		isStyled = true,
+		type = 'button',
 	} = props
 
 	const passableProps = { ...props }
@@ -40,12 +40,6 @@ export function Button(props) {
 			<span>{children}</span>
 		</button>
 	)
-}
-
-Button.defaultProps = {
-	className: '',
-	isStyled: true,
-	type: 'button',
 }
 
 Button.propTypes = {

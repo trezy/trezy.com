@@ -9,9 +9,9 @@ import TextareaAutosize from 'react-autosize-textarea'
 
 const Input = forwardRef((props, ref) => {
 	const {
-		multiline,
-		prefix,
-		type,
+		multiline = false,
+		prefix = '',
+		type = 'text',
 	} = props
 	const passableProps = {
 		...props,
@@ -40,12 +40,6 @@ const Input = forwardRef((props, ref) => {
 		</div>
 	)
 })
-
-Input.defaultProps = {
-	multiline: false,
-	prefix: '',
-	type: 'text',
-}
 
 Input.propTypes = {
 	multiline: PropTypes.bool,

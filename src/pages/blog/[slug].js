@@ -23,8 +23,8 @@ import PageWrapper from '../../components/PageWrapper.js'
 export default function ArticlePage(props) {
 	const {
 		article,
-		changelog,
-		dependencies,
+		changelog = null,
+		dependencies = null,
 		source,
 	} = props
 	const Router = useRouter()
@@ -59,11 +59,6 @@ export default function ArticlePage(props) {
 			</Block>
 		</PageWrapper>
 	)
-}
-
-ArticlePage.defaultProps = {
-	changelog: null,
-	dependencies: null,
 }
 
 ArticlePage.propTypes = {

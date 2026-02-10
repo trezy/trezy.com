@@ -1,11 +1,12 @@
 // Module imports
-import * as firebase from 'firebase-admin'
+import { initializeApp, getApps, getApp, cert } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
 
 
 
 
-
-// Local variables// Local variables
+// Local variables
 let app = null
 let auth = null
 let firestore = null
@@ -13,10 +14,9 @@ let firestore = null
 
 
 
-
-if (!firebase.apps.length) {
-	app = firebase.initializeApp({
-		credential: firebase.credential.cert({
+if (!getApps().length) {
+	app = initializeApp({
+		credential: cert({
 			auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
 			auth_uri: process.env.FIREBASE_AUTH_URI,
 			client_email: process.env.FIREBASE_CLIENT_EMAIL,
@@ -30,20 +30,12 @@ if (!firebase.apps.length) {
 		}),
 		databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 	})
+} else {
+	app = getApp()
 }
 
-if (!app) {
-	app = firebase.apps[0]
-}
-
-if (!auth) {
-	auth = app?.auth()
-}
-
-if (!firestore) {
-	firestore = app?.firestore()
-}
-
+auth = getAuth(app)
+firestore = getFirestore(app)
 
 
 
@@ -51,6 +43,5 @@ if (!firestore) {
 export {
 	app,
 	auth,
-	firebase,
 	firestore,
 }

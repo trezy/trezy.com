@@ -107,7 +107,7 @@ LaptopStandLink.propTypes = { ...linkPropTypes }
 
 function ChipIcon(props) {
 	const {
-		className,
+		className = '',
 		icon,
 	} = props
 
@@ -130,9 +130,6 @@ function ChipIcon(props) {
 				transform="shrink-8 up-2" />
 		</span>
 	)
-}
-ChipIcon.defaultProps = {
-	className: '',
 }
 ChipIcon.propTypes = {
 	className: PropTypes.string,

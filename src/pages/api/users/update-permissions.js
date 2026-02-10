@@ -1,7 +1,6 @@
 // Local imports
 import {
 	auth,
-	firebase,
 	firestore,
 } from 'helpers/firebase.server'
 import createEndpoint from 'pages/api/helpers/createEndpoint'

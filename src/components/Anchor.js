@@ -18,11 +18,11 @@ import PropTypes from 'prop-types'
 function Anchor(props) {
 	const router = useRouter()
 	const {
-		className,
+		className = '',
 		children,
 		href,
-		tracking,
-		trackingID,
+		tracking = null,
+		trackingID = null,
 	} = props
 	// const { trackAction } = useAckee()
 
@@ -48,12 +48,6 @@ function Anchor(props) {
 			{children}
 		</a>
 	)
-}
-
-Anchor.defaultProps = {
-	className: '',
-	tracking: null,
-	trackingID: null,
 }
 
 Anchor.propTypes = {

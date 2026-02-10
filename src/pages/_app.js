@@ -11,7 +11,7 @@ import 'scss/app.scss'
 
 // Module imports
 import { AnimatePresence } from 'framer-motion'
-import { ColorModeContextProvider } from 'react-color-mode'
+import { ThemeProvider } from 'next-themes'
 import { config as fontAwesomeConfig } from '@fortawesome/fontawesome-svg-core'
 import NextHead from 'next/head'
 import { useRouter } from 'next/router'
@@ -59,7 +59,7 @@ export default function App(props) {
 				<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 			</NextHead>
 
-			<ColorModeContextProvider>
+			<ThemeProvider attribute="data-theme" defaultTheme="system">
 				<AuthContextProvider>
 					<RemoteConfigContextProvider>
 						<ProfilesContextProvider>
@@ -68,7 +68,7 @@ export default function App(props) {
 									<Banner isServer={isServer} />
 
 									<AnimatePresence
-										exitBeforeEnter
+										mode="wait"
 										onExitComplete={handleExitComplete}>
 										<Component
 											key={router.route}
@@ -79,7 +79,7 @@ export default function App(props) {
 						</ProfilesContextProvider>
 					</RemoteConfigContextProvider>
 				</AuthContextProvider>
-			</ColorModeContextProvider>
+			</ThemeProvider>
 		</>
 	)
 }

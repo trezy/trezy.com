@@ -25,10 +25,10 @@ const useRadioGroupContext = () => useContext(RadioGroupContext)
 function RadioGroup(props) {
 	const {
 		children,
-		defaultValue,
+		defaultValue = null,
 		id,
 		onChange,
-		value,
+		value = null,
 	} = props
 
 	return (
@@ -43,11 +43,6 @@ function RadioGroup(props) {
 			</ul>
 		</RadioGroupContext.Provider>
 	)
-}
-
-RadioGroup.defaultProps = {
-	defaultValue: null,
-	value: null,
 }
 
 RadioGroup.propTypes = {

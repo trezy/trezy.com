@@ -3,101 +3,20 @@
 // Module imports
 const contentful = require('contentful')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const nextSafe = require('next-safe')
 const path = require('path')
 
 
 
 
 
-// Local constants
-const isDev = process.env.NODE_ENV !== 'production'
-
-
-
 
 
 module.exports = {
-	async headers() {
-		const headers = nextSafe({
-			contentSecurityPolicy: {
-				'connect-src': [
-					"'self'",
-					'https://firebaseinstallations.googleapis.com',
-					'https://firebaseremoteconfig.googleapis.com',
-					'https://firebase.googleapis.com',
-					'https://firestore.googleapis.com',
-					'https://securetoken.googleapis.com',
-					'https://www.googleapis.com',
-					'https://api.ipify.org',
-					'https://api.themoviedb.org',
-					'https://api.twitter.com',
-					'https://apis.google.com',
-					'https://registry.npmjs.org',
-					'https://vitals.vercel-insights.com',
-					'https://*.firebaseio.com',
-					'https://*.trezy.com',
-					'wss://*.firebaseio.com',
-				],
-				'default-src': [
-					"'self'",
-					'https://*.firebaseio.com',
-					'https://trezy-core.firebaseapp.com',
-				],
-				'font-src': [
-					'https://fonts.gstatic.com',
-				],
-				'frame-src': [
-					'https://codepen.io',
-					'https://trezy-core.firebaseapp.com',
-				],
-				'img-src': [
-					"'self'",
-					'data:',
-					'https://*',
-					isDev ? 'http://*' : null,
-				],
-				'media-src': [
-					'https://video.twimg.com',
-				],
-				'prefetch-src': [
-					"'self'",
-				],
-				'script-src': [
-					"'self'",
-					"'unsafe-eval'",
-					"'unsafe-inline'",
-					'https://*.firebaseio.com',
-					'https://apis.google.com',
-					'https://static.codepen.io',
-					`http${isDev ? '' : 's'}://www.googletagmanager.com`,
-				],
-				'style-src': [
-					"'self'",
-					"'unsafe-inline'",
-					'https://fonts.googleapis.com',
-				],
-			},
-			isDev,
-		})
-
-		return [
-			{
-				source: '/',
-				headers,
-			},
-			{
-				source: '/:path*',
-				headers,
-			},
-		]
-	},
-
   images: {
-    domains: [
-			'images.ctfassets.net',
-			'pbs.twimg.com',
-		],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.ctfassets.net' },
+      { protocol: 'https', hostname: 'pbs.twimg.com' },
+    ],
   },
 
 	async redirects() {

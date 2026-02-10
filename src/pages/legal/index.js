@@ -21,25 +21,25 @@ export default function PrivacyPolicy() {
 				<ul>
 					<li>
 						<Link href="/legal/terms-of-service">
-							<a>Terms of Service</a>
+							Terms of Service
 						</Link>
 					</li>
 
 					<li>
 						<Link href="/legal/privacy-policy">
-							<a>Privacy Policy</a>
+							Privacy Policy
 						</Link>
 					</li>
 
 					<li>
 						<Link href="/legal/cookie-policy">
-							<a>Cookie Policy</a>
+							Cookie Policy
 						</Link>
 					</li>
 
 					<li>
 						<Link href="/legal/code-of-conduct">
-							<a>Code of Conduct</a>
+							Code of Conduct
 						</Link>
 					</li>
 				</ul>

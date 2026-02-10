@@ -7,8 +7,12 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import {
+	fetchAndActivate,
+	getBoolean,
+	getString,
+} from 'firebase/remote-config'
 import PropTypes from 'prop-types'
-
 
 
 
@@ -16,7 +20,6 @@ import PropTypes from 'prop-types'
 // Local imports
 import { useAuth } from 'contexts/AuthContext'
 import { useFirebase } from 'hooks/useFirebase'
-
 
 
 
@@ -40,7 +43,6 @@ export const RemoteConfigContext = createContext({
 
 
 
-
 export function RemoteConfigContextProvider(props) {
 	const { children } = props
 	const {
@@ -53,15 +55,23 @@ export function RemoteConfigContextProvider(props) {
 	const [isLoaded, setIsLoaded] = useState(false)
 
 	const updateConfig = useCallback(async () => {
-		await remoteConfig.fetchAndActivate()
+		await fetchAndActivate(remoteConfig)
 
-		const compiledConfig = REMOTE_CONFIG_MAP.reduce((accumulator, {key, type}) => ({
-			...accumulator,
-			[key]: remoteConfig[`get${type.name}`](key),
-		}), {})
+		const compiledConfig = REMOTE_CONFIG_MAP.reduce((accumulator, {key, type}) => {
+			let value
+			if (type === Boolean) {
+				value = getBoolean(remoteConfig, key)
+			} else {
+				value = getString(remoteConfig, key)
+			}
+			return {
+				...accumulator,
+				[key]: value,
+			}
+		}, {})
 
 		setRemoteConfig(compiledConfig)
-	}, [setRemoteConfig])
+	}, [remoteConfig, setRemoteConfig])
 
 	const initializeRemoteConfig = useCallback(async () => {
 		if (!remoteConfig) {
@@ -74,6 +84,7 @@ export function RemoteConfigContextProvider(props) {
 
 		setIsLoaded(true)
 	}, [
+		remoteConfig,
 		setIsLoaded,
 		updateConfig,
 	])

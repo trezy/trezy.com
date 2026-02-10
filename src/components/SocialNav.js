@@ -40,7 +40,7 @@ const defaultOptions = {
 
 
 function SocialNav(props) {
-	const { isOpen } = props
+	const { isOpen = true } = props
 
 	return (
 		<Nav
@@ -119,10 +119,6 @@ function SocialNav(props) {
 				href={'https://speakerdeck.com/trezy'} />
 		</Nav>
 	)
-}
-
-SocialNav.defaultProps = {
-	isOpen: true,
 }
 
 SocialNav.propTypes = {

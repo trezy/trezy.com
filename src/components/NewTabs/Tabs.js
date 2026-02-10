@@ -32,7 +32,7 @@ const TabsContext = createContext({
 })
 
 export function Tabs(props) {
-	const { children } = props
+	const { children = null } = props
 	const id = useId()
 
 	const defaultTab = useMemo(() => {
@@ -138,10 +138,6 @@ export function Tabs(props) {
 			</div>
 		</TabsContext.Provider>
 	)
-}
-
-Tabs.defaultProps = {
-	children: null,
 }
 
 Tabs.propTypes = {

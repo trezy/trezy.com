@@ -9,12 +9,12 @@ import { useMemo } from 'react'
 export function Video(props) {
 	const {
 		height,
-		isAutoplay,
-		isLooping,
-		isMuted,
-		poster,
-		preload,
-		showControls,
+		isAutoplay = false,
+		isLooping = false,
+		isMuted = false,
+		poster = null,
+		preload = 'metadata',
+		showControls = true,
 		sources,
 		width,
 	} = props
@@ -45,15 +45,6 @@ export function Video(props) {
 			{'Sorry, your browser doesn\'t support embedded videos.'}
 		</video>
 	)
-}
-
-Video.defaultProps = {
-	isAutoplay: false,
-	isLooping: false,
-	isMuted: false,
-	poster: null,
-	preload: 'metadata',
-	showControls: true,
 }
 
 Video.propTypes = {

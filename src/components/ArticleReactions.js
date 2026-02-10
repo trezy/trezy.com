@@ -251,8 +251,6 @@ export function ArticleReactions(props) {
 	)
 }
 
-ArticleReactions.defaultProps = {}
-
 ArticleReactions.propTypes = {
 	article: PropTypes.object.isRequired,
 }

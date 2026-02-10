@@ -16,8 +16,8 @@ import { useRadioGroupContext } from 'components/RadioGroup/RadioGroup'
 
 function RadioOption(props) {
 	const {
-		children,
-		disabled,
+		children = null,
+		disabled = false,
 		title,
 		value,
 	} = props
@@ -56,11 +56,6 @@ function RadioOption(props) {
 			</label>
 		</li>
 	)
-}
-
-RadioOption.defaultProps = {
-	children: null,
-	disabled: false,
 }
 
 RadioOption.propTypes = {

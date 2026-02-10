@@ -14,7 +14,7 @@ import { Switch } from 'components/Switch'
 
 function NotificationsSettingRow(props) {
 	const {
-		disabled,
+		disabled = false,
 		label,
 		notifications,
 		onChange,
@@ -50,10 +50,6 @@ function NotificationsSettingRow(props) {
 			</td>
 		</tr>
 	)
-}
-
-NotificationsSettingRow.defaultProps = {
-	disabled: false,
 }
 
 NotificationsSettingRow.propTypes = {

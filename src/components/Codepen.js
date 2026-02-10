@@ -12,8 +12,8 @@ import PropTypes from 'prop-types'
 
 const Codepen = memo(props => {
 	const {
-		defaultTabs,
-		height,
+		defaultTabs = ['result'],
+		height = 300,
 		id,
 	} = props
 
@@ -39,11 +39,6 @@ const Codepen = memo(props => {
 		</div>
 	)
 })
-
-Codepen.defaultProps = {
-	defaultTabs: ['result'],
-	height: 300,
-}
 
 Codepen.propTypes = {
 	defaultTabs: PropTypes.array,

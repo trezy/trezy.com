@@ -28,14 +28,14 @@ const DEFAULT_TIME_PROPS = {
 
 function Position(props) {
 	const {
-		accomplishments,
-		endDate,
+		accomplishments = null,
+		endDate = null,
 		startDate,
-		tech,
+		tech = null,
 		title,
 	} = props
 
-	let { description } = props
+	let { description = '' } = props
 
 	if (accomplishments?.length) {
 		if (description) {
@@ -81,13 +81,6 @@ function Position(props) {
 			<MarkdownRenderer children={description} />
 		</li>
 	)
-}
-
-Position.defaultProps = {
-	accomplishments: null,
-	description: '',
-	endDate: null,
-	tech: null,
 }
 
 Position.propTypes = {

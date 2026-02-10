@@ -27,7 +27,7 @@ const NavContext = createContext({
 function Nav(props) {
 	const {
 		children,
-		className,
+		className = '',
 		isOpen,
 	} = props
 	const timeoutID = useRef(null)
@@ -79,10 +79,6 @@ function Nav(props) {
 			</nav>
 		</NavContext.Provider>
 	)
-}
-
-Nav.defaultProps = {
-	className: '',
 }
 
 Nav.propTypes = {

@@ -19,7 +19,7 @@ import MarkdownRenderer from 'components/MarkdownRenderer'
 
 function ProfileCard(props) {
 	const {
-		linkToProfile,
+		linkToProfile = false,
 		profile,
 	} = props
 	const {
@@ -111,10 +111,6 @@ function ProfileCard(props) {
 			</div>
 		</header>
 	)
-}
-
-ProfileCard.defaultProps = {
-	linkToProfile: false,
 }
 
 ProfileCard.propTypes = {

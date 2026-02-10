@@ -3,10 +3,15 @@ import {
 	useEffect,
 	useState,
 } from 'react'
+import {
+	collection,
+	getDocs,
+	query,
+	where,
+} from 'firebase/firestore'
 import { createClient as createContentfulClient } from 'contentful'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-
 
 
 
@@ -22,11 +27,10 @@ import Profile from 'components/Profile'
 
 
 
-
 function ProfilePage(props) {
 	const {
-		articles,
-		username,
+		articles = [],
+		username = '',
 	} = props
 	const {
 		addProfile,
@@ -64,7 +68,7 @@ function ProfilePage(props) {
 		return (
 			<PageWrapper title="Profile Not Found">
 				<section className="block">
-					<p>This profile is currently unavailable, or we couldn't find a profile with that username. 😞</p>
+					<p>This profile is currently unavailable, or we couldn't find a profile with that username.</p>
 				</section>
 			</PageWrapper>
 		)
@@ -76,12 +80,6 @@ function ProfilePage(props) {
 			profile={profile}
 			username={username} />
 	)
-}
-
-ProfilePage.defaultProps = {
-	articles: [],
-	profile: null,
-	username: '',
 }
 
 ProfilePage.propTypes = {
@@ -98,10 +96,10 @@ export async function getStaticPaths() {
 			},
 		},
 	]
-	const profilesSnapshot = await firestore
-		.collection('profiles')
-		.where('visibility', '!=', 'private')
-		.get()
+
+	const profilesRef = collection(firestore, 'profiles')
+	const q = query(profilesRef, where('visibility', '!=', 'private'))
+	const profilesSnapshot = await getDocs(q)
 
 	profilesSnapshot.forEach(profileSnapshot => {
 		const { username } = profileSnapshot.data()
@@ -140,11 +138,14 @@ export async function getStaticProps(context) {
 	}
 
 	const safeUsername = username.startsWith('@') ? username.substring(1) : username
-	const profileQuerySnapshot = await firestore
-		.collection('profiles')
-		.where('visibility', '!=', 'private')
-		.where('username', '==', safeUsername)
-		.get()
+
+	const profilesRef = collection(firestore, 'profiles')
+	const q = query(
+		profilesRef,
+		where('visibility', '!=', 'private'),
+		where('username', '==', safeUsername),
+	)
+	const profileQuerySnapshot = await getDocs(q)
 
 	if (profileQuerySnapshot.size === 0) {
 		return { notFound: true }

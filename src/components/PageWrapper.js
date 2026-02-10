@@ -32,11 +32,11 @@ const MAX_DESCR_LENGTH = 300
 
 function PageWrapper(props) {
 	const {
-		breadcrumbs,
+		breadcrumbs = null,
 		children,
-		className,
-		description,
-		showHeader,
+		className = '',
+		description = 'Oh no! This page doesn\'t have a description! \u{1F62C}',
+		showHeader = true,
 		title,
 	} = props
 	const shouldReduceMotion = useReducedMotion()
@@ -157,14 +157,6 @@ function PageWrapper(props) {
 			</motion.main>
 		</>
 	)
-}
-
-PageWrapper.defaultProps = {
-	breadcrumbs: null,
-	className: '',
-	description: 'Oh no! This page doesn\'t have a description! 😬',
-	displayTitle: title => (<h1>{title}</h1>),
-	showHeader: true,
 }
 
 PageWrapper.propTypes = {

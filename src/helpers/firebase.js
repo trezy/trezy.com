@@ -1,11 +1,8 @@
 // Module imports
-import firebase from 'firebase/app'
-/* eslint-disable import/no-unassigned-import */
-import 'firebase/auth'
-import 'firebase/database'
-import 'firebase/firestore'
-/* eslint-enable import/no-unassigned-import */
-
+import { initializeApp, getApps, getApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import { getDatabase } from 'firebase/database'
+import { getFirestore } from 'firebase/firestore'
 
 
 
@@ -16,8 +13,8 @@ import firebaseConfig from '../../firebase.config'
 
 
 
-
 // Local variables
+let app = null
 let auth = null
 let database = null
 let firestore = null
@@ -25,31 +22,22 @@ let firestore = null
 
 
 
-
-if (!firebase.apps.length) {
-	firebase.initializeApp(firebaseConfig)
+if (!getApps().length) {
+	app = initializeApp(firebaseConfig)
+} else {
+	app = getApp()
 }
 
-if (!auth) {
-	auth = firebase.auth()
-}
-
-if (!database) {
-	database = firebase.database()
-}
-
-if (!firestore) {
-	firestore = firebase.firestore()
-}
+auth = getAuth(app)
+database = getDatabase(app)
+firestore = getFirestore(app)
 
 
 
 
-
-export default firebase
 export {
+	app,
 	auth,
 	database,
-	firebase,
 	firestore,
 }

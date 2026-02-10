@@ -5,19 +5,15 @@ import PropTypes from 'prop-types'
 
 
 
-export function ExternalLink(props) {
+export function ExternalLink({ rel = '', ...rest }) {
 	return (
 		<a
-			{...props}
-			rel={`noopener noreferrer ${props.rel}`}
+			{...rest}
+			rel={`noopener noreferrer ${rel}`}
 			target="_blank">
-			{props.children}
+			{rest.children}
 		</a>
 	)
-}
-
-ExternalLink.defaultProps = {
-	rel: '',
 }
 
 ExternalLink.propTypes = {

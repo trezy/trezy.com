@@ -157,20 +157,28 @@ export async function getArticleAsStaticProps(context) {
 			.map(([, idString]) => idString.replace(/[^0-9]/gu, ''))
 
 		if (tweetIDs.length) {
-			const twitterResponse = await Twitter.getTweets(tweetIDs)
+			scope.tweets = {}
 
-			scope.tweets = twitterResponse.data.reduce((accumulator, tweetData) => {
-				const parsedTweet = parseTweet(tweetData, twitterResponse)
-				accumulator[parsedTweet.id] = parsedTweet
-				return accumulator
-			}, {})
+			try {
+				const twitterResponse = await Twitter.getTweets(tweetIDs)
+
+				if (twitterResponse?.data) {
+					scope.tweets = twitterResponse.data.reduce((accumulator, tweetData) => {
+						const parsedTweet = parseTweet(tweetData, twitterResponse)
+						accumulator[parsedTweet.id] = parsedTweet
+						return accumulator
+					}, {})
+				}
+			} catch (error) {
+				console.warn('Failed to fetch tweets:', error.message)
+			}
+
+			article.body = article.body
+				.replace(/<Tweet id=("[0-9]+"|'[0-9]+'|\{"[0-9]+"\}|\{'[0-9]+'\})\s?\/>/gu, (_, idString) => {
+					const tweetID = idString.replace(/[^0-9]/gu, '')
+					return `<Tweet tweet={tweets['${tweetID}']} />`
+				})
 		}
-
-		article.body = article.body
-			.replace(/<Tweet id=("[0-9]+"|'[0-9]+'|\{"[0-9]+"\}|\{'[0-9]+'\})\s?\/>/gu, (_, idString) => {
-				const tweetID = idString.replace(/[^0-9]/gu, '')
-				return `<Tweet tweet={tweets['${tweetID}']} />`
-			})
 
 		props.dependencies = article.dependencies || null
 

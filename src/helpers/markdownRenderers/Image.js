@@ -9,9 +9,9 @@ import PropTypes from 'prop-types'
 
 export function Image(props) {
 	const {
-		alt,
-		node,
-		title,
+		alt = null,
+		node = null,
+		title = null,
 	} = props
 	const {
 		caption,
@@ -65,12 +65,6 @@ export function Image(props) {
 			alt={alt || title}
 			title={title || alt} />
 	)
-}
-
-Image.defaultProps = {
-	alt: null,
-	node: null,
-	title: null,
 }
 
 Image.propTypes = {
