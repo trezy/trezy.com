@@ -2,10 +2,10 @@
 	Variables
 \******************************************************************************/
 
-@import 'variables/banner';
-@import 'variables/colors';
-@import 'variables/fonts';
-@import 'variables/gutter';
+@use 'variables/banner';
+@use 'variables/colors';
+@use 'variables/fonts';
+@use 'variables/gutter';
 
 
 
@@ -15,7 +15,7 @@
 	Functions
 \******************************************************************************/
 
-@import 'functions/native-max';
+@use 'functions/native-max';
 
 
 
@@ -25,48 +25,48 @@
 	Animations
 \******************************************************************************/
 
-@import 'animations/sequential-delay';
+@use 'animations/sequential-delay';
 
-@import 'animations/animate';
-@import 'animations/fade-in';
-@import 'animations/fade-out';
-@import 'animations/full-pulse';
-@import 'animations/pulse';
-@import 'animations/slide-in-from-bottom';
-@import 'animations/slide-in-from-bottom-small';
-@import 'animations/slide-in-from-left';
-@import 'animations/slide-in-from-left-small';
-@import 'animations/slide-in-from-right';
-@import 'animations/slide-in-from-right-small';
-@import 'animations/slide-in-from-top';
-@import 'animations/slide-in-from-top-small';
-@import 'animations/slide-out-to-bottom';
-@import 'animations/slide-out-to-bottom-small';
-@import 'animations/slide-out-to-left';
-@import 'animations/slide-out-to-left-small';
-@import 'animations/slide-out-to-right';
-@import 'animations/slide-out-to-right-small';
-@import 'animations/slide-out-to-top';
-@import 'animations/slide-out-to-top-small';
-@import 'animations/wiggle';
+@use 'animations/animate';
+@use 'animations/fade-in';
+@use 'animations/fade-out';
+@use 'animations/full-pulse';
+@use 'animations/pulse';
+@use 'animations/slide-in-from-bottom';
+@use 'animations/slide-in-from-bottom-small';
+@use 'animations/slide-in-from-left';
+@use 'animations/slide-in-from-left-small';
+@use 'animations/slide-in-from-right';
+@use 'animations/slide-in-from-right-small';
+@use 'animations/slide-in-from-top';
+@use 'animations/slide-in-from-top-small';
+@use 'animations/slide-out-to-bottom';
+@use 'animations/slide-out-to-bottom-small';
+@use 'animations/slide-out-to-left';
+@use 'animations/slide-out-to-left-small';
+@use 'animations/slide-out-to-right';
+@use 'animations/slide-out-to-right-small';
+@use 'animations/slide-out-to-top';
+@use 'animations/slide-out-to-top-small';
+@use 'animations/wiggle';
 
 // Aggregate animations
-@import 'animations/fade-in-from-bottom';
-@import 'animations/fade-in-from-bottom-small';
-@import 'animations/fade-in-from-left';
-@import 'animations/fade-in-from-left-small';
-@import 'animations/fade-in-from-right';
-@import 'animations/fade-in-from-right-small';
-@import 'animations/fade-in-from-top';
-@import 'animations/fade-in-from-top-small';
-@import 'animations/fade-out-to-bottom';
-@import 'animations/fade-out-to-bottom-small';
-@import 'animations/fade-out-to-left';
-@import 'animations/fade-out-to-left-small';
-@import 'animations/fade-out-to-right';
-@import 'animations/fade-out-to-right-small';
-@import 'animations/fade-out-to-top';
-@import 'animations/fade-out-to-top-small';
+@use 'animations/fade-in-from-bottom';
+@use 'animations/fade-in-from-bottom-small';
+@use 'animations/fade-in-from-left';
+@use 'animations/fade-in-from-left-small';
+@use 'animations/fade-in-from-right';
+@use 'animations/fade-in-from-right-small';
+@use 'animations/fade-in-from-top';
+@use 'animations/fade-in-from-top-small';
+@use 'animations/fade-out-to-bottom';
+@use 'animations/fade-out-to-bottom-small';
+@use 'animations/fade-out-to-left';
+@use 'animations/fade-out-to-left-small';
+@use 'animations/fade-out-to-right';
+@use 'animations/fade-out-to-right-small';
+@use 'animations/fade-out-to-top';
+@use 'animations/fade-out-to-top-small';
 
 
 
@@ -76,37 +76,37 @@
 	Core
 \******************************************************************************/
 
-@import 'core/root';
+@use 'core/root';
 
-@import 'core/a';
-@import 'core/article';
-@import 'core/blockquote';
-@import 'core/button';
-@import 'core/code';
-@import 'core/contenteditable';
-@import 'core/details';
-@import 'core/dialog';
-@import 'core/dl';
-@import 'core/em';
-@import 'core/fieldset';
-@import 'core/figure';
-@import 'core/footer';
-@import 'core/form';
-@import 'core/headings';
-@import 'core/hr';
-@import 'core/img';
-@import 'core/inline';
-@import 'core/input';
-@import 'core/lists';
-@import 'core/main';
-@import 'core/menu';
-@import 'core/p';
-@import 'core/pre';
-@import 'core/section';
-@import 'core/small';
-@import 'core/strong';
-@import 'core/table';
-@import 'core/video';
+@use 'core/a';
+@use 'core/article';
+@use 'core/blockquote';
+@use 'core/button';
+@use 'core/code';
+@use 'core/contenteditable';
+@use 'core/details';
+@use 'core/dialog';
+@use 'core/dl';
+@use 'core/em';
+@use 'core/fieldset';
+@use 'core/figure';
+@use 'core/footer';
+@use 'core/form';
+@use 'core/headings';
+@use 'core/hr';
+@use 'core/img';
+@use 'core/inline';
+@use 'core/input';
+@use 'core/lists';
+@use 'core/main';
+@use 'core/menu';
+@use 'core/p';
+@use 'core/pre';
+@use 'core/section';
+@use 'core/small';
+@use 'core/strong';
+@use 'core/table';
+@use 'core/video';
 
 
 
@@ -116,44 +116,44 @@
 	Components
 \******************************************************************************/
 
-@import 'components/alert';
-@import 'components/application-wrapper';
-@import 'components/article-list';
-@import 'components/article-responses';
-@import 'components/article-summary';
-@import 'components/avatar';
-@import 'components/badge';
-@import 'components/banner';
-@import 'components/banner-control';
-@import 'components/block';
-@import 'components/brand';
-@import 'components/breadcrumbs';
-@import 'components/button';
-@import 'components/card';
-@import 'components/card-list';
-@import 'components/character-creator';
-@import 'components/character-preview';
-@import 'components/client-list';
-@import 'components/content-info';
-@import 'components/dependency-table';
-@import 'components/field';
-@import 'components/floaty-menu';
-@import 'components/hero';
-@import 'components/image-wrapper';
-@import 'components/input-container';
-@import 'components/markdown-editor';
-@import 'components/meta';
-@import 'components/notice';
-@import 'components/pagination';
-@import 'components/radio-group';
-@import 'components/response-form';
-@import 'components/responses';
-@import 'components/responses-container';
-@import 'components/stream-badge';
-@import 'components/subtitle';
-@import 'components/tabs';
-@import 'components/tweet';
-@import 'components/users-list';
+@use 'components/alert';
+@use 'components/application-wrapper';
+@use 'components/article-list';
+@use 'components/article-responses';
+@use 'components/article-summary';
+@use 'components/avatar';
+@use 'components/badge';
+@use 'components/banner' as component-banner;
+@use 'components/banner-control';
+@use 'components/block';
+@use 'components/brand';
+@use 'components/breadcrumbs';
+@use 'components/button' as component-button;
+@use 'components/card';
+@use 'components/card-list';
+@use 'components/character-creator';
+@use 'components/character-preview';
+@use 'components/client-list';
+@use 'components/content-info';
+@use 'components/dependency-table';
+@use 'components/field';
+@use 'components/floaty-menu';
+@use 'components/hero';
+@use 'components/image-wrapper';
+@use 'components/input-container';
+@use 'components/markdown-editor';
+@use 'components/meta';
+@use 'components/notice';
+@use 'components/pagination';
+@use 'components/radio-group';
+@use 'components/response-form';
+@use 'components/responses';
+@use 'components/responses-container';
+@use 'components/stream-badge';
+@use 'components/subtitle';
+@use 'components/tabs';
+@use 'components/tweet';
+@use 'components/users-list';
 
 
 
@@ -163,12 +163,12 @@
 	Pages
 \******************************************************************************/
 
-@import 'pages/about';
-@import 'pages/edit-article';
-@import 'pages/error';
-@import 'pages/game';
-@import 'pages/game/character-select';
-@import 'pages/login';
+@use 'pages/about';
+@use 'pages/edit-article';
+@use 'pages/error';
+@use 'pages/game';
+@use 'pages/game/character-select';
+@use 'pages/login';
 
 
 
@@ -178,7 +178,7 @@
 	Helpers
 \******************************************************************************/
 
-@import 'helpers/capitalize';
-@import 'helpers/hide-if-empty';
-@import 'helpers/pointer-events-off';
-@import 'helpers/screen-reader-only';
+@use 'helpers/capitalize';
+@use 'helpers/hide-if-empty';
+@use 'helpers/pointer-events-off';
+@use 'helpers/screen-reader-only';

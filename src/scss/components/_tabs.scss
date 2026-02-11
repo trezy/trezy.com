@@ -1,3 +1,5 @@
+@use '../functions/native-max' as *;
+
 .tabs {
 	border-color: var(--brand-primary);
 	border-style: solid;

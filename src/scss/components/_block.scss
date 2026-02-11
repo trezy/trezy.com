@@ -1,3 +1,5 @@
+@use '../functions/native-max' as *;
+
 .block {
 	--header-image-height: 30rem;
 	--vertical-padding: 5rem;

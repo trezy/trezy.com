@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 .alert {
 	background-color: var(--background-color);
 	border-left-color: var(--text-color);
@@ -30,7 +32,7 @@
 
 	@each $alert-style, $properties in $alert-styles {
 		&.#{$alert-style} {
-			$color: #{map-get($properties, color)};
+			$color: #{map.get($properties, color)};
 			--background-tint: hsla(var(--#{$color}-h), var(--#{$color}-s), var(--#{$color}-l), 0.1);
 
 			background-image: linear-gradient(

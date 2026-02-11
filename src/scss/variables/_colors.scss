@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @mixin generateHSLCustomProperties($name, $h, $s, $l) {
 	// $safeName is necessary because $name can be a color literal. Sass doesn't
 	// like that.
@@ -15,18 +17,18 @@
 @mixin generateHSLCustomPropertiesFromColor($color) {
 	@include generateHSLCustomProperties(
 		$color,
-		hue($color),
-		saturation($color),
-		lightness($color),
+		color.channel($color, "hue", $space: hsl),
+		color.channel($color, "saturation", $space: hsl),
+		color.channel($color, "lightness", $space: hsl),
 	)
 }
 
 @mixin generateHSLCustomPropertiesFromHex($name, $color) {
 	@include generateHSLCustomProperties(
 		$name,
-		hue($color),
-		saturation($color),
-		lightness($color),
+		color.channel($color, "hue", $space: hsl),
+		color.channel($color, "saturation", $space: hsl),
+		color.channel($color, "lightness", $space: hsl),
 	)
 }
 
