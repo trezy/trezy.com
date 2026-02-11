@@ -41,16 +41,17 @@ export default async function handler(request) {
 					position: 'relative',
 				}}>
 				{image && (
-					<div
+					<img
+						src={image}
+						width={1200}
+						height={630}
 						style={{
 							position: 'absolute',
 							top: 0,
 							left: 0,
-							width: '100%',
-							height: '100%',
-							backgroundImage: `url(${image})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
+							width: 1200,
+							height: 630,
+							objectFit: 'cover',
 						}} />
 				)}
 
