@@ -61,8 +61,8 @@ export default async function handler(request) {
 							position: 'absolute',
 							top: 0,
 							left: 0,
-							width: '100%',
-							height: '100%',
+							width: 1200,
+							height: 630,
 							background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%)',
 						}} />
 				)}
