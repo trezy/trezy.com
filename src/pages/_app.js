@@ -11,6 +11,7 @@ import 'scss/app.scss'
 
 // Module imports
 import { AnimatePresence } from 'framer-motion'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { ThemeProvider } from 'next-themes'
 import { config as fontAwesomeConfig } from '@fortawesome/fontawesome-svg-core'
 import NextHead from 'next/head'
@@ -55,6 +56,8 @@ export default function App(props) {
 
 	return (
 		<>
+			<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID} />
+
 			<NextHead>
 				<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover, width=device-width" />
 			</NextHead>
