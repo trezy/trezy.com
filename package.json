@@ -5,7 +5,7 @@
 	"license": "BSD-3-Clause",
 	"scripts": {
 		"build": "next build",
-		"dev": "NODE_OPTIONS='--inspect' next dev",
+		"dev": "next dev",
 		"start": "next start"
 	},
 	"dependencies": {
@@ -57,6 +57,5 @@
 		"copy-webpack-plugin": "^10.2.4",
 		"mri": "^1.2.0",
 		"sass": "^1.53.0"
-	},
-	"packageManager": "yarn@4.5.1"
+	}
 }

@@ -18,49 +18,47 @@ export async function getStaticProps() {
 		gitRev,
 		path,
 		{ promisify },
-		yaml,
 	] = await Promise.all([
 		import('fs'),
 		import('isomorphic-git'),
 		import('git-rev-promises'),
 		import('path'),
 		import('util'),
-		import('yaml'),
 	])
-
-	const [,
-		yarnVersion = '',
-	] = (/yarn\/(v?\d+\.\d+\.\d+)/.exec(process.env.npm_config_user_agent || '') || [])
 
 	const repoLink = `https://github.com/${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`
 
 	const asyncReadFile = promisify(fs.readFile)
-	const yarnLockPath = path.resolve(process.cwd(), 'yarn.lock')
-	const lockfile = await asyncReadFile(yarnLockPath, 'utf8')
-	const dependencies = yaml.parse(lockfile)
+	const bunLockPath = path.resolve(process.cwd(), 'bun.lock')
+	const lockfile = await asyncReadFile(bunLockPath, 'utf8')
+	const lockfileData = JSON.parse(lockfile.replace(/,(\s*[}\]])/g, '$1'))
 
-	const nextDependencyKey = Object
-		.keys(dependencies)
-		.find(dependency => /^next@.*:.*\d+\.\d+\.\d+$/iu.exec(dependency))
-	const nextVersion = dependencies[nextDependencyKey]?.version
+	const dependencies = Object.fromEntries(
+		Object.entries(lockfileData.packages).map(([name, entry]) => {
+			const [nameAtVersion, , metadata] = entry
+			const version = nameAtVersion.slice(name.length + 1)
+			return [name, { version, resolution: nameAtVersion, ...metadata }]
+		})
+	)
+
+	const nextVersion = dependencies['next']?.version
 
 	const [
 		gitBranch,
 		gitCommitHash,
 		gitCommitShortHash,
-		gitCommitMessage,
 	] = await Promise.all([
 		gitRev.branch(),
 		gitRev.long(),
 		gitRev.short(),
-		gitRev.message(),
 	])
 	const [
 		[{
 			commit: {
 				author: {
 					name: gitCommitAuthorName,
-				}
+				},
+				message: gitCommitMessage,
 			},
 		}]
 	] = await Promise.all([
