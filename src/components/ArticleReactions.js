@@ -107,13 +107,13 @@ export function ArticleReactions(props) {
 					count: newState[type].count - 1,
 					isActive: false,
 				}
-				API.removeArticleReaction(article.id, localStorage.getItem('browserID'), type)
+				API.removeArticleReaction(article.id, API.getBrowserID(), type)
 			} else {
 				newState[type] = {
 					count: newState[type].count + 1,
 					isActive: true,
 				}
-				API.addArticleReaction(article.id, localStorage.getItem('browserID'), type)
+				API.addArticleReaction(article.id, API.getBrowserID(), type)
 			}
 
 			return newState
@@ -179,7 +179,7 @@ export function ArticleReactions(props) {
 				userReactions,
 			] = await Promise.all([
 				API.getReactionsForArticle(article.id),
-				API.getReactionsForArticle(article.id, localStorage.getItem('browserID')),
+				API.getReactionsForArticle(article.id, API.getBrowserID()),
 			])
 
 			setReactions(previousState => {

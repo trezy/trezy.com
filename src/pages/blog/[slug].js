@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 // Component imports
 import { ArticleMeta } from '../../components/ArticleMeta/index.js'
-// import { ArticleReactions } from '../../components/ArticleReactions.js'
+import { ArticleReactions } from '../../components/ArticleReactions.js'
 import { Block } from '../../components/Block/index.js'
 import createTitleStringFromArticle from '../../helpers/createTitleStringFromArticle.js'
 import { getArticleAsStaticProps } from '../../helpers/getArticleAsStaticProps.js'
@@ -70,7 +70,7 @@ export default function ArticlePage(props) {
 			<Block elementType={'article'}>
 				<MDXRenderer source={source}/>
 
-				{/* <ArticleReactions article={article} /> */}
+				<ArticleReactions article={article} />
 			</Block>
 		</PageWrapper>
 	)

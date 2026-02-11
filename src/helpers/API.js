@@ -25,10 +25,6 @@ export function addArticleReaction(articleID, browserID, type) {
 	return apiFetch(path, { method: 'post' })
 }
 
-export function createBrowserID() {
-	return apiFetchJSON('/analytics/createID')
-}
-
 export function getReactionsForArticle(articleID, browserID) {
 	let path = `/blog/${articleID}/reactions`
 
@@ -39,15 +35,11 @@ export function getReactionsForArticle(articleID, browserID) {
 	return apiFetchJSON(path)
 }
 
-export async function getBrowserID() {
+export function getBrowserID() {
 	let browserID = localStorage.getItem('browserID')
 
-
 	if (!browserID) {
-		const response = await createBrowserID()
-
-		browserID = response.id
-
+		browserID = crypto.randomUUID()
 		localStorage.setItem('browserID', browserID)
 	}
 
