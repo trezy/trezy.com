@@ -31,13 +31,28 @@ function Mermaid(props) {
 	const [svg, setSVG] = useState(null)
 	const [id] = useState(`mermaid-${uuid()}`)
 
-	useEffect(async () => {
-		if (!mermaid) {
-			mermaid = await import('mermaid')
-			mermaid.initialize({ startOnLoad: false })
+	useEffect(() => {
+		let cancelled = false
+
+		async function renderDiagram() {
+			if (!mermaid) {
+				const mermaidModule = await import('mermaid')
+				mermaid = mermaidModule.default
+				mermaid.initialize({ startOnLoad: false })
+			}
+
+			try {
+				const { svg } = await mermaid.render(id, mdastNodeToString(node))
+				if (!cancelled) {
+					setSVG(svg)
+				}
+			} catch (error) {
+				console.error('Mermaid render failed:', error)
+			}
 		}
 
-		mermaid.render(id, mdastNodeToString(node), renderedSVG => setSVG(renderedSVG))
+		renderDiagram()
+		return () => { cancelled = true }
 	}, [node])
 
 	return (

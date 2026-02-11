@@ -1,8 +1,8 @@
 // Module imports
 import {
-	faExclamationCircle,
-	faExclamationTriangle,
-	faInfoCircle,
+	faCircleExclamation,
+	faTriangleExclamation,
+	faCircleInfo,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
@@ -25,15 +25,15 @@ export function Alert(props) {
 
 	switch (type) {
 		case 'danger':
-			icon = faExclamationTriangle
+			icon = faTriangleExclamation
 			break
 
 		case 'warning':
-			icon = faExclamationCircle
+			icon = faCircleExclamation
 			break
 
 		default:
-			icon = faInfoCircle
+			icon = faCircleInfo
 			break
 	}
 

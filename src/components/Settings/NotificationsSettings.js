@@ -6,7 +6,7 @@ import {
 } from 'react'
 import {
 	faEnvelope,
-	faMobileAlt,
+	faMobileScreenButton,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -95,7 +95,7 @@ export function NotificationsSettings() {
 							<th scope="column">
 								<FontAwesomeIcon
 									fixedWidth
-									icon={faMobileAlt} />
+									icon={faMobileScreenButton} />
 								Mobile
 							</th>
 

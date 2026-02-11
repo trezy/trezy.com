@@ -1,5 +1,5 @@
 // Module imports
-import ReactMarkdown from 'react-markdown/with-html'
+import ReactMarkdown from 'react-markdown'
 
 
 

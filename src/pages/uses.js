@@ -3,21 +3,22 @@ import {
 	faCameraRetro,
 	faChair,
 	faDesktop,
-	faHdd,
+	faHardDrive,
 	faHeadphones,
 	faKeyboard,
 	faLightbulb,
 	faMemory,
 	faMicrochip,
-	faMicrophoneAlt,
+	faMicrophoneLines,
 	faMouse,
 	faPersonBooth,
 	faPlug,
 	faServer,
 	faSliders,
 	faSquareFull,
-	faThermometerHalf,
+	faTemperatureHalf,
 	faVideo,
+	faVolumeHigh,
 } from '@fortawesome/free-solid-svg-icons'
 import classnames from 'classnames'
 import { faUsb } from '@fortawesome/free-brands-svg-icons'
@@ -228,7 +229,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faHdd} />
+								<FontAwesomeIcon icon={faHardDrive} />
 							</span>
 
 							{'1'}<abbr title={'Terabyte'}>{'TB'}</abbr>{' '}<abbr title={'Solid State Drive'}>{'SSD'}</abbr>
@@ -404,7 +405,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faThermometerHalf} />
+								<FontAwesomeIcon icon={faTemperatureHalf} />
 							</span>
 
 							<AmazonLink id="B08CXDWFKC">
@@ -414,7 +415,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faThermometerHalf} />
+								<FontAwesomeIcon icon={faTemperatureHalf} />
 							</span>
 
 							<AmazonLink id="B08HKDBW6F">
@@ -534,7 +535,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faMicrophoneAlt} />
+								<FontAwesomeIcon icon={faMicrophoneLines} />
 							</span>
 
 							<AmazonLink id="B09DHXL8L8">
@@ -564,7 +565,7 @@ export default function UsesPage() {
 
 						{/* <ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faVolumeUp} />
+								<FontAwesomeIcon icon={faVolumeHigh} />
 							</span>
 
 							<AmazonLink id="B003VAHYTG">
@@ -622,7 +623,7 @@ export default function UsesPage() {
 
 						<ListItem delay={getDelay({ delayIncrement: 0.2 })}>
 							<span className="fa-li">
-								<FontAwesomeIcon icon={faMicrophoneAlt} />
+								<FontAwesomeIcon icon={faMicrophoneLines} />
 							</span>
 
 							<AmazonLink id="B097376LKF">

@@ -1,6 +1,5 @@
 // Module imports
 import behead from 'remark-behead'
-import directive from 'remark-directive'
 import gfm from 'remark-gfm'
 import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
@@ -11,7 +10,6 @@ import squeezeParagraphs from 'remark-squeeze-paragraphs'
 // Local imports
 import { Code } from 'components/Code'
 import {
-	Directive,
 	Image,
 	List,
 } from 'helpers/markdownRenderers'
@@ -21,20 +19,15 @@ import {
 
 
 export const config = {
-	allowDangerousHtml: false,
-	plugins: [
+	remarkPlugins: [
 		[behead, { depth: 1 }],
 		gfm,
-		directive,
 		squeezeParagraphs,
 	],
-	renderers: {
+	components: {
 		code: Code,
-		image: Image,
-		imageReference: Image,
-		list: List,
-		textDirective: Directive,
-		leafDirective: Directive,
-		containerDirective: Directive,
+		img: Image,
+		ol: (props) => <List ordered={true} start={props.start}>{props.children}</List>,
+		ul: (props) => <List ordered={false}>{props.children}</List>,
 	},
 }

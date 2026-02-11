@@ -85,7 +85,7 @@ export function PrivacySettings(props) {
 	return (
 		<motion.section
 			className="block"
-			{...motion}>
+			{...motionSettings}>
 			<form onSubmit={handleSubmit}>
 				<div className="field horizontal">
 					<label>{'Allow Detailed Analytics'}</label>

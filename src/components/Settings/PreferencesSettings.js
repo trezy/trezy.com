@@ -80,7 +80,7 @@ export function PreferencesSettings(props) {
 	return (
 		<motion.section
 			className="block"
-			{...motion}>
+			{...motionSettings}>
 			<form onSubmit={handleSubmit}>
 				<div className="field horizontal">
 					<label>Theme</label>

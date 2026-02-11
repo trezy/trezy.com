@@ -94,7 +94,7 @@ export function ProfileSettings(props) {
 	return (
 		<motion.section
 			className="block"
-			{...motion}>
+			{...motionSettings}>
 			<form onSubmit={handleSubmit}>
 				<div className="field horizontal">
 					<label>Display Name</label>

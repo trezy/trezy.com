@@ -2,9 +2,9 @@
 import {
 	faBook,
 	faHome,
-	faSignInAlt,
-	faSignOutAlt,
-	faSlidersH,
+	faRightToBracket,
+	faRightFromBracket,
+	faSliders,
 	faUser,
 	faUsers,
 	faUserShield,
@@ -73,7 +73,7 @@ function ApplicationNav() {
 			{!user && (
 				<NavLink
 					href={`/login?destination=${router.asPath}`}
-					icon={faSignInAlt}
+					icon={faRightToBracket}
 					title="Login" />
 			)}
 
@@ -117,11 +117,11 @@ function ApplicationNav() {
 					title={!profile ? 'Loading profile data...' : user.displayName}>
 					<NavLink
 						href="/settings"
-						icon={faSlidersH}
+						icon={faSliders}
 						title="Settings" />
 					<NavLink
 						href="/dashboard/blog"
-						icon={faSignOutAlt}
+						icon={faRightFromBracket}
 						onClick={handleLogout}
 						title="Logout" />
 				</SubNav>

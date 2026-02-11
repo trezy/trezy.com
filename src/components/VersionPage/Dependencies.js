@@ -35,6 +35,7 @@ export function Dependencies(props) {
 		environment,
 	} = props
 	const fuse = useRef(new Fuse([], FUSE_OPTIONS))
+	const [allDependencies, setAllDependencies] = useState([])
 	const [filteredDependencies, setFilteredDependencies] = useState(fuse.current.search(''))
 	const [query, setQuery] = useState('')
 	const [isLoaded, setIsLoaded] = useState(false)
@@ -67,10 +68,11 @@ export function Dependencies(props) {
 				item,
 			}))
 		fuse.current.setCollection(dependencyCollection)
+		setAllDependencies(dependencyCollection)
 		setIsLoaded(true)
 	}, [])
 
-	const dependencies = Boolean(query) ? filteredDependencies : fuse.current._docs
+	const dependencies = Boolean(query) ? filteredDependencies : allDependencies
 	const sliceStart = (currentPage - 1) * 10
 
 	return (
