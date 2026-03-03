@@ -2,7 +2,7 @@
 import * as Contentful from 'helpers/Contentful'
 import createEndpoint from 'pages/api/helpers/createEndpoint'
 import httpStatus from 'helpers/httpStatus'
-import { syncArticle } from 'helpers/StandardSite'
+import { syncAllArticles } from 'helpers/StandardSite'
 
 
 
@@ -16,16 +16,7 @@ async function handler(request, response) {
 
 	try {
 		const articles = await Contentful.getAllArticles()
-		const results = []
-
-		for (const article of articles) {
-			try {
-				await syncArticle(article)
-				results.push({ slug: article.slug, status: 'synced' })
-			} catch (error) {
-				results.push({ slug: article.slug, status: 'error', error: error.message })
-			}
-		}
+		const results = await syncAllArticles(articles)
 
 		response.status(httpStatus.OK)
 		response.json({

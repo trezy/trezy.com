@@ -83,15 +83,7 @@ export async function ensurePublication() {
 	return response.data.uri
 }
 
-export async function syncArticle(article) {
-	const agent = await getAgent()
-	const publicationUri = await ensurePublication()
-
-	const existingRecords = await listAllRecords(agent, DOCUMENT_NSID)
-	const existingRecord = existingRecords.find(
-		(record) => record.value.path === `/blog/${article.slug}`,
-	)
-
+async function buildRecord(agent, publicationUri, article) {
 	const record = {
 		$type: DOCUMENT_NSID,
 		site: publicationUri,
@@ -133,6 +125,10 @@ export async function syncArticle(article) {
 		}
 	}
 
+	return record
+}
+
+async function writeRecord(agent, record, existingRecord) {
 	if (existingRecord) {
 		const rkey = existingRecord.uri.split('/').pop()
 		await agent.com.atproto.repo.putRecord({
@@ -150,6 +146,44 @@ export async function syncArticle(article) {
 			record,
 		})
 	}
+}
+
+export async function syncArticle(article) {
+	const agent = await getAgent()
+	const publicationUri = await ensurePublication()
+
+	const existingRecords = await listAllRecords(agent, DOCUMENT_NSID)
+	const existingRecord = existingRecords.find(
+		(record) => record.value.path === `/blog/${article.slug}`,
+	)
+
+	const record = await buildRecord(agent, publicationUri, article)
+	await writeRecord(agent, record, existingRecord)
+}
+
+export async function syncAllArticles(articles) {
+	const agent = await getAgent()
+	const publicationUri = await ensurePublication()
+	const existingRecords = await listAllRecords(agent, DOCUMENT_NSID)
+
+	const results = []
+
+	for (const article of articles) {
+		try {
+			const existingRecord = existingRecords.find(
+				(record) => record.value.path === `/blog/${article.slug}`,
+			)
+
+			const record = await buildRecord(agent, publicationUri, article)
+			await writeRecord(agent, record, existingRecord)
+			results.push({ slug: article.slug, status: 'synced' })
+		} catch (error) {
+			console.error(`[StandardSite] Failed to sync ${article.slug}:`, error.message)
+			results.push({ slug: article.slug, status: 'error', error: error.message })
+		}
+	}
+
+	return results
 }
 
 export async function deleteArticle(slug) {
