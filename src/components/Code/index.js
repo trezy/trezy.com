@@ -2,26 +2,10 @@
 import {
 	useEffect,
 	useRef,
+	useState,
 } from 'react'
 import classnames from 'classnames'
-import Prism from 'prismjs/components/prism-core'
-/* eslint-disable import/no-unassigned-import */
-import 'prismjs/plugins/autoloader/prism-autoloader'
-import 'prismjs/plugins/line-numbers/prism-line-numbers'
-import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace'
-import 'prismjs/plugins/toolbar/prism-toolbar'
-import 'prismjs/plugins/show-language/prism-show-language'
-/* eslint-enable import/no-unassigned-import */
 import PropTypes from 'prop-types'
-
-
-
-
-
-if (typeof window !== 'undefined') {
-	// eslint-disable-next-line camelcase
-	Prism.plugins.autoloader.languages_path = '/prism-grammars/'
-}
 
 
 
@@ -29,15 +13,32 @@ if (typeof window !== 'undefined') {
 
 function Code(props) {
 	const elementRef = useRef(null)
+	const [prismLoaded, setPrismLoaded] = useState(false)
 	const {
 		language,
 		value,
 	} = props
 
 	useEffect(() => {
-		Prism.highlightElement(elementRef.current)
+		const Prism = require('prismjs/components/prism-core')
+		require('prismjs/plugins/autoloader/prism-autoloader')
+		require('prismjs/plugins/line-numbers/prism-line-numbers')
+		require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace')
+		require('prismjs/plugins/toolbar/prism-toolbar')
+		require('prismjs/plugins/show-language/prism-show-language')
+
+		// eslint-disable-next-line camelcase
+		Prism.plugins.autoloader.languages_path = '/prism-grammars/'
+		setPrismLoaded(true)
+	}, [])
+
+	useEffect(() => {
+		if (prismLoaded && elementRef.current) {
+			const Prism = require('prismjs/components/prism-core')
+			Prism.highlightElement(elementRef.current)
+		}
 	}, [
-		elementRef.current,
+		prismLoaded,
 		language,
 		value,
 	])
