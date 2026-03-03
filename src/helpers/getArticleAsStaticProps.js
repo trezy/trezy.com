@@ -185,12 +185,14 @@ export async function getArticleAsStaticProps(context) {
 		props.source = await serialize(article.body, {
 			mdxOptions,
 			scope,
+			blockJS: false,
 		})
 
 		if (article.changelog) {
 			props.changelog = await serialize(article.changelog, {
 				mdxOptions,
 				scope,
+				blockJS: false,
 			})
 		}
 	}
