@@ -1,6 +1,8 @@
 // Local imports
+import * as Contentful from 'helpers/Contentful'
 import createEndpoint from 'pages/api/helpers/createEndpoint'
 import httpStatus from 'helpers/httpStatus'
+import { deleteArticle, syncArticle } from 'helpers/StandardSite'
 
 
 
@@ -17,6 +19,13 @@ async function handler(request, response) {
 	const requestData = JSON.parse(body)
 
 	if (requestData.sys.type === 'DeletedEntry') {
+		const slug = requestData.fields?.slug?.['en-US']
+		if (slug) {
+			deleteArticle(slug).catch((error) => {
+				console.error('[StandardSite] Failed to delete article:', error.message)
+			})
+		}
+
 		response.status(httpStatus.OK)
 		return response.json({ revalidated: false })
 	}
@@ -32,6 +41,14 @@ async function handler(request, response) {
 			await response.revalidate(`/blog/${slug}`)
 			await response.revalidate('/blog')
 			await response.revalidate('/')
+
+			Contentful.getArticle(slug).then((article) => {
+				if (article) {
+					return syncArticle(article)
+				}
+			}).catch((error) => {
+				console.error('[StandardSite] Failed to sync article:', error.message)
+			})
 
 			response.status(httpStatus.OK)
 			response.json({ revalidated: true })
