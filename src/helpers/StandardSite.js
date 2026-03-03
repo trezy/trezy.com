@@ -83,7 +83,28 @@ export async function ensurePublication() {
 	return response.data.uri
 }
 
-async function buildRecord(agent, publicationUri, article) {
+async function uploadCoverImage(agent, article) {
+	if (!article.headerImage) {
+		return undefined
+	}
+
+	const imageUrl = article.headerImage.fields
+		? `https:${article.headerImage.fields.file.url}`
+		: `https:${article.headerImage.file.url}`
+
+	const imageResponse = await fetch(imageUrl)
+	const imageBuffer = await imageResponse.arrayBuffer()
+	const contentType = imageResponse.headers.get('content-type') || 'image/jpeg'
+
+	const blobResponse = await agent.com.atproto.repo.uploadBlob(
+		new Uint8Array(imageBuffer),
+		{ encoding: contentType },
+	)
+
+	return blobResponse.data.blob
+}
+
+function buildRecord(publicationUri, article, coverImage) {
 	const record = {
 		$type: DOCUMENT_NSID,
 		site: publicationUri,
@@ -104,25 +125,8 @@ async function buildRecord(agent, publicationUri, article) {
 		record.updatedAt = new Date(article.updatedAt).toISOString()
 	}
 
-	if (article.headerImage) {
-		try {
-			const imageUrl = article.headerImage.fields
-				? `https:${article.headerImage.fields.file.url}`
-				: `https:${article.headerImage.file.url}`
-
-			const imageResponse = await fetch(imageUrl)
-			const imageBuffer = await imageResponse.arrayBuffer()
-			const contentType = imageResponse.headers.get('content-type') || 'image/jpeg'
-
-			const blobResponse = await agent.com.atproto.repo.uploadBlob(
-				new Uint8Array(imageBuffer),
-				{ encoding: contentType },
-			)
-
-			record.coverImage = blobResponse.data.blob
-		} catch (error) {
-			console.error('[StandardSite] Failed to upload cover image:', error.message)
-		}
+	if (coverImage) {
+		record.coverImage = coverImage
 	}
 
 	return record
@@ -157,33 +161,15 @@ export async function syncArticle(article) {
 		(record) => record.value.path === `/blog/${article.slug}`,
 	)
 
-	const record = await buildRecord(agent, publicationUri, article)
-	await writeRecord(agent, record, existingRecord)
-}
-
-export async function syncAllArticles(articles) {
-	const agent = await getAgent()
-	const publicationUri = await ensurePublication()
-	const existingRecords = await listAllRecords(agent, DOCUMENT_NSID)
-
-	const results = []
-
-	for (const article of articles) {
-		try {
-			const existingRecord = existingRecords.find(
-				(record) => record.value.path === `/blog/${article.slug}`,
-			)
-
-			const record = await buildRecord(agent, publicationUri, article)
-			await writeRecord(agent, record, existingRecord)
-			results.push({ slug: article.slug, status: 'synced' })
-		} catch (error) {
-			console.error(`[StandardSite] Failed to sync ${article.slug}:`, error.message)
-			results.push({ slug: article.slug, status: 'error', error: error.message })
-		}
+	let coverImage
+	try {
+		coverImage = await uploadCoverImage(agent, article)
+	} catch (error) {
+		console.error('[StandardSite] Failed to upload cover image:', error.message)
 	}
 
-	return results
+	const record = buildRecord(publicationUri, article, coverImage)
+	await writeRecord(agent, record, existingRecord)
 }
 
 export async function deleteArticle(slug) {
