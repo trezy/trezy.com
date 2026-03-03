@@ -151,20 +151,18 @@ export function ArticleReactions(props) {
 		reactions,
 	])
 
-	const twitterDiscussURL = useMemo(() => {
-		const url = new URL('/search', 'https://twitter.com')
+	const blueskySearchURL = useMemo(() => {
+		const url = new URL('/search', 'https://bsky.app')
 
 		url.searchParams.append('q', encodedArticleURL)
 
 		return url.toString()
 	}, [encodedArticleURL])
 
-	const twitterShareURL = useMemo(() => {
-		const url = new URL('/intent/tweet', 'https://twitter.com')
+	const blueskyShareURL = useMemo(() => {
+		const url = new URL('/intent/compose', 'https://bsky.app')
 
-		url.searchParams.append('text', `Check out "${article.title}"`)
-		url.searchParams.append('url', encodedArticleURL)
-		url.searchParams.append('via', 'TrezyCodes')
+		url.searchParams.append('text', `Check out "${article.title}" ${encodedArticleURL}`)
 
 		return url.toString()
 	}, [
@@ -207,12 +205,12 @@ export function ArticleReactions(props) {
 		<aside className="article-responses-wrapper">
 			<h3>{'Before you leave...'}</h3>
 
-			<p>{'I hope you enjoyed the article! If so, consider leaving a reaction or ten! I\'d love if you would share it on Twitter if you think others might enjoy this article! 🥰'}</p>
+			<p>{'I hope you enjoyed the article! If so, consider leaving a reaction or ten! I\'d love if you would share it on Bluesky if you think others might enjoy this article! 🥰'}</p>
 
 			<div className="article-responses">
 				<ul className="share-links">
-					<li><Link href={twitterShareURL}>{'Share on Twitter'}</Link></li>
-					<li><Link href={twitterDiscussURL}>{'Discuss on Twitter'}</Link></li>
+					<li><Link href={blueskyShareURL}>{'Share on Bluesky'}</Link></li>
+					<li><Link href={blueskySearchURL}>{'Discuss on Bluesky'}</Link></li>
 				</ul>
 
 				<div className="reactions">
