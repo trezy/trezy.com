@@ -2,8 +2,6 @@
 
 // Module imports
 const contentful = require('contentful')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const path = require('path')
 
 
 
@@ -173,15 +171,6 @@ module.exports = {
 			test: /\.svg$/i,
 			use: ['@svgr/webpack'],
 		})
-
-		config.plugins.push(new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: path.resolve('node_modules', 'prismjs', 'components', '*.min.js'),
-					to: path.resolve('public', 'prism-grammars', '[name][ext]'),
-				},
-			],
-		}))
 
 		return config
 	},

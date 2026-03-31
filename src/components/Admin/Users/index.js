@@ -11,7 +11,6 @@ import {
 
 // Component imports
 import { Button } from 'components/Button'
-import { Code } from 'components/Code'
 import { useAuth } from 'contexts/AuthContext'
 import { useRoles } from 'contexts/RolesContext'
 import getAvatar from 'helpers/getAvatar'
@@ -134,19 +133,13 @@ export function UserAdmin() {
 
 					<details>
 						<header><h5>Auth</h5></header>
-						<Code
-							language="json"
-							value={JSON.stringify(auth, null, 2)} />
+						<pre><code>{JSON.stringify(auth, null, 2)}</code></pre>
 
 						<header><h5>Profile</h5></header>
-						<Code
-							language="json"
-							value={JSON.stringify(profile, null, 2)} />
+						<pre><code>{JSON.stringify(profile, null, 2)}</code></pre>
 
 						<header><h5>Settings</h5></header>
-						<Code
-							language="json"
-							value={JSON.stringify(settings, null, 2)} />
+						<pre><code>{JSON.stringify(settings, null, 2)}</code></pre>
 					</details>
 				</div>
 

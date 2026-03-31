@@ -120,6 +120,7 @@
 @use 'components/application-wrapper';
 @use 'components/article-list';
 @use 'components/article-responses';
+@use 'components/atproto-login-modal';
 @use 'components/article-summary';
 @use 'components/avatar';
 @use 'components/badge';
@@ -134,6 +135,7 @@
 @use 'components/character-creator';
 @use 'components/character-preview';
 @use 'components/client-list';
+@use 'components/container';
 @use 'components/content-info';
 @use 'components/dependency-table';
 @use 'components/field';

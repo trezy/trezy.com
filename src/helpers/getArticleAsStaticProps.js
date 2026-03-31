@@ -3,6 +3,16 @@ import behead from 'remark-behead'
 import directive from 'remark-directive'
 import gfm from 'remark-gfm'
 import { serialize } from 'next-mdx-remote/serialize'
+import rehypePrettyCode from 'rehype-pretty-code'
+import {
+	transformerNotationDiff,
+	transformerNotationHighlight,
+	transformerNotationWordHighlight,
+	transformerNotationFocus,
+	transformerRenderWhitespace,
+	transformerMetaHighlight,
+} from '@shikijs/transformers'
+import { transformerColorizedBrackets } from '@shikijs/colorized-brackets'
 import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 
@@ -11,6 +21,7 @@ import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 // Local imports
 import * as Contentful from './Contentful.js'
+import * as StandardSite from './StandardSite.js'
 import * as Twitter from './Twitter.js'
 
 
@@ -25,7 +36,26 @@ const mdxOptions = {
 		directive,
 		squeezeParagraphs,
 	],
-	rehypePlugins: [],
+	rehypePlugins: [
+		[rehypePrettyCode, {
+			keepBackground: false,
+			theme: 'github-dark',
+			transformers: [
+				transformerNotationDiff(),
+				transformerNotationHighlight(),
+				transformerNotationWordHighlight(),
+				transformerNotationFocus(),
+				transformerRenderWhitespace(),
+				transformerMetaHighlight(),
+				transformerColorizedBrackets(),
+				{
+					pre(node) {
+						delete node.properties.style
+					},
+				},
+			],
+		}],
+	],
 }
 
 
@@ -178,6 +208,12 @@ export async function getArticleAsStaticProps(context) {
 					const tweetID = idString.replace(/[^0-9]/gu, '')
 					return `<Tweet tweet={tweets['${tweetID}']} />`
 				})
+		}
+
+		const atprotoRef = await StandardSite.getArticleAtprotoRef(slug)
+		if (atprotoRef) {
+			article.atUri = atprotoRef.uri
+			article.atCid = atprotoRef.cid
 		}
 
 		props.dependencies = article.dependencies || null

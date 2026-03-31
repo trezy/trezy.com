@@ -8,4 +8,5 @@ yalc.lock
 .yalc/
 node_modules/
 logs/
-public/prism-grammars
+
+certificates

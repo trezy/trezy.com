@@ -8,7 +8,6 @@ import squeezeParagraphs from 'remark-squeeze-paragraphs'
 
 
 // Local imports
-import { Code } from 'components/Code'
 import {
 	Image,
 	List,
@@ -25,7 +24,6 @@ export const config = {
 		squeezeParagraphs,
 	],
 	components: {
-		code: Code,
 		img: Image,
 		ol: (props) => <List ordered={true} start={props.start}>{props.children}</List>,
 		ul: (props) => <List ordered={false}>{props.children}</List>,

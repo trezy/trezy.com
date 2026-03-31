@@ -22,6 +22,7 @@ import { useRouter } from 'next/router'
 
 
 // Local imports
+import { ATProtoContextProvider } from 'contexts/ATProtoContext.js'
 import { AuthContextProvider } from 'contexts/AuthContext.js'
 import { BannerContextProvider } from 'contexts/BannerContext.js'
 import { ProfilesContextProvider } from 'contexts/ProfilesContext.js'
@@ -63,25 +64,27 @@ export default function App(props) {
 			</NextHead>
 
 			<ThemeProvider attribute="data-theme" defaultTheme="system">
-				<AuthContextProvider>
-					<RemoteConfigContextProvider>
-						<ProfilesContextProvider>
-							<BannerContextProvider>
-								<div id="application-wrapper">
-									<Banner isServer={isServer} />
+				<ATProtoContextProvider>
+					<AuthContextProvider>
+						<RemoteConfigContextProvider>
+							<ProfilesContextProvider>
+								<BannerContextProvider>
+									<div id="application-wrapper">
+										<Banner isServer={isServer} />
 
-									<AnimatePresence
-										mode="wait"
-										onExitComplete={handleExitComplete}>
-										<Component
-											key={router.route}
-											{...pageProps} />
-									</AnimatePresence>
-								</div>
-							</BannerContextProvider>
-						</ProfilesContextProvider>
-					</RemoteConfigContextProvider>
-				</AuthContextProvider>
+										<AnimatePresence
+											mode="wait"
+											onExitComplete={handleExitComplete}>
+											<Component
+												key={router.route}
+												{...pageProps} />
+										</AnimatePresence>
+									</div>
+								</BannerContextProvider>
+							</ProfilesContextProvider>
+						</RemoteConfigContextProvider>
+					</AuthContextProvider>
+				</ATProtoContextProvider>
 			</ThemeProvider>
 		</>
 	)

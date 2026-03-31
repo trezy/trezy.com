@@ -1,4 +1,4 @@
-figure {
+figure:not([data-rehype-pretty-code-figure]) {
 	border-color: currentColor;
 	border-style: solid;
 	border-width: 0;

@@ -7,6 +7,7 @@ import Link from 'next/link'
 
 // Component imports
 import { ClientList } from 'components/ClientList'
+import { Container } from 'components/Container/Container'
 import ArticleList from 'components/ArticleList'
 import PageWrapper from 'components/PageWrapper'
 import * as Contentful from 'helpers/Contentful'
@@ -37,19 +38,19 @@ function Home(props) {
 			</header>
 
 			<section className="block">
-				<header>
+				<Container>
 					<h2>Latest articles</h2>
-				</header>
 
-				<ArticleList
-					articles={articles}
-					className="latest-articles"
-					includeStyles={false}
-					limit={ARTICLE_LIMIT} />
+					<ArticleList
+						articles={articles}
+						className="latest-articles"
+						includeStyles={false}
+						limit={ARTICLE_LIMIT} />
 
-				<Link href="/blog">
-					See more
-				</Link>
+					<Link href="/blog">
+						See more
+					</Link>
+				</Container>
 			</section>
 
 			<section className="block center">

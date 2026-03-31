@@ -7,6 +7,7 @@ import { TID } from '@atproto/common-web'
 
 
 // Local imports
+import { markdownToLeaflet } from './markdownToLeaflet.js'
 import { stripMarkdown } from './stripMarkdown.js'
 
 
@@ -104,7 +105,45 @@ async function uploadCoverImage(agent, article) {
 	return blobResponse.data.blob
 }
 
-function buildRecord(publicationUri, article, coverImage) {
+async function resolveImagePlaceholders(agent, content, imagePlaceholders) {
+	for (const placeholder of imagePlaceholders) {
+		try {
+			const imageUrl = placeholder.src.startsWith('//')
+				? `https:${placeholder.src}`
+				: placeholder.src
+
+			const imageResponse = await fetch(imageUrl)
+			const imageBuffer = await imageResponse.arrayBuffer()
+			const contentType = imageResponse.headers.get('content-type') || 'image/jpeg'
+
+			const blobResponse = await agent.com.atproto.repo.uploadBlob(
+				new Uint8Array(imageBuffer),
+				{ encoding: contentType },
+			)
+
+			const page = content.pages[0]
+			const block = page.blocks[placeholder.blockIndex].block
+
+			// Remove placeholder markers
+			delete block.__placeholder
+			delete block.__src
+			delete block.__alt
+
+			// Set real image data
+			block.image = blobResponse.data.blob
+			block.aspectRatio = { width: 1, height: 1 }
+			if (placeholder.alt) {
+				block.alt = placeholder.alt
+			}
+		} catch (error) {
+			console.error(`[StandardSite] Failed to upload content image: ${error.message}`)
+			// Remove the broken image block
+			content.pages[0].blocks.splice(placeholder.blockIndex, 1)
+		}
+	}
+}
+
+function buildRecord(publicationUri, article, coverImage, content) {
 	const record = {
 		$type: DOCUMENT_NSID,
 		site: publicationUri,
@@ -127,6 +166,10 @@ function buildRecord(publicationUri, article, coverImage) {
 
 	if (coverImage) {
 		record.coverImage = coverImage
+	}
+
+	if (content) {
+		record.content = content
 	}
 
 	return record
@@ -168,8 +211,38 @@ export async function syncArticle(article) {
 		console.error('[StandardSite] Failed to upload cover image:', error.message)
 	}
 
-	const record = buildRecord(publicationUri, article, coverImage)
+	let content
+	if (article.body) {
+		const { content: leafletContent, imagePlaceholders } = markdownToLeaflet(article.body)
+		if (imagePlaceholders.length > 0) {
+			await resolveImagePlaceholders(agent, leafletContent, imagePlaceholders)
+		}
+		content = leafletContent
+	}
+
+	const record = buildRecord(publicationUri, article, coverImage, content)
 	await writeRecord(agent, record, existingRecord)
+}
+
+export async function getArticleAtprotoRef(slug) {
+	try {
+		const agent = await getAgent()
+		const records = await listAllRecords(agent, DOCUMENT_NSID)
+
+		const record = records.find(
+			(r) => r.value.path === `/blog/${slug}`,
+		)
+
+		if (!record) return null
+
+		return {
+			uri: record.uri,
+			cid: record.cid,
+		}
+	} catch (error) {
+		console.error('[StandardSite] Failed to get article AT Protocol ref:', error.message)
+		return null
+	}
 }
 
 export async function deleteArticle(slug) {

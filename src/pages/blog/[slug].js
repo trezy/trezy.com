@@ -15,6 +15,7 @@ import { getArticleAsStaticProps } from '../../helpers/getArticleAsStaticProps.j
 import { getArticlesAsStaticPaths } from '../../helpers/getArticlesAsStaticPaths.js'
 import { MDXRenderer } from '../../components/MDXRenderer.js'
 import PageWrapper from '../../components/PageWrapper.js'
+import { Container } from 'components/Container/Container.js'
 
 
 
@@ -59,18 +60,22 @@ export default function ArticlePage(props) {
 				elementType={'header'}
 				headerImageAlt={article.headerImage?.fields.description}
 				headerImageSource={article.headerImage?.fields.file.url.replace(/^\/\//, 'https://')}>
-				<h2>{article.title}</h2>
+				<Container>
+					<h2>{article.title}</h2>
 
-				<ArticleMeta
-					article={article}
-					changelog={changelog}
-					dependencies={dependencies} />
+					<ArticleMeta
+						article={article}
+						changelog={changelog}
+						dependencies={dependencies} />
+				</Container>
 			</Block>
 
 			<Block elementType={'article'}>
-				<MDXRenderer source={source}/>
+				<Container>
+					<MDXRenderer source={source}/>
 
-				<ArticleReactions article={article} />
+					<ArticleReactions article={article} />
+				</Container>
 			</Block>
 		</PageWrapper>
 	)

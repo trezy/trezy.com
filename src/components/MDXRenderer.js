@@ -6,7 +6,6 @@ import { MDXRemote } from 'next-mdx-remote'
 
 
 // Local imports
-import { Code } from './Code/index.js'
 import Codepen from './Codepen.js'
 import { DITAA } from '../helpers/markdownRenderers/DITAA.js'
 import { Link } from '../helpers/markdownRenderers/Link.js'
@@ -24,11 +23,11 @@ const COMPONENTS = {
 
 	ol: OrderedList,
 
-	pre: function Pre(node) {
+	pre: function Pre({ children, ...props }) {
 		return (
-			<Code
-				language={node.children.props.className?.replace(/^language-/, '')}
-				value={node.children.props.children} />
+			<pre {...props}>
+				{children}
+			</pre>
 		)
 	},
 

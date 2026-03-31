@@ -19,35 +19,26 @@ function apiFetchJSON(...args) {
  * Helpers
 \******************************************************************************/
 
-export function addArticleReaction(articleID, browserID, type) {
-	const path = `/blog/${articleID}/reactions/${browserID}/${type}`
-
-	return apiFetch(path, { method: 'post' })
+export function getReactionsForArticle(articleID) {
+	return apiFetchJSON(`/blog/${articleID}/reactions`)
 }
 
-export function getReactionsForArticle(articleID, browserID) {
-	let path = `/blog/${articleID}/reactions`
-
-	if (browserID) {
-		path += `/${browserID}`
-	}
-
-	return apiFetchJSON(path)
+export function getAtprotoReactionsForUser(articleID, did) {
+	return apiFetchJSON(`/blog/${articleID}/reactions/atproto/${encodeURIComponent(did)}`)
 }
 
-export function getBrowserID() {
-	let browserID = localStorage.getItem('browserID')
-
-	if (!browserID) {
-		browserID = crypto.randomUUID()
-		localStorage.setItem('browserID', browserID)
-	}
-
-	return browserID
+export function addAtprotoReaction(articleID, did, type, atprotoRkey) {
+	return apiFetch(`/blog/${articleID}/reactions/atproto`, {
+		method: 'post',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ did, type, atprotoRkey }),
+	})
 }
 
-export function removeArticleReaction(articleID, browserID, type) {
-	const path = `/blog/${articleID}/reactions/${browserID}/${type}`
-
-	return apiFetch(path, { method: 'delete' })
+export function removeAtprotoReaction(articleID, did, type) {
+	return apiFetch(`/blog/${articleID}/reactions/atproto`, {
+		method: 'delete',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ did, type }),
+	})
 }

@@ -130,6 +130,44 @@ async function main() {
 				record.textContent = stripMarkdown(article.body)
 			}
 
+			if (article.body) {
+				const { markdownToLeaflet } = await import('../src/helpers/markdownToLeaflet.js')
+				const { content, imagePlaceholders } = markdownToLeaflet(article.body)
+
+				// Resolve image placeholders
+				for (const placeholder of imagePlaceholders) {
+					try {
+						const imageUrl = placeholder.src.startsWith('//')
+							? `https:${placeholder.src}`
+							: placeholder.src
+
+						const imageResponse = await fetch(imageUrl)
+						const imageBuffer = await imageResponse.arrayBuffer()
+						const contentType = imageResponse.headers.get('content-type') || 'image/jpeg'
+
+						const blobResponse = await agent.com.atproto.repo.uploadBlob(
+							new Uint8Array(imageBuffer),
+							{ encoding: contentType },
+						)
+
+						const block = content.pages[0].blocks[placeholder.blockIndex].block
+						delete block.__placeholder
+						delete block.__src
+						delete block.__alt
+						block.image = blobResponse.data.blob
+						block.aspectRatio = { width: 1, height: 1 }
+						if (placeholder.alt) {
+							block.alt = placeholder.alt
+						}
+					} catch (error) {
+						console.error(`  Warning: Failed to upload content image: ${error.message}`)
+						content.pages[0].blocks.splice(placeholder.blockIndex, 1)
+					}
+				}
+
+				record.content = content
+			}
+
 			if (article.updatedAt) {
 				record.updatedAt = new Date(article.updatedAt).toISOString()
 			}

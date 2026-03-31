@@ -15,6 +15,7 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,9 +28,12 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import * as API from '../helpers/API.js'
+import { ATProtoLoginModal } from './ATProtoLoginModal/index.js'
+import { createReaction, deleteReaction } from '../helpers/atprotoReactions.js'
 import { ExternalLink } from './ExternalLink.js'
 import { getArticleURL } from 'helpers/getArticleURL.js'
 import { ReactionButton } from 'components/ReactionButton/index.js'
+import { useATProto } from 'contexts/ATProtoContext.js'
 
 
 
@@ -89,9 +93,29 @@ const ALLOWED_REACTIONS = [
 export function ArticleReactions(props) {
 	const { article } = props
 
+	const {
+		agent,
+		did,
+		isAuthenticated,
+		isLoading: isATProtoLoading,
+	} = useATProto()
+
 	const [reactions, setReactions] = useState({})
+	const [userRkeys, setUserRkeys] = useState({})
+	const userRkeysRef = useRef(userRkeys)
+	userRkeysRef.current = userRkeys
+	const [showLoginModal, setShowLoginModal] = useState(false)
+	const [pendingReactionType, setPendingReactionType] = useState(null)
 
 	const handleReactionClick = useCallback(type => () => {
+		if (!isAuthenticated) {
+			setPendingReactionType(type)
+			setShowLoginModal(true)
+			return
+		}
+
+		if (!article.atUri || !article.atCid) return
+
 		setReactions(previousState => {
 			const newState = { ...previousState }
 
@@ -107,21 +131,74 @@ export function ArticleReactions(props) {
 					count: newState[type].count - 1,
 					isActive: false,
 				}
-				API.removeArticleReaction(article.id, API.getBrowserID(), type)
+
+				const rkey = userRkeysRef.current[type]
+				if (rkey) {
+					deleteReaction(agent, rkey)
+						.then(() => API.removeAtprotoReaction(article.id, did, type))
+						.catch(err => {
+							console.error('[Reactions] Failed to remove reaction:', err)
+							setReactions(prev => ({
+								...prev,
+								[type]: {
+									count: (prev[type]?.count ?? 0) + 1,
+									isActive: true,
+								},
+							}))
+						})
+					setUserRkeys(prev => {
+						const next = { ...prev }
+						delete next[type]
+						return next
+					})
+				}
 			} else {
 				newState[type] = {
 					count: newState[type].count + 1,
 					isActive: true,
 				}
-				API.addArticleReaction(article.id, API.getBrowserID(), type)
+
+				createReaction(agent, article.atUri, article.atCid, type)
+					.then(({ rkey }) => {
+						setUserRkeys(prev => ({ ...prev, [type]: rkey }))
+						return API.addAtprotoReaction(article.id, did, type, rkey)
+					})
+					.catch(err => {
+						console.error('[Reactions] Failed to create reaction:', err)
+						setReactions(prev => ({
+							...prev,
+							[type]: {
+								count: (prev[type]?.count ?? 1) - 1,
+								isActive: false,
+							},
+						}))
+					})
 			}
 
 			return newState
 		})
 	}, [
+		agent,
+		article.atCid,
+		article.atUri,
 		article.id,
-		setReactions,
+		did,
+		isAuthenticated,
 	])
+
+	const handleLoginModalClose = useCallback(() => {
+		setShowLoginModal(false)
+		setPendingReactionType(null)
+	}, [])
+
+	const handleLoginStart = useCallback(() => {
+		if (pendingReactionType) {
+			sessionStorage.setItem('pendingAtprotoReaction', JSON.stringify({
+				articleSlug: article.slug,
+				reactionType: pendingReactionType,
+			}))
+		}
+	}, [article.slug, pendingReactionType])
 
 	const encodedArticleURL = useMemo(() => {
 		let origin = process.env.NEXT_PUBLIC_URL
@@ -147,7 +224,7 @@ export function ArticleReactions(props) {
 			)
 		})
 	}, [
-		ALLOWED_REACTIONS,
+		handleReactionClick,
 		reactions,
 	])
 
@@ -170,35 +247,75 @@ export function ArticleReactions(props) {
 		encodedArticleURL,
 	])
 
+	// Load reaction counts and user's reactions
 	useEffect(() => {
-		(async function foo() {
-			const [
-				allReactions,
-				userReactions,
-			] = await Promise.all([
-				API.getReactionsForArticle(article.id),
-				API.getReactionsForArticle(article.id, API.getBrowserID()),
-			])
+		if (isATProtoLoading) return
 
-			setReactions(previousState => {
-				const newState = { ...previousState }
+		async function loadReactions() {
+			const promises = [API.getReactionsForArticle(article.id)]
+
+			if (isAuthenticated && did) {
+				promises.push(API.getAtprotoReactionsForUser(article.id, did))
+			}
+
+			const [allReactions, userReactions] = await Promise.all(promises)
+
+			setReactions(() => {
+				const newState = {}
 
 				allReactions.forEach(reactionData => {
-					newState[reactionData.type] = previousState[reactionData.type] || {
-						count: 0,
+					newState[reactionData.type] = {
+						count: reactionData.count,
 						isActive: false,
 					}
-
-					newState[reactionData.type].count += reactionData.count
-					newState[reactionData.type].isActive = userReactions.includes(reactionData.type)
 				})
+
+				if (userReactions) {
+					userReactions.forEach(({ type, atproto_rkey }) => {
+						if (!newState[type]) {
+							newState[type] = { count: 0, isActive: false }
+						}
+						newState[type].isActive = true
+						setUserRkeys(prev => ({ ...prev, [type]: atproto_rkey }))
+					})
+				}
 
 				return newState
 			})
-		})()
+		}
+
+		loadReactions()
 	}, [
-		article,
-		setReactions,
+		article.id,
+		did,
+		isATProtoLoading,
+		isAuthenticated,
+	])
+
+	// Handle pending reaction after OAuth redirect
+	useEffect(() => {
+		if (!isAuthenticated || !agent || !article.atUri || !article.atCid) return
+
+		const pending = sessionStorage.getItem('pendingAtprotoReaction')
+		if (!pending) return
+
+		try {
+			const { articleSlug, reactionType } = JSON.parse(pending)
+
+			if (articleSlug === article.slug) {
+				sessionStorage.removeItem('pendingAtprotoReaction')
+				handleReactionClick(reactionType)()
+			}
+		} catch {
+			sessionStorage.removeItem('pendingAtprotoReaction')
+		}
+	}, [
+		agent,
+		article.atCid,
+		article.atUri,
+		article.slug,
+		handleReactionClick,
+		isAuthenticated,
 	])
 
 	return (
@@ -245,6 +362,12 @@ export function ArticleReactions(props) {
 					)}
 				</div>
 			</div>
+
+			{showLoginModal && (
+				<ATProtoLoginModal
+					onClose={handleLoginModalClose}
+					onLoginStart={handleLoginStart} />
+			)}
 		</aside>
 	)
 }
