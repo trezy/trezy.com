@@ -1,4 +1,11 @@
 a {
+	transition-duration: 0.2s;
+	transition-property: text-decoration-color;
+
+	&:not(:hover) {
+		text-decoration-color: transparent;
+	}
+
 	&,
 	&:active,
 	&:visited {
