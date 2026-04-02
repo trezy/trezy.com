@@ -1,9 +1,5 @@
 // Module imports
-import { MDXRemote } from 'next-mdx-remote'
-
-
-
-
+import { MDXRemote } from 'next-mdx-remote/rsc'
 
 // Local imports
 import Codepen from './Codepen.js'
@@ -13,10 +9,7 @@ import { Notice } from '../helpers/markdownRenderers/Notice.js'
 import { OrderedList } from '../helpers/markdownRenderers/OrderedList.js'
 import Tweet from './Tweet.js'
 import { UnorderedList } from '../helpers/markdownRenderers/UnorderedList.js'
-
-
-
-
+import { Directive } from '../helpers/markdownRenderers/Directive.js'
 
 const COMPONENTS = {
 	a: Link,
@@ -35,17 +28,19 @@ const COMPONENTS = {
 
 	// Custom components
 	Codepen,
+	Directive,
 	DITAA,
 	Notice,
 	Tweet,
 }
 
 export function MDXRenderer(props) {
-	const { source } = props
+	const { source, options = {} } = props
 
 	return (
 		<MDXRemote
-			{...source}
+			source={source}
+			options={options}
 			components={COMPONENTS} />
 	)
 }

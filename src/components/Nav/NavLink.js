@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import {
 	useCallback,

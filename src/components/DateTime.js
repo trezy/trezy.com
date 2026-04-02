@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import {
 	useEffect,
@@ -5,7 +7,6 @@ import {
 	useState,
 } from 'react'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 
 
 
@@ -28,7 +29,6 @@ export function DateTime(props) {
 	} = props
 
 	const [locale, setLocale] = useState('en-US')
-	const Router = useRouter()
 
 	const valueAsDate = useMemo(() => {
 		if (value instanceof Date) {
@@ -76,11 +76,10 @@ export function DateTime(props) {
 	])
 
 	useEffect(() => {
-		setLocale(Router.locale)
-	}, [
-		Router.locale,
-		setLocale,
-	])
+		if (typeof navigator !== 'undefined') {
+			setLocale(navigator.language)
+		}
+	}, [])
 
 	return (
 		<time

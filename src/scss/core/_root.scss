@@ -18,7 +18,7 @@
 
 html,
 body {
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0;
 	padding: 0;
 	width: 100vw;
@@ -40,8 +40,8 @@ body {
 	transition-duration: 0.2s;
 	transition-property: font-size;
 
-	#__next {
-		height: 100%;
+	#application-wrapper {
+		flex: 1;
 	}
 
 	@media (max-width: 1000px) {

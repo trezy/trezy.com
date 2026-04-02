@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import {
 	// faBadgeCheck,
@@ -35,10 +37,6 @@ function Tweet(props) {
 		tweet,
 	} = props
 
-	if (!tweet) {
-		return null
-	}
-
 	const {
 		author,
 		body,
@@ -51,7 +49,11 @@ function Tweet(props) {
 		referencedTweets,
 		replies,
 		retweets,
-	} = tweet
+	} = tweet || props
+
+	if (!author || !body) {
+		return null
+	}
 
 	const createdAtDate = new Date(createdAt)
 

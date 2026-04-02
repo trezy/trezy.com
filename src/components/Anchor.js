@@ -1,6 +1,8 @@
+'use client'
+
 // Module imports
 import { useCallback } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 

@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import classnames from 'classnames'
 import PropTypes from 'prop-types'

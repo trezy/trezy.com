@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import {
 	useCallback,
@@ -13,7 +15,7 @@ import { Dependencies } from './Dependencies'
 import { Environment } from './Environment'
 import { Git } from './Git'
 import { Tabs } from 'components/Tabs'
-import PageWrapper from 'components/PageWrapper'
+import { PageContent } from 'components/PageContent.js'
 
 
 
@@ -33,7 +35,7 @@ export function VersionPage(props) {
 	}, [setActiveTab])
 
 	return (
-		<PageWrapper title="Version Information">
+		<PageContent title="Version Information">
 			<Tabs
 				activeTab={activeTab}
 				onClick={handleTabClick}
@@ -44,6 +46,6 @@ export function VersionPage(props) {
 			{/* <Environment {...props} />
 			<Git {...props} />
 			<Dependencies {...props} /> */}
-		</PageWrapper>
+		</PageContent>
 	)
 }

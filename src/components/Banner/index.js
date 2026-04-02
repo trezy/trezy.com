@@ -1,3 +1,5 @@
+'use client'
+
 // Local imports
 import {
 	motion,
@@ -7,14 +9,12 @@ import { ApplicationNav } from 'components/ApplicationNav'
 import { BannerToggle } from 'components/Banner/BannerToggle'
 import { SocialNav } from 'components/SocialNav'
 import { useBanner } from 'contexts/BannerContext'
-import { useAuth } from 'contexts/AuthContext'
 
 
 
 
 
 function Banner() {
-	const { user } = useAuth()
 	const {
 		bannerIsOpen,
 		bannerIsTogglable,

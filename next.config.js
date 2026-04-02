@@ -10,33 +10,20 @@ const contentful = require('contentful')
 
 
 module.exports = {
+  experimental: {
+    viewTransition: true,
+  },
+
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.ctfassets.net' },
       { protocol: 'https', hostname: 'pbs.twimg.com' },
+      { protocol: 'https', hostname: 'web.archive.org' },
     ],
   },
 
 	async redirects() {
 		const redirects = [
-			{
-				source: '/profile',
-				destination: '/',
-				permanent: false,
-			},
-
-			{
-				source: '/profile/:path*',
-				destination: '/',
-				permanent: false,
-			},
-
-			{
-				source: '/settings',
-				destination: '/settings/profile',
-				permanent: true,
-			},
-
 			// Socials
 			{
 				source: '/discord',
@@ -137,12 +124,6 @@ module.exports = {
 
 	async rewrites() {
 		return [
-			// App
-			{
-				source: '/@:username',
-				destination: '/profile/@:username',
-			},
-
 			// RSS
 			{
 				source: '/rss(.xml)?',

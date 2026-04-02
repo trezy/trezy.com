@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
 
 // Local imports
 import useDocumentEvent from 'effects/useDocumentEvent'
-import useRouterEvent from 'effects/useRouterEvent'
+import { usePathname } from 'next/navigation'
 import useWindowEvent from 'effects/useWindowEvent'
 
 
@@ -48,6 +48,7 @@ export function BannerContextProvider(props) {
 	const [bannerIsTogglable, setBannerIsTogglable] = useState(
 		((typeof window !== 'undefined') ? window.innerWidth : (RESIZE_BREAKPOINT + 1)) <= RESIZE_BREAKPOINT
 	)
+	const pathname = usePathname()
 
 	const closeBanner = useCallback(() => {
 		document.querySelector('[role=banner] *:focus')?.blur()
@@ -96,8 +97,9 @@ export function BannerContextProvider(props) {
 
 	useWindowEvent('resize', handleWindowResize, [handleWindowResize])
 
-	useRouterEvent('routeChangeComplete', closeBanner, [closeBanner])
-	useRouterEvent('routeChangeError', closeBanner, [closeBanner])
+	useEffect(() => {
+		closeBanner()
+	}, [pathname])
 
 	useDocumentEvent('keyup', handleEscapeKey, [])
 

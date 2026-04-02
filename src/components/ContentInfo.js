@@ -52,22 +52,6 @@ export function ContentInfo() {
 			</nav>
 
 			<nav
-				className="account"
-				aria-labelledby="contentinfo-account-header">
-				<header id="contentinfo-account-header">
-					Account
-				</header>
-
-				<ul>
-					<li>
-						<Link href="/settings">
-							Settings
-						</Link>
-					</li>
-				</ul>
-			</nav>
-
-			<nav
 				className="resources"
 				aria-labelledby="contentinfo-resources-header">
 				<header id="contentinfo-resources-header">

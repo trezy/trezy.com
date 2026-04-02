@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import { useMemo } from 'react'
 
@@ -8,7 +10,7 @@ import { useMemo } from 'react'
 // Component imports
 import Employer from 'components/Experience/Employer'
 import Position from 'components/Experience/Position'
-import PageWrapper from 'components/PageWrapper'
+import { PageContent } from 'components/PageContent.js'
 
 
 
@@ -27,7 +29,7 @@ export default function Experience() {
 	}, [])
 
 	return (
-		<PageWrapper title="Experience">
+		<PageContent title="Experience">
 			<section className="block hero">
 				<p>Lead Software Engineer with {yearsOfExperience} of experience leading the design, development, and deployment of web applications and backend platforms with a focus on the frontend. Hands-on Technical Leader with a passion for building and empowering teams to create and implement innovative solutions that maximize functionality and usability while maintaining stability and performance.</p>
 			</section>
@@ -366,6 +368,6 @@ export default function Experience() {
 					startDate="July 2009"
 					title="Front End Developer" />
 			</Employer>
-		</PageWrapper>
+		</PageContent>
 	)
 }

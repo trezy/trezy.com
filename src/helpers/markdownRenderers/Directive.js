@@ -1,3 +1,5 @@
+'use client'
+
 // Module imports
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
