@@ -27,16 +27,16 @@ export function getAtprotoReactionsForUser(articleID, did) {
 	return apiFetchJSON(`/blog/${articleID}/reactions/atproto/${encodeURIComponent(did)}`)
 }
 
-export function addAtprotoReaction(articleID, did, type, atprotoRkey) {
-	return apiFetch(`/blog/${articleID}/reactions/atproto`, {
+export function addAtprotoReaction(articleID, did, type) {
+	return apiFetchJSON(`/blog/${articleID}/reactions/atproto`, {
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ did, type, atprotoRkey }),
+		body: JSON.stringify({ did, type }),
 	})
 }
 
 export function removeAtprotoReaction(articleID, did, type) {
-	return apiFetch(`/blog/${articleID}/reactions/atproto`, {
+	return apiFetchJSON(`/blog/${articleID}/reactions/atproto`, {
 		method: 'delete',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ did, type }),

@@ -11,7 +11,7 @@ async function handler(request, response) {
 
 	const { data, error } = await supabase
 		.from('reactions')
-		.select('type')
+		.select('type, count')
 		.eq('article_id', articleID)
 
 	if (error) {
@@ -22,7 +22,7 @@ async function handler(request, response) {
 	const counts = {}
 
 	data.forEach(row => {
-		counts[row.type] = (counts[row.type] || 0) + 1
+		counts[row.type] = (counts[row.type] || 0) + row.count
 	})
 
 	const result = Object.entries(counts).map(([type, count]) => ({ type, count }))

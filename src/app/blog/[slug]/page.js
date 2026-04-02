@@ -10,6 +10,7 @@ import createTitleStringFromArticle from 'helpers/createTitleStringFromArticle.j
 import { getArticleData, mdxOptions } from 'helpers/getArticleAsStaticProps.js'
 import { MDXRenderer } from 'components/MDXRenderer.js'
 import { PageContent } from 'components/PageContent.js'
+import { supabase } from 'helpers/supabase.js'
 import * as Contentful from 'helpers/Contentful'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://trezy.codes'
@@ -79,6 +80,21 @@ export default async function ArticlePage({ params }) {
 
 	const articleTitle = createTitleStringFromArticle(article)
 
+	const { data: reactionRows } = await supabase
+		.from('reactions')
+		.select('type, count')
+		.eq('article_id', article.id)
+
+	const initialReactions = {}
+	if (reactionRows) {
+		reactionRows.forEach(row => {
+			if (!initialReactions[row.type]) {
+				initialReactions[row.type] = { count: 0 }
+			}
+			initialReactions[row.type].count += row.count
+		})
+	}
+
 	return (
 		<PageContent
 			showHeader={false}
@@ -121,7 +137,9 @@ export default async function ArticlePage({ params }) {
 						source={body}
 						options={{ mdxOptions, blockJS: false }} />
 
-					<ArticleReactions article={article} />
+					<ArticleReactions
+						article={article}
+						initialReactions={initialReactions} />
 				</Container>
 			</Block>
 		</PageContent>

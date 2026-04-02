@@ -17,6 +17,7 @@ export function ReactionButton(props) {
 	const {
 		emoji,
 		handleClick,
+		handleContextMenu,
 		isActive,
 		reactionCount,
 	} = props
@@ -41,7 +42,8 @@ export function ReactionButton(props) {
 		<Button
 			className={compiledClassNames}
 			isStyled={false}
-			onClick={handleClick}>
+			onClick={handleClick}
+			onContextMenu={handleContextMenu}>
 			{emoji}
 
 			{(reactionCount !== 0) && (

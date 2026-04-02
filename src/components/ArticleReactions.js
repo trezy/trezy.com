@@ -17,7 +17,6 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef,
 	useState,
 } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,7 +30,6 @@ import PropTypes from 'prop-types'
 // Local imports
 import * as API from '../helpers/API.js'
 import { ATProtoLoginModal } from './ATProtoLoginModal/index.js'
-import { createReaction, deleteReaction } from '../helpers/atprotoReactions.js'
 import { ExternalLink } from './ExternalLink.js'
 import { getArticleURL } from 'helpers/getArticleURL.js'
 import { ReactionButton } from 'components/ReactionButton/index.js'
@@ -93,7 +91,7 @@ const ALLOWED_REACTIONS = [
 ]
 
 export function ArticleReactions(props) {
-	const { article } = props
+	const { article, initialReactions = {} } = props
 
 	const {
 		agent,
@@ -102,14 +100,14 @@ export function ArticleReactions(props) {
 		isLoading: isATProtoLoading,
 	} = useATProto()
 
-	const [reactions, setReactions] = useState({})
-	const [userRkeys, setUserRkeys] = useState({})
-	const userRkeysRef = useRef(userRkeys)
-	userRkeysRef.current = userRkeys
+	const MAX_REACTIONS = 20
+
+	const [reactions, setReactions] = useState(initialReactions)
+	const [userCounts, setUserCounts] = useState({})
 	const [showLoginModal, setShowLoginModal] = useState(false)
 	const [pendingReactionType, setPendingReactionType] = useState(null)
 
-	const handleReactionClick = useCallback(type => () => {
+	const addReaction = useCallback(type => {
 		if (!isAuthenticated) {
 			setPendingReactionType(type)
 			setShowLoginModal(true)
@@ -118,75 +116,76 @@ export function ArticleReactions(props) {
 
 		if (!article.atUri || !article.atCid) return
 
-		setReactions(previousState => {
-			const newState = { ...previousState }
+		const currentUserCount = userCounts[type] || 0
+		if (currentUserCount >= MAX_REACTIONS) return
 
-			if (!newState[type]) {
-				newState[type] = {
-					count: 0,
-					isActive: false,
-				}
-			}
+		setReactions(prev => ({
+			...prev,
+			[type]: {
+				count: (prev[type]?.count ?? 0) + 1,
+				userCount: currentUserCount + 1,
+			},
+		}))
+		setUserCounts(prev => ({ ...prev, [type]: currentUserCount + 1 }))
 
-			if (newState[type].isActive) {
-				newState[type] = {
-					count: newState[type].count - 1,
-					isActive: false,
-				}
-
-				const rkey = userRkeysRef.current[type]
-				if (rkey) {
-					deleteReaction(agent, rkey)
-						.then(() => API.removeAtprotoReaction(article.id, did, type))
-						.catch(err => {
-							console.error('[Reactions] Failed to remove reaction:', err)
-							setReactions(prev => ({
-								...prev,
-								[type]: {
-									count: (prev[type]?.count ?? 0) + 1,
-									isActive: true,
-								},
-							}))
-						})
-					setUserRkeys(prev => {
-						const next = { ...prev }
-						delete next[type]
-						return next
-					})
-				}
-			} else {
-				newState[type] = {
-					count: newState[type].count + 1,
-					isActive: true,
-				}
-
-				createReaction(agent, article.atUri, article.atCid, type)
-					.then(({ rkey }) => {
-						setUserRkeys(prev => ({ ...prev, [type]: rkey }))
-						return API.addAtprotoReaction(article.id, did, type, rkey)
-					})
-					.catch(err => {
-						console.error('[Reactions] Failed to create reaction:', err)
-						setReactions(prev => ({
-							...prev,
-							[type]: {
-								count: (prev[type]?.count ?? 1) - 1,
-								isActive: false,
-							},
-						}))
-					})
-			}
-
-			return newState
-		})
+		API.addAtprotoReaction(article.id, did, type)
+			.catch(err => {
+				console.error('[Reactions] Failed to add reaction:', err)
+				setReactions(prev => ({
+					...prev,
+					[type]: {
+						count: (prev[type]?.count ?? 1) - 1,
+						userCount: currentUserCount,
+					},
+				}))
+				setUserCounts(prev => ({ ...prev, [type]: currentUserCount }))
+			})
 	}, [
-		agent,
 		article.atCid,
 		article.atUri,
 		article.id,
 		did,
 		isAuthenticated,
+		userCounts,
 	])
+
+	const removeReaction = useCallback(type => {
+		const currentUserCount = userCounts[type] || 0
+		if (currentUserCount <= 0) return
+
+		setReactions(prev => ({
+			...prev,
+			[type]: {
+				count: Math.max((prev[type]?.count ?? 1) - 1, 0),
+				userCount: currentUserCount - 1,
+			},
+		}))
+		setUserCounts(prev => ({ ...prev, [type]: currentUserCount - 1 }))
+
+		API.removeAtprotoReaction(article.id, did, type)
+			.catch(err => {
+				console.error('[Reactions] Failed to remove reaction:', err)
+				setReactions(prev => ({
+					...prev,
+					[type]: {
+						count: (prev[type]?.count ?? 0) + 1,
+						userCount: currentUserCount,
+					},
+				}))
+				setUserCounts(prev => ({ ...prev, [type]: currentUserCount }))
+			})
+	}, [
+		article.id,
+		did,
+		userCounts,
+	])
+
+	const handleReactionClick = useCallback(type => () => addReaction(type), [addReaction])
+
+	const handleReactionContextMenu = useCallback(type => (event) => {
+		event.preventDefault()
+		removeReaction(type)
+	}, [removeReaction])
 
 	const handleLoginModalClose = useCallback(() => {
 		setShowLoginModal(false)
@@ -220,14 +219,17 @@ export function ArticleReactions(props) {
 				<ReactionButton
 					key={emojiName}
 					handleClick={handleReactionClick(emojiName)}
-					isActive={reactionData?.isActive ?? false}
+					handleContextMenu={handleReactionContextMenu(emojiName)}
+					isActive={(userCounts[emojiName] || 0) > 0}
 					reactionCount={reactionData?.count ?? 0}
 					emoji={emoji} />
 			)
 		})
 	}, [
 		handleReactionClick,
+		handleReactionContextMenu,
 		reactions,
+		userCounts,
 	])
 
 	const blueskySearchURL = useMemo(() => {
@@ -249,44 +251,19 @@ export function ArticleReactions(props) {
 		encodedArticleURL,
 	])
 
-	// Load reaction counts and user's reactions
+	// Load user's own reaction counts (needs auth)
 	useEffect(() => {
-		if (isATProtoLoading) return
+		if (isATProtoLoading || !isAuthenticated || !did) return
 
-		async function loadReactions() {
-			const promises = [API.getReactionsForArticle(article.id)]
+		API.getAtprotoReactionsForUser(article.id, did).then(userReactions => {
+			if (!userReactions) return
 
-			if (isAuthenticated && did) {
-				promises.push(API.getAtprotoReactionsForUser(article.id, did))
-			}
-
-			const [allReactions, userReactions] = await Promise.all(promises)
-
-			setReactions(() => {
-				const newState = {}
-
-				allReactions.forEach(reactionData => {
-					newState[reactionData.type] = {
-						count: reactionData.count,
-						isActive: false,
-					}
-				})
-
-				if (userReactions) {
-					userReactions.forEach(({ type, atproto_rkey }) => {
-						if (!newState[type]) {
-							newState[type] = { count: 0, isActive: false }
-						}
-						newState[type].isActive = true
-						setUserRkeys(prev => ({ ...prev, [type]: atproto_rkey }))
-					})
-				}
-
-				return newState
+			const counts = {}
+			userReactions.forEach(({ type, count }) => {
+				counts[type] = count
 			})
-		}
-
-		loadReactions()
+			setUserCounts(counts)
+		})
 	}, [
 		article.id,
 		did,
@@ -306,7 +283,7 @@ export function ArticleReactions(props) {
 
 			if (articleSlug === article.slug) {
 				sessionStorage.removeItem('pendingAtprotoReaction')
-				handleReactionClick(reactionType)()
+				addReaction(reactionType)
 			}
 		} catch {
 			sessionStorage.removeItem('pendingAtprotoReaction')
@@ -316,7 +293,7 @@ export function ArticleReactions(props) {
 		article.atCid,
 		article.atUri,
 		article.slug,
-		handleReactionClick,
+		addReaction,
 		isAuthenticated,
 	])
 
@@ -326,7 +303,7 @@ export function ArticleReactions(props) {
 
 			<p>{'I hope you enjoyed the article! If so, consider leaving a reaction or ten! I\'d love if you would share it on Bluesky if you think others might enjoy this article! 🥰'}</p>
 
-			<p>{'This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, '}<ExternalLink href="https://ko-fi.com/trezy">{'support me on Ko-fi'}</ExternalLink>{'. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash.'}</p>
+			<p>{'This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a '}<ExternalLink href="https://ko-fi.com/trezy">{'monthly donation on Ko-fi'}</ExternalLink>{'. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash.'}</p>
 
 			<div className="article-responses">
 				<ul className="share-links">

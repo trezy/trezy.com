@@ -11,7 +11,7 @@ async function handler(request, response) {
 
 	const { data, error } = await supabase
 		.from('reactions')
-		.select('type, atproto_rkey')
+		.select('type, count, atproto_rkey')
 		.eq('article_id', articleID)
 		.eq('did', did)
 
