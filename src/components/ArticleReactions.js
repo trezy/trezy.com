@@ -302,9 +302,7 @@ export function ArticleReactions(props) {
 		<aside className="article-responses-wrapper">
 			<h3>{'Before you leave...'}</h3>
 
-			<p>{'I hope you enjoyed the article! If so, consider leaving a reaction or ten! I\'d love if you would share it on Bluesky if you think others might enjoy this article! 🥰'}</p>
-
-			<p>{'This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a '}<ExternalLink href="https://ko-fi.com/trezy">{'monthly donation on Ko-fi'}</ExternalLink>{'. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash.'}</p>
+			<p>{'This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a '}<ExternalLink href="https://ko-fi.com/trezy">{'monthly donation on Ko-fi'}</ExternalLink>{'. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash. If that\'s not in in the cards, make sure to share the article on Bluesky.'}</p>
 
 			<div className="article-responses">
 				<ul className="share-links">
