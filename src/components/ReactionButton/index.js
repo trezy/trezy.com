@@ -1,17 +1,16 @@
+'use client'
+
 // Module imports
 import classnames from 'classnames'
+import {
+	useCallback,
+	useState,
+} from 'react'
 
-
-
-
-
-// Module imports
+// Local imports
 import { Button } from 'components/Button.js'
-// import { useAckee } from 'hooks/useAckee.js'
 
-
-
-
+let floatingID = 0
 
 export function ReactionButton(props) {
 	const {
@@ -19,36 +18,48 @@ export function ReactionButton(props) {
 		handleClick,
 		handleContextMenu,
 		isActive,
+		isMaxed,
 		reactionCount,
 	} = props
-	// const { trackAction } = useAckee()
+
+	const [floatingEmojis, setFloatingEmojis] = useState([])
 
 	const compiledClassNames = classnames('reaction', {
 		'is-active': isActive,
 	})
 
-	// const handleClick = useCallback(event => {
-	// 	// handlePress(event)
-	// 	// trackAction('489767f3-4997-4a8e-9ed9-3d4bdf857f53', {
-	// 	// 	key: reactionID,
-	// 	// 	value: 1,
-	// 	// })
-	// }, [
-	// 	// handlePress,
-	// 	// trackAction,
-	// ])
+	const handleClickWithFlair = useCallback(event => {
+		if (!isMaxed) {
+			const id = ++floatingID
+			const drift = (Math.random() - 0.5) * 2
+			setFloatingEmojis(prev => [...prev, { id, drift }])
+			setTimeout(() => {
+				setFloatingEmojis(prev => prev.filter(e => e.id !== id))
+			}, 600)
+		}
+		handleClick(event)
+	}, [handleClick, isMaxed])
 
 	return (
 		<Button
 			className={compiledClassNames}
 			isStyled={false}
-			onClick={handleClick}
+			onClick={handleClickWithFlair}
 			onContextMenu={handleContextMenu}>
 			{emoji}
 
 			{(reactionCount !== 0) && (
 				<span className="badge">{reactionCount}</span>
 			)}
+
+			{floatingEmojis.map(({ id, drift }) => (
+				<span
+					key={id}
+					className="floating-emoji"
+					style={{ '--drift': `${drift}rem` }}>
+					{emoji}
+				</span>
+			))}
 		</Button>
 	)
 }

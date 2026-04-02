@@ -221,6 +221,7 @@ export function ArticleReactions(props) {
 					handleClick={handleReactionClick(emojiName)}
 					handleContextMenu={handleReactionContextMenu(emojiName)}
 					isActive={(userCounts[emojiName] || 0) > 0}
+					isMaxed={(userCounts[emojiName] || 0) >= MAX_REACTIONS}
 					reactionCount={reactionData?.count ?? 0}
 					emoji={emoji} />
 			)
