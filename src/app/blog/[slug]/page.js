@@ -34,7 +34,11 @@ export async function generateMetadata({ params }) {
 	const article = data.article
 	const articleTitle = createTitleStringFromArticle(article)
 	const headerImageURL = article.headerImage?.fields?.file?.url?.replace(/^\/\//, 'https://')
-	const ogImageParams = new URLSearchParams({ title: articleTitle })
+	const ogImageParams = new URLSearchParams({ title: article.title })
+
+	if (article.subtitle) {
+		ogImageParams.set('subtitle', article.subtitle)
+	}
 
 	if (headerImageURL) {
 		ogImageParams.set('image', headerImageURL)

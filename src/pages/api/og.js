@@ -23,7 +23,9 @@ async function loadFont() {
 export default async function handler(request) {
 	const { searchParams } = new URL(request.url)
 	const title = searchParams.get('title') || 'trezy.codes'
+	const subtitle = searchParams.get('subtitle')
 	const image = searchParams.get('image')
+	const fullText = subtitle ? `${title} - ${subtitle}` : title
 
 	const fontData = await loadFont()
 
@@ -77,7 +79,7 @@ export default async function handler(request) {
 					}}>
 					<div
 						style={{
-							fontSize: title.length > 60 ? 42 : 56,
+							fontSize: fullText.length > 60 ? 42 : 56,
 							fontFamily: fontData ? '"Libre Franklin"' : 'sans-serif',
 							fontWeight: 700,
 							color: 'white',
@@ -87,6 +89,21 @@ export default async function handler(request) {
 						}}>
 						{title}
 					</div>
+
+					{subtitle && (
+						<div
+							style={{
+								fontSize: fullText.length > 60 ? 32 : 38,
+								fontFamily: fontData ? '"Libre Franklin"' : 'sans-serif',
+								fontWeight: 700,
+								color: 'rgba(255, 255, 255, 0.7)',
+								lineHeight: 1.3,
+								marginBottom: '30px',
+								wordBreak: 'break-word',
+							}}>
+							{subtitle}
+						</div>
+					)}
 				</div>
 
 				<div
