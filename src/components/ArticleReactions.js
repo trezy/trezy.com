@@ -326,10 +326,13 @@ export function ArticleReactions(props) {
 
 			<p>{'I hope you enjoyed the article! If so, consider leaving a reaction or ten! I\'d love if you would share it on Bluesky if you think others might enjoy this article! 🥰'}</p>
 
+			<p>{'This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, '}<ExternalLink href="https://ko-fi.com/trezy">{'support me on Ko-fi'}</ExternalLink>{'. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash.'}</p>
+
 			<div className="article-responses">
 				<ul className="share-links">
 					<li><Link href={blueskyShareURL}>{'Share on Bluesky'}</Link></li>
 					<li><Link href={blueskySearchURL}>{'Discuss on Bluesky'}</Link></li>
+					<li><ExternalLink href="https://ko-fi.com/trezy">{'Support me on Ko-fi'}</ExternalLink></li>
 				</ul>
 
 				<div className="reactions">

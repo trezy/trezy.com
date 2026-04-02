@@ -4,7 +4,6 @@
 
 	.article-responses {
 		display: flex;
-		gap: 3rem;
 		justify-content: space-between;
 		margin-top: 2rem;
 
@@ -96,7 +95,10 @@
 			display: flex;
 
 			> * {
+				align-items: center;
+				display: flex;
 				white-space: nowrap;
+
 				&:before {
 					content: '▫️';
 					font-size: 0.6em;
