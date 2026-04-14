@@ -66,7 +66,15 @@ async function main() {
 	const pubRecords = await listAllRecords(agent, PUBLICATION_NSID)
 	let publicationUri
 
-	if (pubRecords.length > 0) {
+	const configuredRkey = process.env.ATPROTO_PUBLICATION_RKEY
+	if (configuredRkey) {
+		const match = pubRecords.find((record) => record.uri.endsWith(`/${configuredRkey}`))
+		if (!match) {
+			throw new Error(`No publication record found with rkey "${configuredRkey}"`)
+		}
+		publicationUri = match.uri
+		console.log(`Using configured publication: ${publicationUri}`)
+	} else if (pubRecords.length > 0) {
 		publicationUri = pubRecords[0].uri
 		console.log(`Found existing publication: ${publicationUri}`)
 	} else {

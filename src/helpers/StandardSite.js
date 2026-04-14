@@ -64,6 +64,15 @@ export async function ensurePublication() {
 	const agent = await getAgent()
 	const records = await listAllRecords(agent, PUBLICATION_NSID)
 
+	const configuredRkey = process.env.ATPROTO_PUBLICATION_RKEY
+	if (configuredRkey) {
+		const match = records.find((record) => record.uri.endsWith(`/${configuredRkey}`))
+		if (!match) {
+			throw new Error(`[StandardSite] No publication record found with rkey "${configuredRkey}"`)
+		}
+		return match.uri
+	}
+
 	if (records.length > 0) {
 		return records[0].uri
 	}
