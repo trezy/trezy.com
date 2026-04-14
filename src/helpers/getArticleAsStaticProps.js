@@ -97,10 +97,10 @@ export async function getArticleAsStaticProps(context) {
 
 export { mdxOptions }
 
-export const getArticleData = cache(async function getArticleData(slug) {
+export const getArticleData = cache(async function getArticleData(slug, isPreview = false) {
 	const result = {}
 
-	const article = await Contentful.getArticle(slug)
+	const article = await Contentful.getArticle(slug, isPreview)
 
 	if (article) {
 		result.article = article

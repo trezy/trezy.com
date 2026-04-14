@@ -1,4 +1,5 @@
 // Module imports
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 // Local imports
@@ -25,7 +26,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params
-	const data = await getArticleData(slug)
+	const { isEnabled: isPreview } = await draftMode()
+	const data = await getArticleData(slug, isPreview)
 
 	if (!data.article) {
 		return {}
@@ -69,7 +71,8 @@ export async function generateMetadata({ params }) {
 
 export default async function ArticlePage({ params }) {
 	const { slug } = await params
-	const data = await getArticleData(slug)
+	const { isEnabled: isPreview } = await draftMode()
+	const data = await getArticleData(slug, isPreview)
 
 	if (!data.article) {
 		notFound()
