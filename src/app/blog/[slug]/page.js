@@ -3,6 +3,7 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 // Local imports
+import { ArticleMentions } from 'components/ArticleMentions/index.js'
 import { ArticleMeta } from 'components/ArticleMeta/index.js'
 import { ArticleReactions } from 'components/ArticleReactions.js'
 import { Block } from 'components/Block/index.js'
@@ -147,6 +148,8 @@ export default async function ArticlePage({ params }) {
 					<ArticleReactions
 						article={article}
 						initialReactions={initialReactions} />
+
+					<ArticleMentions article={article} />
 				</Container>
 			</Block>
 		</PageContent>
