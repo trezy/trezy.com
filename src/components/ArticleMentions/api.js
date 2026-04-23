@@ -380,7 +380,6 @@ export async function resolveRecords(collection, backlinks) {
 }
 
 export async function fetchCollectionPreviews(articleURL, previewLimit = 5) {
-	articleURL = articleURL.replace(/^http:\/\/localhost:\d{4}/giu, 'https://trezy.codes')
 	const links = await fetchAllLinks(articleURL)
 
 	const activeCollections = SUPPORTED_COLLECTIONS.filter(collection => {
