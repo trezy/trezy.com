@@ -1,0 +1,57 @@
+---
+title: On Advanced Box Shadows
+synopsis: "`box-shadow` is arguably one of the coolest things to come out of
+  CSS3. However, I’ve been creating shadows in Adobe Fireworks and Photoshop for
+  years, so I feel like CSS3’s `box-shadow` implementation is just too
+  constrained. In an effort to expand my boxy horizons, I set out on a quest to
+  create some cooler shadows."
+createdAt: 2013-12-03T06:00:00.000Z
+updatedAt: 2022-07-05T20:33:39.600Z
+draft: false
+changelog: |-
+  _**05 July, 2022**_
+  * Updating some syntax to accomodate website updates.
+devToID: "117809"
+devToURL: https://dev.to/trezy/on-advanced-box-shadows-51cf
+devToReactions: 7
+---
+
+`box-shadow` is arguably one of the coolest things to come out of CSS3. However, I’ve been creating shadows in Adobe Fireworks and Photoshop for years, so I feel like CSS3’s `box-shadow` implementation is just too constrained. In an effort to expand my boxy horizons, I set out on a quest to create some cooler shadows.
+
+<Notice>*Disclaimer:* At the time of this writing filters and transforms still require browser prefixes to work, though filters will only work in Webkit browsers. I have omitted these prefixes from the code examples here for readability but they will be required if you intend to use these techniques.</Notice>
+
+## Rocking out with box-shadow
+
+My first attempt at making my shadows more dynamic still uses `box-shadow` but it extends its use to create a new effect. My main goal was to avoid using any extra elements, so all we need is a div and we’ll leverage pseudo elements to do the rest of the work.
+
+<Codepen id={'Jrhpc'} />
+
+What we’ve done is created two transparent pseudo elements behind our main element. These two pseudo elements then have `box-shadow` applied. This is done so that we can use 2D transforms to angle them, creating a 3D looking `box-shadow` for their parent element.
+
+We also used the `top`, `bottom`, `left`, and `right` properties to keep the shadow from spilling out from the sides of the parent element.
+
+## Box-shadow… without box-shadow?
+
+I was pretty happy with the previous idea, but it didn’t look as awesome as I hoped. My next idea was to create the same effect using gradients.
+
+<Codepen id={'aybiL'} />
+
+This time we’re still using our pseudo elements but instead of giving them `box-shadows`, we’ll give them gradients. We also used a new CSS3 property called `filter`. Make sure to check out all the nifty things it can do [here][demo-box-shadows]. We just use the blur to soften the edges and make it look more like a shadow.
+
+## Oooooh… that’s way prettier.
+
+While I was working on this project I ran across a site with an even cooler style of drop-shadow that pointed inward rather than outward:
+
+[Karma][karma]
+
+All I really had to do was flip my last idea and we were good to go!
+
+<Codepen id={'zEtgJ'} />
+
+## Conclusion
+
+If you use any of these drop shadows, post a link in the comments! Also, if you come up with any alternative ideas or issues that should be noted, let me know.
+
+[canonical]: https://trezy.com
+[demo-box-shadows]: https://html5-demos.appspot.com/static/css/filters/index.html
+[karma]: http://demo.truethemes.net/Karma-Wordpress/

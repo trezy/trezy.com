@@ -1,0 +1,12 @@
+---
+const { href, rel = '', ...rest } = Astro.props
+const relValue = rel ? `noopener noreferrer ${rel}` : 'noopener noreferrer'
+---
+
+<a
+	{...rest}
+	href={href}
+	rel={relValue}
+	target="_blank">
+	<slot />
+</a>

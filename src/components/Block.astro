@@ -1,0 +1,36 @@
+---
+const {
+	class: className = '',
+	elementType = 'div',
+	headerImageAlt = '',
+	headerImageSource = '',
+	...rest
+} = Astro.props
+
+const Tag = elementType
+
+const dataAttributes = Object
+	.entries(rest)
+	.reduce((accumulator, [key, value]) => {
+		if (key.startsWith('data-')) {
+			accumulator[key] = value
+		}
+
+		return accumulator
+	}, {})
+---
+
+<Tag
+	{...dataAttributes}
+	class:list={['block', className]}>
+	{headerImageSource && (
+		<div class="block-header-image">
+			<img
+				alt={headerImageAlt}
+				src={headerImageSource}
+				style="object-fit: cover;" />
+		</div>
+	)}
+
+	<slot />
+</Tag>

@@ -1,0 +1,28 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const { crumbs } = Astro.props
+---
+<ul class="breadcrumbs inline slash-separated">
+	<li>
+		<a href="/">
+			<Icon name="fa6-solid:house" class="fa-fw" />
+		</a>
+	</li>
+
+	{crumbs.map(([name, href], index) => {
+		if (index === (crumbs.length - 1)) {
+			return (
+				<li>{name}</li>
+			)
+		}
+
+		return (
+			<li>
+				<a href={href}>
+					{name}
+				</a>
+			</li>
+		)
+	})}
+</ul>

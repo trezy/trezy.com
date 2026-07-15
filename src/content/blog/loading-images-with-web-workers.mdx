@@ -1,0 +1,252 @@
+---
+title: Loading Images with Web Workers
+synopsis: Web workers are magical. They allow for multi-threading in JavaScript,
+  a language that has been single threaded *since the beginning*. Their
+  practical applications cover pretty much everything we do in web
+  applications... so why isn't anybody using them‽ 🤔
+oldSlugs:
+  - e79faa9c-70cf-43db-a8ac-b8b99ece10bc
+createdAt: 2019-06-10T05:00:00.000Z
+updatedAt: 2022-07-05T20:20:29.967Z
+draft: false
+changelog: |-
+  _**05 July, 2022**_
+  * Updating some syntax to accomodate website updates.
+devToID: "117628"
+devToURL: https://dev.to/trezy/loading-images-with-web-workers-49ap
+devToReactions: 28
+headerImage: ../../assets/blog/loading-images-with-web-workers/header.webp
+---
+
+Web workers are magical. They allow for multi-threading in JavaScript, a language that has been single-threaded *since the beginning*. Their practical applications range from heavy number crunching to managing the retrieval and dissemination of asynchronous data, to loading images (as I'll discuss in this article).
+
+I'm actually preparing for an upcoming talk about web workers, and according to a good friend of mine...
+
+> Of course Trezy's talk is about web workers. If he wasn't already married to Meg, the man would marry a web worker.
+> — @xlexious
+
+I mean, I suppose I like them a bit. WHAT OF IT‽
+
+## Why would we want to load images with web workers?
+
+Moving image loading off of the UI thread and into a worker is a really great opportunity for image-heavy sites and one of my favorite web worker implementations. It prevents image downloads from blocking rendering and it can speed up your site significantly.
+
+*Fun fact:* `<img>` tags actually block your application load. If you have 100 images on your page, the browser will download all 100 of them before it renders your page.
+
+Let's talk a little bit about implementing web workers in a couple of different environments.
+
+### The standard, vanilla implementation
+
+To start a web worker in your average JavaScript app, you need to have it in its own file. Let's assume that we're working on my website, [https://trezy.com][trezy.com]. We'll name our worker file `image-loader.worker.js` and it'll be available at `https://trezy.com/workers/image-loader.worker.js`.
+
+We'll start with a very simple web worker that will log out whatever data it receives:
+
+```js
+/*
+ * image-loader.worker.js
+ */
+
+// The `message` event is fired in a web worker any time `worker.postMessage(<data>)` is called.
+// `event.data` represents the data being passed into a worker via `worker.postMessage(<data>)`.
+self.addEventListener('message', event => {
+  console.log('Worker received:', event.data)
+})
+```
+
+To start using it in our main JavaScript file, we'll do something like this:
+
+```js
+/*
+ * main.js
+ */
+
+const ImageLoaderWorker = new Worker('/workers/image-loader.worker.js')
+
+ImageLoaderWorker.postMessage('Hello world!')
+```
+
+If we load all of this up, we should see `Hello world!` in the console.
+🎉 Woot! 🥳
+
+## Let's Get Into It
+
+### Step 1: Update your markup
+
+With your worker implementation all figured out, we can now start implementing our image loader. I'll start with the HTML that we're going to plan on working from:
+
+```html
+<body>
+  <img data-src="/images/image1.png">
+  <img data-src="/images/image2.png">
+  <img data-src="/images/image3.png">
+  <img data-src="/images/image4.png">
+  <img data-src="/images/image5.png">
+</body>
+```
+
+> Uuuuuuuh, hang on. That's not what `<img>` tags look like!
+> — You, just now.
+
+Very astute observation, you! Normally you would use the `src` property of an `<img>` element to tell it where to download the image file from, but here we're using `data-src`. This is because when the browser encounters an `<img>` element with an `src` attribute, it will immediately start downloading the image. Since we want that job to be offloaded to our web worker, we're using `data-src` to prevent the browser from handling the download on the UI thread.
+
+### Step 2: Pass the image URLs to our web worker
+
+In our `main.js` file, we'll need to retrieve all of the relevant `<img>` elements so we can pass their URLs to our web worker:
+
+```js
+/*
+ * main.js
+ */
+
+// Load up the web worker
+const ImageLoaderWorker = new Worker('/workers/image-loader.worker.js')
+
+// Get all of the `<img>` elements that have a `data-src` property
+const imgElements = document.querySelectorAll('img[data-src]')
+
+// Loop over the image elements and pass their URLs to the web worker
+imgElements.forEach(imageElement => {
+  const imageURL = imageElement.getAttribute('data-src')
+  ImageLoaderWorker.postMessage(imageURL)
+})
+```
+
+### Step 3: Download the images
+
+Excellent! Now that our web worker has received a bunch of image URLs, let's figure out how to process them. This gets a bit complex in web workers for a couple of reasons:
+
+1. **You don't have access to the DOM API.** A lot of non-web worker image downloader implementations create a new image element and set the `src` attribute on it, initiating the download, then replace the original `<img>` with the new one. This won't work for us because there's no way to create DOM elements inside of a web worker.
+
+1. **Images don't have a native JavasScript format.** Images are made up of binary data, so we need to convert that data into something that we can use in JavaScript.
+
+1. ~~**You can only communicate with the UI thread using strings.**~~ I've been corrected. This was the case in the days of yore, but no longer! 😁
+
+So how can we get the image downloaded, converted from binary format to something JavaScript can use, and then passed back to the UI thread? This is where `fetch` and the `FileReader` API come in.
+
+#### `fetch` is for more than just JSON
+
+You're probably used to seeing `fetch` used to grab data from some API, then calling `response.json()` to get the JSON body of the response as an object. However, `.json()` isn't the only option here. There's also `.text()`, `.formData()`, `.arrayBuffer()`, and the one that matters to us for this exercise, `.blob()`.
+
+A [`Blob`][blob] can be used to represent virtually anything, including data that doesn't have a native JavaScript format like images! They're perfect for what we're trying to do here. With that in mind, let's update our web worker to receive the image URLs and download them as `Blob`s:
+
+```js
+/*
+ * image-loader.worker.js
+ */
+
+// I'm making the event handler `async` to make my life easier. If
+// you're not compiling your code, you may want to use the Promise-based
+// API of `fetch`
+self.addEventListener('message', async event => {
+  // Grab the imageURL from the event - we'll use this both to download
+  // the image and to identify which image elements to update back in the
+  // UI thread
+  const imageURL = event.data
+
+  // First, we'll fetch the image file
+  const response = await fetch(imageURL)
+
+  // Once the file has been fetched, we'll convert it to a `Blob`
+  const fileBlob = await response.blob()
+})
+```
+
+Alright, we're making progress! We've updated our images so they don't download automatically, we've grabbed their URLs and passed them to the worker, and we've downloaded the images to the browser!
+
+### Step 4: Return the image data to the UI thread
+
+Now that we've got the image as a blob, we need to send it back to the UI thread to be rendered. If we send the string back alone then the UI thread won't know where to render it. Instead, we'll send back an object that tells the UI thread what to render *and* where:
+
+```js
+/*
+ * image-loader.worker.js
+ */
+
+self.addEventListener('message', async event => {
+  const imageURL = event.data
+
+  const response = await fetch(imageURL)
+  const blob = await response.blob()
+
+  // Send the image data to the UI thread!
+  self.postMessage({
+    imageURL: imageURL,
+    blob: blob,
+  })
+})
+```
+
+Our worker file is done! The final step is to handle what we've received in the UI thread.
+
+### Step 5: Render that image!
+
+We're **so** close to being finished! The last thing we need to do is update our main.js file to receive and handle the image data that's returned from the web worker.
+
+```js
+/*
+ * main.js
+ */
+
+const ImageLoaderWorker = new Worker('/workers/image-loader.worker.js')
+const imgElements = document.querySelectorAll('img[data-src]')
+
+// Once again, it's possible that messages could be returned before the
+// listener is attached, so we need to attach the listener before we pass
+// image URLs to the web worker
+ImageLoaderWorker.addEventListener('message', event => {
+  // Grab the message data from the event
+  const imageData = event.data
+
+  // Get the original element for this image
+  const imageElement = document.querySelectorAll(`img[data-src='${imageData.imageURL}']`)
+
+  // We can use the `Blob` as an image source! We just need to convert it
+  // to an object URL first
+  const objectURL = URL.createObjectURL(imageData.blob)
+  imageElement.setAttribute('src', objectURL)
+
+  // Let's remove the original `data-src` attribute to make sure we don't
+  // accidentally pass this image to the worker again in the future
+  imageElement.removeAttribute('data-src')
+})
+
+imgElements.forEach(imageElement => {
+  const imageURL = imageElement.getAttribute('data-src')
+  ImageLoaderWorker.postMessage(imageURL)
+})
+```
+
+Check out the [Codepen demo][codepen-demo] with everything working together:
+
+<Codepen id={'ZNdbeQ'} height={500} />
+
+## BONUS: Implementing web workers with Webpack
+
+If you're using Webpack to compile all of your code, there's another nifty option to load up your web workers: [`worker-loader`][worker-loader]. This loader allows you to import your web worker into a file and initialize it as if it were a regular class.
+
+I think it feels a little more natural this way, too. Without changing the content of `image-loader.worker.js`, this is what an implementation would look like if you have `worker-loader` set up in your Webpack config:
+
+```js
+/*
+ * main.js
+ */
+
+import ImageLoaderWorker from './workers/image-loader.worker.js'
+
+const imageLoader = new ImageLoaderWorker
+
+imageLoader.postMessage('Hello world!')
+```
+
+Just as in our vanilla implementation, we should see `Hello world!` logged out in the console.
+
+## Conclusion
+
+And we're done! Offloading image downloading to web workers is a great exercise in using several different browser APIs, but more importantly, it's an awesome way to speed up your website rendering.
+
+Make sure to drop off your questions and suggestions in the comments below. Tell me your favorite web worker uses, and most importantly, let me know if I missed something awesome in my examples.
+
+[blob]: https://developer.mozilla.org/en-US/docs/Web/API/Blob
+[codepen-demo]: https://s.trezy.sh/image-worker-main
+[trezy.com]: https://trezy.com
+[worker-loader]: https://github.com/webpack-contrib/worker-loader

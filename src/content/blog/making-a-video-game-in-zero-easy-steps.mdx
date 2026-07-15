@@ -1,0 +1,45 @@
+---
+title: Making a Video Game in Zero Easy Steps!
+createdAt: 2020-04-23T22:10:20.000Z
+updatedAt: 2022-06-29T08:56:46.922Z
+draft: false
+changelog: |-
+  _**29 June, 2022**_
+  * Updating some syntax to accomodate website updates.
+---
+
+I posted a gif of some new game dev work, and the amazing [@TimBeaudet][Tim Beaudet's Website] asked me a few questions about what I'm working on.
+
+<figure>
+![Screenshot of the MOAR game, specifically the quick stats UI which displays the character's name, current health and mana, and avatar.](https://firebasestorage.googleapis.com/v0/b/trezy-core.appspot.com/o/articles%2F15263bd8-049b-495f-bd2c-f182101f329b%2Fcharacter-preview.gif?alt=media&token=f5667cd4-9d2f-40b6-bd7c-8b637a6fd93d)
+  <figcaption>Screenshot of the MOAR game, specifically the quick stats UI which displays the character's name, current health and mana, and avatar.</figcaption>
+</figure>
+
+## Is it a big idea?
+Holy crap yes and simultaneously not even a little bit. 🤣
+
+*The story goes something like this...* Early last year, I woke up from a weird dream at 4am and had the code in my head to build an inventory management system in JavaScript. I snuck down to the office and wrote it all out. I was pretty happy with my creation, so I figured... why not build the rest of a game? And so began my first *real* foray into game dev.
+
+## What was learned from Attempt #1?
+My first idea was to build a simple game, then expand from there. I was heavily inspired by CrossCode and Moonlighter, so I intended to dig in with a game that combined some elements of both of those. I reached out to an artist friend of mine to see if he was interested. We started working together on some worldbuilding, some art, and developing the main story arc of the game. The idea was to build this region that was cut off from the rest of its continent. If the game turned out well, we could build the rest of the world on top of the engine and the world (heh) would be our oyster.
+
+There were two roadblocks that prevented me from moving forward on that attempt. The first was that I wanted to go in a pixel art direction, and my artist buddy wasn't into it. He produced a couple gorgeous pieces of concept art for me, but when he tried converting it to art we could use (I had decided I wasn't married to pixel art, he could kind of do whatever) he lost motivation.
+
+The second roadblock was game physics. I had built my own game engine, and I ran into a thousand issues when I tried to reconcile the renderer with the physics engine. That killed my motivation and I shelved the project for a few months.
+
+## What was learned from Attempt #2?
+Several months later, I dug into my second attempt because I was itching to get back to doing some game dev. I had decided I wanted to fiddle with an MMO and net code (because why would I **decrease** the scope? I mean c'mon...). I grabbed some free art from OpenGameArt.org (artist CalciumTrice, who I absolutely adore) and threw stuff together. The net code was surprisingly easy. I knocked all of that out, but then I ran into new physics engine issues (HOW ON EARTH DOES A RIGID BOX SQUEEZE THROUGH AN IMPERCEPTIBLY SMALL HOLE‽). After smashing my head against that issue for a couple of months, rewriting both the renderer and the physics code multiple times, my motivation was shot.
+
+## Attempt #3?
+Alright, here’s the setup:
+
+> You’re on a farm. Somebody has asked you to go collect some logs and bring them back to the farm. Go do that.
+
+The story isn’t exactly robust, and that’s okay. The plan is to finally get a tiny functional prototype done and get the gameplay to just *feel good*. From there I can turn the game into whatever I want. I’d like to revisit the larger stories I wrote for the previous two attempts and merge them into something that can drive development for this latest attempt, but *everything* is up-in-the-air atm.
+
+## Takeaways:
+* Don't allow people to engage in things if they seem hesitant. They don't want to do it!
+* Physics are hard.
+* Scoping down is *holy bananacows important.* Large scopes make it really difficult to focus on the basics.
+
+[Tim Beaudet's Website]: https://timbeaudet.com/

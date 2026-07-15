@@ -1,0 +1,26 @@
+---
+// Ported from `legacy/components/Codepen.js`. Legacy hydrated this as a
+// client component that called `window.__CPEmbed()` in a `useEffect` after
+// mount and injected the CodePen embed script via `next/head`. There's no
+// client runtime here to run that effect, but it isn't needed: CodePen's own
+// `ei.js` embed script scans the document for `.codepen` elements and
+// initializes them itself once it loads, so a plain `<script async>` tag
+// alongside the marker element reproduces the same behavior statically.
+// Loading the same script URL from multiple `<Codepen>` instances on one
+// page is harmless — browsers dedupe/cache the request and the script is
+// idempotent about re-scanning the DOM.
+const {
+	defaultTabs = ['result'],
+	height = 300,
+	id,
+} = Astro.props
+---
+<div>
+	<p
+		class="codepen"
+		data-height={height}
+		data-theme-id="2296"
+		data-default-tab={defaultTabs.join(',')}
+		data-slug-hash={id}></p>
+	<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</div>

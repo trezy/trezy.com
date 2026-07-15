@@ -1,0 +1,100 @@
+---
+// Ported from `legacy/components/ArticleMeta/index.js`. The meta-bar
+// (published/updated dates + readtime, each prefixed with a fixed-width
+// clock icon) reuses the exact pattern `@components/ArticleSummary.astro`
+// already established for the same line in article list cards.
+//
+// meta-tabs: legacy's `Tabs`/`TabPanel` (`legacy/components/NewTabs/*`) was
+// a client-side, click-to-toggle React component with internal `useState`.
+// There's no React/client-tab-state runtime here, so the changelog and
+// dependencies panels are rendered as native `<details>` disclosures inside
+// a `.new-tabs` wrapper (kept as a class hook for a later JS-enhancement
+// pass) — an accessible, JS-free equivalent, not a pixel-for-pixel port.
+//
+// changelog: `entry.data.changelog` is a raw Markdown string (frontmatter
+// YAML block), not pre-rendered HTML. Legacy rendered it as parsed
+// markdown/HTML via its MDX pipeline (`legacy/helpers/markdownRenderers/
+// Changelog.js` just returned the string into an MDX tree, which the MDX
+// compiler then parsed). To reproduce that fidelity here, the string is
+// rendered to HTML at build time with Astro's own markdown processor
+// (`@astrojs/markdown-remark`, already a transitive dep of `astro`) and
+// injected via `set:html`, restoring bold/italic/list formatting instead of
+// leaking literal markdown syntax inside a `<pre>`.
+//
+// Cross-post reaction counts (dev.to/Hashnode): legacy rendered these inside
+// `ArticleReactions.js`, alongside the atproto reaction buttons. Task 16
+// (this file) originally placed them here per its own brief instead, but
+// Task 23's brief asks for them in `@components/ArticleReactions.astro`
+// (the new home of `<!-- reactions -->`) to match legacy's layout, so
+// they've been moved there — see that file to avoid rendering them twice.
+import { Icon } from 'astro-icon/components'
+import { createMarkdownProcessor } from '@astrojs/markdown-remark'
+import DateTime from '@components/DateTime.astro'
+import DependencyTable from '@components/DependencyTable.astro'
+import { calculateReadtime } from '@lib/readtime.js'
+
+const markdownProcessor = await createMarkdownProcessor({ gfm: true })
+
+const { entry } = Astro.props
+const { changelog, dependencies } = entry.data
+const publishedAt = entry.data.publishedAt ?? entry.data.createdAt
+const { updatedAt } = entry.data
+const readtimeMinutes = calculateReadtime(entry.body ?? '')
+
+const dateFormat = { dateStyle: 'medium' }
+const formatter = new Intl.DateTimeFormat('en-US', dateFormat)
+const showUpdatedAt = Boolean(updatedAt) && Boolean(publishedAt)
+	&& (formatter.format(new Date(updatedAt)) !== formatter.format(new Date(publishedAt)))
+
+const hasChangelog = Boolean(changelog)
+const hasDependencies = Boolean(dependencies)
+
+const changelogHtml = hasChangelog
+	? (await markdownProcessor.render(changelog)).code
+	: null
+---
+<div class="meta">
+	<div class="meta-bar">
+		{publishedAt && (
+			<span>
+				<Icon name="fa6-solid:clock" class="fa-fw" />
+				{' '}
+				Published <DateTime value={publishedAt} dateFormat={dateFormat} showTime={false} />
+			</span>
+		)}
+
+		{showUpdatedAt && (
+			<span>
+				<Icon name="fa6-solid:clock" class="fa-fw" />
+				{' '}
+				Updated <DateTime value={updatedAt} dateFormat={dateFormat} showTime={false} />
+			</span>
+		)}
+
+		<span>
+			<Icon name="fa6-solid:clock" class="fa-fw" />
+			{' '}
+			{readtimeMinutes < 1 ? 'Less than 1 min read' : `${readtimeMinutes} min read`}
+		</span>
+	</div>
+
+	{(hasChangelog || hasDependencies) && (
+		<div class="meta-tabs">
+			<div class="new-tabs">
+				{hasChangelog && (
+					<details class="tab-panel" open>
+						<summary>Changelog</summary>
+						<div class="changelog" set:html={changelogHtml} />
+					</details>
+				)}
+
+				{hasDependencies && (
+					<details class="tab-panel">
+						<summary>Dependencies</summary>
+						<DependencyTable dependencies={dependencies} />
+					</details>
+				)}
+			</div>
+		</div>
+	)}
+</div>

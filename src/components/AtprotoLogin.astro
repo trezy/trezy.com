@@ -1,0 +1,106 @@
+---
+// Markup for the `<atproto-login>` custom element
+// (src/components/islands/atproto-login.js). Ports the handle-input form
+// from legacy/components/ATProtoLoginModal/index.js into a native <dialog>,
+// plus a small always-present status area (login trigger / logged-in
+// identity + log out) that legacy didn't have as standalone markup — legacy
+// only ever rendered the modal from inside `ArticleReactions`, conditionally.
+// Unstyled: this is functional markup only, per the no-styling constraint.
+---
+<atproto-login>
+	<div data-role="atproto-status">
+		<button
+			data-role="atproto-login-trigger"
+			type="button">
+			{'Log in with Atmosphere'}
+		</button>
+
+		<p
+			data-role="atproto-identity"
+			hidden>
+			{'Logged in as '}<span data-role="atproto-identity-name"></span>
+		</p>
+
+		<button
+			data-role="atproto-logout"
+			type="button"
+			hidden>
+			{'Log out'}
+		</button>
+	</div>
+
+	<dialog
+		data-role="atproto-login-dialog"
+		aria-labelledby="atproto-login-title">
+		<form data-role="atproto-login-form">
+			<div class="card-header">
+				<h3
+					id="atproto-login-title"
+					class="card-title">
+					{'Atmosphere'}
+				</h3>
+
+				<p class="card-description">{'Connect with your Atmosphere account'}</p>
+			</div>
+
+			<div class="card-content">
+				<div class="field">
+					<label for="atproto-handle">{'Handle'}</label>
+
+					<input
+						id="atproto-handle"
+						data-role="atproto-handle-input"
+						type="text"
+						placeholder="user.bsky.social"
+						autocomplete="off"
+						autocapitalize="off"
+						spellcheck="false"
+						required />
+				</div>
+
+				<p
+					data-role="atproto-login-error"
+					class="form-error"
+					hidden></p>
+
+				<div class="field">
+					<menu type="toolbar">
+						<button
+							data-role="atproto-login-submit"
+							class="primary connect-button"
+							type="submit">
+							{'Connect'}
+						</button>
+
+						<button
+							data-role="atproto-login-cancel"
+							type="button">
+							{'Cancel'}
+						</button>
+					</menu>
+				</div>
+
+				<div class="form-footer">
+					<button
+						data-role="atproto-info-toggle"
+						type="button"
+						class="info-toggle"
+						aria-expanded="false">
+						{'What is an Atmosphere account?'}
+					</button>
+
+					<p
+						data-role="atproto-info-text"
+						class="info-text"
+						hidden>
+						{'This site uses the '}<a href="https://atproto.com">{'AT Protocol'}</a>{' to power reactions, allowing you to own your data and use one account for all compatible applications. Once you create an account, you can use other apps like '}<a href="https://bsky.app">{'Bluesky'}</a>{' and '}<a href="https://tangled.org">{'Tangled'}</a>{' with the same account.'}
+					</p>
+				</div>
+			</div>
+		</form>
+	</dialog>
+</atproto-login>
+
+<script>
+	import '@islands/atproto-login.js'
+</script>

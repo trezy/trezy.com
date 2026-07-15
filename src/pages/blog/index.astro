@@ -1,0 +1,18 @@
+---
+// Ported from legacy/app/blog/page.js.
+import BaseLayout from '@layouts/BaseLayout.astro'
+import ArticleList from '@components/ArticleList.astro'
+import { getSortedArticles } from '@lib/blog.js'
+
+const articles = await getSortedArticles()
+---
+<BaseLayout
+	class="blog"
+	title="Blog"
+	description="New ideas, old ideas, and regular ideas can all be found below the titles of Trezy's titular technological tidings.">
+	<header class="block">
+		<h2>Blog</h2>
+	</header>
+
+	<ArticleList articles={articles} />
+</BaseLayout>

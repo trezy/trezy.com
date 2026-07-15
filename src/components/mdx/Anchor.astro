@@ -1,0 +1,14 @@
+---
+// Ported from `legacy/helpers/markdownRenderers/Link.js`, which rendered
+// `NextLink` for internal (`/`-prefixed) hrefs and `ExternalLink` (from
+// `legacy/components/ExternalLink.js`: `target="_blank" rel="noopener
+// noreferrer …"`) for everything else. `NextLink` is a plain `<a>` here per
+// the port transformation rules.
+const { href, ...rest } = Astro.props
+const isInternal = typeof href === 'string' && href.startsWith('/')
+---
+{isInternal ? (
+	<a href={href} {...rest}><slot /></a>
+) : (
+	<a href={href} target="_blank" rel="noopener noreferrer" {...rest}><slot /></a>
+)}

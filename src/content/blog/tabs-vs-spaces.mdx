@@ -1,0 +1,152 @@
+---
+title: '"Tabs vs Spaces" Is All Sorts of Messed Up'
+subtitle: There's only one option, and it's not about your "personal preference."
+synopsis: The debate about tabs vs spaces is as old as the internet itself (I
+  assume), and the way that we go about deciding which one to use is far more
+  selfish than you realise.
+createdAt: 2022-06-28T17:14:24.125Z
+updatedAt: 2026-04-02T18:46:24.154Z
+draft: false
+changelog: |-
+  _**22 July, 2024**_
+  * Added a missing word
+    > This made it a gazillion times **easier** for typists...
+    > ---
+    > It's a disconnect in how the brain process**es** written words...
+  * Updated the final section to track all known spaces vs tabs issues
+headerImage: ../../assets/blog/tabs-vs-spaces/header.jpg
+---
+
+I created [this tweet thread][Tabs vs Spaces Twitter thread] a while back about the <kbd>Tab</kbd> vs <kbd>Space</kbd> debate and I've had to share it _a lot_ since then. I decided it's finally time to get into this for real, and help people understand the impact that their "personal preference" is having on those around them.
+
+## TL;DR
+
+The short version is that you can configure the width of <kbd>Tab</kbd> characters. You cannot, however, configure the width of <kbd>Space</kbd> characters. This may not affect you, but the ability to adjust the width of a tab is extremely helpful for folx that use assistive technologies while writing code. Stop using spaces and switch to tabs if you actually care about other people. If not, feel free to continue being an inconsiderate butthole. Just know that I've seen your IP address and **I am judging you.**
+
+## What's the difference between Tabs and Spaces?
+
+Many people are under the impression that these two characters are basically the same thing, and nobody could blame you for thinking as much. Let me assure you, however, that they are *very* distinct. A Tab isn’t just a bunch of Spaces; it is its own, distinct character. The <kbd>Tab</kbd> KEY can be configured in most editors to produce either a Tab character _or_ a number of Space characters, but they *are not interchangeable.*
+
+While the Space is a natural part of most written languages, the Tab actually comes from a bit of keyboard history...
+
+### The History of the Tab key
+
+As with most keyboard quirks, the <kbd>Tab</kbd> key comes from the days of the typewriter. See, when typists wanted to create a table on a document, they would smash the <kbd>Space</kbd> and <kbd>Backspace</kbd> keys a bajillion times to get things to line up. This sucked.
+
+To solve this problem, a guy named Fredric Hillard invented — well... he at least filed a patent for — a horizontal bar that could be added to the typewriter. On this bar were a series of clips that could be adjusted which were known as Tab Stops. Pressing the <kbd>Tab</kbd> key on the typewriter would advance the carriage (the typey thingy) to the next Tab Stop. This made it a gazillion times easier for typists to align their tabular data!
+
+![Robert Downey Junior as Tony Stark in "Avengers: Age of Ultron." He's approaching a wall in hopes of it being a secret door, then quietly exclaims, "Yay!" when it turns out that it is, in fact, a secret door.](https://media.giphy.com/media/jUAFYkw2OA1KtqqsWT/giphy.gif)
+
+The Tab key has evolved a lot since then, but its original purpose remains: _to allow users to control the size of whitespace in a document._
+
+## Okay, but back to why this matters to you...
+
+The reality is that it may not matter to you directly. If you like 2 Spaces or 4 Spaces or 12 Spaces, that's great for you. The issue is that your teammates may not like that same configuration. Beyond just not liking it, they may be _directly harmed by it._ You may work best with 2 Spaces for indentation, but do you really want to be the jerk on the team that makes it harder for somebody else? Ian Coldwater nailed it in their tweet:
+
+<Tweet
+  tweet={{
+    author: {
+      name: 'Ian Coldwater',
+      profile_image_url: 'https://web.archive.org/web/20220715004957im_/https://pbs.twimg.com/profile_images/1546301651149094914/t-Q5yqrw_400x400.jpg',
+      username: 'IanColdwater'
+    },
+    body: 'Even if no one tells you they need accessibility options you probably know somebody who does. Maybe they\'re too shy to tell you. Maybe they just suffer through it\n\nDon\'t make other people suffer',
+    createdAt: '2020-12-30T05:24:00.000Z',
+    likes: 208,
+    media: [],
+    quoteRetweets: 10,
+    replies: 9,
+    retweets: 38,
+    id: '1344061670742654977',
+  }} />
+
+### How could spaces possibly cause harm?
+
+There are at least a couple groups _I know of_ that are directly impacted by this (note that there may be others I'm not familiar with): people with dyslexia, and people using braille readers.
+
+#### How indentation affects dyslexics
+
+If you're not familiar with Dyslexia, then you may not understand how it actually impacts people. Dyslexia is commonly thought of as being associated with things like mirror writing (writing and reading words and letters backwards), but it's much more complex. It's a disconnect in how the brain processes written words and text (the medical term for this is "decoding"). Most people with Dyslexia have it from birth, though there's also Alexia (not the voice assistant) which occurs as a side-effect of neurological trauma.
+
+Wanna take a guess at one thing that makes it easier for people with Dyslexia or Alexia to read code? **Larger indentation.** By adding more significant indentation, it becomes easier for dyslexic brains to differentiate between content and helps to prevent mixing of lines.
+
+Alright, maybe you don't know anybody with Dyslexia or Alexia (you probably do and they don't tell people because they don't want to hear another person say, "It's so cool that you can write backwards!" 😠), but do you know anybody with Attention Deficit Hyperactivity Disorder, more commonly known as ADHD? Once again, if the answer is "no" then it's really yes and you're too daft to realize it, but people that suffer from ADHD can *also benefit from larger gaps in indentation.* Breaking lines up more makes it easier for ADHD readers to focus on the current line, rather than being distracted by multiple lines being bunched together.
+
+#### You're making things harder for braille readers
+
+Assistive technologies are _incredible_ tools that make it easier for disabled people to access things that are originally designed for non-disabled people. [Refreshable braille displays](https://en.wikipedia.org/wiki/Refreshable_braille_display) (RBDs) are one such technology, and they're commonly used by blind programmers. RBDs have some number of cells — squares with eight little holes — and they work by extending or retracting small pegs through the holes of each cell. One cell === one character. The RBD then updates depending on where the user's focus is on the screen. For example, if they're focused on a line of code the display will update so that the cells represent the characters in that line of code.
+
+These readers can have anywhere from 10 to 80 cells, with the most common ones being between 20 and 40 cells. The more cells, the higher the cost. I'm willing to bet you know where I'm going with this.
+
+If your code uses 4 spaces for indentation and a programmer is using a 20 cell RBD, on the third level of indentation — `4 ⨉ 3 = 12` spaces — they only get 8 usable cells. The rest is all wasted space because you wanted to feel superior in enforcing your code style on your teammates. Tabs, however, only take a single cell. At the third level of indentation the RBD still has 27 usable cells.
+
+#### How about that personal preference thing?
+
+Personally, I like small indentation. I prefer it to be no larger than 2 spaces, because anything larger actually makes it *harder for me to follow the code,* so I can't help out with my friends' projects if they really like to indent their code with 8 spaces. As far as I'm aware, I don't suffer from any reading or learning disorders, and the way other people indent their code *still affects me.*
+
+The point _in case you haven't gotten it yet_ is that **it's not about you.** It's about everybody else that will ever look at your code.
+
+### But nobody will *ever* look at *my* code
+
+Think again.
+
+**That tiny side project you've been working on that's published to Github?**
+Somebody has probably seen it and taken some nifty tricks away.
+
+**That private repo that you created for the project you want to make money off of?**
+If you ever need to scale that project, other people _will_ be working in your codebase.
+
+**That chatbot you made that nobody will ever see because it'll expose all of your deepest, darkest secrets?**
+One day, you may let it fall by the wayside, and that's okay! If this happens, you should open source it so others can learn from it. When you do, *other people will look at your code.*
+
+## Conclusion
+
+If you haven't seen it impact others, it's easy to dismiss things like this. The way that it impacts you feels inconsequential, and the debates where you can be right without anybody actually being right can even be fun sometimes. The reality here, though, is that accessibility issues aren't fun for disabled people, and invisible disabilities are just as real as physical ones — they're just harder to handle when you aren't already accounting for them.
+
+## BONUS: Making the switch
+
+This script will convert all of your JavaScript files to tab indentation. Please use it and show your colleagues that you give a damn. If you need to adjust indentation in other types of files, just update `'*.js'` to `'*.ts'` or `'*.css'` or `'*.rs'` or whatever other file extension.
+
+```bash
+#! /bin/bash
+for i in `find . -name '*.js' ! -path '*/node_modules/*'`; do
+  echo $i;
+  cat $i | unexpand -t2 > $i.converted;
+  mv $i.converted $i;
+done
+```
+
+If you're looking for a one-liner then you can drop this into your terminal:
+
+```bash
+for i in `find . -name '*.js' ! -path '*/node_modules/*'`; do echo $i; cat $i | unexpand -t2 > $i.converted; mv $i.converted $i; done
+```
+
+If you're looking to make it easier to keep using tabs in your projects, install the [EditorConfig][EditorConfig] extension for your editor and put this in a `.editorconfig` file at the root of your project:
+
+```editorconfig
+[*.{js,css,scss}]
+charset = utf-8
+indent_style = tab
+
+# YAML sucks and requires Spaces.
+[*.yml]
+indent_style = space
+indent_size = 2
+```
+
+This will make it so that everyone's editors will use the correct type of indentation, but they can configure it to look the way that they prefer.
+
+### A few parting thoughts...
+
+#### Prettier
+[Prettier](https://prettier.io/) has a long-running issue (since 2020) for [making Tabs the default](https://github.com/prettier/prettier/issues/7475) over Spaces. The team seems to have decided to leave the issue open and ignore, but you can always go add a comment in support of the change!
+
+#### Biome
+Since I originally published this article, [Biome](https://biomejs.dev/) has become quite popular as an alternative to Prettier. The best part is that it enforces tabs by default! 🥳
+
+#### VS Code
+[An issue](https://github.com/microsoft/vscode/issues/156304#issue-1318328510) was opened on the VS Code repo to set indentation to tabs by default, but it was shot down. 😞
+
+[EditorConfig]: https://editorconfig.org/
+[Tabs vs Spaces Twitter thread]: https://twitter.com/TrezyCodes/status/1292473686021177344

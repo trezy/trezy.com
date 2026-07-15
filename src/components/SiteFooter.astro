@@ -1,0 +1,76 @@
+---
+import SocialNav from '@components/SocialNav.astro'
+---
+<footer
+  class="block"
+  role="contentinfo">
+  <nav
+    class="trezy"
+    aria-labelledby="contentinfo-trezy-header">
+    <header id="contentinfo-trezy-header">
+      Trezy
+    </header>
+
+    <ul>
+      <li>
+        <a href="/">
+          Home
+        </a>
+      </li>
+
+      <li>
+        <a href="/about">
+          About
+        </a>
+      </li>
+
+      <li>
+        <a href="/blog">
+          Blog
+        </a>
+      </li>
+
+      <li>
+        <a href="/uses">
+          /uses
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav
+    class="resources"
+    aria-labelledby="contentinfo-resources-header">
+    <header id="contentinfo-resources-header">
+      Resources
+    </header>
+
+    <ul>
+      <li>
+        <a href="/legal/terms-of-service">
+          Terms of Service
+        </a>
+      </li>
+
+      <li>
+        <a href="/legal/privacy-policy">
+          Privacy Policy
+        </a>
+      </li>
+
+      <li>
+        <a href="/legal/cookie-policy">
+          Cookie Policy
+        </a>
+      </li>
+
+      <li>
+        <a href="/legal/code-of-conduct">
+          Code of Conduct
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <SocialNav />
+</footer>

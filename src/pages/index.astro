@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Container from '@components/Container.astro'
+import ClientList from '@components/ClientList.astro'
+import ArticleList from '@components/ArticleList.astro'
+import { getSortedArticles } from '@lib/blog.js'
+
+const latest = (await getSortedArticles()).slice(0, 3)
+---
+<BaseLayout
+  title="Home"
+  description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
+  class="home">
+  <header class="block hero">
+    <h2>&lt;trezy-who/&gt;</h2>
+
+    <p>Software engineer, UX designer, and <a href="https://a11yproject.com">#a11y</a>.</p>
+  </header>
+
+  <section class="block">
+    <Container>
+      <h2>Latest articles</h2>
+
+      <ArticleList articles={latest} limit={3} />
+
+      <a href="/blog">
+        See more
+      </a>
+    </Container>
+  </section>
+
+  <section class="block center">
+    <p>As a software consultant, I've been lucky to work with some of the best teams from well-known brands on products that make the world a better place.</p>
+
+    <ClientList />
+  </section>
+</BaseLayout>

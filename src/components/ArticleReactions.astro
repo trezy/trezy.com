@@ -1,0 +1,144 @@
+---
+// Renders the `<article-reactions>` custom element
+// (src/components/islands/article-reactions.js). Ports
+// legacy/components/ArticleReactions.js's reaction buttons
+// (legacy/components/ReactionButton/index.js's per-button markup, minus the
+// floating-emoji animation — no design/animation per the no-styling
+// constraint) into static Astro markup; the island wires click handlers,
+// counts, and auth-derived active state at runtime.
+//
+// atUri/atCid: intentionally NOT used to gate rendering here — the island
+// resolves the live atUri at runtime from
+// `<link rel="site.standard.document">` (Sequoia injects that at deploy
+// time, Task 29), falling back to the `data-at-uri`/`data-at-cid` below.
+// Today no content entry has `atUri` in frontmatter yet, so these render as
+// `undefined` (Astro omits the attribute) and the island falls into its
+// degraded state: all 6 buttons render, but disabled, with no count fetch.
+//
+// Cross-post counts (dev.to/Hashnode): legacy rendered these inside
+// `ArticleReactions.js`, in the same "reactions" area as the atproto
+// buttons. Task 16 (which built ArticleMeta.astro) initially placed them
+// there per its own brief; this task's brief asks for them here instead, so
+// they've been moved out of ArticleMeta.astro to avoid rendering the same
+// counts twice on the page. They're passed through as `data-devto-*`/
+// `data-hashnode-*` attributes and the island shows/hides + fills in each
+// link (see `renderCrossPostCounts()`), rather than Astro conditionally
+// rendering them, per the Task 23 brief.
+//
+// Post-review fix: legacy's return value was actually `<aside
+// className="article-responses-wrapper">` wrapping a "Before you leave..."
+// heading + Ko-fi support paragraph + `<ul className="share-links">`
+// (Bluesky share/discuss + Ko-fi), with the reactions `<div>` nested inside
+// (as a sibling of `share-links`, both inside `<div className=
+// "article-responses">`). That public-facing content had no owning task and
+// was ported here now, preserving legacy's exact nesting/copy.
+import { Icon } from 'astro-icon/components'
+import { REACTION_TYPES } from '@lib/atproto-reactions.js'
+import { articleTitle, getArticleURL } from '@lib/blog.js'
+import { SITE_URL } from '@lib/site.js'
+import ExternalLink from '@components/ExternalLink.astro'
+
+const { entry } = Astro.props
+const {
+	atCid,
+	atUri,
+	devToReactions,
+	devToURL,
+	hashnodeReactions,
+	hashnodeURL,
+} = entry.data
+
+// legacy/components/ArticleReactions.js's `ALLOWED_REACTIONS` icon mapping,
+// converted from `@fortawesome/react-fontawesome` to astro-icon names (see
+// project constraints' port-transformation rules).
+const REACTION_ICONS = {
+	heart: 'fa6-solid:heart',
+	clap: 'fa6-solid:hands-clapping',
+	rocket: 'fa6-solid:rocket',
+	'sack-dollar': 'fa6-solid:sack-dollar',
+	trophy: 'fa6-solid:trophy',
+	fire: 'fa6-solid:fire-flame-curved',
+}
+
+// Ports legacy/components/ArticleReactions.js's `<aside
+// className="article-responses-wrapper">` "before you leave" copy + share
+// links. Legacy nested the reactions `<div className="reactions">` INSIDE
+// `<div className="article-responses">` alongside `<ul className="share-links">`,
+// which was itself inside the outer `<aside>` (after the heading/paragraph) —
+// this wraps the existing `<article-reactions>` island the same way to match
+// that DOM shape exactly, rather than treating the aside as a sibling block.
+//
+// `blueskyShareURL`/`blueskySearchURL` port legacy's `encodedArticleURL` +
+// `blueskyShareURL`/`blueskySearchURL` `useMemo`s: build the article's
+// absolute canonical URL, then let `URLSearchParams` do the same encoding
+// `URL#searchParams.append` did in legacy.
+const title = articleTitle(entry)
+const absoluteArticleURL = `${SITE_URL}${getArticleURL(entry)}`
+
+const blueskyShareURL = new URL('/intent/compose', 'https://bsky.app')
+blueskyShareURL.searchParams.append('text', `Check out "${title}" ${absoluteArticleURL}`)
+
+const blueskySearchURL = new URL('/search', 'https://bsky.app')
+blueskySearchURL.searchParams.append('q', absoluteArticleURL)
+---
+<aside class="article-responses-wrapper">
+	<h3>Before you leave...</h3>
+
+	<p>This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a <ExternalLink href="https://ko-fi.com/trezy">monthly donation on Ko-fi</ExternalLink>. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash. If that's not in in the cards, make sure to share the article on Bluesky.</p>
+
+	<div class="article-responses">
+		<ul class="share-links">
+			<li><ExternalLink href={blueskyShareURL.toString()}>Share on Bluesky</ExternalLink></li>
+			<li><ExternalLink href={blueskySearchURL.toString()}>Discuss on Bluesky</ExternalLink></li>
+			<li><ExternalLink href="https://ko-fi.com/trezy">Support me on Ko-fi</ExternalLink></li>
+		</ul>
+
+		<article-reactions
+			class="article-reactions"
+			data-slug={entry.id}
+			data-at-uri={atUri}
+			data-at-cid={atCid}
+			data-devto-url={devToURL}
+			data-devto-reactions={devToReactions}
+			data-hashnode-url={hashnodeURL}
+			data-hashnode-reactions={hashnodeReactions}>
+			<div class="reactions">
+				{REACTION_TYPES.map((type) => (
+					<button
+						type="button"
+						class="reaction"
+						data-role="reaction-button"
+						data-reaction-type={type}
+						aria-pressed="false">
+						<Icon name={REACTION_ICONS[type]} class="fa-fw" />
+						<span data-role="reaction-count" class="badge" hidden>0</span>
+					</button>
+				))}
+
+				<a
+					class="reaction"
+					data-role="crosspost-devto"
+					target="_blank"
+					rel="noopener noreferrer"
+					hidden>
+					<Icon name="fa6-brands:dev" class="fa-fw" />
+					<span data-role="crosspost-count" class="badge"></span>
+				</a>
+
+				<a
+					class="reaction"
+					data-role="crosspost-hashnode"
+					target="_blank"
+					rel="noopener noreferrer"
+					hidden>
+					<Icon name="fa6-brands:hashnode" class="fa-fw" />
+					<span data-role="crosspost-count" class="badge"></span>
+				</a>
+			</div>
+		</article-reactions>
+	</div>
+</aside>
+
+<script>
+	import '@islands/article-reactions.js'
+</script>

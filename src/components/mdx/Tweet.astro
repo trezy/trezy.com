@@ -1,0 +1,223 @@
+---
+// Ported from `legacy/components/Tweet.js`. That component was a client
+// component only for the sake of a memoized `urls` object and a
+// `useMemo`-derived entity-formatted body; neither depends on the browser,
+// so both port over as plain server-side computation. `ExternalLink` from
+// legacy (`target="_blank" rel="noopener noreferrer"`) is replaced with the
+// `Anchor` MDX component (`../mdx/Anchor.astro`), which renders the same
+// markup for any non-`/`-prefixed href — every link a tweet needs is an
+// absolute `https://twitter.com/...` URL, so it always takes that branch.
+// `next/image` becomes plain `<img>` (remote `pbs.twimg.com`/media URLs).
+// This component is recursive (quote-tweets render a nested `<Tweet
+// isQuotedTweet>`), which Astro supports via a self-import.
+import { Icon } from 'astro-icon/components'
+import Anchor from './Anchor.astro'
+import DateTime from '@components/DateTime.astro'
+import Tweet from './Tweet.astro'
+
+const {
+	isQuotedTweet = false,
+	tweet,
+} = Astro.props
+
+const {
+	author,
+	body,
+	createdAt,
+	entities,
+	id,
+	likes,
+	media = [],
+	quoteRetweets,
+	referencedTweets,
+	replies,
+	retweets,
+} = tweet || Astro.props
+
+const isValid = Boolean(author && body)
+
+const createdAtDate = isValid ? new Date(createdAt) : null
+
+const urls = isValid ? {
+	author: `https://twitter.com/${author.username}`,
+	like: `https://twitter.com/intent/like?tweet_id=${id}`,
+	reply: `https://twitter.com/intent/tweet?in_reply_to=${id}`,
+	retweet: `https://twitter.com/intent/retweet?tweet_id=${id}`,
+	tweet: `https://twitter.com/${author.username}/status/${id}`,
+} : null
+
+const quoteTweet = referencedTweets?.find(referenced => referenced.referenceType === 'quoted')
+
+// Reproduces legacy's `entities`-driven body formatting: entities (mentions,
+// hashtags, non-image urls) become links, and the plain-text gaps between
+// them are preserved as-is. Falls back to the raw body when there are no
+// entities (the shape every current article uses).
+let formattedBody = [{ type: 'text', content: body }]
+
+if (isValid && entities?.length) {
+	formattedBody = entities.reduce((accumulator, entity, index) => {
+		if (index === 0) {
+			accumulator.unshift({ type: 'text', content: body.substring(entity.end) })
+		} else if (entity.end < entities[index - 1].start) {
+			accumulator.unshift({ type: 'text', content: body.substring(entity.end, entities[index - 1].start) })
+		}
+
+		switch (entity.type) {
+			case 'hashtag':
+				accumulator.unshift({
+					type: 'link',
+					href: `https://twitter.com/hashtag/${entity.tag}`,
+					content: body.substring(entity.start, entity.end),
+				})
+				break
+
+			case 'mention':
+				accumulator.unshift({
+					type: 'link',
+					href: `https://twitter.com/${entity.username}`,
+					content: body.substring(entity.start, entity.end),
+				})
+				break
+
+			case 'url':
+				if (!entity.isImage) {
+					accumulator.unshift({
+						type: 'link',
+						href: entity.url,
+						content: entity.displayURL,
+					})
+				}
+				break
+		}
+
+		if (index === (entities.length - 1)) {
+			accumulator.unshift({ type: 'text', content: body.substring(0, entity.start) })
+		}
+
+		return accumulator
+	}, [])
+}
+---
+{isValid && (
+	<article class="tweet">
+		<header>
+			<Anchor class="avatar" href={urls.author}>
+				<img alt={author.username} height="48" width="48" src={author.profile_image_url} />
+			</Anchor>
+
+			<div class="names">
+				<Anchor class="no-style" href={urls.author}>
+					<span class="display-name">{author.name}</span>
+				</Anchor>
+
+				<Anchor class="highlight-on-interact no-style" href={urls.author}>
+					<span class="username">{`@${author.username}`}</span>
+				</Anchor>
+
+				{isQuotedTweet && (
+					<Anchor class="created-at highlight-on-interact no-style" href={urls.tweet}>
+						<DateTime prefix="Time Posted:" value={createdAtDate} />
+					</Anchor>
+				)}
+			</div>
+
+			<Icon name="fa6-brands:twitter" class="twitter-logo" />
+		</header>
+
+		<div class="body">
+			{formattedBody.map((piece) => (
+				piece.type === 'link' ? (
+					<Anchor href={piece.href}>{piece.content}</Anchor>
+				) : (
+					piece.content
+				)
+			))}
+		</div>
+
+		{Boolean(media.length) && (
+			<ul class="media" data-item-count={media.length}>
+				{media.map((mediaItem) => {
+					if (mediaItem?.type && !['photo', 'video'].includes(mediaItem.type)) {
+						return null
+					}
+
+					if (mediaItem.type === 'photo') {
+						const isOnly = media.length === 1
+
+						return (
+							<li>
+								<Anchor href={mediaItem.url}>
+									{isOnly ? (
+										<img alt={mediaItem.altText} height={mediaItem.height} width={mediaItem.width} src={mediaItem.url} />
+									) : (
+										<img alt={mediaItem.altText} src={mediaItem.url} />
+									)}
+								</Anchor>
+							</li>
+						)
+					}
+
+					if (mediaItem.type === 'video') {
+						return (
+							<li>
+								<video autoplay loop muted controls preload="auto" poster={mediaItem.previewURL} height={mediaItem.height} width={mediaItem.width}>
+									{mediaItem.variants?.map((source) => (
+										<source src={source.url} type={source.contentType} />
+									))}
+									Sorry, your browser doesn't support embedded videos.
+								</video>
+							</li>
+						)
+					}
+
+					return null
+				})}
+			</ul>
+		)}
+
+		{Boolean(quoteTweet) && (
+			<Tweet isQuotedTweet tweet={quoteTweet} />
+		)}
+
+		{isQuotedTweet ? (
+			<Anchor href={urls.tweet}>Show this thread</Anchor>
+		) : (
+			<Anchor class="created-at highlight-on-interact no-style" href={urls.tweet}>
+				<DateTime prefix="Time Posted:" value={createdAtDate} />
+			</Anchor>
+		)}
+
+		{!isQuotedTweet && (
+			<footer>
+				<ul class="reactions">
+					<li>
+						<Anchor class="no-style reaction" href={urls.reply}>
+							<Icon name="fa6-regular:comment" class="fa-fw" title="Reply" />
+							{(replies > 0) && (
+								<span class="count">{replies}</span>
+							)}
+						</Anchor>
+					</li>
+
+					<li>
+						<Anchor class="no-style reaction" href={urls.retweet}>
+							<Icon name="fa6-solid:retweet" class="fa-fw" title="Retweet" />
+							{((retweets + quoteRetweets) > 0) && (
+								<span class="count">{retweets + quoteRetweets}</span>
+							)}
+						</Anchor>
+					</li>
+
+					<li>
+						<Anchor class="no-style reaction" href={urls.like}>
+							<Icon name="fa6-regular:heart" class="fa-fw" title="Like" />
+							{(likes > 0) && (
+								<span class="count">{likes}</span>
+							)}
+						</Anchor>
+					</li>
+				</ul>
+			</footer>
+		)}
+	</article>
+)}

@@ -1,0 +1,620 @@
+---
+import { Icon } from 'astro-icon/components'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Block from '@components/Block.astro'
+import ExternalLink from '@components/ExternalLink.astro'
+
+const CASCADE_DELAY_INCREMENT = 0.2
+const BASE_DELAY = 0.6
+const BASE_DURATION = 0.5
+
+let lastDelay = BASE_DELAY
+
+function getDelay(options = {}) {
+	const {
+		delayIncrement = CASCADE_DELAY_INCREMENT,
+		extraDelay = 0,
+	} = options
+
+	const delay = lastDelay + extraDelay
+
+	lastDelay = delay + delayIncrement
+
+	return delay.toFixed(1).replace(/\.0$/u, '')
+}
+---
+
+<BaseLayout class="uses" title="Uses" description="With inspiration from https://uses.tech, this page lists the software and hardware I use on a daily basis.">
+	<header class="block">
+		<h2>Uses</h2>
+	</header>
+
+	<Block>
+		<p>{'Taking inspiration from '}<ExternalLink href="https://uses.tech">{'uses.tech'}</ExternalLink>{', this page lists the software and hardware I use for work, streaming, and gaming. Note that almost every link on this page is an affiliate link from which I may receive commissions.'}</p>
+	</Block>
+
+	<Block
+		data-animate
+		data-animation="fade-in-from-left"
+		data-animation-delay={`${getDelay()}s`}>
+		<h2>Mobile Gear</h2>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'I\'m a big fan of fruity products, so you\'ll notice the majority of my mobile gear is made by Apple. I do most of my work on a '}<ExternalLink href="https://www.apple.com/macbook-pro-14-and-16/">{'14" M1 Max MacBook Pro (2021)'}</ExternalLink>{' and it does a '}<em>{'wonderful'}</em>{' job.'}
+		</p>
+
+		<figure
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			<header>MacBook Pro Specs</header>
+
+			<ul class="fa-ul">
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:microchip" />
+					</span>
+
+					{'10-Core M1 Max '}<abbr title="Central Processing Unit">CPU</abbr>{''}
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:memory" />
+					</span>
+
+					{'64'}<abbr title="Gigabyte">GB</abbr>{' '}<abbr title="Random Access Memory">RAM</abbr>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:hard-drive" />
+					</span>
+
+					{'1'}<abbr title="Terabyte">TB</abbr>{' '}<abbr title="Solid State Drive">SSD</abbr>
+				</li>
+			</ul>
+		</figure>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'I use '}<ExternalLink href="https://www.apple.com/shop/product/MLWK3AM/A/airpods-pro">{'Apple AirPods Pro'}</ExternalLink>{' for listening to my jams while I\'m on the go. I use my '}<ExternalLink href="https://www.apple.com/shop/buy-ipad/ipad-pro">{'11" iPad Pro'}</ExternalLink>{' as a second screen sometimes, though more often than not I prefer working on a single screen.'}
+		</p>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'I also carry an Apple '}<ExternalLink href="https://www.apple.com/shop/product/MK2C3LL/A/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-us-english">{'Magic Keyboard'}</ExternalLink>{', a '}<ExternalLink href="https://www.apple.com/shop/product/MK2D3AM/A/magic-trackpad">{'Magic Trackpad 2'}</ExternalLink>{', and a '}<ExternalLink href="https://www.amazon.com/dp/B0772LBQXM?tag=trezycodes-20">{'Jubor laptop stand'}</ExternalLink>{'. These prevent my back from hating me for hunching over a laptop for several hours. Finally, I pack it all into a '}<ExternalLink href="https://www.amazon.com/dp/B072XLW95H?tag=trezycodes-20">{'handmade, vintage leather rucksack'}</ExternalLink>{'. '}<span aria-label="Grinning face emoji" role="img">{'😁'}</span>
+		</p>
+	</Block>
+
+	<Block
+		data-animate
+		data-animation="fade-in-from-left"
+		data-animation-delay={`${getDelay()}s`}
+		data-animation-duration={BASE_DURATION}
+		headerImageSource="https://images.ctfassets.net/6gqb05wxpzzi/6ZqMj0ZJ32pLLDSis6Npin/90d500d845aef705fcd403473163095e/IMG_2426.jpg">
+		<h2>Home Office</h2>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'When working from home, I usually hook my MacBook up to a docking station with an external monitor for more screen real estate:'}
+		</p>
+
+		<figure
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			<header>Docking Gear</header>
+
+			<ul class="fa-ul">
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:desktop" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07LBM2DCC?tag=trezycodes-20">
+						{'AOC 27in 4K Frameless Monitor'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:keyboard" />
+					</span>
+
+					<ExternalLink href="https://www.apple.com/shop/product/MK2C3LL/A/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-us-english">
+						{'Apple Magic Keyboard'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:computer-mouse" />
+					</span>
+
+					<ExternalLink href="https://www.apple.com/shop/product/MK2D3AM/A/magic-trackpad">
+						{'Apple Magic Trackpad 2'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:headphones" />
+					</span>
+
+					<ExternalLink href="https://www.apple.com/shop/product/MLWK3AM/A/airpods-pro">
+						{'Apple AirPods Pro'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-brands:usb" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B09HL5JM45?tag=trezycodes-20">
+						{'Brydge Stone Pro TB4'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:chair" />
+					</span>
+
+					<ExternalLink href="https://secretlab.co/products/titan-evo-2022-series">
+						{'SecretLabs TITAN Evo 2022 Series'}
+					</ExternalLink>
+				</li>
+			</ul>
+		</figure>
+	</Block>
+
+	<Block
+		data-animate
+		data-animation="fade-in-from-left"
+		data-animation-delay={`${getDelay()}s`}
+		data-animation-duration={BASE_DURATION}
+		headerImageSource="https://images.ctfassets.net/6gqb05wxpzzi/6SUOkjkIqVNwuXa7KXs8Ti/336130aa6b059410a3d35bbc007cd64d/IMG_2485-1.jpg">
+		<h2>Streaming</h2>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'I use a two computer streaming setup. I do all of my work on my MacBook Pro while it\'s connected to the dock system mentioned above. Then I run an HDMI cable from my MacBook Pro to one of the capture cards on my streaming machine.'}
+		</p>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'On my streaming machine, I run '}<ExternalLink href="https://obsproject.com/"><abbr title="Open Broadcaster Software">OBS</abbr></ExternalLink>{' to combine the input from my MacBook Pro and my Logitech cameras to create the stream!'}
+		</p>
+
+		<figure
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			<header>Streaming Machine (Internals)</header>
+
+			<ul class="fa-ul">
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:microchip" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07SXMZLPJ?tag=trezycodes-20">
+						{'AMD Ryzen 7 3800X'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:microchip" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07WL5MFXL?tag=trezycodes-20">
+						{'Gigabyte X570 AORUS Elite Wi-Fi Motherboard'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:temperature-half" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B08CXDWFKC?tag=trezycodes-20">
+						{'Lian Li Galahad AIO (240mm)'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:temperature-half" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B08HKDBW6F?tag=trezycodes-20">
+						{'Lian Li SL120 Uni Fan (x9)'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:memory" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B016ORTNI2?tag=trezycodes-20">
+						{'Corsair LPX 32GB RAM (16GB x2)'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<span class="fa-layers fa-fw">
+							<Icon name="fa6-solid:memory" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 left-2 up-2" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 up-2" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 right-2 up-2" />
+							<Icon name="fa6-solid:video" class="fa-inverse" data-fa-transform="shrink-8 up-2" />
+						</span>
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07WP6TYQ3?tag=trezycodes-20">
+						{'PowerColor Red Devil AMD Radeon RX 5700XT Graphics Card'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<span class="fa-layers fa-fw">
+							<Icon name="fa6-solid:memory" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 left-2 up-2" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 up-2" />
+							<Icon name="fa6-solid:square-full" data-fa-transform="shrink-8 right-2 up-2" />
+							<Icon name="fa6-solid:video" class="fa-inverse" data-fa-transform="shrink-8 up-2" />
+						</span>
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B019M5IB2C?tag=trezycodes-20">
+						{'Magewell Pro Capture Card'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:plug" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07F84FJ1G?tag=trezycodes-20">
+						{'Corsair SF Series 600W Power Supply'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:server" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B096JF2JT5?tag=trezycodes-20">
+						{'Lian Li O11 Dynamic Mini Case - Snow White Edition'}
+					</ExternalLink>
+				</li>
+			</ul>
+		</figure>
+
+		<figure
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			<header>Streaming Machine (Peripherals)</header>
+
+			<ul class="fa-ul">
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:desktop" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07LBM2DCC?tag=trezycodes-20">
+						{'AOC 27-inch 4K Frameless Monitor (x2)'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:keyboard" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B09WS47K4M?tag=trezycodes-20">
+						{'Keychron K10 Wireless Mechanical Keyboard'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:computer-mouse" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07YPBX9Y7?tag=trezycodes-20">
+						{'Razer Basilisk Wireless Mouse'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:headphones" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B0863TXGM3?tag=trezycodes-20">
+						{'Sony WH-1000XM4 Wireless Headphones'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-brands:usb" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B074ZQJW9R?tag=trezycodes-20">
+						{'Corsair ST100 RGB Headphones Stand'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:microphone-lines" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B09DHXL8L8?tag=trezycodes-20">
+						{'BEACN Mic'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:camera-retro" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B01N5UOYC4?tag=trezycodes-20">
+						{'Logitech 4K Brio Camera'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:camera-retro" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B01LXCDPPK?tag=trezycodes-20">
+						{'Logitech C922 Pro Camera'}
+					</ExternalLink>
+				</li>
+			</ul>
+		</figure>
+
+		<p
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			{'While this setup is great, it\'s not doing all of the work! I have several other pieces of gear that really make my streams stand out.'}
+		</p>
+
+		<figure
+			data-animate
+			data-animation="fade-in-from-top-small"
+			data-animation-delay={`${getDelay()}s`}
+			data-animation-duration={BASE_DURATION}>
+			<header>Other Gear</header>
+
+			<ul class="fa-ul">
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:lightbulb" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07L755X9G?tag=trezycodes-20">
+						{'Elgato Key Light'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:lightbulb" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B082QHRZFW?tag=trezycodes-20">
+						{'Elgato Key Light Air'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:person-booth" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B0743Z892W?tag=trezycodes-20">
+						{'Elgato Green Screen'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:microphone-lines" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B097376LKF?tag=trezycodes-20">
+						{'Elgato Wave Mic Arm LP'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:keyboard" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B07RL8H55Z?tag=trezycodes-20">
+						{'Elgato Stream Deck XL'}
+					</ExternalLink>
+				</li>
+
+				<li
+					data-animate
+					data-animation="fade-in-from-left-small"
+					data-animation-delay={`${getDelay({ delayIncrement: 0.2 })}s`}
+					data-animation-duration={BASE_DURATION}>
+					<span class="fa-li">
+						<Icon name="fa6-solid:sliders" />
+					</span>
+
+					<ExternalLink href="https://www.amazon.com/dp/B09DJL6CBV?tag=trezycodes-20">
+						{'BEACN Mix Create'}
+					</ExternalLink>
+				</li>
+			</ul>
+		</figure>
+	</Block>
+</BaseLayout>

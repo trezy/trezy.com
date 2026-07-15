@@ -1,0 +1,29 @@
+---
+// Ported from legacy/components/ArticleList.js. Legacy's `includeStyles`
+// prop toggled a `block` class per <li> (defaulting to `true`); since there's
+// no styling toggle needed anymore, that class is always applied, matching
+// legacy's default rendered output. The `className` passthrough is kept as
+// `class` on the root <ol>, a hook for a later design pass.
+import ArticleSummary from '@components/ArticleSummary.astro'
+
+const {
+	articles = null,
+	class: className = '',
+	limit = null,
+} = Astro.props
+
+const articlesToRender = articles
+	? (limit ? articles.slice(0, limit) : articles)
+	: null
+---
+{articlesToRender ? (
+	<ol class:list={['article-list', className]}>
+		{articlesToRender.map((article) => (
+			<li class="block">
+				<ArticleSummary article={article} />
+			</li>
+		))}
+	</ol>
+) : (
+	<p>No articles found! 😭</p>
+)}

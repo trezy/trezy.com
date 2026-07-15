@@ -1,0 +1,42 @@
+---
+// Ported from legacy/components/DateTime.js. Legacy read `navigator.language`
+// client-side (after hydration) to localize the formatted string; since this
+// site ships no client JS runtime for that, the locale is fixed to `en-US`
+// (the same value legacy used for its initial server-rendered/pre-hydration
+// output).
+const {
+	dateFormat = { dateStyle: 'long' },
+	prefix = '',
+	separator = ' - ',
+	showDate = true,
+	showPrefix = false,
+	showTime = true,
+	timeFormat = { timeStyle: 'short' },
+	value,
+} = Astro.props
+
+const valueAsDate = value instanceof Date ? value : new Date(value)
+
+const pieces = []
+
+if (showPrefix) {
+	pieces.push(new Intl.DateTimeFormat('en-US', timeFormat).format(valueAsDate))
+}
+
+if (showTime) {
+	pieces.push(new Intl.DateTimeFormat('en-US', timeFormat).format(valueAsDate))
+}
+
+if (showDate) {
+	pieces.push(new Intl.DateTimeFormat('en-US', dateFormat).format(valueAsDate))
+}
+
+let formattedValue = pieces.join(separator)
+
+if (showPrefix) {
+	formattedValue = `${prefix} ${formattedValue}`
+}
+
+const title = `${prefix} ${valueAsDate.toUTCString()}`.trim()
+---
+<time datetime={valueAsDate.toISOString()} title={title}>{formattedValue}</time>

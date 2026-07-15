@@ -1,0 +1,32 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const links = [
+  { icon: 'fa6-brands:bluesky', title: 'Bluesky', href: 'https://bsky.app/profile/trezy.codes' },
+  { icon: 'fa6-brands:mastodon', title: 'Mastodon', href: 'https://mastodon.social/TrezyCodes' },
+  { icon: 'fa6-brands:twitter', title: 'Twitter', href: 'https://twitter.com/TrezyCodes' },
+  { icon: 'fa6-brands:instagram', title: 'Instagram', href: 'https://instagram.com/TrezyCodes' },
+  { icon: 'fa6-brands:linkedin', title: 'LinkedIn', href: 'https://linkedin.com/in/trezy' },
+  { icon: 'fa6-brands:youtube', title: 'YouTube', href: '/youtube' },
+  { icon: 'fa6-brands:discord', title: 'Discord', href: '/discord' },
+  { icon: 'fa6-brands:github', title: 'Github', href: 'https://github.com/trezy' },
+  { icon: 'fa6-brands:codepen', title: 'Codepen', href: 'https://codepen.io/trezy' },
+  { icon: 'fa6-brands:npm', title: 'npm', href: 'https://npmjs.com/~trezy' },
+  { icon: 'fa6-brands:dev', title: 'DEV Community', href: 'https://dev.to/trezy' },
+  { icon: 'fa6-brands:speaker-deck', title: 'SpeakerDeck', href: 'https://speakerdeck.com/trezy' },
+]
+---
+<nav class="social">
+  <ul>
+    {links.map(({ icon, title, href }) => (
+      <li>
+        <a
+          href={href}
+          rel="me"
+          aria-label={title}>
+          <Icon name={icon} />
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

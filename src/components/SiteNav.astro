@@ -1,0 +1,46 @@
+---
+import { Icon } from 'astro-icon/components'
+import SocialNav from '@components/SocialNav.astro'
+import ThemeToggle from '@components/ThemeToggle.astro'
+
+const links = [
+  { icon: 'fa6-solid:house', title: 'Home', href: '/' },
+  { icon: 'fa6-solid:book', title: 'Blog', href: '/blog' },
+  { icon: 'fa6-solid:user', title: 'About', href: '/about' },
+]
+---
+<site-nav data-open="false">
+  <header
+    class="banner"
+    role="banner">
+    <h1 class="brand">&lt;trezy-who/&gt;</h1>
+
+    <ThemeToggle />
+
+    <button
+      class="banner-toggle"
+      aria-expanded="false"
+      aria-controls="site-nav-panel">
+      <Icon name="fa6-solid:bars" />
+    </button>
+
+    <nav id="site-nav-panel">
+      <ul>
+        {links.map(({ icon, title, href }) => (
+          <li>
+            <a href={href}>
+              <Icon name={icon} />
+              <span>{title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <SocialNav />
+  </header>
+</site-nav>
+
+<script>
+  import '@islands/site-nav.js'
+</script>

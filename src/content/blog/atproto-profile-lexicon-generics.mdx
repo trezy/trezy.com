@@ -1,0 +1,162 @@
+---
+title: ATProto Has a Profile Problem. Lexicon Generics Could Help.
+synopsis: As the Atmosphere grows beyond Bluesky, assuming every user has a
+  Bluesky profile won't hold up. A base profile sounds like the fix, but the UX
+  gets weird fast. Lexicon generics — a pattern built from existing ATProto
+  concepts — could make profile-type records discoverable and translatable
+  across apps without flattening them into a single record.
+createdAt: 2026-03-02T20:24:46.237Z
+updatedAt: 2026-03-02T23:02:04.693Z
+draft: false
+changelog: >-
+  _**02 Mar, 2026**_
+
+  * Changed `community.lexicon.lexType.profile` to
+  `community.lexicon.generic.profile` at [Paul's
+  suggestion](https://bsky.app/profile/pfrazee.com/post/3mg4akzwlqs2s)
+headerImage:
+  src: ../../assets/blog/atproto-profile-lexicon-generics/header.gif
+  alt: 3 generic profile cards hover next to each other.
+---
+
+If you build an app in the Atmosphere, you're likely to bump into a question: how should I handle profile information for my users? It's an open network, so your users probably already have a profile somewhere. Maybe on Bluesky, maybe on another ATProto app. Shouldn't you be able to use that?
+
+The short answer is yes. The obvious approach is to pull from Bluesky. Most ATProto users have a Bluesky account, so grab their `app.bsky.actor.profile` and prefill from there. That works fine today. It's what I do on [Cartridge](https://cartridge.dev).
+
+ATProto isn't Bluesky, though. It's a protocol, and Bluesky is just one application built on it. As more apps come online, the assumption that every user has a Bluesky profile gets shakier. New users might onboard through a completely different app and never touch Bluesky. Once you start thinking about that future, the question gets more interesting.
+
+I've been noodling on this for a while, and a series of conversations with other folks in the ATProto community helped me land on something that I think is worth sharing.
+
+## The Problem, by Way of Ariel
+
+[Ariel](https://bsky.app/profile/byarielm.fyi) is building [AtLast](https://bsky.app/profile/atlast.byarielm.fyi), a tool to help people migrating from closed platforms find folks they used to follow on ATProto. Her challenge is a sharper version of the same question: she needs to present profile information for users across the entire network. She can't assume any particular app's profile record exists for any given user.
+
+Our conversation started with Ariel pitching the idea of a base profile: a default, shared profile record that every ATProto account would have, and that any app could read from. It sounds clean, but I think the UX falls apart pretty fast.
+
+If apps can write to a base profile, does editing my bio on one app update it everywhere? How do you communicate that to users? I wouldn't love discovering my gaming bio had silently become my professional networking bio.
+
+If the base profile is read-only, now I have to leave the app I'm using to go edit my profile on some other property. That's just a bad experience.
+
+Then there's the staleness problem. A profile that exists for the sake of being a profile, with no app experience around it, will go stale. This is the Gravatar problem. Every time I encounter Gravatar in the wild, it's after not touching it for years. The avatar is from a different era. The bio is aspirational fiction from 2016.
+
+Either way, apps still need their own profile lexicons. A gaming bio is not a professional networking bio is not a dating profile. The context matters, and flattening all of that into one shared record loses the nuance that makes profiles useful.
+
+## Reframing the Question
+
+The real problem isn't "users don't have a default profile." It's discoverability. Apps need a way to say, "this lexicon has profile-like data in it, and here's how to read it." Other apps need a way to find and understand that declaration without hardcoding knowledge of every profile lexicon on the network.
+
+[Ted Han](https://bsky.app/profile/knowtheory.net) pushed me further on this. He was describing an identity management service that aggregates all your profiles and lets you manage them as cards, syncing or not syncing however you want. Not Gravatar, not a base profile. Just an index of your identities across the network.
+
+That conversation helped me see it clearly: the network-level solution isn't a new record type that carries profile data. It's metadata that describes *existing* records. A way for a lexicon to declare, "I'm a profile, and here's where my fields are."
+
+The pieces for that already exist in ATProto.
+
+## Putting the Pieces Together
+
+If you're familiar with ATProto, you know the building blocks. Lexicons are schemas that define the shape of a record. Sidecars are records that add data to another record. If a record with an rkey of `23` defines a username, bio, and avatar, another application could create a sidecar with the same rkey (`23`) that just adds a `websites` field, without modifying the original lexicon.
+
+None of that is new. The idea I've been calling "lexicon generics" is just a specific way of combining these things: a sidecar record that declares a lexicon's role and maps its fields to common concepts.
+
+Here's how it would work. When you publish a profile-type lexicon, you'd also publish a sidecar record using a shared lexicon like `community.lexicon.generic.profile`, created with the same NSID as your profile lexicon. Its existence says, "this lexicon is used as a profile somewhere." Its contents say, "here's which fields correspond to common profile concepts."
+
+Roughly, the sidecar's lexicon schema might look like this:
+
+```json
+{
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "id": "community.lexicon.generic.profile",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A set of key-value mappings for a profile-type lexicon.",
+      "key": "nsid",
+      "record": {
+        "type": "object",
+        "required": ["mappings"],
+        "properties": {
+          "mappings": {
+            "type": "object",
+            "properties": {
+              "avatar": {
+                "description": "The key of the profile's avatar.",
+                "type": "string"
+              },
+              "displayName": {
+                "description": "The key of the profile's display name.",
+                "type": "string"
+              },
+              "description": {
+                "description": "The key of the profile's description or bio.",
+                "type": "string"
+              },
+              "pronouns": {
+                "description": "The key of the profile's pronouns.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+To make this concrete: on Cartridge, I have the [`games.gamesgamesgamesgames.actor.profile`](https://pdsls.dev/at://did:plc:il7eua5zbt4s2ly2jskjfz2t/com.atproto.lexicon.schema/games.gamesgamesgamesgames.actor.profile) lexicon. A sidecar record for it would look like this:
+
+```json
+{
+  "$type": "community.lexicon.generic.profile",
+  "mappings": {
+    "avatar": "avatar",
+    "displayName": "displayName",
+    "description": "description",
+    "pronouns": "pronouns"
+  }
+}
+```
+
+The mappings are simple here because Cartridge's profile fields happen to share names with the common concepts. That won't always be the case, though. Some lexicons might use `bio` instead of `description`, or `preferredName` instead of `displayName`. The sidecar handles that translation.
+
+If a lexicon doesn't support a field, you leave it out. `dev.npmx.actor.profile` doesn't have an avatar or pronouns field, so its sidecar would be:
+
+```json
+{
+  "$type": "community.lexicon.generic.profile",
+  "mappings": {
+    "displayName": "displayName",
+    "description": "description"
+  }
+}
+```
+
+A missing mapping is a signal too. It tells consumers not to bother looking for that field because there's no analog.
+
+The lexicon generic record would live in the same source repo as the target lexicon, right next to it, using the same NSID as their rkeys. Publishing a lexicon and publishing its generic declaration are part of the same workflow.
+
+## What Could This Enable?
+
+If this pattern holds up, it's both a **discovery mechanism** and a **translation layer**.
+
+For discovery, an indexer could crawl the network for `community.lexicon.generic.profile` records and build a map of which lexicons carry profile data and where their fields live. No hardcoded assumptions about Bluesky. No guessing. Just follow the sidecars. This is exactly what Ariel would need for AtLast, and it's the kind of thing that could support Ted's identity management concept too. An identity manager app could aggregate all your profile sidecars, show you your profiles as cards, and let you manage them, without needing to create or own any profile data itself.
+
+For profile autofill, it could formalize what's currently a manual process. When a user creates a profile on your app, you don't want them staring at empty fields if they've already filled out something similar somewhere else. On Cartridge right now, when a user creates their gaming profile, I autofill from their `app.bsky.actor.profile` if it exists. I pull their display name, avatar, and bio so they're not starting from scratch. The field mappings are hardcoded, and Bluesky is the only source.
+
+Something like lexicon generics could make that more robust. Here's the thing, though, and I think this is important: the autofill should still be **developer-curated**. In the majority of cases, you shouldn't be falling back to every profile-type lexicon on the network. You curate the ones that are good analogs for your app, prioritize them from best to worst, and use the sidecar mappings to pull the right fields. `HyperGamer.com` profiles could prefill from `SuperGamer.com` profiles, and that's a great analog. `TotallyProfeshNetwork.com` profiles could prefill from `LinkedOut.com` profiles. `TotallyProfeshNetwork.com` profiles *should not* prefill from `HyperGamer.com` profiles. Context matters, and the developer is the one who understands their app's context. If the user doesn't have any of your curated analogs? Don't prefill. That's fine.
+
+## This Probably Generalizes
+
+Profiles are the obvious first use case, but there might be other generic types worth thinking about.
+
+Reactions, for instance. Is a Bluesky "like" the same kind of thing as a reaction on a different app? That's for smarter people than me to figure out, but the mechanism for declaring it could look similar. A `community.lexicon.generic.reaction` sidecar that maps fields to common concepts like `target`, `emoji`, or `sentiment`.
+
+Long form content is another one. Right now the Atmosphere has records from apps like `pckt.blog` and `leaflet.pub`, and plenty of applications using `standard.site` lexicons. If those apps published `community.lexicon.generic.longFormPost` sidecars with their field mappings, aggregators wouldn't need to manually track every new long form post lexicon that appears on the network. They'd just follow the generics.
+
+## Open Questions
+
+This is early-stage noodling. I literally got out of the shower to write the first draft of that schema. It's illustrative, not a spec. There are real questions I don't have answers to yet. How do you handle versioning? How do you prevent spam sidecar records? What's the governance model for the shared `community.lexicon.generic.*` namespace?
+
+ATProto's strength is that it doesn't force every app into the same mold. If this idea has legs, it's because it leans into that. It doesn't try to unify profiles into one record. It just tries to make the diversity legible.
+
+If you're building on ATProto and have thoughts, I'd love to hear them. If you can poke holes in it, even better. That's how it gets good.

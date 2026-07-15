@@ -1,0 +1,37 @@
+---
+const clients = [
+  { name: 'Amazon', url: 'https://amazon.com', logo: '/images/logos/amazon.svg' },
+  { name: 'American Family Insurance', url: 'https://amfam.com', logo: '/images/logos/amfam.svg' },
+  { name: 'Disney', url: 'https://disney.com', logo: '/images/logos/disney.svg' },
+  { name: 'Eventbrite', url: 'https://eventbrite.com', logo: '/images/logos/eventbrite.svg' },
+  { name: 'Getty Images', url: 'https://gettyimages.com', logo: '/images/logos/getty-images.svg' },
+  { name: 'GoPro', url: 'https://gopro.com', logo: '/images/logos/gopro.svg' },
+  { name: 'Great Wolf Lodge', url: 'https://greatwolf.com', logo: '/images/logos/great-wolf.svg' },
+  { name: 'Genesys', url: 'https://genesys.com', logo: '/images/logos/genesys.svg' },
+  { name: 'Lands\' End', url: 'https://www.landsend.com/', logo: '/images/logos/lands-end.svg' },
+  { name: 'Marvel', url: 'https://marvel.com', logo: '/images/logos/marvel.svg' },
+  { name: 'Mobile Doorman', url: 'https://mobiledoorman.com', logo: '/images/logos/mobile-doorman.svg' },
+  { name: 'Moxe Health', url: 'https://moxehealth.com', logo: '/images/logos/moxe.svg' },
+  { name: 'SkyBell', url: 'https://skybell.com', logo: '/images/logos/skybell.svg' },
+  { name: 'Webflow', url: 'https://webflow.com', logo: '/images/logos/webflow.svg' },
+]
+---
+<ul class="client-list">
+  {clients.map(({ name, url, logo }) => (
+    <li>
+      <a
+        href={url}
+        rel="noopener noreferrer"
+        target="_blank">
+        <img
+          src={logo}
+          alt=""
+          loading="lazy" />
+
+        <span class="screen-reader-only">
+          {name}
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>

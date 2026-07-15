@@ -1,0 +1,36 @@
+---
+// Ported from legacy/app/thank-you/page.js + legacy/app/thank-you/ThankYouContent.js
+//
+// Legacy read `thanksCount`/`thanksTo` from the URL query string (via
+// `useSearchParams`), so none of that is knowable at build time. The static
+// shell below renders the default "1,000,000 thank yous" copy; the
+// `<thanks-counter>` custom element (src/components/islands/thanks-counter.js)
+// re-reads `location.search` in the browser, updates the heading text (to
+// include `thanksTo` when present), animates the count, and appends
+// "thank you" list items on an interval - mirroring the legacy
+// react-countup + setInterval behavior without a React runtime.
+import BaseLayout from '@layouts/BaseLayout.astro'
+---
+
+<BaseLayout class="thank-you" title="Thank You" description="Thank You">
+	<header class="block">
+		<h2 data-role="page-title">❤️ Thank you!</h2>
+	</header>
+
+	<thanks-counter data-base-count="1000000">
+		<section>
+			<h2>
+				<span data-role="section-title">❤️ Thank you!</span><br />
+				<span data-role="count">0</span>{' times, thank you!'}
+			</h2>
+		</section>
+
+		<section>
+			<ul
+				class="comma-separated"
+				data-role="thanks-list"></ul>
+		</section>
+	</thanks-counter>
+</BaseLayout>
+
+<script>import '@islands/thanks-counter.js'</script>

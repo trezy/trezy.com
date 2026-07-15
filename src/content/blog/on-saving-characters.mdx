@@ -1,0 +1,51 @@
+---
+title: On Saving Characters
+synopsis: Recently I discovered something mind-blowing that I feel like I should
+  have known for years.
+oldSlugs:
+  - d6f4fc07-5de5-4a0d-a8ac-e3a46c6cf3db
+createdAt: 2013-05-06T05:00:00.000Z
+updatedAt: 2022-04-07T19:45:15.301Z
+draft: false
+devToID: "117802"
+devToURL: https://dev.to/trezy/on-saving-characters-2240
+devToReactions: 6
+---
+
+When I write my sans-serif font-family stack in my CSS file I normally use this:
+
+```css
+body {
+ font-family: Ubuntu, Helvetica, Arial, sans-serif;
+}
+```
+
+[Ubuntu][font-ubuntu] is one of my favorite fonts which I import from [Google Fonts][google-fonts] but you can replace it with whatever custom font you want. Since I prefer Helvetica over Arial, it's the next font on the list which I'm hoping they have preinstalled. If not the stack falls back to Arial, then the default `sans-serif` system font.
+
+Now I've been writing my font stack this way for several years (sans the custom font) completely oblivious to the ridiculously obvious fact that half of the stack isn't necessary. The `sans-serif` piece of the stack asks for the system's preferred `sans-serif` font which, by default, is Arial on Windows and Helvetica on Mac. If I'm not concerned about the user having changed their default `sans-serif` font, I can cut 16 characters (not including spaces) out of my font stack:
+
+```css
+body {
+ font-family: Ubuntu, sans-serif;
+}
+```
+
+When I realized this a couple days ago, I subjected myself to an hour of staring at terrible websites as punishment for my ignorance. After recuperating from the debacle I decided to take a closer look at my new font stack. The only issue I have with it is that I don't trust my Windows users to not have changed their default system font to [Comic Sans][font-comic-sans] or [Papyrus][font-papyrus]. Fortunately, Windows will fallback to Arial if you declare Helvetica and it's not installed! When it's all said and done our font stack should like this:
+
+```css
+body {
+ font-family: Ubuntu, Helvetica, sans-serif;
+}
+```
+
+It's not a performance saver and it's not going to impress anybody - in fact you may look like an idiot if you admit to not having known this already - but it's a nice piece of info to have when writing your font stacks.
+
+
+
+
+
+[canonical]: https://trezy.com
+[google-fonts]: https://fonts.google.com
+[font-comic-sans]: https://bancomicsans.com/main/
+[font-papyrus]: https://trezy.com/blog/christmas-time-with-papyrus
+[font-ubuntu]: https://fonts.google.com/specimen/Ubuntu

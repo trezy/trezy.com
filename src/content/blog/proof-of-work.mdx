@@ -1,0 +1,77 @@
+---
+title: Proof of Work
+subtitle: The Marshmallow Test got a response. Now the real test begins.
+synopsis: After my critique of Bluesky's 2026 Report resonated across the
+  Atmosphere, the company's new interim CEO reached out. We talked about what
+  went wrong, what collaboration should look like, and why private data is the
+  next test of whether the words match the work.
+createdAt: 2026-04-01T22:33:21.887Z
+updatedAt: 2026-04-02T16:00:10.229Z
+draft: false
+headerImage:
+  src: ../../assets/blog/proof-of-work/header.jpg
+  alt: A lighthouse on a rocky shore projects its light over calm waters during an
+    early morning darkness.
+---
+
+When I published [*The Marshmallow Test*](/blog/the-marshmallow-test), I expected some engagement. What I didn't expect was how many Atmosphere builders would reach out saying it articulated something they'd been feeling but hadn't been able to put into words. The article resonated, not because the critique was novel, but because a lot of people in the developer community had walked away from that [AtmosphereConf](https://atmosphereconf.org/) presentation with the same pit in their stomach, and no one had named it yet.
+
+A few hours after the article went up, I got a DM from [Toni Schneider](https://bsky.app/profile/toni.bsky.team). In case you missed [the Bluesky leadership shuffle](https://bsky.social/about/blog/03-09-2026-a-new-chapter-for-bluesky), Jay abdicated her role as CEO, transitioning instead to CIO (Chief Innovation Officer), and Toni took over as interim CEO. All of that happened about three weeks before AtmosphereConf. Toni had read the article and he wanted to talk, so we got on the phone.
+
+I want to be upfront: this is a long way from a victory lap. Getting a phone call from the CEO doesn't mean the problem is — or will be — solved. What it does mean is that someone in a position to change things is paying attention, and that's worth documenting. Not because it's sufficient, but because it's necessary.
+
+## What the call was
+
+Toni came into the conversation wanting to understand what went wrong with the [Attie](https://attie.ai/login) presentation. Not in a PR damage-control way, but in an "I've been here three weeks and I'm still learning how this community works" way. He was candid about that. He asked questions, and he listened. He pushed back in places where he disagreed, and conceded in places where he didn't have a good counter.
+
+I reiterated what I had written in the article, and what I'd been hearing from developers at the conference: the issue was never that Bluesky built something. The issue was the signal. You open a presentation by showcasing the cool things the community is building, then pivot to announcing your own version of those things, without acknowledging that the people you just celebrated might be impacted by what you're about to show off. That's the gap. Not the product, but the framing and the context.
+
+He agreed. He said it should have been handled differently, that the team got tunnel vision in ship-it mode and didn't think through how it would land with a room full of developers who, as he put it, are essentially volunteers right now. He talked about how, in retrospect, the presentation should have bridged the two halves: here's what the community is building, here's what we're building, and here's how we see those fitting together instead of competing.
+
+That tracks. I appreciate that he said it plainly rather than wrapping it in corporate padding.
+
+## Speed vs. stewardship
+
+The most interesting tension during our conversation was one that doesn't have a clean resolution.
+
+Toni was direct about the fact that Attie was built fast on purpose. The Bluesky app moves slowly, and the team gets bogged down in community expectations about what a microblogging client should be. Jay's new team focused on innovation was supposed to be the space where they could move at the pace AI demands: try things, ship things, iterate without the weight of 43 million users' opinions on every button placement.
+
+I pushed back, because speed and collaboration aren't mutually exclusive. You don't need nine months of spec review to send a DM before you walk on stage. You don't need a committee to add a single slide acknowledging that your new feed builder exists in an ecosystem where teams are already building feed tools.
+
+Toni agreed with that, too, but the underlying tension is real and it's not going away. The Atmosphere is designed for collaboration at the protocol level. The companies building on it still need to ship at the speed of business. Every protocol-based ecosystem is going to hit this friction point, and how Bluesky navigates it matters disproportionately because they are Goliath, and we builders are a bunch of little Davids hoping we don't have to go rock hunting.
+
+## The dual audience problem
+
+One thing I raised that seemed to land was the idea that Bluesky has two audiences for every announcement: users and developers. The Attie launch was pitched with a product mindset: here's a cool thing, go try it. At a developer conference, though, the audience isn't evaluating your product. They're evaluating your relationship to the ecosystem they're building their livelihoods on.
+
+This is the defining challenge of building a company on top of an open protocol. The protocol's entire value proposition is that no single entity controls it. The company's entire incentive structure is to ship faster and better than everyone else. Those aren't inherently contradictory, but they require active, ongoing work to reconcile. You have to earn the trust, and then you have to keep earning it with every launch.
+
+Toni talked about some of the ways Bluesky is already trying to do this: routing long-form content to [Standard.site](https://standard.site) and [Leaflet](https://leaflet.pub) rather than building their own, handing off encrypted DMs to [Germ](https://www.germnetwork.com/) rather than building a first-party solution, using the Bluesky app's audience of 43 million to showcase ecosystem projects. He pointed to the influx of users on Germ after their integration as an example of how that can work. That's a good thing, and I want to see more of it.
+
+I'd push further, though. Leading by example in an open ecosystem doesn't just mean promoting other people's work or deferring to them on features you don't want to build. It means building in public when you're working on projects that overlap with the community. It means reaching out before you ship, not after the backlash. It means treating collaboration as part of the development process rather than as a cleanup step.
+
+I do this with [Cartridge](https://cartridge.dev) already, and it's not even launched yet. When I see someone building something adjacent ([Popfeed.social](https://popfeed.social), [RPG Actor](https://rpg.actor/), [AT3D](https://at3d.app/), whatever), I reach out. Let's see if there's an opportunity here. That's not altruism, it's how you build an ecosystem that people trust enough to invest their time in. The question is whether Bluesky can make that kind of engagement into a pattern, rather than a reaction.
+
+## What I'm watching next
+
+Toni and I talked about private data, which is the single most important piece of protocol development right now. Multiple teams have put forward their own vision of what private data should look like on AT Protocol. Some are spec proposals. Some are fully built implementations. Everyone agrees it's needed, and everyone agrees it needs to happen soon.
+
+The tension is that Bluesky holds the keys. No matter how good a community proposal is, it doesn't become real on AT Protocol without Bluesky's buy-in at the protocol level. That's a problem. You can't claim to be building an open protocol while one company retains veto power over what gets adopted. The recent establishment of an [IETF working group for AT Protocol](https://datatracker.ietf.org/wg/atp/about/) is a meaningful step toward changing that, and some in the community have called for protocol governance to be handed off to a completely separate organization.
+
+For now, Bluesky remains the steward, and that means the burden of proof is on them to demonstrate that stewardship doesn't mean gatekeeping. The question is whether Bluesky evaluates the existing work with genuine openness, or whether the community wakes up one morning to a first-party solution that renders months of independent work irrelevant. Ideally, Bluesky finds a way to distribute that decision-making authority to the contributors who've been doing the work.
+
+This is the test. Not because it's the most technically interesting problem — it actually is, but that's irrelevant — but because it's the first major protocol-level decision where the Attie lessons can either be applied or ignored. Will the teams building on private data be brought into the process? Will there be transparency about how Bluesky evaluates competing approaches? Or will we get another presentation that showcases community projects and then drops a first-party solution on top of them?
+
+I don't know yet, but the path they choose will tell us whether they've truly learned anything at all.
+
+## The signal
+
+I published [*The Marshmallow Test*](/blog/the-marshmallow-test) because the Attie launch sent the wrong signal to the developer community. My call with Toni sent a different one: that the new person at the top is willing to listen, willing to say "we screwed up" without qualification, and willing to engage with the criticism rather than manage it.
+
+That matters. In an ecosystem this young, the norms are still being set. Every interaction between the protocol's stewards and the people building on it is a precedent. The question isn't whether Bluesky will make mistakes (they will, every company does). The question is what happens after.
+
+Shortly after the call, I posted [this](https://bsky.app/profile/trezy.codes/post/3mih6een2sk26) on Bluesky:
+
+> I had an opportunity to get on the phone with Toni this morning. As always, I'll remain skeptical until we see results, but I hung up feeling hopeful that the guy at the helm may, indeed, be able to right the ship.
+
+That's still where I'm at. Hopeful, but not necessarily convinced. The words were right. Now we watch the work.

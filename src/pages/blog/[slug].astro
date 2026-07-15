@@ -1,0 +1,89 @@
+---
+// Ported from `legacy/app/blog/[slug]/page.js`. `showHeader={false}` in
+// legacy (no auto page-header — this page renders its own header `Block`),
+// `PageContent`/`Container` become `BaseLayout`/`Container`. The Supabase
+// reaction-row fetch and `<ArticleReactions>`/`<ArticleMentions>` rendering
+// are replaced with `<ArticleReactions>` (Task 23) and `<ArticleMentions>`
+// (Task 24).
+import { getCollection, render } from 'astro:content'
+import { Image } from 'astro:assets'
+import ArticleMentions from '@components/ArticleMentions.astro'
+import ArticleMeta from '@components/ArticleMeta.astro'
+import ArticleReactions from '@components/ArticleReactions.astro'
+import AtprotoLogin from '@components/AtprotoLogin.astro'
+import Block from '@components/Block.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Container from '@components/Container.astro'
+import { articleTitle } from '@lib/blog.js'
+import { mdxComponents } from '@lib/mdx-components.js'
+
+export async function getStaticPaths() {
+	const entries = await getCollection('blog', ({ data }) => !data.draft)
+
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: { entry },
+	}))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+
+const title = articleTitle(entry)
+const headerImage = entry.data.headerImage
+// `headerImage` is either an `image()`-schema `ImageMetadata` object
+// directly, or `{ src: image(), alt }`. Both shapes have a `.src` key
+// (`ImageMetadata` itself has one, pointing at the built asset's public
+// URL), so presence of `.src` alone can't distinguish them — only the
+// wrapper object also carries `alt`.
+const isWrappedHeaderImage = Boolean(headerImage) && (typeof headerImage === 'object') && ('alt' in headerImage)
+const heroSrc = isWrappedHeaderImage ? headerImage.src : headerImage
+const heroAlt = (isWrappedHeaderImage ? headerImage.alt : undefined) ?? title
+---
+<BaseLayout
+	class="blog-article"
+	title={title}
+	description={entry.data.synopsis}
+	image={`/og/${entry.id}.png`}
+	imageAlt={heroAlt}>
+	{entry.data.atUri && (
+		<link slot="head" rel="site.standard.document" href={entry.data.atUri} />
+	)}
+
+	<Block elementType="header">
+		{heroSrc && (
+			<div class="block-header-image">
+				<Image src={heroSrc} alt={heroAlt} />
+			</div>
+		)}
+
+		<Container>
+			<h2>{title}</h2>
+
+			{Boolean(entry.data.subtitle) && (
+				<p><strong>{entry.data.subtitle}</strong></p>
+			)}
+
+			{Boolean(entry.data.synopsis) && (
+				<p>{entry.data.synopsis}</p>
+			)}
+
+			<ArticleMeta entry={entry} />
+		</Container>
+	</Block>
+
+	<Block elementType="article">
+		<Container>
+			<Content components={mdxComponents} />
+
+			<ArticleReactions entry={entry} />
+			<ArticleMentions entry={entry} />
+
+			<AtprotoLogin />
+		</Container>
+	</Block>
+
+	<script>
+		import '@islands/mermaid.js'
+	</script>
+</BaseLayout>

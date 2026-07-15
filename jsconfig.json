@@ -1,8 +1,12 @@
 {
-	"compilerOptions": {
-		"baseUrl": "./src",
-		"paths": {
-			"public/*": ["../public/*"]
-		}
-	}
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@islands/*": ["src/components/islands/*"],
+      "@lib/*": ["src/lib/*"]
+    }
+  }
 }
+

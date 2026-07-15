@@ -1,0 +1,21 @@
+{
+	"$schema": "https://sequoia.pub/schema.json",
+	"identity": "trezy.codes",
+	"siteUrl": "https://trezy.codes",
+	"pathTemplate": "/blog/{slug}",
+	"contentDir": "./src/content/blog",
+	"imagesDir": "./src/assets",
+	"outputDir": "./dist",
+	"publicDir": "./public",
+	"publicationUri": "at://did:plc:4jrld6fwpnwqehtce56qshzv/site.standard.publication/3mg4z5hgmfs2l",
+  "autoSync": true,
+  "publishContent": true,
+	"textContentField": "synopsis",
+	"frontmatter": {
+		"description": "synopsis",
+		"publishDate": "createdAt"
+	},
+	"bluesky": {
+		"enabled": true
+	}
+}

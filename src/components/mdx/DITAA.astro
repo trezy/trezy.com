@@ -1,0 +1,38 @@
+---
+// Ported from `legacy/helpers/markdownRenderers/DITAA.js` (a thin wrapper
+// around `Kroki` fixing `type="ditaa"`) + `Kroki.js` itself. Legacy passed
+// the diagram source as `children` (a plain JS string, usually written as
+// `{String.raw\`…\`}` in the MDX body) straight into `encodeDiagram`. Astro
+// components don't get slot content as a plain string — the default slot
+// has to be rendered to an HTML string via `Astro.slots.render()` — and
+// that render step HTML-entity-escapes characters the diagram source
+// legitimately uses (`<`, `>`, `&` all show up in ditaa arrows like `<--\`).
+// Those are decoded back out below before encoding, and the render output is
+// also unwrapped from a `<p>…</p>` in case Astro/MDX wrapped the bare text
+// node in a paragraph.
+import { encodeDiagram } from '@lib/kroki.js'
+
+const { type = 'ditaa' } = Astro.props
+
+const rawSlot = await Astro.slots.render('default')
+
+function decodeEntities(value) {
+	return value
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&#0?39;/g, '\'')
+		.replace(/&#x27;/g, '\'')
+		.replace(/&amp;/g, '&')
+}
+
+let diagramSource = decodeEntities(rawSlot).trim()
+
+const wrappedInParagraph = diagramSource.match(/^<p>([\s\S]*)<\/p>$/)
+if (wrappedInParagraph) {
+	diagramSource = wrappedInParagraph[1].trim()
+}
+
+const hash = encodeDiagram(diagramSource)
+---
+<img src={`https://kroki.io/${type}/svg/${hash}`} alt={`${type} diagram`} />

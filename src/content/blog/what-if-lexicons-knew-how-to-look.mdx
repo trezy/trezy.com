@@ -1,0 +1,260 @@
+---
+title: What If Lexicons Knew How to Look?
+subtitle: Some Thoughts About Display Intents on the Atmosphere
+synopsis: The Atmosphere is growing beyond 'one app per lexicon.' Here's a
+  thought experiment on shared rendering context.
+createdAt: 2026-04-14T19:02:08.645Z
+updatedAt: 2026-04-15T15:08:14.303Z
+draft: false
+headerImage:
+  src: ../../assets/blog/what-if-lexicons-knew-how-to-look/header.jpg
+  alt: Close-up of an opened dictionary showing the word "find."
+---
+
+[This post](https://bsky.app/profile/madoka.systems/post/3mjhk3tgs7c2a) from [@madoka.systems](https://bsky.app/profile/madoka.systems) hit on a topic I've been thinking about for a few weeks.
+
+> Has anyone thought about the multi repo feed yet or are we still in the era of "this is a `<app.bsky.*>` viewer" and "this is a `<site.standard.*>` viewer"
+
+It's painfully relevant to my work on [Debuff](https://github.com/gamesgamesgamesgamesgames/debuff).
+
+## The Problem
+
+Debuff is an AppView-agnostic labeler. Think [Ozone](https://github.com/bluesky-social/ozone) (Bluesky's moderation tool), but for non-Bluesky lexicons. The goal is to provide moderation tooling that works across the [Atmosphere](https://atmosphereaccount.com/), not just for `app.bsky.*` records.
+
+The biggest challenge with reviewing arbitrary records is that context and display have a massive impact on understanding. Seeing a record in its intended context is incredibly helpful for adjudicating that record. A post looks different than a game score looks different than a long-form article. The structure might be in the lexicon, but the *meaning* often lives in how it's rendered.
+
+So how do we get that context? How do we display something in a way that captures the original intent?
+
+## The Core Insight
+
+When a lexicon author designs their schema, they already have display intent in mind. They know what a record should look like. They know what matters, what should be prominent, what's metadata.
+
+That intent currently lives in their head, or in their app's code. If another application wants to render that record in a feed, in a moderation queue, or in a gallery, they're starting from scratch. They're guessing.
+
+What if lexicon authors had a way to share their display intent alongside the lexicon itself?
+
+## The Proposal: Display Intents as Sidecars
+
+I'm imagining a sidecar record that lives alongside a lexicon and expresses how records should be rendered, and I'm calling it a **Display Intent Sidecar.**
+
+A single lexicon may need to render differently depending on context. For example, a game score probably looks different in a feed vs a leaderboard vs a moderation queue. The sidecar could express multiple intents:
+
+- **Feed item**: Compact, scannable, fits alongside other content
+- **Moderation review**: Full detail, nothing hidden, context for adjudication
+- **Gallery**: Visual-first, optimized for browsing
+- **Others**: Whatever contexts emerge as the ecosystem grows
+
+One lexicon, multiple display contexts, all defined by the author who understands the data best.
+
+Sidecars provide the discovery mechanism. The display intent uses the same `rkey` as the original lexicon, but it lives in a different collection. If I publish a lexicon for `com.example.score`, the lexicon record lives at:
+
+```
+at://{my-did}/com.atproto.lexicon.schema/com.example.score
+```
+
+The display intent would then live at:
+
+```
+at://{my-did}/community.lexicon.displayIntent/com.example.score
+```
+
+Same `rkey`, different collection. Consuming apps look up the sidecar the same way they look up the lexicon.
+
+## A Rough Sketch
+
+What might `community.lexicon.displayIntent` look like? At minimum, it needs to express rendering options for different contexts. Here's a rough sketch:
+```json
+{
+  "lexicon": 1,
+  "id": "community.lexicon.displayIntent",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "nsid",
+      "record": {
+        "type": "object",
+        "required": ["intents"],
+        "properties": {
+          "intents": {
+            "type": "object",
+            "properties": {
+              "feed": { "type": "ref", "ref": "#renderer" },
+              "moderation": { "type": "ref", "ref": "#renderer" },
+              "gallery": { "type": "ref", "ref": "#renderer" }
+            }
+          }
+        }
+      }
+    },
+    "renderer": {
+      "type": "union",
+      "refs": ["#webTileRenderer", "#inlayRenderer"]
+    },
+    "webTileRenderer": {
+      "type": "object",
+      "required": ["type", "tile"],
+      "properties": {
+        "type": { "type": "string", "const": "webTile" },
+        "tile": { "type": "string", "format": "at-uri" }
+      }
+    },
+    "inlayRenderer": {
+      "type": "object",
+      "required": ["type", "component", "did"],
+      "properties": {
+        "type": { "type": "string", "const": "inlay" },
+        "component": { "type": "string", "format": "nsid" },
+        "did": { "type": "string", "format": "did" }
+      }
+    }
+  }
+}
+```
+
+The `intents` object maps context names to renderers. The renderer is a union type that could be extended as new rendering approaches emerge. For now, I'm imagining two options.
+
+## Two Possible Approaches
+
+Lexicons don't typically provide much more than hints about how something should be rendered, let alone enough context to render an entire record. Fortunately there are already a couple of tools in the ecosystem we can use to start working the problem.
+
+### WebTiles
+
+[WebTiles](https://webtil.es/) are part of the [DASL project](https://dasl.ing/). They're composable web documents that can safely be used in arbitrary contexts because they're completely cut off from network access beyond their pre-declared dependencies. You can't exfiltrate data from a WebTile because it simply can't reach the network.
+
+This makes them ideal for rendering untrusted content. A lexicon author could publish a WebTile that renders their records, and consuming apps could safely embed it without worrying about malicious code phoning home. The WebTile [spec](https://dasl.ing/tiles.html) already defines how to publish tiles on atproto as records with blob resources.
+
+### Inlay
+
+[Inlay](https://inlay.at/) is [Dan Abramov's](https://bsky.app/profile/danabra.mov) project for building social UIs from components that live on atproto. Components are records with NSIDs that resolve to element trees. They can be templates (stored element trees with bindings) or external (XRPC endpoints that return element trees).
+
+The power of Inlay is composability. A display intent could reference an Inlay component, and the consuming app would resolve it through the import chain to render the record. Lexicon authors can even offer their own shared Inlay primitives for custom rendering.
+
+## Making It Concrete
+
+Imagine a simple image post lexicon:
+```json
+{
+  "lexicon": 1,
+  "id": "com.example.imagePost",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["image", "alt", "createdAt"],
+        "properties": {
+          "image": { "type": "blob", "accept": ["image/*"], "maxSize": 1000000 },
+          "alt": { "type": "string", "maxLength": 2000 },
+          "caption": { "type": "string", "maxLength": 500 },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}
+```
+
+The display intent record might look like:
+```json
+{
+  "$type": "community.lexicon.displayIntent",
+  "lexicon": "com.example.imagePost",
+  "intents": {
+    "feed": {
+      "type": "inlay",
+      "component": "com.example.ImagePostFeed",
+      "did": "did:plc:example123"
+    },
+    "moderation": {
+      "type": "inlay", 
+      "component": "com.example.ImagePostModeration",
+      "did": "did:plc:example123"
+    }
+  }
+}
+```
+
+### Feed Intent
+
+The feed renderer shows the image prominently with the caption below. Alt text exists but isn't immediately visible, consistent with how most image posts work:
+```jsx
+<org.atsui.Stack gap="small">
+  <org.atsui.Image src={record.image} alt={record.alt} />
+  <org.atsui.Text>{record.caption}</org.atsui.Text>
+  <org.atsui.Caption>
+    <org.atsui.Timestamp value={record.createdAt} />
+  </org.atsui.Caption>
+</org.atsui.Stack>
+```
+
+### Moderation Intent
+
+The moderation renderer surfaces everything. Alt text is immediately visible because moderators need to review it for policy violations:
+
+```jsx
+<org.atsui.Stack gap="medium">
+  <org.atsui.Image src={record.image} alt={record.alt} />
+  <org.atsui.Stack gap="small">
+    <org.atsui.Text weight="bold">Caption</org.atsui.Text>
+    <org.atsui.Text>{record.caption || "(none)"}</org.atsui.Text>
+  </org.atsui.Stack>
+  <org.atsui.Stack gap="small">
+    <org.atsui.Text weight="bold">Alt Text</org.atsui.Text>
+    <org.atsui.Text>{record.alt}</org.atsui.Text>
+  </org.atsui.Stack>
+  <org.atsui.Caption>
+    Created: <org.atsui.Timestamp value={record.createdAt} />
+  </org.atsui.Caption>
+</org.atsui.Stack>
+```
+
+Same record, different contexts, different display needs.
+
+## Non-Prescriptive by Design
+
+This isn't about forcing apps to render things a certain way: apps can render records however they please. They're not required to use display intents. The sidecar is an offer, not a mandate. An app could:
+
+- Use the provided renderer directly
+- Take inspiration from it and build their own
+- Ignore it entirely
+
+The goal is to provide a shared starting point to reduce the guesswork. By making it easier to decide how to render records, we also make it easier for the Atmosphere to grow beyond "this app renders this lexicon."
+
+## The Trust Problem
+
+Here's where it gets tricky. In the context of Debuff, I have to assume renderers may not be trustworthy.
+
+Consider the attack vector: a bad actor publishes a seemingly innocuous lexicon with a display intent, but the moderation intent renderer intentionally hides malicious content. A moderator reviews the rendered version, sees nothing wrong, and approves it. The actual record contains something harmful.
+
+This means:
+
+1. **All renderers must be opt-in.** No automatic trust. App developers decide which display intents to use.
+2. **Moderation intent is special.** For moderation, the full record must always be easily accessible. The renderer is a convenience, not a replacement for seeing the raw data.
+3. **Renderer provenance matters.** Who published this? Do we trust them? A community labeler could review display intents and label them for quality, security, and accuracy, but it's ultimately the app developer's decision.
+
+WebTiles help here because they can't exfiltrate data, but they could still hide content visually. The trust decision never fully goes away.
+
+## Practical Considerations
+
+### Versioning
+
+Lexicons evolve, and the atproto spec expects them to remain backwards-compatible. Records created with an old version of the lexicon should still work, and the same applies to display intents.
+
+The lexicon author manages both the lexicon and its display intent. If the lexicon changes, it's on them to update the sidecar. If they don't, the old sidecar should still render old records correctly, and apps can fall back to raw JSON or non-display for new fields the sidecar doesn't know about.
+
+### Performance
+
+If I'm rendering a feed with 50 items from 20 different lexicons, am I loading 20 different renderers?
+
+This is where performance becomes a shared responsibility. Lexicon authors should endeavor to make their components as performant as possible, but app developers will need to evaluate whether a Display Intent Sidecar's performance is acceptable for their use case.
+
+Display intents are also mix & match. It would be a totally valid tradeoff for an app to use display intents for detail views but fall back to a generic card renderer for feed items.
+
+## Where This Stands
+
+This is still a thought experiment. For now, Debuff just renders JSON. It's not pretty, but it's honest.
+
+I'd like to standardize on something for this. The Atmosphere is growing, and the "one app per lexicon" model won't scale. We need ways to render arbitrary records with context and intent, without sacrificing security or forcing every app to reinvent the wheel.
+
+If you're thinking about this problem, I'd love to hear from you.

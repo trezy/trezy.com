@@ -1,0 +1,188 @@
+---
+title: Building Web Apps with Firebase
+subtitle: "Part I: Data Modeling"
+synopsis: Data modeling makes everything easier when you're building an app.
+  I'll explore my own data modeling process and discuss how I decide what data I
+  need in my database.
+oldSlugs:
+  - 4d384c5d-09be-4b1c-a7c1-22e86dd327bb
+createdAt: 2020-01-30T19:06:31.000Z
+updatedAt: 2022-07-05T20:20:40.052Z
+draft: false
+changelog: |-
+  _**05 July, 2022**_
+  * Updating some syntax to accomodate website updates.
+---
+
+In this series, we're going to use [Firebase][firebase], [React][react], and [Next.js][nextjs] to build a photo-sharing web app. We'll start from nothing and build a complete user management system with logins, profiles, permissions, and file uploads!
+
+When starting a new project, I don't always follow the same process, but I *always* start with [*Data Modeling*][data-modeling]. When building apps, all you're doing is creating new ways to display and manipulate your data. That means that no matter what, your data will always be the most crucial part of your app!
+
+Let's dive in!
+
+---
+
+## What are we *really* building?
+
+If our data is the most crucial part of our app, then *what is our data?* The first step of data modeling is to figure out what data needs to be modeled. To do that, let's think at a high level about what the app should be able to do.
+
+* *Logging In* - Users need to be able to login to upload their photos
+* *File Uploads* - It's not much of a photo-sharing app if nobody can upload photos to share
+* *User Profiles* - I want to know more about the person that uploaded that cute cat picture
+* *Moderation* - One of the dangers of a photo-sharing site is that people start uploading dangerous or illegal content, so I want to have a team of moderators that can manage that content
+
+There are *plenty* of other features we could add to this site, but I want to start small, and this is a great start! Now that we know what we want to be possible, let's think about what we'll data we'll need to support those features.
+
+* *Logins* - We'll use Firebase Auth to allow users to login
+* *User Profiles* - We'll Firebase Firestore to store data about our users
+* *Permissions & Roles* - We'll store roles in Firestore that a user can have, permitting them to do different things
+* *File Uploads* - Firebase Storage is a great solution for file uploads, and keeping things in the Firebase family makes everything a lot simpler
+
+## The shape of ~~water~~ data
+
+Before we start writing any code or setting up the database, we need to know how we want our data to look. We have a high-level overview of what our data looks like, but now we need to get into details. We need to think about what bits of info are going to be relevant to our system and how we can represent them in the database. Since almost everything is going to based around the `User`, let's think about that first.
+
+### The `User` model
+
+Firebase Auth dramatically simplifies the process of building a login system. With Firebase Auth, you can allow users to log in with either their email and a password or with their social media accounts. However, we're *only* going to support social media login to reduce the scope of this project.
+
+A `User` is going to comprise two chunks of data. First, there's the data that we get from Firebase Auth. When a user logs in via Firebase Auth, Firebase assigns them a unique user ID. There's some other useful data we can retrieve depending on what platform they sign in with, but for now, we'll just assume that the user has decided not to share any information with us from their social profile.
+
+The second chunk of data we'll be retrieving is the user's `Profile`, which will be coming from Firestore. This will include some critical pieces of information, including:
+
+- `username` - This will be what other users see when they look at the user's posts
+- `email` - So we can stay in touch with the user
+- `createdAt` - To keep track of when users were created
+- `roleIDs` - An array of roles that the user has been granted so we can determine whether or not they have permission to perform specific actions
+
+With all of this information, we can start modeling our data! Thus far, it looks something like this:
+<figure>
+  <DITAA>
+{String.raw`
++-------------+    +-----------+
+| {s}         |    | {s}       |
+| Firebase    |    | Firebase  |
+| Firestore   |    | Auth      |
++------+------+    +-----+-----+
+       :                 :
+       +                 |
+       |                 |
+       V                 V
++------+------+      +---+---+
+| Profile     |      | User  |
++-------------+      +-------+
+| id          |  /-->+ id    |
+| username    |  |   +-------+
+| email       |  |
+| roleIDs     |  |
+| userID      +--/
+| createdAt   |
++-------------+
+`}
+  </DITAA>
+  <figcaption>A diagram of our data model with the `User` coming from Firebase Auth and the `Profile` coming from Firestore</figcaption>
+</figure>
+
+#### A note on naming
+Naming things is hard, and database field names are no exception. I try to follow the following rules when naming fields:
+
+##### Boolean fields should start with `is`
+
+A field to describe whether or not a user has been verified would be named `isVerified`. This is much more clear than a field named `verified`, which may be a `Boolean` field, or it may be a string that represents *how* the user was verified, like `by-email` or `by-street-address`.
+
+##### Lists should be plural
+
+A field with a list of sports a user is interested in should be named `sports` rather than `sport`.
+
+##### Reference fields should end with `ID`
+
+Reference fields (known as "foreign key" fields in SQL databases) always contain IDs that reference another item in the database. In our model about, our `Profile` has a `userID` field that will be populated by the `id` field of the `User` model. Naming the field `user` is confusing because it's not clear whether it will contain an ID or an object representing some other user data.
+
+### The `Photo` model
+
+Since we're talking about a photo-sharing site, our users should be able to upload some photos! Like `User`s, `Photo`s will also comprise two chunks of data. The first chunk will be from Firestore. This will be our record of all data about the `Photo`, including:
+
+* `fileID` - When a file is uploaded, we'll generate an ID for it. We'll then use that ID as the filename for storing the file.
+* `fileType` - `Photo`s have various file types — `gif`, `jpg`, `png`, etc. — and each of them can have slight variations on the way they're displayed or the way their metadata is stored. Storing that information will help us out later.
+* `title` - When a user uploads a file, we'll allow them to add a title.
+* `description` - When a user uploads a file, we'll let them add a description.
+* `originalFilename` - To make `Photo`s easier for users to find, we'll store the filenames that they had when they were uploaded.
+* `ownerID` - This will be the ID of the user that uploaded the file.
+
+The next bit of information will come from Firebase Storage. This is where we'll store the actual file that the user has uploaded. With our new `Photo` data modeled out, our data model looks a bit more like this:
+
+<figure>
+  <DITAA>
+{String.raw`
++------------+                          +-------------+    +-----------+
+| {s}        |                          | {s}         |    | {s}       |
+| Firebase   |                          | Firebase    |    | Firebase  |
+| Storage    |                          | Firestore   |    | Auth      |
++----+-------+                          +------+------+    +-----+-----+
+     :                                         :                 :
+     |                      /------------------+                 |
+     |                      |                  |                 |
+     V                      V                  V                 V
++----+------+     +---------+---------+   +------+------+    +---+---+
+| Photo     |     | Photo             |   | Profile     |    | User  |
++-----------+     +-------------------+   +-------------+    +-------+
+| id    {d} |<--\ | id                |   | id          | /->+ id    |
+| fileType  |<-\\-+ fileID            |   | username    | |  +-------+
++-----------+  \--+ fileType          |   | email       | |
+                  | title             |   | roleIDs     | |
+                  | description       |   | userID      +-+
+                  | originalFilename  |   | createdAt   | |
+                  | ownerID           +-\ +-------------+ |
+                  +-------------------+ \-----------------/
+`}
+	</DITAA>
+  <figcaption>A diagram of our data model with the `User` coming from Firebase Auth, the `Profile` and `Photo` models coming from Firestore, and the `Photo` file coming from Firebase Storage</figcaption>
+</figure>
+
+### The `Role` model
+
+`Role`s are much simpler than most of our other models. There are only two pieces of information that a `Role` will care about:
+
+* `title` - Each role should have a recognizable name, like `Administrator` or `Moderator`.
+* `permissions` - These permissions will be fleshed out as we build our app, but each permission will be a string that represents some action. For example, `photo:delete` would indicate that any user with this role can delete a photo.
+
+With `Role`s added, we've come to our final data model.
+
+<figure>
+  <DITAA>
+{String.raw`
++------------+                            +-------------+                       +-----------+
+| {s}        |                            | {s}         |                       | {s}       |
+| Firebase   |                            | Firebase    |                       | Firebase  |
+| Storage    |                            | Firestore   |                       | Auth      |
++----+-------+                            +------+------+                       +-----+-----+
+     :                                           :                                    :
+     |                      /--------------------+-------------------\                |
+     |                      |                    |                   |                |
+     V                      V                    V                   V                V
++----+------+     +---------+---------+   +------+------+    +-------+-------+    +---+---+
+| Photo     |     | Photo             |   | Profile     |    | Role          |    | User  |
++-----------+     +-------------------+   +-------------+    +---------------+    +-------+
+| id    {d} |<--\ | id                |   | id          | /->| id            | /->+ id    |
+| fileType  |<-\\-+ fileID            |   | username    | |  | title         | |  +-------+
++-----------+  \--+ fileType          |   | email       | |  | permissions   | |
+                  | title             |   | roleIDs     +-/  +---------------+ |
+                  | description       |   | userID      +----------------------+
+                  | originalFilename  |   | createdAt   |                      |
+                  | ownerID           +-\ +-------------+                      |
+                  +-------------------+ \--------------------------------------/
+`}
+  </DITAA>
+  <figcaption>A diagram of our data model with the `User` coming from Firebase Auth, the `Profile` and `Photo` models coming from Firestore, and the `Photo` file coming from Firebase Storage</figcaption>
+</figure>
+
+## Data modeling
+
+Modeling your data should be the first step in building any application. Knowing what data you need to collect, to display, and how it's all related can prevent you from having to make massive structural changes halfway through the development of your application.
+
+In the next article, I'll walk through setting up the application with React and Next.js!
+
+[data-modeling]: https://en.wikipedia.org/wiki/Data_modeling "Wikipedia: Data Modeling"
+[firebase]: https://firebase.google.com/ "Firebase"
+[nextjs]: https://nextjs.com/ "Next.js"
+[react]: https://reactjs.org/ "React.js"

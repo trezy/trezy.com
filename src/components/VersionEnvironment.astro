@@ -1,0 +1,25 @@
+---
+// Ported from `legacy/components/VersionPage/Environment.js`. Legacy also
+// rendered `deploymentType`/`region` (Vercel-only) and `next.version`
+// (Next.js); this static build has none of that -- `deploymentType`/`region`
+// are dropped entirely (there's no Vercel runtime here), and `next.version`
+// is replaced with `environment.astro`, read from the installed
+// `node_modules/astro/package.json` by `src/lib/version.js`.
+const { environment } = Astro.props
+---
+<section class="block">
+	<header>
+		<h3>Environment</h3>
+	</header>
+
+	<dl>
+		<dt>Node Version</dt>
+		<dd>v{environment.node}</dd>
+
+		<dt>Astro Version</dt>
+		<dd>{environment.astro ? `v${environment.astro}` : 'Unknown'}</dd>
+
+		<dt>Platform</dt>
+		<dd class="capitalize">{environment.platform}</dd>
+	</dl>
+</section>

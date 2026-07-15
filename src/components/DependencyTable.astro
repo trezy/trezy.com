@@ -1,0 +1,36 @@
+---
+// Ported from `legacy/components/DependencyTable/{DependencyTable,
+// DependencyRow}.js`. Legacy's `DependencyRow` fetched each package's latest
+// published version client-side (`fetch('https://registry.npmjs.org/<name>/
+// latest')`) after mount, then flagged the row `is-out-of-date` via
+// `semver.satisfies(latestVersion, requiredVersion)`. There's no client JS
+// runtime here to run that fetch, so the "Latest" column is a static link to
+// the package's npm page for a manual check instead of a live version
+// number/out-of-date flag — a documented limitation, not an oversight.
+const { dependencies } = Astro.props
+
+const entries = Object.entries(dependencies?.dependencies ?? {})
+---
+<table class="dependency-table">
+	<thead>
+		<tr>
+			<th scope="col">Dependency</th>
+			<th scope="col">Required</th>
+			<th scope="col">Latest</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{entries.map(([name, requiredVersion]) => (
+			<tr>
+				<th scope="row">
+					<a href={`https://npmjs.com/package/${name}`} target="_blank" rel="noopener noreferrer">{name}</a>
+				</th>
+				<td>{requiredVersion}</td>
+				<td>
+					<a href={`https://npmjs.com/package/${name}`} target="_blank" rel="noopener noreferrer">Check on npm</a>
+				</td>
+			</tr>
+		))}
+	</tbody>
+</table>

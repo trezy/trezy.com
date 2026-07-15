@@ -1,0 +1,93 @@
+---
+title: Discord Isn't Requiring a Face Scan — Your Legislators Are
+synopsis: Yesterday's headline in The Verge had people planning their Discord
+  exodus overnight. But the real story isn't about Discord — it's about
+  legislators demanding surveillance infrastructure.
+oldSlugs:
+  - discord-isnt-requiring-a-face-scan-your-legislators-are
+createdAt: 2026-02-10T23:34:50.272Z
+updatedAt: 2026-02-11T02:33:35.166Z
+draft: false
+changelog: >-
+  _**10 Feb, 2026**_
+
+  * Added a section addressing Discord's October 2025 vendor breach and its
+  implications for the global age verification rollout.
+
+  * Acknowledged that the global rollout is a business decision, not purely a
+  legal requirement, with context on Canada's pending age verification
+  legislation.
+headerImage:
+  src: ../../assets/blog/blame-legislators-not-discord/header.png
+  alt: The Discord logo
+---
+
+Yesterday, The Verge published an article about Discord's upcoming global rollout of age verification, and the internet did what the internet does: it panicked. Within hours, several of my communities were already planning their exodus. People were talking about migrating to Matrix, to Signal, to whatever the Next Thing™ might be. I get it — I really do. The knee-jerk reaction to "a corporation wants to tie our anonymous online identities to a physical government persona" is totally valid.
+
+But I think we're angry at the wrong target.
+
+## Read the actual announcement
+
+Here's the thing that frustrated me the most about yesterday's discourse: almost nobody seems to have read Discord's actual press release. The Verge article — which I normally think of as a solid publication — painted a picture that was more alarming than the reality. If we go read [Discord's own announcement](https://discord.com/press-releases/discord-launches-teen-by-default-settings-globally), the picture gets a lot more nuanced.
+
+The changes boil down to this: Discord is making teen-appropriate settings the default for everyone. That means content filters are on, age-restricted servers and channels are locked, DMs from strangers get filtered into a separate inbox, and stage channels require age verification to speak. That's it. If our server isn't age-restricted, if we're not running age-gated channels, if we're not using stage channels — our day-to-day experience on Discord isn't really changing.
+
+Honestly? Some of these changes are ones I'm actually excited about. The updates to DMs and friend requests — flagging and separating unfamiliar senders — address a problem I've been dealing with on Discord for years. If we've spent any time on the platform, we know the drill: unsolicited DMs from randos, spammy friend requests from bots, the whole mess. If age verification means that stuff dries up, I might deliberately play some extra Roblox just to keep the inference model from auto-verifying me, because that feature alone is *chef's kiss*.
+
+Discord is also rolling out an age inference model that analyzes metadata like what games we play, our activity patterns, and behavioral signals. If the system is confident we're adults based on how we already use Discord, we may never have to verify at all. No selfie, no ID, nothing. The escalation to facial age estimation or ID submission only kicks in if we need access to explicitly age-gated content, or if the inference model can't confidently bucket us.
+
+Is it perfect? No. It's a hell of a lot more measured than "Discord is going to scan everyone's face."
+
+## The real problem is in the legislation
+
+Here's where I need y'all to zoom out. Discord isn't doing this because some product manager woke up one morning and thought, "face scans sound fun!" Age verification legislation is rolling out worldwide, and platforms are scrambling to comply.
+
+The EU's [Digital Services Act (DSA)](https://digital-strategy.ec.europa.eu/en/policies/digital-services-act-package) — in force since 2024 — requires online platforms to implement "appropriate and proportionate" measures to protect minors. Simple self-declaration (you know, the "click here if you're 18" checkbox we've all been lying to since we were 12) is no longer sufficient. The European Commission has been actively building a [white-label age verification app](https://digital-strategy.ec.europa.eu/en/news/commission-makes-available-age-verification-blueprint) and published [guidelines under the DSA](https://www.epr.eu/the-european-commission-unveils-child-online-safety-guidelines-and-an-age-verification-app-prototype/) in mid-2025 specifically aimed at tightening how platforms handle minors. France has gone even further with [laws that can fine non-compliant platforms](https://www.euronews.com/next/2025/11/17/the-age-verification-era-which-eu-countries-are-restricting-access-to-adult-sites) up to €300,000 or 4% of global turnover.
+
+On this side of the Atlantic, it's arguably worse:
+
+- As of mid-2025, [25 US states have passed laws](https://avpassociation.com/4271-2/) requiring age verification to access adult content online.
+- [At least 13 states have passed laws](https://www.route-fifty.com/management/2025/11/how-states-can-enforce-social-media-age-limits-without-sacrificing-privacy/409622/) restricting minors' access to social media.
+- In June 2025, the Supreme Court upheld Texas's age verification statute in [*Free Speech Coalition v. Paxton*](https://www.supremecourt.gov/opinions/24pdf/23-1122_3e04.pdf), giving states a green light to keep pushing.
+
+The Electronic Frontier Foundation (EFF) — hardly a corporate shill — [called the ruling](https://www.eff.org/deeplinks/2025/06/todays-supreme-court-decision-age-verification-tramples-free-speech-and-undermines) "a direct blow to the free speech rights of adults" and warned that it would "deter adult users from speaking and accessing lawful content."
+
+[Nearly 30 additional state bills were introduced in 2025 alone](https://natlawreview.com/article/new-age-verification-reality-compliance-rapidly-expanding-state-regulatory), and lawmakers are already proposing ID checks for things beyond social media and adult content — [skincare products in California, diet supplements in Washington](https://www.eff.org/deeplinks/2025/12/year-states-chose-surveillance-over-safety-2025-review), and some states are even trying to ban VPNs to prevent people from bypassing these laws.
+
+The fundamental problem is that politicians are mandating technical solutions for a problem that humanity hasn't actually solved: tying physical identity to digital identity in a way that's both accurate and privacy-respecting. Every method available — facial estimation, document checks, financial records, parental consent — [falls somewhere on a spectrum](https://www.eff.org/deeplinks/2025/12/10-not-so-hidden-dangers-age-verification) from "dangerous in one way" to "still dangerous, but in a different way." They [create surveillance infrastructure](https://www.eff.org/deeplinks/2025/12/age-verification-coming-internet-we-built-you-resource-hub-fight-back), increase the risk of data breaches (and as we've already seen, that's not a hypothetical concern), and threaten the anonymity that lets people seek support, explore communities, and exist online without a government-issued identity card stapled to their forehead.
+
+We can be mad at Discord for the specific implementation choices they make, and that's fair. But the reason this is happening at all? That's on legislators. Let's direct our energy there.
+
+That said, I want to be honest about something: the legislation argument doesn't fully explain what Discord is doing here. A Canadian reader correctly pointed out that if Discord were only rolling this out where required by law, it wouldn't be a *global* rollout. Canada hasn't passed age verification legislation yet, though it may be heading that direction. [Bill S-209](https://en.wikipedia.org/wiki/Protecting_Young_Persons_from_Exposure_to_Pornography_Act) is actively working through the Senate with broad support, Canada published a [national standard for age assurance technologies](https://dgc-cgn.org/new-national-standard-published-for-age-assurance-technologies/) in August, and their [Justice Minister has signaled upcoming legislation](https://globalnews.ca/news/11542365/meta-app-store-age-verification/) targeting online exploitation. The writing is on the wall in a lot of countries, and Discord is clearly getting ahead of it rather than waiting for a patchwork of compliance deadlines. That's a business decision, not a legal requirement — and it's fair to call that out, even if the underlying pressure is still coming from governments.
+
+I'd much rather see a platform try to find a reasonable middle ground and help shape the legislation into something less horrible than sit back and watch a bunch of politicians — most of whom couldn't explain the difference between a server and a cereal box — dictate the technical requirements.
+
+## Discord's implementation has exit ramps, and that matters
+
+Of the implementations I've seen so far from various platforms, I prefer the approach Discord is taking here. Before anyone accuses me of being a corporate apologist: fuck corporations. I have no particular love for Discord as a company. I don't own their stock. I'm not on their payroll. Admittedly, I have some connections at Discord, but for the most part I'm just a person who uses the platform.
+
+What I like about Discord's approach is that it's layered. The majority of the application remains fully accessible without identity verification. We can chat in our servers, DM our friends, share memes, organize game nights — all without ever touching the age verification flow. The process only escalates when we need access to something that's explicitly age-gated. Even then, the first layer is a passive inference model that might just wave us through based on our existing behavior.
+
+That means most of us can continue using Discord exactly as we do today without engaging in identity verification at all. The sucky parts — the selfie, the ID — are behind doors that most people will never need to open. Will that change in the future as politicians push for stricter rules? Maybe. Probably. But that's a bridge to cross when we get to it, not a reason to burn the one we're standing on.
+
+I do need to address the 800 pound breach in the room. In October 2025, hackers [compromised 5CA](https://discord.com/press-releases/update-on-security-incident-involving-third-party-customer-service), a third-party vendor Discord used for customer service, and approximately 70,000 users had their government ID photos exposed — the exact kind of data that age verification requires people to hand over. Discord has since dropped 5CA and says they're using a different vendor for the global rollout. They've also stated that ID documents are now deleted immediately after verification and that facial estimation selfies never leave the user's device. Those are the right things to say. But "trust us, we fixed it" is a tough sell four months after a breach involving *this exact data*. The EFF has been warning about precisely this scenario — [that age verification creates honeypots of sensitive identity documents that become irresistible targets](https://www.eff.org/deeplinks/2024/06/hack-age-verification-company-shows-privacy-danger-social-media-laws) — and Discord accidentally proved them right. This doesn't change the fact that the legislation is the root cause, but it does mean Discord has to earn back trust on the implementation, and we should hold them to that.
+
+## The exodus problem
+
+Here's what worries me about the reaction I saw yesterday: the rush to migrate. I've been part of enough community migrations to know how this goes. Someone says "we should move to [Platform X]," a chunk of people agree, another chunk doesn't, and suddenly our community is scattered across three different apps that everyone opens less frequently. The sense of community erodes. Connections fade. The vibe dies.
+
+Unless the majority of Discord's user base collectively agrees on a single replacement — and let's be real, that hasn't happened yet — an exodus right now is cutting off our nose to spite our face. We're not just punishing Discord; we're punishing the communities we've built there.
+
+Am I opposed to migrating? Not at all. If something comes along that genuinely replaces Discord in its entirety — fun text chat with cool features, quality voice and video, easy to structure servers, bots, integrations, a critical mass of actual humans using it — I'm in. But right now? That thing doesn't exist. Fracturing communities across a handful of half-baked alternatives because of a policy that, for most users, won't actually change their daily experience? That feels like a bad trade.
+
+That said, the exodus conversations yesterday weren't all bad. I learned about a few alternatives worth keeping an eye on. [Roomy](https://roomy.space/) and [Stoat](https://stoat.chat/) are both interesting newcomers. [Spacebar](https://github.com/spacebarchat/server) paired with [Fermi](https://github.com/MathMan05/Fermi) is a cool self-hosted option for anyone into that. The old guard is still out there — [Ventrilo](https://www.ventrilo.com/), [TeamSpeak](https://www.teamspeak.com/), and [Mumble](https://www.mumble.info/) are all still kicking. I'd encourage everyone to experiment with these. Get familiar with what's out there. Just don't nuke our existing communities in the process.
+
+## Where this leaves us
+
+I don't love that we're here. The anger is valid — nobody should have to hand their face or their government ID to a corporation just to use a chat app. The point of this article isn't to defend Discord; it's that Discord isn't the one writing these laws. Governments worldwide are mandating age verification, and every platform we use is going to have to figure out how to deal with it.
+
+I also want to acknowledge that for some people, this isn't a future concern — it's an immediate one. For anyone whose safety depends on keeping their identity separate from their online presence, the introduction of any identity verification system is a real threat, not an inconvenience. That reality should be front and center in every conversation about these laws.
+
+If we're in the US, the [EFF's Age Verification Resource Hub](https://www.eff.org/age) is a great place to start. They track active legislation, provide tools to contact representatives, and are actively fighting these laws in court. Save our anger for the legislators writing them. Channel it into something productive.
+
+In the meantime, let's protect what we've built. Experiment with alternatives, hold platforms accountable, but don't shatter the communities we care about in the process.

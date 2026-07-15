@@ -1,0 +1,30 @@
+---
+// Renders the `<article-mentions>` custom element
+// (src/components/islands/article-mentions.js). Ports
+// `legacy/components/ArticleMentions/index.js`'s top-level
+// `<aside className="article-mentions">` -- the custom element itself plays
+// that role (kept its class as a legacy-class-hook, per the no-styling
+// constraint), rather than wrapping a separate `<aside>` around it.
+//
+// Starts `hidden`: legacy rendered nothing at all while loading or when no
+// backlinks were found (`if (isLoading || !data?.groups?.length) return
+// null`). The island removes `hidden` once it has at least one non-empty
+// group to show; if the fetch fails or returns nothing, it silently stays
+// hidden -- there's no server-rendered fallback content since all of this is
+// resolved client-side, straight from Constellation/the public Bsky API.
+import { getArticleURL } from '@lib/blog.js'
+import { SITE_URL } from '@lib/site.js'
+
+const { entry } = Astro.props
+
+const absoluteArticleURL = `${SITE_URL}${getArticleURL(entry)}`
+---
+<article-mentions class="article-mentions" data-article-url={absoluteArticleURL} hidden>
+	<h3>Mentions across the ATmosphere</h3>
+
+	<div class="collection-grid" data-role="collection-grid"></div>
+</article-mentions>
+
+<script>
+	import '@islands/article-mentions.js'
+</script>

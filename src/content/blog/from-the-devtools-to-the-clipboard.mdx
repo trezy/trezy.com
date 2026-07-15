@@ -1,0 +1,74 @@
+---
+title: From the Devtools to the Clipboard
+synopsis: Copy pasta doesn't have to be that hard.
+oldSlugs:
+  - c8901804-b548-47b6-9447-326adfc98d47
+createdAt: 2019-06-04T05:00:00.000Z
+updatedAt: 2022-04-07T19:23:51.840Z
+draft: false
+devToID: "117821"
+devToURL: https://dev.to/trezy/from-devtools-to-the-clipboard-10ch
+devToReactions: 5
+headerImage: ../../assets/blog/from-the-devtools-to-the-clipboard/header.webp
+---
+
+Have you ever spent far too long writing a clever little script in the browser’s devtools to get some information from a page? Maybe you’re trying to generate a list of recurring characters from the Marvel Cinematic Universe (MCU) with their names and secret identities from a Wikipedia page...
+
+![That wasn’t too bad...][clipboard-script-1]
+
+Or maybe you’re trying to get a JSON representation of all of the MCU movies sorted by total profit...
+
+![Okay, that one took a little longer...][clipboard-script-2]
+
+Or maybe you’re a **true masochist**, and you want to extract the Game of Thrones (GoT) character and actor names from the body of the GoT wiki page.
+
+![SERIOUSLY, WHY WOULDN’T YOU PUT THIS DATA IN A TABLE‽][clipboard-script-3]
+
+---
+
+## Anyway.
+
+The norm here is to log the data into the console as JSON, then manually select all of the text with your cursor. Not only is this a nightmarish task with large datasets, it also has the potential to have incomplete data. Long strings (especially data URIs) get collapsed with an ellipse (...) by the dev tools. If you want to copy even small data URIs, this approach will leave you — and I’m putting this delicately — *completely boned.*
+
+## Okay, how do we do it better?
+
+With the `copy()` function! It just so happens the the devtools for Chrome, Firefox, and Safari (couldn’t test with Edge) all provide the `copy()` function for jamming anything you need into the clipboard!
+
+✨🧙🏻‍♂️ IT’S MAGIC! 🧙🏻‍♂️✨
+
+If you want to jam an object full of data into your clipboard, it’s as simple as stringifying the data and using `copy()`:
+
+```js
+const bigDataSet = [ ... ]
+const bigDataSetAsJSON = JSON.stringify(bigDataSet)
+
+copy(bigDataSet)
+```
+
+Now if you paste anywhere, you’ll find that your clipboard is chock full of JSON beautifulness.
+
+*Protip:* If you want your data to be styled (with spaces, line breaks, etc) the `JSON.stringify()` method has you covered. For example, if you want the output to use 2 spaces as indentation:
+
+```js
+JSON.stringify(bigDataSet, null, 2)
+```
+
+For more information on what all you can pass into `JSON.stringify()`, check out the [docs on MDN][json-stringify-docs].
+
+---
+
+## Wow, Trezy! You sure are smart and amazing!
+
+Oh, I know. I appreciate you saying as much, though. If you want to fiddle with any of the code in the examples at the beginning of the article, you can find them [here][pastebin-1], [here][pastebin-2], and [here][pastebin-3].
+
+
+
+
+
+[clipboard-script-1]: https://firebasestorage.googleapis.com/v0/b/trezy-core.appspot.com/o/articles%2Fe79faa9c-70cf-43db-a8ac-b8b99ece10bc%2Fclipboardscript1.png?alt=media&token=217b874a-2c3e-4f82-b298-e623f90619c1
+[clipboard-script-2]: https://firebasestorage.googleapis.com/v0/b/trezy-core.appspot.com/o/articles%2Fe79faa9c-70cf-43db-a8ac-b8b99ece10bc%2Fclipboardscript2.png?alt=media&token=ae5a40d0-15d9-4adf-9f66-d464b4b49aae
+[clipboard-script-3]: https://firebasestorage.googleapis.com/v0/b/trezy-core.appspot.com/o/articles%2Fe79faa9c-70cf-43db-a8ac-b8b99ece10bc%2Fclipboardscript3.png?alt=media&token=59d05274-df14-44d8-812c-09efad707b19
+[json-stringify-docs]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify "JSON.stringify() on MDN"
+[pastebin-1]: https://hastebin.com/okihububep.js
+[pastebin-2]: https://hastebin.com/eyuqosuwik.js
+[pastebin-3]: https://hastebin.com/jarivurozu.js

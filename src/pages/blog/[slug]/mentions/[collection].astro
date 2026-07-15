@@ -1,0 +1,53 @@
+---
+// Ports `legacy/app/blog/[slug]/mentions/[collection]/page.js` (the route)
+// and the static shell of `legacy/components/ArticleMentions/
+// MentionsDetail.js` (`PageContent`/`Block`/`Container`/back-link markup;
+// showHeader defaulted true there with no breadcrumbs, so this renders its
+// own `<header class="block"><h2>{group.name}</h2></header>` per the
+// no-auto-page-header migration rule). The data-fetching/rendering half of
+// `MentionsDetail.js` (loading state, mention list, infinite-scroll sentinel)
+// is `<article-mentions-detail>` (`src/components/islands/
+// article-mentions-detail.js`, Task 24b).
+import { getCollection } from 'astro:content'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Block from '@components/Block.astro'
+import Container from '@components/Container.astro'
+import { COLLECTION_GROUPS } from '@lib/mentions.js'
+import { SITE_URL } from '@lib/site.js'
+
+export async function getStaticPaths() {
+	const entries = await getCollection('blog', ({ data }) => !data.draft)
+
+	return entries.flatMap((entry) =>
+		COLLECTION_GROUPS.map((group) => ({
+			params: { slug: entry.id, collection: group.id },
+			props: { slug: entry.id, group },
+		})),
+	)
+}
+
+const { slug, group } = Astro.props
+const articleURL = `${SITE_URL}/blog/${slug}`
+---
+<BaseLayout class="mentions-detail" title={`${group.name} - Mentions`}>
+	<header class="block">
+		<h2>{group.name}</h2>
+	</header>
+
+	<Block elementType="article">
+		<Container>
+			<a href={`/blog/${slug}`}>Back to article</a>
+
+			<article-mentions-detail data-article-url={articleURL} data-group-id={group.id}>
+				<p data-role="status">Loading mentions...</p>
+				<p data-role="count" hidden></p>
+				<ul class="mention-list" data-role="mention-list" hidden></ul>
+				<div id="mentions-sentinel" data-role="sentinel" style="height: 1px;" hidden></div>
+			</article-mentions-detail>
+		</Container>
+	</Block>
+</BaseLayout>
+
+<script>
+	import '@islands/article-mentions-detail.js'
+</script>

@@ -1,0 +1,7 @@
+---
+// Ported from `legacy/helpers/markdownRenderers/OrderedList.js`.
+const { start = 1 } = Astro.props
+---
+<ol class="numbered" start={start}>
+	<slot />
+</ol>

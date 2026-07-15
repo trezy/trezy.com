@@ -1,0 +1,83 @@
+---
+// Ported from legacy/components/Experience/Position.js
+//
+// Legacy rendered `description` (accomplishments + tech, joined into a
+// markdown string) through `MarkdownRenderer`/`react-markdown`. Since this
+// site ships no React/markdown runtime, the same two sections
+// ("Accomplishments:" bullet list + "Tech:" comma list) are reproduced
+// directly as static markup instead of round-tripping through markdown.
+//
+// Legacy also rendered dates through a `<DateTime>` component that parsed
+// `startDate`/`endDate` with `new Date(value)` and reformatted them with
+// `Intl.DateTimeFormat` (month: long, year: numeric). The source data is
+// already authored as human-readable "Month Year" (or bare "Year") strings,
+// so those strings are rendered as-is; a `datetime` attribute is added only
+// when the string happens to parse into a valid `Date` (it does not for
+// every legacy entry — e.g. the "Septamber 2021" typo in the data).
+
+const {
+	accomplishments = [],
+	description = '',
+	endDate = null,
+	startDate,
+	tech = [],
+	title,
+} = Astro.props
+
+function toISOStringOrNull(value) {
+	const date = new Date(value)
+
+	if (Number.isNaN(date.getTime())) {
+		return null
+	}
+
+	return date.toISOString()
+}
+
+const startDateISO = toISOStringOrNull(startDate)
+const endDateISO = endDate ? toISOStringOrNull(endDate) : null
+const showEndDate = Boolean(endDate) && (startDate !== endDate)
+const hasAccomplishments = accomplishments.length > 0
+const hasTech = tech.length > 0
+---
+
+<li>
+	<h4>{title}</h4>
+
+	<div class="meta">
+		<div class="meta-bar">
+			<span>
+				<time datetime={startDateISO ?? undefined}>{startDate}</time>
+
+				{!endDate && ' - Present'}
+
+				{showEndDate && (
+					<>
+						{' - '}
+						<time datetime={endDateISO ?? undefined}>{endDate}</time>
+					</>
+				)}
+			</span>
+		</div>
+	</div>
+
+	<div>
+		{description && <p>{description}</p>}
+
+		{hasAccomplishments && (
+			<>
+				<p><strong>Accomplishments:</strong></p>
+
+				<ul>
+					{accomplishments.map((accomplishment) => (
+						<li>{accomplishment}</li>
+					))}
+				</ul>
+			</>
+		)}
+
+		{hasTech && (
+			<p><strong>Tech:</strong> {tech.join(', ')}</p>
+		)}
+	</div>
+</li>

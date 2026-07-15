@@ -1,0 +1,22 @@
+---
+// Ported from legacy/app/atproto/callback/page.js. This is a minimal shell —
+// all behavior (completing the OAuth flow + redirecting) lives in
+// `atproto-callback.js`, imported below. Excluded from the sitemap in
+// astro.config.mjs.
+import BaseLayout from '@layouts/BaseLayout.astro'
+---
+<BaseLayout
+	class="atproto-callback"
+	title="Signing In">
+	<header class="block">
+		<h2>{'Signing you in…'}</h2>
+	</header>
+
+	<section class="block hero">
+		<p>{'Completing AT Protocol login...'}</p>
+	</section>
+</BaseLayout>
+
+<script>
+	import '@islands/atproto-callback.js'
+</script>

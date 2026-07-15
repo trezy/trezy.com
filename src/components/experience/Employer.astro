@@ -1,0 +1,20 @@
+---
+const {
+	name,
+	url,
+} = Astro.props
+---
+
+<section class="block">
+	<header>
+		<h3>
+			<a href={url}>
+				{name}
+			</a>
+		</h3>
+	</header>
+
+	<ol>
+		<slot />
+	</ol>
+</section>

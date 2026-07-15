@@ -1,0 +1,56 @@
+---
+title: What would you do if your computer caught on fire?
+synopsis: Have you ever wondered what you'd do if you spent the day working on a
+  huge new feature, only for your machine to catch on fire before you push the
+  code? Well… I'll bet you're wondering about it now. 🙃
+createdAt: 2020-07-23T21:28:47.000Z
+updatedAt: 2022-06-29T08:55:13.783Z
+draft: false
+changelog: |-
+  _**29 June, 2022**_
+  * Updating some syntax to accomodate website updates.
+---
+
+Honestly, there are plenty of solutions to this. You could:
+* Push more often;
+* Backup your hard drive at least once every 12 nanoseconds;
+* Put your laptop in a [hermetically sealed plastic bag][laptop ziploc].
+
+While ~~all~~ most of those are valid solutions, I've got something slightly different. Instead of trying to protect your computer, why not stop relying on it all together? That's right, my digital nomads. This *one amazing trick* will allow you to eliminate your reliance on a single device, opening up the possibilities for you the next time your computer *literally catches on fire*.
+
+<figure>
+![My real computer catching on fire.](/images/blog/what-would-you-do-if-your-computer-caught-on-fire/my-computer-on-fire.gif "Enjoy this real clip of my real computer catching on real fire. 🔥")
+  <figcaption>My very real computer catching on very real fire.</figcaption>
+</figure>
+
+## Enter `code-server`
+[`code-server`][code-server] is a magical piece of software from [Coder][Coder]. It allows us to run [VS Code][VS Code] on a cloud server, meaning that we no longer have to worry about maintaining our physical machine! Let's take a look at some of the massive benefits of using `code-server`.
+
+### 1. It runs in the browser!
+Because `code-server` runs in the browser, you can use it from *any device with a modern browser.*
+
+**Chromebook?** No problem.
+
+**iPad?** Doneskis.
+
+**Raspberry Pi?** You know it.
+
+**Palm Pilot?** Yea- uh, well… I did say *modern* browser. 😬
+
+The added benefit here is that even if your device has limited resources — low RAM, tiny CPU, no *NIX environment — you'll still be able to work on your projects!
+
+### 2. It has all of your favorite extensions!
+Not only can you use VS Code in the browser, but you can also still use most of your favorite extensions! As a JavaScript developer, this is one of the most important parts for me.
+
+NOTE: The `code-server` marketplace is more limited than the marketplace for VS Code because of Microsoft's Terms of Service, but if there's a missing extension, you can always request to have it added!
+
+### 3. The built-in terminal works!
+The `code-server` terminal works just like you'd expect! If you need to run your app, install new packages, or `cat` your SSH key, the built-in terminal has you covered. It works exactly like the terminal in a local installation of VS Code, and from it you can perform any task that your user is allowed to do!
+
+## Conclusion
+I've been using [`code-server`][code-server] for a little over a week now, and it's just a joy to use. My laptop finally has enough storage space to install that update I've been clicking away for months *and* my personal development pipeline is faster than ever! While those plastic laptop baggies might be a pretty solid back up plan, the best solution is to just get your code off of your laptop!
+
+[code-server]: https://github.com/cdr/code-server "code-server repository on Github"
+[Coder]: https://coder.com "Coder website"
+[laptop ziploc]:  https://www.ohgizmo.com/laptop-ziplocs-let-you-surf-the-web-in-the-shower/ "Laptop Ziplocs Let You Surf The Web In The Shower"
+[VS Code]: https://code.visualstudio.com/ "VS Code website"

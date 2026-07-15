@@ -1,0 +1,93 @@
+---
+// Ported from `legacy/app/version/page.js` + `legacy/components/VersionPage/
+// {index,Git,Environment,Dependencies}.js`. Legacy rendered these three
+// sections behind a client-side `<Tabs>` switcher (`useState('Environment')`
+// as the initial active tab); here they're just stacked as static `<section
+// class="block">`s -- no tab-switching JS, matching this project's
+// "no design/no client-only chrome beyond what's needed" posture. Order
+// mirrors legacy's default active tab first (Environment), then Git, then
+// Dependencies.
+//
+// `data` comes from `getVersionData()` (Task 25), which already dropped
+// every Vercel-specific field legacy read from `process.env` (deploymentType,
+// region, repo owner/slug, commit author username) -- see that file's
+// header comment. Because `repo.owner`/`repo.slug` no longer exist, this
+// page can't reconstruct legacy Git.js's `commitLink`/`authorLink`/
+// `ownerLink`/`repoLink` GitHub URLs (those required owner+slug+hash), so the
+// commit hash and author render as plain text rather than links -- see the
+// per-field comments below.
+import BaseLayout from '@layouts/BaseLayout.astro'
+import VersionEnvironment from '@components/VersionEnvironment.astro'
+import { getVersionData } from '@lib/version.js'
+
+const data = await getVersionData()
+const builtAtDate = data.builtAt ? new Date(data.builtAt) : null
+
+// Embedded for the `<dependency-search>` island (src/components/islands/
+// dependency-search.js) to read client-side and build its Fuse index from --
+// `<script type="application/json">` rather than a fetch, since the data is
+// already available at build time and doesn't need a network round-trip.
+// `<` is escaped so no dependency name/version string could ever prematurely
+// close the `<script>` tag (e.g. via a literal `</script>` substring).
+const dependenciesJson = JSON.stringify(data.dependencies).replace(/</gu, '\\u003c')
+---
+
+<BaseLayout class="version" title="Version" description="Build-time version information for trezy.com: git commit, environment, and dependencies.">
+	<header class="block">
+		<h2>Version</h2>
+	</header>
+
+	<VersionEnvironment environment={data.environment} />
+
+	<section class="block">
+		<header>
+			<h3>Git</h3>
+		</header>
+
+		<dl>
+			<dt>Commit</dt>
+			<dd>
+				<div>
+					{/* No `commitLink` here: legacy built it from `repo.owner`/`repo.slug`/`commit.hash`, none of which `getVersionData()` still carries (Vercel-only fields, dropped in Task 25) -- so this is plain text rather than a link to a URL we can no longer construct correctly. */}
+					<span>{data.git.shortHash || 'Unknown'}</span>
+					{data.git.message && <p>{data.git.message}</p>}
+				</div>
+			</dd>
+
+			<dd>
+				{Boolean(data.git.author) && (
+					<small>{'Authored by '}{data.git.author}</small>
+				)}
+			</dd>
+
+			<dt>Branch</dt>
+			<dd>{data.git.branch || 'Unknown'}</dd>
+
+			<dt>Built</dt>
+			<dd>{builtAtDate ? builtAtDate.toString() : 'Unknown'}</dd>
+		</dl>
+	</section>
+
+	<section class="block">
+		<header>
+			<h3>Dependencies</h3>
+		</header>
+
+		<script type="application/json" id="deps-data" set:html={dependenciesJson} />
+
+		<dependency-search>
+			<fieldset>
+				<input
+					type="search"
+					data-role="query-input"
+					placeholder="Type a dependency name to filter the list" />
+			</fieldset>
+
+			<ul class="card-list" data-role="dependency-list"></ul>
+
+			<div class="pagination" data-role="pagination"></div>
+		</dependency-search>
+	</section>
+</BaseLayout>
+
+<script>import '@islands/dependency-search.js'</script>

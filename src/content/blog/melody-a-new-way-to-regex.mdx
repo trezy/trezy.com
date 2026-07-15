@@ -1,0 +1,319 @@
+---
+title: "Melody: A New Way to RegEx"
+synopsis: Writing RegEx has always felt like using blood to draw runes in the
+  dirt for the purpose of enacting an arcane incantation, but... maybe it
+  doesn't have to be that way. 🤔
+createdAt: 2022-04-04T22:19:59.297Z
+updatedAt: 2022-06-29T08:37:27.371Z
+draft: false
+changelog: >-
+  _**06 April, 2022**_
+
+  * Updated the comment about negated ranges being impossible (they're actually
+  not).
+
+  * Removed comments about unnecessary non-capturing groups (a fix was published
+  on 05 April, 2022)
+
+  * Added "Updates from Yoav" section at the end of the article.
+devToID: "1046004"
+devToURL: https://dev.to/trezy/melody-a-new-way-to-regex-3f6i
+devToReactions: 6
+hashnodeSlug: melody-a-new-way-to-regex-cl1ntr8o802999onvedie7y4d
+headerImage: ../../assets/blog/melody-a-new-way-to-regex/header.png
+---
+
+Today [yoav-lavi][Yoav Lavi Github] announced [Melody][Melody Repo], a language that compiles down to ECMAScript RegEx. Now, I write _a lot_ of RegEx, so this project immediately piqued my interest.
+
+Since the project was only released a couple days ago, it's lacking several important features. For example, you can't...
+
+* set flags (`i` for case insensitivity, `u` for unicode support, `g` for global search, etc)
+* ~~negate ranges (e.g. `/[^A]/`)~~ (turns out this is possible with Melody's [`raw`][Melody Raw] functionality)
+* create arbitrary multi-ranges (e.g. `/[a-c1-3]/`)
+* pass in variables (JavaScript, not RegEx)
+
+All that said, the syntax is pretty slick. Here's a simple example from the docs for finding a hashtag in a string:
+
+```js
+"#";
+some of <word>;
+```
+
+Here's the RegEx that's output:
+
+```regex
+/#(?:\w)+/
+```
+
+The syntax is interesting, but I'd argue that if you didn't know RegEx then you'd find the Melody version to be **infinitely more readable.**
+
+## Interesting Syntax
+
+Let's talk about some of the ways Melody makes RegEx more human readable and less like using blood to draw runes into the dirt for the purposes of enacting an arcane incantation.
+
+### Symbols
+
+[Symbols][Melody Symbols] are Melody's way of simplifying a lot of common RegEx tasks. For example, if you want to capture any normal Latin character in any case, you might write `[a-zA-Z]`. With Melody, though, you can use the `<alphabetic>` symbol! There are ~16 symbols as of this writing, but here are some of my favorites so far:
+
+* **`<char>`**
+    An alternative to the wildcard (`.`) character, which matches _anything_. `<char>` takes all the guess work out of figuring out if `\\\.` is a wildcard or a literal period character. 🙃
+* **`<word>`**
+    RegEx escape codes are _extremely_ useful, but it's not always clear what they're doing. The `<word>` symbol matches any word character. This is the same as the `\w` escape code in RegEx.
+* **`<alphanumeric>`**
+    Matches any Latin character (`A-Z`) in any case (`a-z`), as well as numbers (`0-9`). This is the same as using `[a-zA-Z0-9]` in RegEx.
+
+#### Special Symbols
+
+As of this writing, there are two special symbols: `<start>` and `<end>`. These symbols correlate to the `^` and `$` characters, respectively. They're used to indicate that the search must start at the beginning or the end of the string, or if the search should be all-inclusive (when using both symbols).
+
+### Quantifiers
+
+[Quantifiers][Melody Quantifiers] allow us to, uh... well, they allow us to _quantify_ our expressions. For example, you might use something like this to check for a UUID with RegEx:
+
+```regex
+/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/
+```
+
+Here, `{8}`, `{4}`, and `{12}` are all quantifiers. They indicate that you want exactly 8, 4, and 12 respectively of the preceding search. With Melody, this would be handled with the `... of ...` quantifier:
+
+```js
+<start>;
+8 of <word>;
+"-";
+4 of <word>;
+"-";
+4 of <word>;
+"-";
+4 of <word>;
+"-";
+12 of <word>;
+<end>;
+```
+
+If you need a number of characters within a certain range, you can use `{min,max}`. For example, `\d{1,2}` would indicate that you want between 1 and 2 digits. Melody provides the `... to ... of ...` quantifier:
+
+```js
+1 to 2 of <digit>;
+```
+
+Melody also provides alternatives for the `*` (zero or more), `+` (one or more), and `?` (zero or one) quantifiers:
+
+```js
+// \d*
+any of <digit>;
+
+// \d+
+some of <digit>;
+
+// \d?
+option of <digit>;
+```
+
+### Character Ranges
+
+When searching for something within a known character set you need to use a character range (hexadecimal, for example, would be `[0-9a-f]`). Declaring ranges is handled by the `... to ...` expression.
+
+```js
+// [a-f]
+a to f;
+
+// [1-5]
+1 to 5;
+```
+
+### Groups
+
+One of the most vital features of RegEx is groups! Capturing and non-capturing groups make it possible to create extremely complex searches. Melody enables these `capture`, `match`, and `either` groups.
+
+To capture the major, minor, and patch versions of a [semver][semver] string:
+
+```js
+capture major {
+  some of <digit>;
+}
+
+".";
+
+capture minor {
+  some of <digit>;
+}
+
+".";
+
+capture patch {
+  some of <digit>;
+}
+```
+
+If you need to match a search without capturing it, you can use `match`. If you need to join multiple `match` statements together, you can use `either`. Here we'll use both to handle the lack of multi-ranges to match a 2-digit hexadecimal value:
+
+```js
+2 of match {
+  either {
+    0 to 9;
+    a to f;
+  }
+}
+```
+
+### So Much More!
+
+Melody supports lots of other features, so make sure to [check out the docs][Melody Docs]!
+
+## Putting Melody Thru Its Paces
+
+The basic examples are cool and all, but I wanted to convert some of my real world RegExes to Melody to see if the readability argument still holds up.
+
+### A Simple Test
+
+While working on my game ([debug][debug Game]) recently I wrote a RegEx to grab the name, vendor ID, and product ID from a gamepad. Here's what the original version I wrote looked like:
+
+```regex
+/^(.*?) \((?:standard gamepad )?vendor: (\w+) product: (\w+)\)$/ui
+```
+
+The only issue I have with converting this to Melody is that Melody doesn't support flags, so my `u` (unicode) and `i` (case insensitivity) flags won't translate. For now I can handle that on the string before passing it to Melody's RegEx, but it's deffo a sizable shortfall to keep in mind.
+
+Without further ado, here is my original RegEx converted to Melody syntax:
+
+```js
+<start>;
+
+capture {
+  lazy any of <char>;
+}
+
+<space>;
+"(";
+
+option of match {
+  "standard gamepad ";
+}
+
+"vendor: ";
+
+capture {
+  some of <word>;
+}
+
+<space>;
+"product: ";
+
+capture {
+  some of <word>;
+}
+
+")";
+
+<end>;
+```
+
+It's a lot more verbose than the original RegEx, but that's what we want! The resulting Melody version is definitely more _human_ readable than the original RegEx, though if you already know how to read RegEx then it's debatable whether or not the Melody version is more readable.
+
+~~The weirdest thing I've noticed is that Melody tends to add more non-capturing groups than necessary.~~ Yoav has already [addressed my issue][Unnecessary NCGs Issue] and published a fix for the unnecessary non-capturing groups! 🥰
+
+### Let's Get More Complex
+
+Last year I ran across an absurd Password Validation challenge. You can see my solution in action on [RegExr.com][Password Validation Challenge], but here's the actual RegEx I came up with:
+
+```regex
+/(?:.*(?:(?:[A-Z].*(?:[0-9].*[a-z]|[a-z].*[0-9]))|(?:[a-z].*(?:[A-Z].*[0-9]|[0-9].*[A-Z]))|(?:[0-9].*(?:[A-Z].*[a-z]|[a-z].*[A-Z]))).*)/
+```
+
+Every time I go back and try to read it... 🤢
+
+The fact that this RegEx is so impossible to read is _exactly why_ I thought it would be a great test of readability for Melody. Let's take a look at what the Melody version looks like:
+
+```js
+match {
+  any of <char>;
+
+  either {
+    match {
+      A to Z;
+      any of <char>;
+
+      either {
+        match {
+          0 to 9;
+          any of <char>;
+          a to z;
+        }
+
+        match {
+          a to z;
+          any of <char>;
+          0 to 9;
+        }
+      }
+    }
+
+    match {
+      a to z;
+      any of <char>;
+
+      either {
+        match {
+          A to Z;
+          any of <char>;
+          0 to 9;
+        }
+
+        match {
+          0 to 9;
+          any of <char>;
+          A to Z;
+        }
+      }
+    }
+
+    match {
+      0 to 9;
+      any of <char>;
+
+      either {
+        match {
+          A to Z;
+          any of <char>;
+          a to z;
+        }
+
+        match {
+          a to z;
+          any of <char>;
+          A to Z;
+        }
+      }
+    }
+  }
+
+  any of <char>;
+}
+```
+
+That's... a lot to chew on. However, it is _undeniably_ easier to read than the original RegEx! ❤️
+
+## Final Thoughts
+
+Melody seems like it'll be an _excellent_ addition to the JavaScript ecosystem! It's got a ways to go, but I'm personally excited to watch how it matures.
+
+In case [Yoav][Yoav Lavi Github] is reading this, lemme tell you what I'd _looove_ to see: I can write my RegEx by creating a `.melody` file, then I can `import myRegex from './my-regex.melody'` and use `myRegex` directly in place of a regular RegEx! There's a Babel plugin that allows writing Melody within template strings, but it'd be amazing to be able to write it in completely separate files and have it imported via a custom Webpack loader or Rollup plugin. HMU if you wanna pair on that project. 🥳
+
+## Updates from Yoav
+
+Yoav informed me (via [Reddit][Yoav's Reddit Comment]) that they've fixed the issue generating [unnecessary non-capturing groups][Unnecessary NCGs Issue]! They also mentioned a couple things I thought were worth reiterating here:
+
+* Negated character classes already have an undocumented initial implementation with updates coming soon
+* Other than flags, Melody supports _every RegEx feature_ via the [`raw`][Melody Raw] method
+
+[debug Game]: https://trezy.itch.io/debug
+[Melody Docs]: https://yoav-lavi.github.io/melody/book
+[Melody Quantifiers]: https://yoav-lavi.github.io/melody/book/syntax.html#quantifiers
+[Melody Raw]: https://yoav-lavi.github.io/melody/book/syntax.html#raw
+[Melody Repo]: https://github.com/yoav-lavi/melody
+[Melody Symbols]: https://yoav-lavi.github.io/melody/book/syntax.html#symbols
+[Password Validation Challenge]: https://regexr.com/4esbn
+[semver]: https://semver.org
+[Unnecessary NCGs Issue]: https://github.com/yoav-lavi/melody/issues/70
+[Yoav Lavi Github]: https://github.com/yoav-lavi
+[Yoav's Reddit Comment]: https://www.reddit.com/r/webdev/comments/tw0vcg/comment/i3jygi5

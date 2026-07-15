@@ -1,0 +1,60 @@
+---
+// Ported from legacy/components/ArticleSummary.js. Legacy rendered its date
+// and readtime line via <ArticleMeta>, which also handles full-article-only
+// extras (changelog/dependency tabs) that don't apply to a list summary
+// card; only the "meta-bar" line ArticleMeta rendered for every article —
+// published date, conditional updated date, and readtime, each prefixed
+// with a fixed-width clock icon (legacy: faClock) — is reproduced here.
+import { Icon } from 'astro-icon/components'
+import DateTime from '@components/DateTime.astro'
+import { articleTitle, getArticleURL } from '@lib/blog.js'
+import { calculateReadtime } from '@lib/readtime.js'
+
+const { article } = Astro.props
+const { synopsis } = article.data
+const publishedAt = article.data.publishedAt ?? article.data.createdAt
+const { updatedAt } = article.data
+const readtimeMinutes = calculateReadtime(article.body ?? '')
+// Legacy formatted meta-bar dates with `dateStyle: 'medium'`; compare on
+// that same formatted string, matching legacy's `publishedAt !== updatedAt`
+// (formatted-string) comparison used to decide whether to show "Updated".
+const dateFormat = { dateStyle: 'medium' }
+const formatter = new Intl.DateTimeFormat('en-US', dateFormat)
+const showUpdatedAt = Boolean(updatedAt) && Boolean(publishedAt)
+	&& (formatter.format(new Date(updatedAt)) !== formatter.format(new Date(publishedAt)))
+---
+<article class="summary">
+	<h3>
+		<a href={getArticleURL(article)}>{articleTitle(article)}</a>
+	</h3>
+
+	<div class="meta">
+		<div class="meta-bar">
+			{publishedAt && (
+				<span>
+					<Icon name="fa6-solid:clock" class="fa-fw" />
+					{' '}
+					Published <DateTime value={publishedAt} dateFormat={dateFormat} showTime={false} />
+				</span>
+			)}
+
+			{showUpdatedAt && (
+				<span>
+					<Icon name="fa6-solid:clock" class="fa-fw" />
+					{' '}
+					Updated <DateTime value={updatedAt} dateFormat={dateFormat} showTime={false} />
+				</span>
+			)}
+
+			<span>
+				<Icon name="fa6-solid:clock" class="fa-fw" />
+				{' '}
+				{readtimeMinutes < 1 ? 'Less than 1 min read' : `${readtimeMinutes} min read`}
+			</span>
+		</div>
+	</div>
+
+	{synopsis && (
+		<span class="synopsis">{synopsis}</span>
+	)}
+</article>

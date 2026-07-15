@@ -1,0 +1,26 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+<theme-toggle>
+  <button
+    class="theme-toggle"
+    data-role="theme-toggle-button"
+    type="button">
+    <Icon
+      data-role="theme-toggle-icon-light"
+      data-theme-icon="light"
+      name="fa6-solid:sun" />
+    <Icon
+      data-role="theme-toggle-icon-dark"
+      data-theme-icon="dark"
+      name="fa6-solid:moon" />
+    <Icon
+      data-role="theme-toggle-icon-system"
+      data-theme-icon="system"
+      name="fa6-solid:circle-half-stroke" />
+  </button>
+</theme-toggle>
+
+<script>
+  import '@islands/theme-toggle.js'
+</script>
