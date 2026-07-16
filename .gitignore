@@ -4,8 +4,6 @@
 node_modules/
 logs/
 
-certificates
-
 # Astro build output + generated cache
 dist/
 .astro/

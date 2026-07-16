@@ -1,43 +1,3 @@
-# Deploy trezy.com to wisp.place.
-#
-# Flow (order matters — this is Sequoia's required sequence):
-#   1. checkout
-#   2. setup bun
-#   3. install deps
-#   4. sequoia publish   — upserts `site.standard.document` records on the PDS
-#   5. astro build       — produces `dist/`
-#   6. sequoia inject    — writes `<link rel="site.standard.document">` into `dist/**/*.html`
-#   7. gen-redirects     — writes `dist/_redirects`
-#   8. wispctl deploy    — uploads `dist/` to wisp.place
-#
-# ---------------------------------------------------------------------------
-# Required GitHub repo configuration (Settings → Secrets and variables → Actions):
-#
-#   Secrets:
-#     ATP_IDENTIFIER      Bluesky/atproto handle or DID used by Sequoia to auth
-#                         (e.g. trezy.codes)
-#     ATP_APP_PASSWORD    atproto app password for ATP_IDENTIFIER (Sequoia auth)
-#     WISP_APP_PASSWORD   atproto app password used by wispctl (may be the same
-#                         value as ATP_APP_PASSWORD if the same account is used)
-#
-#   Variables:
-#     WISP_HANDLE         The wisp.place handle/account to deploy under
-#     WISP_SITE           The wisp.place site identifier to deploy to
-#     SITE_URL            Canonical site URL passed to `astro build`
-#                         (default: https://trezy.com)
-#
-# ---------------------------------------------------------------------------
-# NOTE — UNCERTAIN COMMAND: the exact Sequoia CLI install/invocation shown
-# below (`bunx sequoia@latest publish` / `bunx sequoia@latest inject`) has NOT
-# been confirmed against Sequoia's official docs. `sequoia` is not currently
-# listed as a project dependency in package.json. Before relying on this
-# workflow, confirm with Sequoia's docs whether the package should instead be
-# installed globally (e.g. `npm i -g @sequoia/cli` or similar), added as a
-# devDependency and invoked via `bunx sequoia` (no version pin), or invoked
-# some other way — then update the two "sequoia publish" / "sequoia inject"
-# steps below accordingly.
-# ---------------------------------------------------------------------------
-
 name: Deploy
 
 on:
@@ -50,7 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
@@ -58,32 +23,26 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # UNCERTAIN: delegates to package.json's `publish:atproto` script, which runs
-      # the bare `sequoia` CLI. Verify Sequoia CLI is installed/available on PATH
-      # in CI — it is NOT currently a project dependency. Confirm against Sequoia's
-      # official docs whether it should be installed globally, as a devDependency,
-      # or invoked some other way.
       - name: Sequoia publish (upsert site.standard.document records)
         run: bun run publish:atproto
         env:
           ATP_IDENTIFIER: ${{ secrets.ATP_IDENTIFIER }}
           ATP_APP_PASSWORD: ${{ secrets.ATP_APP_PASSWORD }}
+          # trezy.codes lives on pds.kart.sh, not the bsky.social default, so
+          # the app-password login must target the account's real PDS.
+          PDS_URL: ${{ vars.PDS_URL }}
 
       - name: Build site
         run: bun run build
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://trezy.com' }}
 
-      # UNCERTAIN: delegates to package.json's `inject:atproto` script, which runs
-      # the bare `sequoia` CLI. Verify Sequoia CLI is installed/available on PATH
-      # in CI — it is NOT currently a project dependency. Confirm against Sequoia's
-      # official docs whether it should be installed globally, as a devDependency,
-      # or invoked some other way.
       - name: Sequoia inject (add site.standard.document <link> to built HTML)
         run: bun run inject:atproto
         env:
           ATP_IDENTIFIER: ${{ secrets.ATP_IDENTIFIER }}
           ATP_APP_PASSWORD: ${{ secrets.ATP_APP_PASSWORD }}
+          PDS_URL: ${{ vars.PDS_URL }}
 
       - name: Generate redirects
         run: bun run scripts/gen-redirects.mjs

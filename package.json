@@ -37,6 +37,8 @@
 		"shiki": "^4.0.1"
 	},
 	"devDependencies": {
+		"@fontsource/libre-franklin": "^5.2.8",
+		"sequoia-cli": "^0.5.7",
 		"vitest": "^4.1.10",
 		"yaml": "^2.9.0"
 	}
