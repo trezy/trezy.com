@@ -1,28 +1,39 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+const { label = 'Social' } = Astro.props
+
+// `atmosphere/*` icons are local SVGs in `src/icons/` (see the README there):
+// monochrome logomarks that astro-icon rewrites to `currentColor`, so they
+// inherit --muted/--brand and the palette-wide --hue-shift like the FA ones.
+// The Atmosphere apps lead — this site is atproto-native, and these are the
+// profiles that live on the open network.
 const links = [
-  { icon: 'fa6-brands:bluesky', title: 'Bluesky', href: 'https://bsky.app/profile/trezy.codes' },
-  { icon: 'fa6-brands:mastodon', title: 'Mastodon', href: 'https://mastodon.social/TrezyCodes' },
-  { icon: 'fa6-brands:twitter', title: 'Twitter', href: 'https://twitter.com/TrezyCodes' },
+  { icon: 'atmosphere/bluesky', title: 'Bluesky (microblogging)', href: 'https://bsky.app/profile/trezy.codes' },
+  { icon: 'atmosphere/rocksky', title: 'Rocksky (music scrobbling)', href: 'https://rocksky.app/profile/trezy.codes' },
+  { icon: 'atmosphere/margin', title: 'Margin (annotations)', href: 'https://margin.at/profile/trezy.codes' },
+  { icon: 'atmosphere/grain', title: 'Grain Social (photos)', href: 'https://grain.social/profile/trezy.codes' },
+  { icon: 'atmosphere/streamplace', title: 'Stream Place (livestreaming)', href: 'https://stream.place/trezy.codes' },
+  { icon: 'atmosphere/cartridge', title: 'Cartridge (game development)', href: 'https://cartridge.dev/profile/trezy.codes' },
+  { icon: 'atmosphere/sifa', title: 'Sifa ID (professional networking)', href: 'https://sifa.id/p/trezy.codes' },
+  { icon: 'atmosphere/npmx-badge', title: 'npmx', href: 'https://npmx.dev/~trezy' },
   { icon: 'fa6-brands:instagram', title: 'Instagram', href: 'https://instagram.com/TrezyCodes' },
   { icon: 'fa6-brands:linkedin', title: 'LinkedIn', href: 'https://linkedin.com/in/trezy' },
-  { icon: 'fa6-brands:youtube', title: 'YouTube', href: '/youtube' },
-  { icon: 'fa6-brands:discord', title: 'Discord', href: '/discord' },
+  { icon: 'fa6-brands:youtube', title: 'YouTube', href: 'https://youtube.com/TrezyCodes1' },
   { icon: 'fa6-brands:github', title: 'Github', href: 'https://github.com/trezy' },
   { icon: 'fa6-brands:codepen', title: 'Codepen', href: 'https://codepen.io/trezy' },
-  { icon: 'fa6-brands:npm', title: 'npm', href: 'https://npmjs.com/~trezy' },
   { icon: 'fa6-brands:dev', title: 'DEV Community', href: 'https://dev.to/trezy' },
   { icon: 'fa6-brands:speaker-deck', title: 'SpeakerDeck', href: 'https://speakerdeck.com/trezy' },
 ]
 ---
-<nav class="social">
+<nav class="social" aria-label={label}>
   <ul>
     {links.map(({ icon, title, href }) => (
       <li>
         <a
           href={href}
           rel="me"
+          title={title}
           aria-label={title}>
           <Icon name={icon} />
         </a>
@@ -30,3 +41,31 @@ const links = [
     ))}
   </ul>
 </nav>
+
+<style>
+  .social ul {
+    display: grid;
+    /* ≥44px tracks so every icon meets the touch-target minimum. */
+    grid-template-columns: repeat(auto-fit, minmax(2.75rem, 1fr));
+    gap: 0.25rem;
+  }
+  .social a {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    min-block-size: 2.75rem;
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  /* 1.35rem, not 1.05: the `atmosphere/*` marks are 64×64 logomarks, not glyphs
+     drawn on an icon grid, and Stream Place (opacity-shaded cube) and Cartridge
+     (fine outlines) turn to mush below ~22px. The extra size suits the FA icons
+     too — they were sitting small inside a 2.75rem target. */
+  .social a :global(svg) { block-size: 1.35rem; inline-size: auto; }
+  .social a:hover {
+    color: var(--brand);
+    background-color: var(--brand-tint);
+  }
+</style>

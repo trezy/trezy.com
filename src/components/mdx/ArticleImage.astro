@@ -1,0 +1,21 @@
+---
+// MDX `img` override (wired in src/lib/mdx-components.js). Routes article body
+// images through Astro's <Image> so local sources are optimized (webp + srcset
+// + intrinsic dimensions + lazy), while remote/public string sources — which
+// <Image> can't optimize without a build-time fetch or being in the asset
+// pipeline — fall back to a plain lazy <img>. Also rescues legacy `data-src`
+// markup (an old lazy-load pattern that shipped no real `src`).
+import { Image } from 'astro:assets'
+
+const { src, alt = '', title, ...rest } = Astro.props
+// Astro passes local markdown images as an ImageMetadata object; remote/public
+// images arrive as strings. Older raw <img> markup used `data-src`.
+const source = src ?? rest['data-src']
+const isLocal = source && typeof source === 'object'
+const stringSrc = typeof source === 'string' ? source : source?.src
+---
+{isLocal ? (
+	<Image src={source} alt={alt} loading="lazy" decoding="async" />
+) : (
+	stringSrc && <img src={stringSrc} alt={alt} title={title} loading="lazy" decoding="async" />
+)}

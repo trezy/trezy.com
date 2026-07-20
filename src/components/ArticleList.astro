@@ -19,11 +19,21 @@ const articlesToRender = articles
 {articlesToRender ? (
 	<ol class:list={['article-list', className]}>
 		{articlesToRender.map((article) => (
-			<li class="block">
+			<li>
 				<ArticleSummary article={article} />
 			</li>
 		))}
 	</ol>
 ) : (
-	<p>No articles found! 😭</p>
+	<p class="article-list-empty">No articles found! 😭</p>
 )}
+
+<style>
+	.article-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xl);
+		margin-block: var(--space-l);
+	}
+	.article-list-empty { color: var(--muted); }
+</style>

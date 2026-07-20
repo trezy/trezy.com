@@ -9,6 +9,31 @@
 // `./constellation.js` (Task 22) -- this module does NOT duplicate them. The
 // island imports both this module and `constellation.js`.
 
+// Every origin this site's articles have been published under. The site now
+// lives at `trezy.codes`, but for years it was `trezy.com`, and people linked
+// (and still link) articles under both. Constellation indexes backlinks by
+// exact target URL, so a mention of `trezy.com/blog/x` is invisible to a query
+// for `trezy.codes/blog/x`. Both domains are queried and their results merged
+// (deduped by record) so the counts reflect all mentions regardless of which
+// URL the author used. Hardcoded on purpose — it's a fixed historical fact
+// about this site, not configuration.
+export const MENTION_TARGET_ORIGINS = [
+	'https://trezy.com',
+	'https://trezy.codes',
+]
+
+// Given the article's resolved URL, returns the Constellation target URLs to
+// query: the same path under every origin in `MENTION_TARGET_ORIGINS`. Falls
+// back to the input URL unchanged if it can't be parsed.
+export function buildMentionTargets(articleURL) {
+	try {
+		const { pathname } = new URL(articleURL)
+		return MENTION_TARGET_ORIGINS.map(origin => `${origin}${pathname}`)
+	} catch {
+		return [articleURL]
+	}
+}
+
 // The six atproto collections the mentions island understands, in the same
 // order legacy's `SUPPORTED_COLLECTIONS` used.
 export const SUPPORTED_COLLECTIONS = [

@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import icon from 'astro-icon'
-import behead from 'remark-behead'
 import directive from 'remark-directive'
 import gfm from 'remark-gfm'
 import squeezeParagraphs from 'remark-squeeze-paragraphs'
@@ -16,8 +15,9 @@ import {
 } from '@shikijs/transformers'
 import { transformerColorizedBrackets } from '@shikijs/colorized-brackets'
 import { remarkMermaid } from './src/lib/remark-mermaid.js'
+import { remarkNormalizeHeadings } from './src/lib/remark-normalize-headings.js'
 
-const SITE_URL = process.env.SITE_URL || 'https://trezy.com'
+const SITE_URL = process.env.SITE_URL || 'https://trezy.codes'
 
 export default defineConfig({
   site: SITE_URL,
@@ -32,8 +32,17 @@ export default defineConfig({
     // avoid running GFM twice we disable Astro's built-in and rely solely on
     // the explicit plugin below, matching legacy's single-pass behavior.
     gfm: false,
+    // Legacy (next-mdx-remote) did NOT apply smartypants, so article bodies
+    // rendered with straight quotes/apostrophes. Astro defaults smartypants on,
+    // which rewrites them to curly (’ “ ”). That breaks the Margin marginalia
+    // feature: `at.margin.highlight` records store the original straight-quote
+    // `exact` text, and the inline highlighter matches rendered body text
+    // against it verbatim — curly quotes make every apostrophe/quote mismatch,
+    // so no highlight is ever found. Keep straight quotes to match legacy and
+    // keep the highlight text contract intact.
+    smartypants: false,
     remarkPlugins: [
-      [behead, { depth: 1 }],
+      remarkNormalizeHeadings,
       gfm,
       directive,
       squeezeParagraphs,

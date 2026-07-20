@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest'
 import {
 	COLLECTION_GROUPS,
 	COLLECTION_META,
+	MENTION_TARGET_ORIGINS,
 	SUPPORTED_COLLECTIONS,
+	buildMentionTargets,
 	getGroupForCollection,
 	getHighlightId,
 } from './mentions.js'
@@ -32,6 +34,32 @@ describe('getHighlightId', () => {
 
 	it('always begins with the hl- prefix and a base36 suffix', () => {
 		expect(getHighlightId('another example string')).toMatch(/^hl-[0-9a-z]+$/)
+	})
+})
+
+describe('buildMentionTargets', () => {
+	it('maps the article path onto every configured origin', () => {
+		expect(buildMentionTargets('https://trezy.codes/blog/the-marshmallow-test')).toEqual([
+			'https://trezy.com/blog/the-marshmallow-test',
+			'https://trezy.codes/blog/the-marshmallow-test',
+		])
+	})
+
+	it('preserves the path regardless of which origin the input uses', () => {
+		// Whether the incoming URL is trezy.codes or trezy.com, the same set of
+		// targets is queried — the input host doesn't bias the result.
+		const fromCom = buildMentionTargets('https://trezy.com/blog/x')
+		const fromCodes = buildMentionTargets('https://trezy.codes/blog/x')
+		expect(fromCom).toEqual(fromCodes)
+	})
+
+	it('covers exactly MENTION_TARGET_ORIGINS, in order', () => {
+		const targets = buildMentionTargets('https://trezy.codes/blog/x')
+		expect(targets.map(t => new URL(t).origin)).toEqual(MENTION_TARGET_ORIGINS)
+	})
+
+	it('falls back to the input URL unchanged when it can not be parsed', () => {
+		expect(buildMentionTargets('not a url')).toEqual(['not a url'])
 	})
 })
 

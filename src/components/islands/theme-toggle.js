@@ -7,14 +7,6 @@
 // `matchMedia`). This mirrors the inline no-flash script in
 // `BaseLayout.astro`, which performs the same resolution before first paint.
 
-const THEME_ORDER = ['light', 'dark', 'system']
-
-const LABELS = {
-  light: 'Light theme',
-  dark: 'Dark theme',
-  system: 'System theme',
-}
-
 function getStoredTheme() {
   try {
     return localStorage.getItem('theme')
@@ -42,9 +34,8 @@ function resolveEffectiveTheme(theme) {
 class ThemeToggle extends HTMLElement {
   connectedCallback() {
     this.button = this.querySelector('[data-role="theme-toggle-button"]')
-    this.icons = this.querySelectorAll('[data-theme-icon]')
 
-    this._onClick = () => this.cycleTheme()
+    this._onClick = () => this.toggleTheme()
     this._onMqChange = () => {
       if (this.theme === 'system') {
         this.applyTheme()
@@ -65,11 +56,12 @@ class ThemeToggle extends HTMLElement {
     this.mq?.removeEventListener('change', this._onMqChange)
   }
 
-  cycleTheme() {
-    const currentIndex = THEME_ORDER.indexOf(this.theme)
-    const nextIndex = (currentIndex + 1) % THEME_ORDER.length
-
-    this.theme = THEME_ORDER[nextIndex]
+  // Reversible light <-> dark toggle. The stored default stays "system" (so
+  // an untouched visitor still follows their OS), but any click sets an
+  // explicit theme, and clicking again always goes back.
+  toggleTheme() {
+    const effective = resolveEffectiveTheme(this.theme)
+    this.theme = effective === 'dark' ? 'light' : 'dark'
     setStoredTheme(this.theme)
     this.applyTheme()
   }
@@ -79,12 +71,13 @@ class ThemeToggle extends HTMLElement {
 
     document.documentElement.dataset.theme = effective
 
-    this.button?.setAttribute('aria-label', LABELS[this.theme])
+    // Label + tooltip describe the ACTION (what the next click does).
+    const next = effective === 'dark' ? 'light' : 'dark'
+    const label = `Switch to ${next} theme`
+    this.button?.setAttribute('aria-label', label)
+    this.button?.setAttribute('title', label)
     this.button?.setAttribute('data-theme-preference', this.theme)
-
-    this.icons?.forEach((icon) => {
-      icon.hidden = icon.dataset.themeIcon !== this.theme
-    })
+    // Icon visibility is driven purely by `[data-theme]` in CSS (flash-free).
   }
 }
 

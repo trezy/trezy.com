@@ -1,0 +1,138 @@
+/* Base: reset carried forward + base element styling + typography.
+   Ships in @layer base so component/scoped styles always win cleanly. */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* the fixed sidebar rail lives in this inline-start inset on wide screens */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    min-height: 100svh;
+    background-color: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    font-weight: 400;
+    line-height: 1.65;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+  }
+
+  img, picture, video, canvas, svg { display: block; max-width: 100%; }
+  svg { fill: currentColor; }
+  /* Respect the hidden attribute even against the display:block reset above
+     (islands toggle `hidden` on svg icons — theme toggle, etc.). */
+  [hidden] { display: none !important; }
+  input, button, textarea, select { font: inherit; color: inherit; }
+
+  /* <trezy-who/> wordmark: render the angle-bracket punctuation as code —
+     monospace + brand accent, framing the ink-weight name (hero + nav). */
+  .wm-bracket {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    color: var(--brand);
+  }
+
+  /* Headings — display face, tight but not touching, balanced wrapping */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  h1 { font-size: var(--step-4); letter-spacing: -0.035em; }
+  h2 { font-size: var(--step-3); letter-spacing: -0.03em; }
+  h3 { font-size: var(--step-2); }
+  h4 { font-size: var(--step-1); }
+  h5 { font-size: var(--step-0); text-transform: uppercase; letter-spacing: 0.04em; }
+  h6 { font-size: var(--step--1); }
+
+  p, li, dd, dt, figcaption, blockquote { text-wrap: pretty; overflow-wrap: break-word; }
+
+  a {
+    color: var(--link);
+    text-decoration-line: underline;
+    text-decoration-thickness: max(0.06em, 1px);
+    text-underline-offset: 0.18em;
+    text-decoration-color: color-mix(in oklch, currentColor 45%, transparent);
+    transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+  }
+  a:hover { color: var(--link-hover); text-decoration-color: currentColor; }
+
+  strong, b { font-weight: 700; }
+  em, i { font-style: italic; }
+  small { font-size: var(--step--1); }
+
+  ul, ol { padding: 0; list-style-position: inside; }
+  li { list-style: none; }
+
+  code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.92em; }
+  :not(pre) > code {
+    background: var(--surface-sunken);
+    /* Force high-contrast ink even when the code sits inside a link — a visible
+       chip can't also carry link-blue at AAA; the link's underline is the cue. */
+    color: var(--ink);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.88em;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin-block: var(--space-l); }
+
+  blockquote {
+    padding-inline-start: var(--space-m);
+    border-inline-start: 3px solid var(--brand);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* Accessible, high-contrast focus — never remove without replacing */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  :focus:not(:focus-visible) { outline: none; }
+
+  ::selection { background: var(--brand-tint); }
+  ::placeholder { color: var(--muted); opacity: 1; }
+
+  .screen-reader-only, .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+
+  /* Skip link — first focusable element; hidden until focused. */
+  .skip-link {
+    position: fixed;
+    inset-block-start: var(--space-s);
+    inset-inline-start: var(--space-s);
+    z-index: var(--z-tooltip);
+    padding: 0.6rem 1rem;
+    background-color: var(--brand);
+    color: oklch(1 0 0);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-2);
+    transform: translateY(calc(-100% - var(--space-l)));
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .skip-link:focus { transform: none; }
+  #main-content:focus { outline: none; }
+
+  /* Body-scroll lock while the mobile nav drawer is open (set by site-nav.js). */
+  html.nav-scroll-lock { overflow: hidden; }
+}

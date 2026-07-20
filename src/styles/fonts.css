@@ -1,0 +1,38 @@
+/* Self-hosted Libre Franklin (latin) — display + body across weights. */
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libre-franklin-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/libre-franklin-latin-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/libre-franklin-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/libre-franklin-latin-700-normal.woff2") format("woff2");
+}
+/* Size-adjusted fallback to cut layout shift while the webfont loads. */
+@font-face {
+  font-family: "Libre Franklin Fallback";
+  src: local("Arial");
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 104%;
+}

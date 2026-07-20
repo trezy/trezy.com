@@ -5,22 +5,44 @@ import { Icon } from 'astro-icon/components'
   <button
     class="theme-toggle"
     data-role="theme-toggle-button"
-    type="button">
-    <Icon
-      data-role="theme-toggle-icon-light"
-      data-theme-icon="light"
-      name="fa6-solid:sun" />
-    <Icon
-      data-role="theme-toggle-icon-dark"
-      data-theme-icon="dark"
-      name="fa6-solid:moon" />
-    <Icon
-      data-role="theme-toggle-icon-system"
-      data-theme-icon="system"
-      name="fa6-solid:circle-half-stroke" />
+    type="button"
+    aria-label="Toggle color theme">
+    <Icon data-theme-icon="light" name="fa6-solid:sun" />
+    <Icon data-theme-icon="dark" name="fa6-solid:moon" />
   </button>
 </theme-toggle>
 
 <script>
   import '@islands/theme-toggle.js'
 </script>
+
+<style>
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+  .theme-toggle:hover {
+    color: var(--brand);
+    border-color: var(--brand);
+    background-color: var(--brand-tint);
+  }
+  .theme-toggle :global(svg) { width: 1.1rem; height: 1.1rem; }
+
+  /* Show the icon for the theme the click will switch TO, so the glyph and the
+     "Switch to <x> theme" label agree (light shows the moon → dark). Driven by
+     `data-theme` (set before first paint by the no-flash script in BaseLayout),
+     so it's correct at load with no hydration flash and no JS needed. */
+  .theme-toggle :global([data-theme-icon]) { display: none; }
+  :global(:root[data-theme="light"]) .theme-toggle :global([data-theme-icon="dark"]),
+  :global(:root[data-theme="dark"]) .theme-toggle :global([data-theme-icon="light"]) { display: block; }
+</style>

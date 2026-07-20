@@ -57,7 +57,7 @@ const changelogHtml = hasChangelog
 	<div class="meta-bar">
 		{publishedAt && (
 			<span>
-				<Icon name="fa6-solid:clock" class="fa-fw" />
+				<Icon name="fa6-solid:calendar-day" class="fa-fw" aria-hidden="true" />
 				{' '}
 				Published <DateTime value={publishedAt} dateFormat={dateFormat} showTime={false} />
 			</span>
@@ -65,14 +65,14 @@ const changelogHtml = hasChangelog
 
 		{showUpdatedAt && (
 			<span>
-				<Icon name="fa6-solid:clock" class="fa-fw" />
+				<Icon name="fa6-solid:pen-to-square" class="fa-fw" aria-hidden="true" />
 				{' '}
 				Updated <DateTime value={updatedAt} dateFormat={dateFormat} showTime={false} />
 			</span>
 		)}
 
 		<span>
-			<Icon name="fa6-solid:clock" class="fa-fw" />
+			<Icon name="fa6-solid:clock" class="fa-fw" aria-hidden="true" />
 			{' '}
 			{readtimeMinutes < 1 ? 'Less than 1 min read' : `${readtimeMinutes} min read`}
 		</span>

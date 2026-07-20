@@ -16,7 +16,6 @@
 
 const STATIC_RULES = [
 	// Socials (temporary/302 — mirrors `permanent: false` in next.config.js)
-	{ from: '/discord', to: 'https://discord.gg/ZGeCAqAVac', status: 302 },
 	{ from: '/github', to: 'https://github.com/trezy', status: 302 },
 	{ from: '/imdb', to: 'https://imdb.com/name/nm5442490', status: 302 },
 	{ from: '/instagram', to: 'https://instagram.com/TrezyCodes', status: 302 },
@@ -24,10 +23,19 @@ const STATIC_RULES = [
 	{ from: '/youtube', to: 'https://youtube.com/TrezyCodes1', status: 302 },
 
 	// Legacy URLs (permanent/301)
-	{ from: '/code-of-conduct', to: '/legal/code-of-conduct', status: 301 },
-	{ from: '/cookie-policy', to: '/legal/cookie-policy', status: 301 },
 	{ from: '/privacy-policy', to: '/legal/privacy-policy', status: 301 },
 	{ from: '/terms-of-service', to: '/legal/terms-of-service', status: 301 },
+
+	// Retired pages. The cookie policy folded into the privacy policy (analytics
+	// cookies are the only ones the site sets), and the site-facing code of
+	// conduct went with the community spaces it governed. The repo's
+	// contributor-facing CODE_OF_CONDUCT.md is the one that still applies.
+	// Both the bare paths and their /legal/ counterparts were indexed, so all
+	// four need somewhere to land.
+	{ from: '/cookie-policy', to: '/legal/privacy-policy', status: 301 },
+	{ from: '/legal/cookie-policy', to: '/legal/privacy-policy', status: 301 },
+	{ from: '/code-of-conduct', to: '/legal', status: 301 },
+	{ from: '/legal/code-of-conduct', to: '/legal', status: 301 },
 	{ from: '/index', to: '/', status: 301 },
 	{ from: '/mozy', to: '/', status: 301 },
 ]

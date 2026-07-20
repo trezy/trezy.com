@@ -53,28 +53,28 @@ const heroAlt = (isWrappedHeaderImage ? headerImage.alt : undefined) ?? title
 	<Block elementType="header">
 		{heroSrc && (
 			<div class="block-header-image">
-				<Image src={heroSrc} alt={heroAlt} />
+				<Image src={heroSrc} alt={heroAlt} loading="eager" fetchpriority="high" />
 			</div>
 		)}
 
 		<Container>
-			<h2>{title}</h2>
+			<div class="article-head">
+				<h1>{entry.data.title}</h1>
 
-			{Boolean(entry.data.subtitle) && (
-				<p><strong>{entry.data.subtitle}</strong></p>
-			)}
+				{Boolean(entry.data.subtitle) && (
+					<p class="article-subtitle">{entry.data.subtitle}</p>
+				)}
 
-			{Boolean(entry.data.synopsis) && (
-				<p>{entry.data.synopsis}</p>
-			)}
-
-			<ArticleMeta entry={entry} />
+				<ArticleMeta entry={entry} />
+			</div>
 		</Container>
 	</Block>
 
 	<Block elementType="article">
 		<Container>
-			<Content components={mdxComponents} />
+			<div class="prose">
+				<Content components={mdxComponents} />
+			</div>
 
 			<ArticleReactions entry={entry} />
 			<ArticleMentions entry={entry} />

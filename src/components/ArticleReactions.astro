@@ -60,6 +60,16 @@ const REACTION_ICONS = {
 	fire: 'fa6-solid:fire-flame-curved',
 }
 
+// Accessible names for the icon-only reaction buttons (screen readers + tooltip).
+const REACTION_LABELS = {
+	heart: 'Love this',
+	clap: 'Applause',
+	rocket: 'To the moon',
+	'sack-dollar': 'Worth paying for',
+	trophy: 'Winner',
+	fire: 'Fire',
+}
+
 // Ports legacy/components/ArticleReactions.js's `<aside
 // className="article-responses-wrapper">` "before you leave" copy + share
 // links. Legacy nested the reactions `<div className="reactions">` INSIDE
@@ -82,7 +92,7 @@ const blueskySearchURL = new URL('/search', 'https://bsky.app')
 blueskySearchURL.searchParams.append('q', absoluteArticleURL)
 ---
 <aside class="article-responses-wrapper">
-	<h3>Before you leave...</h3>
+	<h2>Before you leave...</h2>
 
 	<p>This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a <ExternalLink href="https://ko-fi.com/trezy">monthly donation on Ko-fi</ExternalLink>. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash. If that's not in in the cards, make sure to share the article on Bluesky.</p>
 
@@ -109,8 +119,10 @@ blueskySearchURL.searchParams.append('q', absoluteArticleURL)
 						class="reaction"
 						data-role="reaction-button"
 						data-reaction-type={type}
+						aria-label={REACTION_LABELS[type]}
+						title={REACTION_LABELS[type]}
 						aria-pressed="false">
-						<Icon name={REACTION_ICONS[type]} class="fa-fw" />
+						<Icon name={REACTION_ICONS[type]} class="fa-fw" aria-hidden="true" />
 						<span data-role="reaction-count" class="badge" hidden>0</span>
 					</button>
 				))}

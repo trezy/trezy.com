@@ -2,7 +2,7 @@
 import { SITE_NAME, TWITTER } from '@lib/site.js'
 import SiteFooter from '@components/SiteFooter.astro'
 import SiteNav from '@components/SiteNav.astro'
-import '../styles/reset.css'
+import '../styles/global.css'
 const { title, description = '', image = null, imageAlt = null, showFooter = true, class: className = '' } = Astro.props
 const fullTitle = title === 'Home' ? SITE_NAME : `${title} | ${SITE_NAME}`
 const resolvedImage = image ? new URL(image, Astro.site).href : null
@@ -60,9 +60,10 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID
     )}
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div id="application-wrapper">
       <slot name="banner"><SiteNav /></slot>
-      <main class:list={['page', className]}>
+      <main id="main-content" tabindex="-1" class:list={['page', className]}>
         <slot />
       </main>
       {showFooter && <slot name="footer"><SiteFooter /></slot>}

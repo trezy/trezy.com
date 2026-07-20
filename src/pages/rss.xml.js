@@ -26,8 +26,8 @@ export async function GET(context) {
 			'<language>en-us</language>',
 			'<ttl>10</ttl>',
 			'<docs>https://www.rssboard.org/rss-specification</docs>',
-			'<managingEditor>t@trezy.com</managingEditor>',
-			'<webMaster>t@trezy.com</webMaster>',
+			'<managingEditor>hello@trezy.codes</managingEditor>',
+			'<webMaster>hello@trezy.codes</webMaster>',
 			`<copyright>Copyright ${(new Date()).getFullYear()}, Trezy Studios, LLC</copyright>`,
 		].join(''),
 	})

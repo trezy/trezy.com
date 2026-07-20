@@ -4,73 +4,116 @@ import SocialNav from '@components/SocialNav.astro'
 <footer
   class="block"
   role="contentinfo">
-  <nav
-    class="trezy"
-    aria-labelledby="contentinfo-trezy-header">
-    <header id="contentinfo-trezy-header">
-      Trezy
-    </header>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <nav
+        class="trezy"
+        aria-labelledby="contentinfo-trezy-header">
+        <header id="contentinfo-trezy-header">
+          Trezy
+        </header>
 
-    <ul>
-      <li>
-        <a href="/">
-          Home
-        </a>
-      </li>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/uses">/uses</a></li>
+        </ul>
+      </nav>
 
-      <li>
-        <a href="/about">
-          About
-        </a>
-      </li>
+      <nav
+        class="resources"
+        aria-labelledby="contentinfo-resources-header">
+        <header id="contentinfo-resources-header">
+          Resources
+        </header>
 
-      <li>
-        <a href="/blog">
-          Blog
-        </a>
-      </li>
+        <ul>
+          <li><a href="/legal/terms-of-service">Terms of Service</a></li>
+          <li><a href="/legal/privacy-policy">Privacy Policy</a></li>
+        </ul>
+      </nav>
+    </div>
 
-      <li>
-        <a href="/uses">
-          /uses
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <nav
-    class="resources"
-    aria-labelledby="contentinfo-resources-header">
-    <header id="contentinfo-resources-header">
-      Resources
-    </header>
-
-    <ul>
-      <li>
-        <a href="/legal/terms-of-service">
-          Terms of Service
-        </a>
-      </li>
-
-      <li>
-        <a href="/legal/privacy-policy">
-          Privacy Policy
-        </a>
-      </li>
-
-      <li>
-        <a href="/legal/cookie-policy">
-          Cookie Policy
-        </a>
-      </li>
-
-      <li>
-        <a href="/legal/code-of-conduct">
-          Code of Conduct
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <SocialNav />
+    <div class="footer-social">
+      <SocialNav label="Social (footer)" />
+    </div>
+  </div>
 </footer>
+
+<style>
+  footer.block[role="contentinfo"] {
+    position: relative;
+    /* Match the content-section islands: same band width (inset by the
+       island gap that main.page's padding gives the sections) and the same
+       float off the bottom edge. */
+    margin-inline: var(--island-gap);
+    margin-block-end: var(--island-gap);
+    background-color: var(--surface-alt);
+    padding-block: var(--space-2xl) var(--space-xl);
+    border-block-start: 1px solid var(--border);
+  }
+  /* Brand-blue accent line along the top edge (matches the original). */
+  footer.block[role="contentinfo"]::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 2px;
+    background-image: linear-gradient(
+      to right,
+      var(--brand),
+      color-mix(in oklch, var(--brand) 25%, transparent) 55%,
+      transparent
+    );
+  }
+
+  .footer-inner {
+    max-width: var(--content-max);
+    margin-inline: var(--edge);
+  }
+
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--space-l) var(--space-2xl);
+  }
+
+  .footer-cols nav header {
+    font-size: var(--step-0);
+    font-weight: 700;
+    color: var(--ink);
+    margin-block-end: var(--space-s);
+  }
+  .footer-cols nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: 0;
+  }
+  .footer-cols nav li { list-style: none; }
+  .footer-cols nav a {
+    color: var(--link);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .footer-cols nav a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Social row: a horizontal strip under the columns. */
+  .footer-social {
+    margin-block-start: var(--space-2xl);
+    padding-block-start: var(--space-l);
+    border-block-start: 1px solid var(--border);
+  }
+  .footer-social :global(.social ul) {
+    grid-template-columns: repeat(auto-fit, minmax(2.75rem, 3rem));
+    justify-content: start;
+    gap: var(--space-xs);
+  }
+  .footer-social :global(.social a) { color: var(--muted); }
+  .footer-social :global(.social a:hover) { color: var(--brand); background-color: var(--brand-tint); }
+</style>

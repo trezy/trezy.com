@@ -1,28 +1,72 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-const { crumbs } = Astro.props
+const { crumbs, label = 'Breadcrumb' } = Astro.props
 ---
-<ul class="breadcrumbs inline slash-separated">
-	<li>
-		<a href="/">
-			<Icon name="fa6-solid:house" class="fa-fw" />
-		</a>
-	</li>
+<nav class="breadcrumbs" aria-label={label}>
+	<ul class="inline slash-separated">
+		<li>
+			<a href="/">
+				<Icon name="fa6-solid:house" class="fa-fw" />
+				<span class="screen-reader-only">Home</span>
+			</a>
+		</li>
 
-	{crumbs.map(([name, href], index) => {
-		if (index === (crumbs.length - 1)) {
+		{crumbs.map(([name, href], index) => {
+			if (index === (crumbs.length - 1)) {
+				return (
+					<li aria-current="page">{name}</li>
+				)
+			}
+
 			return (
-				<li>{name}</li>
+				<li>
+					<a href={href}>
+						{name}
+					</a>
+				</li>
 			)
-		}
+		})}
+	</ul>
+</nav>
 
-		return (
-			<li>
-				<a href={href}>
-					{name}
-				</a>
-			</li>
-		)
-	})}
-</ul>
+<style>
+	/* The component shipped with no CSS at all, so `base.css`'s list reset left
+	   the crumbs stacked vertically on every legal page. */
+	.breadcrumbs ul {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.15rem 0.5rem;
+		font-size: var(--step--1);
+		color: var(--muted);
+	}
+	.breadcrumbs li { display: inline-flex; align-items: center; }
+
+	/* Separator on the item rather than between links, so it survives wrapping
+	   and stays out of the accessibility tree. */
+	.slash-separated li + li::before {
+		content: "/";
+		margin-inline-end: 0.5rem;
+		color: var(--border);
+		/* The slash is decoration; the list structure already conveys the path. */
+		speak: never;
+	}
+
+	.breadcrumbs a {
+		display: inline-flex;
+		align-items: center;
+		color: var(--muted);
+		text-decoration-color: transparent;
+	}
+	.breadcrumbs a:hover {
+		color: var(--link-hover);
+		text-decoration-color: currentColor;
+	}
+
+	/* The current page is the one crumb that isn't a link, so give it the ink:
+	   "you are here" shouldn't rest on the missing underline alone. */
+	.breadcrumbs [aria-current="page"] { color: var(--ink-soft); }
+
+	.breadcrumbs :global(svg) { width: 1em; height: 1em; }
+</style>

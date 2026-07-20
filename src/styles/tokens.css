@@ -1,0 +1,166 @@
+/*
+ * Design tokens — OKLCH rebuild of the established trezy.com system.
+ * Preserves the brand values (blue #0092c7, burlap, collection accents) and the
+ * signature palette-wide `--hue-shift` (rotate the whole palette's hue in one var).
+ * Theming: light default + dark via prefers-color-scheme AND a manual [data-theme].
+ */
+@layer tokens {
+  :root {
+    color-scheme: light dark;
+
+    /* ── Global hue rotation: retint the ENTIRE palette from one variable ── */
+    --hue-shift: 0deg;
+    --brand-h: calc(232deg + var(--hue-shift));
+    --burlap-h: calc(64deg + var(--hue-shift));
+
+    /* ── Brand (blue #0092c7 ≈ oklch(0.60 0.13 232)) ── */
+    --brand: oklch(0.60 0.13 var(--brand-h));
+    --brand-strong: oklch(0.50 0.135 var(--brand-h));
+    --brand-soft: oklch(0.72 0.10 var(--brand-h));
+    --brand-tint: oklch(0.60 0.13 var(--brand-h) / 0.12);
+
+    /* ── Secondary / warm counterpoint (burlap, sparing) ── */
+    --burlap: oklch(0.72 0.09 var(--burlap-h));
+
+    /* ── Semantic (always paired with icon + text, never color alone) ── */
+    --danger: oklch(0.55 0.20 25);
+    --success: oklch(0.58 0.14 150);
+    --warning: oklch(0.75 0.15 78);
+    --info: var(--brand);
+
+    /* ── Mention collection accents (fixed per open-social source) ── */
+    --accent-bluesky: #0085ff;
+    --accent-semble: #a855f7;
+    --accent-margin: #fbbf24;
+    --accent-articles: #ff6b35;
+
+    /* ── Type ── */
+    --font-sans: "Libre Franklin", "Libre Franklin Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+    --font-display: var(--font-sans);
+    /* Fluid modular scale (1.20 mobile → ~1.25 desktop) */
+    --step--1: clamp(0.833rem, 0.80rem + 0.16vw, 0.917rem);
+    --step-0: clamp(1rem, 0.96rem + 0.20vw, 1.125rem);
+    --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.5rem);
+    --step-2: clamp(1.44rem, 1.32rem + 0.6vw, 2rem);
+    --step-3: clamp(1.728rem, 1.5rem + 1.1vw, 2.67rem);
+    --step-4: clamp(2.07rem, 1.7rem + 1.85vw, 3.55rem);
+    --step-5: clamp(2.49rem, 1.9rem + 2.9vw, 4rem); /* display ceiling ≤ 4rem */
+
+    /* ── Space (rem ramp) ── */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 0.75rem;
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 5rem;   /* --block vertical padding */
+    --space-3xl: 8rem;
+
+    /* ── Layout ── */
+    --gutter: clamp(1rem, 3vw, 2rem);
+    --island-gap: clamp(0.65rem, 1.3vw, 1.15rem); /* gap between/around section islands */
+    --measure: 68ch;              /* article prose line length */
+    /* The site-wide content column. The original used one consistent ~50rem
+       (800px) reading column on EVERY page (home, article, about, …), centered
+       — not a wide layout for some pages and a narrow one for others. */
+    --content-max: 50rem;
+    --content-wide: 80rem;        /* opt-in for genuinely wide layouts */
+    --sidebar-w: clamp(12rem, 14vw, 14.5rem); /* the fixed "banner" rail */
+    --block-inset: clamp(var(--gutter), 7vw, 10rem); /* left inset of band content */
+    --edge: max(calc((100% - var(--content-max)) / 2), var(--block-inset));
+    --block-header-h: clamp(12rem, 26vw, 21rem);
+
+    /* ── Radius ── */
+    /* Hard corners site-wide — no rounded rectangles. (Pill/circle shapes below
+       are distinct capsule/round shapes, not corner rounding.) */
+    --radius-sm: 0;
+    --radius: 0;
+    --radius-lg: 0;
+    --radius-pill: 999px;
+
+    /* ── Effects ── */
+    --blur: 0.2rem;
+    --shadow-1: 0 1px 2px oklch(0 0 0 / 0.05), 0 2px 6px oklch(0 0 0 / 0.06);
+    --shadow-2: 0 4px 12px oklch(0 0 0 / 0.08), 0 12px 32px oklch(0 0 0 / 0.10);
+    --shadow-brand: 0 6px 24px oklch(0.60 0.13 var(--brand-h) / 0.35);
+
+    /* ── Motion (exponential ease-out, no bounce) ── */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);       /* quint */
+    --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);   /* expo */
+    --dur-fast: 130ms;
+    --dur: 240ms;
+    --dur-slow: 440ms;
+
+    /* ── z-index scale (semantic, never 9999) ── */
+    --z-base: 1;
+    --z-nav: 100;
+    --z-sticky: 200;
+    --z-backdrop: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+    --z-tooltip: 600;
+  }
+
+  /* ─────────────── Light (default) ─────────────── */
+  :root,
+  :root[data-theme="light"] {
+    --page: oklch(0.945 0.004 var(--brand-h));         /* recessed bg behind islands */
+    --surface: oklch(1 0 0);                           /* raised island surface */
+    --surface-alt: oklch(0.968 0.002 var(--brand-h));  /* faint brand-tinted band */
+    --surface-sunken: oklch(0.93 0.003 var(--brand-h));
+    --ink: oklch(0.22 0 0);        /* near-black, ~15:1 on white — AAA */
+    --ink-soft: oklch(0.38 0 0);   /* secondary text, ≥7:1 on white */
+    --muted: oklch(0.44 0 0);      /* secondary/meta text, ≥7:1 on white (AAA) */
+    --border: oklch(0.22 0 0 / 0.16);
+    --border-strong: oklch(0.22 0 0 / 0.32);
+    --link: oklch(0.44 0.15 var(--brand-h));   /* darker blue, ≥7:1 on white (AAA); always underlined */
+    --link-hover: oklch(0.42 0.14 var(--brand-h));
+    --nav-active-ink: oklch(0.40 0.14 var(--brand-h)); /* active nav label, ≥7:1 on brand-tint */
+    --focus: var(--brand);
+    --shadow-opacity: 0.4;
+  }
+
+  /* ─────────────── Dark ─────────────── */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: oklch(0.135 0.005 var(--brand-h));
+      --surface: oklch(0.205 0.005 var(--brand-h));
+      --surface-alt: oklch(0.245 0.006 var(--brand-h));
+      --surface-sunken: oklch(0.16 0.004 var(--brand-h));
+      --ink: oklch(0.96 0 0);
+      --ink-soft: oklch(0.80 0 0);
+      --muted: oklch(0.72 0 0);
+      --border: oklch(1 0 0 / 0.14);
+      --border-strong: oklch(1 0 0 / 0.28);
+      --link: oklch(0.70 0.15 var(--brand-h)); /* brighter, saturated blue on dark */
+      --link-hover: oklch(0.82 0.10 var(--brand-h));
+    --nav-active-ink: oklch(0.82 0.13 var(--brand-h)); /* active nav label, ≥4.5:1 on dark brand-tint */
+      --focus: var(--brand-soft);
+      --shadow-1: 0 1px 2px oklch(0 0 0 / 0.4), 0 2px 8px oklch(0 0 0 / 0.4);
+      --shadow-2: 0 6px 20px oklch(0 0 0 / 0.5), 0 16px 40px oklch(0 0 0 / 0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: oklch(0.135 0.005 var(--brand-h));
+    --surface: oklch(0.205 0.005 var(--brand-h));
+    --surface-alt: oklch(0.245 0.006 var(--brand-h));
+    --surface-sunken: oklch(0.16 0.004 var(--brand-h));
+    --ink: oklch(0.96 0 0);
+    --ink-soft: oklch(0.80 0 0);
+    --muted: oklch(0.72 0 0);
+    --border: oklch(1 0 0 / 0.14);
+    --border-strong: oklch(1 0 0 / 0.28);
+    --link: var(--brand-soft);
+    --link-hover: oklch(0.82 0.10 var(--brand-h));
+    --nav-active-ink: oklch(0.82 0.13 var(--brand-h)); /* active nav label, ≥4.5:1 on dark brand-tint */
+    --focus: var(--brand-soft);
+    --shadow-1: 0 1px 2px oklch(0 0 0 / 0.4), 0 2px 8px oklch(0 0 0 / 0.4);
+    --shadow-2: 0 6px 20px oklch(0 0 0 / 0.5), 0 16px 40px oklch(0 0 0 / 0.55);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { --dur-fast: 0.01ms; --dur: 0.01ms; --dur-slow: 0.01ms; }
+  }
+}

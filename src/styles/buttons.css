@@ -1,0 +1,70 @@
+/* Buttons — brand-fill primary + bordered ghost. Used for hero CTAs, the
+   article-list "see all" affordance, and anywhere a link needs to read as an
+   action rather than inline text. Targets are ≥44px tall. */
+@layer components {
+  .button,
+  .button-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-block-size: 2.75rem;
+    padding: 0.55rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: var(--step-0);
+    line-height: 1.1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  /* Primary: solid fill in a deeper "button blue" than the brand accent, so the
+     white label clears 7:1 (AAA) while staying unmistakably brand. */
+  .button {
+    background-color: oklch(0.44 0.15 var(--brand-h));
+    color: oklch(1 0 0);
+    box-shadow: var(--shadow-1);
+  }
+  .button:hover { background-color: oklch(0.39 0.15 var(--brand-h)); }
+
+  /* Ghost: bordered, brand-tinted on hover. Border clears ≥3:1 non-text
+     contrast (WCAG 1.4.11) in both themes — it's the button's only boundary. */
+  .button-ghost {
+    background-color: transparent;
+    border-color: color-mix(in oklch, var(--ink) 55%, transparent);
+    color: var(--ink);
+  }
+  .button-ghost:hover {
+    border-color: var(--brand);
+    color: var(--link);
+    background-color: var(--brand-tint);
+  }
+
+  .button:active,
+  .button-ghost:active { transform: translateY(1px); }
+
+  /* Trailing arrow nudges forward on hover/focus (decorative; aria-hidden). */
+  .button-arrow {
+    display: inline-block;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  :is(.button, .button-ghost):is(:hover, :focus-visible) .button-arrow {
+    transform: translateX(0.2em);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    .button-ghost { transition-property: background-color, border-color, color; }
+    .button:active,
+    .button-ghost:active { transform: none; }
+    .button-arrow { transition: none; }
+    :is(.button, .button-ghost):is(:hover, :focus-visible) .button-arrow { transform: none; }
+  }
+}

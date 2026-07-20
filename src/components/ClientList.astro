@@ -1,37 +1,61 @@
 ---
+// A non-interactive credibility wall — muted brand marks, not links. Each logo
+// carries `alt={name}` (its accessible name) and intrinsic width/height (from
+// the source SVG viewBox) so the browser reserves aspect-ratio space and the
+// row doesn't reflow as logos decode.
 const clients = [
-  { name: 'Amazon', url: 'https://amazon.com', logo: '/images/logos/amazon.svg' },
-  { name: 'American Family Insurance', url: 'https://amfam.com', logo: '/images/logos/amfam.svg' },
-  { name: 'Disney', url: 'https://disney.com', logo: '/images/logos/disney.svg' },
-  { name: 'Eventbrite', url: 'https://eventbrite.com', logo: '/images/logos/eventbrite.svg' },
-  { name: 'Getty Images', url: 'https://gettyimages.com', logo: '/images/logos/getty-images.svg' },
-  { name: 'GoPro', url: 'https://gopro.com', logo: '/images/logos/gopro.svg' },
-  { name: 'Great Wolf Lodge', url: 'https://greatwolf.com', logo: '/images/logos/great-wolf.svg' },
-  { name: 'Genesys', url: 'https://genesys.com', logo: '/images/logos/genesys.svg' },
-  { name: 'Lands\' End', url: 'https://www.landsend.com/', logo: '/images/logos/lands-end.svg' },
-  { name: 'Marvel', url: 'https://marvel.com', logo: '/images/logos/marvel.svg' },
-  { name: 'Mobile Doorman', url: 'https://mobiledoorman.com', logo: '/images/logos/mobile-doorman.svg' },
-  { name: 'Moxe Health', url: 'https://moxehealth.com', logo: '/images/logos/moxe.svg' },
-  { name: 'SkyBell', url: 'https://skybell.com', logo: '/images/logos/skybell.svg' },
-  { name: 'Webflow', url: 'https://webflow.com', logo: '/images/logos/webflow.svg' },
+  { name: 'Amazon', logo: '/images/logos/amazon.svg', width: 603, height: 182 },
+  { name: 'American Family Insurance', logo: '/images/logos/amfam.svg', width: 2427, height: 726 },
+  { name: 'Disney', logo: '/images/logos/disney.svg', width: 482, height: 201 },
+  { name: 'Eventbrite', logo: '/images/logos/eventbrite.svg', width: 500, height: 90 },
+  { name: 'Getty Images', logo: '/images/logos/getty-images.svg', width: 207, height: 38 },
+  { name: 'GoPro', logo: '/images/logos/gopro.svg', width: 204, height: 53 },
+  { name: 'Great Wolf Lodge', logo: '/images/logos/great-wolf.svg', width: 770, height: 741 },
+  { name: 'Genesys', logo: '/images/logos/genesys.svg', width: 200, height: 40 },
+  { name: 'Lands\' End', logo: '/images/logos/lands-end.svg', width: 183, height: 29 },
+  { name: 'Marvel', logo: '/images/logos/marvel.svg', width: 411, height: 186 },
+  { name: 'Mobile Doorman', logo: '/images/logos/mobile-doorman.svg', width: 397, height: 101 },
+  { name: 'Moxe Health', logo: '/images/logos/moxe.svg', width: 185, height: 45 },
+  { name: 'SkyBell', logo: '/images/logos/skybell.svg', width: 528, height: 112 },
+  { name: 'Webflow', logo: '/images/logos/webflow.svg', width: 808, height: 203 },
 ]
 ---
-<ul class="client-list">
-  {clients.map(({ name, url, logo }) => (
+<ul class="client-list" aria-label="A few of the teams I've worked with">
+  {clients.map(({ name, logo, width, height }) => (
     <li>
-      <a
-        href={url}
-        rel="noopener noreferrer"
-        target="_blank">
-        <img
-          src={logo}
-          alt=""
-          loading="lazy" />
-
-        <span class="screen-reader-only">
-          {name}
-        </span>
-      </a>
+      <img
+        src={logo}
+        alt={name}
+        width={width}
+        height={height}
+        loading="lazy" />
     </li>
   ))}
 </ul>
+
+<style>
+  .client-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-l) var(--space-xl);
+    margin-block-start: var(--space-l);
+    width: 100%;
+    max-width: var(--content-max);
+  }
+  .client-list li { display: grid; place-items: center; width: 100%; }
+  .client-list img {
+    height: 2.1rem;
+    width: auto;
+    max-width: 100%;
+    opacity: 0.6;
+    filter: grayscale(1);
+  }
+
+  /* Dark themes: lift dark logos so they read on the near-black surface. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .client-list img { filter: grayscale(1) brightness(0) invert(0.85); }
+  }
+  :root[data-theme="dark"] .client-list img { filter: grayscale(1) brightness(0) invert(0.85); }
+</style>

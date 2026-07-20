@@ -1,0 +1,314 @@
+/* Scroll reveals for the `data-animate` hooks (uses/about pages).
+   Enhancement-only: content is fully visible by default. The reveal island
+   adds `.js-anim` to <html> (JS present) and `.in-view` per element as it
+   scrolls in — so headless renders / no-JS keep everything visible, and the
+   initial hidden state only ever applies when the observer can un-hide it. */
+@layer components {
+  .js-anim [data-animate] {
+    opacity: 0;
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    will-change: opacity, transform;
+  }
+  .js-anim [data-animate].in-view { opacity: 1; transform: none; }
+
+  .js-anim [data-animation^="fade-in-from-left"] { transform: translateX(-2rem); }
+  .js-anim [data-animation^="fade-in-from-right"] { transform: translateX(2rem); }
+  .js-anim [data-animation^="fade-in-from-top"] { transform: translateY(-1.5rem); }
+  .js-anim [data-animation^="fade-in-from-bottom"] { transform: translateY(1.5rem); }
+  .js-anim [data-animation="fade-in-from-left-small"] { transform: translateX(-1rem); }
+  .js-anim [data-animation="fade-in-from-right-small"] { transform: translateX(1rem); }
+  .js-anim [data-animation="fade-in-from-top-small"] { transform: translateY(-0.75rem); }
+  .js-anim [data-animation="fade-in-from-bottom-small"] { transform: translateY(0.75rem); }
+
+  /* ── iris-in: the /about portrait ──────────────────────────────────────────
+     The signature entrance. A shutter opening from the centre rather than one
+     more block sliding in from the side — so the brand ring draws itself in
+     with the photo and the greeting beside it reads as the second beat, not a
+     simultaneous one. `clip-path` (not width/height) keeps it off the layout
+     path; the blur is bounded to a 200px element, and the slight over-scale
+     gives the shutter something to settle out of.
+     Opacity stays at 1 throughout: the iris IS the reveal, and fading as well
+     would just mush the edge. */
+  .js-anim [data-animation="iris-in"] {
+    opacity: 1;
+    clip-path: circle(0% at 50% 50%);
+    filter: blur(0.4rem);
+    transform: scale(1.06);
+    transition:
+      clip-path var(--dur-slow) var(--ease-out-soft),
+      filter var(--dur-slow) var(--ease-out-soft),
+      transform var(--dur-slow) var(--ease-out-soft);
+    will-change: clip-path, filter, transform;
+  }
+  .js-anim [data-animation="iris-in"].in-view {
+    clip-path: circle(50% at 50% 50%);
+    filter: none;
+    transform: none;
+  }
+
+  /* One double-thump as the paragraph it lives in arrives, then still. A heart
+     that beats forever is a loading spinner; a heart that beats once is a
+     thank-you note. */
+  .heart { display: inline-block; transform-origin: 50% 55%; }
+  .js-anim [data-animate].in-view .heart {
+    animation: heart-beat 900ms var(--ease-out) 320ms 1 both;
+  }
+  @keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    18%      { transform: scale(1.3); }
+    36%      { transform: scale(1); }
+    54%      { transform: scale(1.16); }
+  }
+
+  /* ── spec-list: the /uses gear lists ───────────────────────────────────────
+     /uses is an inventory people scan and Ctrl-F, so it gets exactly one piece
+     of motion: the thing the page is actually made of. Each spec list counts
+     itself out as it scrolls in — the brand-blue icon landing a beat behind its
+     label, so a row reads as a readout being populated rather than one more
+     block fading up.
+     Prose and section bands deliberately do NOT animate. Copy that fades in as
+     you reach it is motion working against the reader.
+     The <figure> is the observed unit (5 observers, not 47) and holds still
+     along with its caption; the rows cascade underneath it in pure CSS via
+     `--i`, so every list restarts at zero instead of compounding into one
+     page-long queue. */
+  .js-anim [data-animation="spec-list"] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .js-anim [data-animation="spec-list"] li {
+    --i: 0;
+    --step: calc(var(--i) * 45ms);
+    opacity: 0;
+    transform: translateX(-0.5rem);
+    transition:
+      opacity var(--dur) var(--ease-out) var(--step),
+      transform var(--dur) var(--ease-out) var(--step);
+  }
+  .js-anim [data-animation="spec-list"].in-view li {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Row index → position in the cascade. Capped at 10 so a longer list can
+     never grow an unbounded tail (the helper this replaced reached 9.8s). */
+  .js-anim [data-animation="spec-list"] li:nth-child(2) { --i: 1; }
+  .js-anim [data-animation="spec-list"] li:nth-child(3) { --i: 2; }
+  .js-anim [data-animation="spec-list"] li:nth-child(4) { --i: 3; }
+  .js-anim [data-animation="spec-list"] li:nth-child(5) { --i: 4; }
+  .js-anim [data-animation="spec-list"] li:nth-child(6) { --i: 5; }
+  .js-anim [data-animation="spec-list"] li:nth-child(7) { --i: 6; }
+  .js-anim [data-animation="spec-list"] li:nth-child(8) { --i: 7; }
+  .js-anim [data-animation="spec-list"] li:nth-child(9) { --i: 8; }
+  .js-anim [data-animation="spec-list"] li:nth-child(10) { --i: 9; }
+  .js-anim [data-animation="spec-list"] li:nth-child(n+11) { --i: 10; }
+
+  /* `color` rides this same declaration so the hover state below still has a
+     transition to use — the shorthand would otherwise drop it. */
+  .js-anim [data-animation="spec-list"] .fa-li {
+    opacity: 0;
+    transform: scale(0.72);
+    transition:
+      opacity var(--dur) var(--ease-out) calc(var(--step) + 70ms),
+      transform var(--dur) var(--ease-out-soft) calc(var(--step) + 70ms),
+      color var(--dur-fast) var(--ease-out);
+  }
+  .js-anim [data-animation="spec-list"].in-view .fa-li {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hovering a row's link brings its icon with it: the icon is the row's
+     visual anchor, so tying the two makes the whole line read as one target.
+     `--link-hover` is the themed token for exactly this, so contrast moves the
+     right direction in both light and dark. Works without JS too. */
+  .uses .fa-li { transition: color var(--dur-fast) var(--ease-out); }
+  .uses .fa-ul li:has(a:hover) .fa-li { color: var(--link-hover); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js-anim [data-animate] { opacity: 1; transform: none; transition: none; }
+    /* The iris carries its resting state on clip-path/filter, not opacity, so
+       the shared reset above can't reach it. */
+    .js-anim [data-animation="iris-in"] { clip-path: none; filter: none; }
+    .js-anim [data-animate].in-view .heart { animation: none; }
+    /* Spec rows carry their own hidden state one level below `[data-animate]`,
+       so the shared reset above can't reach them either. */
+    .js-anim [data-animation="spec-list"] :is(li, .fa-li) {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ── FontAwesome-style hanging-icon lists (`.fa-ul` / `.fa-li`) ── */
+  .fa-ul {
+    list-style: none;
+    padding-inline-start: 2.2em;
+    margin-block: var(--space-s);
+  }
+  .fa-ul > li { position: relative; margin-block: var(--space-xs); }
+  .fa-li {
+    position: absolute;
+    inset-inline-start: -2.2em;
+    top: 0.2em;
+    width: 1.6em;
+    text-align: center;
+    color: var(--brand);
+  }
+  /* Not `:global(svg)` — that's an Astro scoped-style construct, invalid in a
+     plain stylesheet, so the browser dropped this rule entirely. Height only:
+     these glyphs aren't all square (memory is 576×512) and forcing both axes
+     squashes them. */
+  .fa-li svg { block-size: 1.05em; inline-size: auto; display: inline-block; }
+
+  /* ── Content-page rhythm: keep prose at a readable measure ── */
+  /* `.block-header-image` is excluded: it's full-bleed by design and layout.css
+     already gives it `max-width: none`. That rule can't win on its own — it
+     lives in @layer layout and this one is in @layer components, which the
+     layer order puts later, so it takes the cap regardless of specificity. */
+  :is(.uses, .about, .experience, .thank-you, .not-found,
+      .legal-documents, .terms-of-service, .privacy-policy,
+      .cookie-policy, .code-of-conduct) .block > *:not(.block-header-image) {
+    max-width: var(--measure);
+  }
+  /* Centered bands (hero/center) keep their prose centered within the measure. */
+  main.page > .block.hero > *,
+  main.page > .block.center > * { margin-inline: auto; }
+
+  .uses .block h2 { font-size: var(--step-2); margin-block-end: var(--space-s); }
+  .uses .block > * + *, .about .block > * + * { margin-block-start: var(--space-m); }
+
+  /* ── /about ── */
+  /* The hero band is centered by default (layout.css). About opts out: its
+     copy wraps around a floated portrait, which only reads right when the
+     lines are flush left. The band still centers the column itself — only the
+     text inside goes start-aligned. */
+  .about .block.hero { text-align: start; }
+
+  /* All of the page's copy sits one level below `.block`, so the band's own
+     `> * + *` rhythm never reaches it and `reset.css`'s `* { margin: 0 }`
+     leaves the paragraphs touching. `flow-root` also contains the portrait's
+     float so it can't escape the band. */
+  .about .block.hero > div { display: flow-root; }
+  .about .block.hero :is(h1, p) + p { margin-block-start: var(--space-m); }
+  .about .block.hero h1 {
+    font-size: var(--step-3);
+    margin-block-end: var(--space-s);
+  }
+
+  /* Portrait: a circle the copy flows around, pulled into the left gutter so
+     the text column keeps its full measure. The brand ring is an *inset*
+     shadow, not a border — a border would sit outside the circular clip and
+     square off the corners of the shape-outside wrap. */
+  .about .headshot {
+    /* Mobile-first: a smaller circle, flush with the copy. The gutter pull is
+       opt-in below, because there isn't one to hang into until the band's
+       content column stops filling the viewport — pulling early just slices
+       the circle against the band's `overflow: clip`. */
+    --headshot-size: 7.5rem;
+    --headshot-pull: 0rem;     /* how far the circle hangs into the gutter */
+    --headshot-gap: 1.25rem;   /* breathing room between circle and copy */
+
+    float: left;
+    width: var(--headshot-size);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    /* Wrap on the ring's outer edge plus the gap, so lines curve around the
+       circle instead of stepping around its bounding box. */
+    shape-outside: circle(calc(50% + var(--headshot-gap)) at 50% 50%) padding-box;
+    margin: 0 var(--headshot-gap) var(--space-m) calc(var(--headshot-pull) * -1);
+    box-shadow: inset 0 0 0 calc(var(--headshot-size) / 20) var(--brand);
+  }
+  /* Wide enough that a full-size circle still leaves a readable measure of copy
+     beside it. */
+  @media (min-width: 48rem) {
+    .about .headshot { --headshot-size: 12.5rem; }
+  }
+  /* The hero column is `margin-inline: auto` capped at --content-max, so the
+     gutter is (band - column) / 2 and only clears the pull past ~57rem
+     (measured: 0px at 51rem, 26px at 55rem, 53px at 58rem). Pulling before
+     then slices the circle against the band's `overflow: clip`. */
+  @media (min-width: 60rem) {
+    .about .headshot { --headshot-pull: 2.5rem; }
+  }
+
+  /* ── /version ── */
+  .version dl {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, max-content) 1fr;
+    gap: var(--space-2xs) var(--space-l);
+    align-items: baseline;
+    margin-block: var(--space-s);
+  }
+  .version dt { color: var(--muted); font-weight: 600; }
+  .version dd { margin: 0; }
+  .version dd code {
+    font-size: var(--step--1);
+    background-color: var(--surface-sunken);
+    padding: 0.1em 0.45em;
+    border-radius: var(--radius-sm);
+  }
+  .version dd p { color: var(--ink-soft); margin-block-start: var(--space-3xs); }
+  .version dd small { display: block; color: var(--muted); margin-block-start: var(--space-3xs); }
+
+  .version dependency-search { display: block; }
+  .version dependency-search fieldset { border: none; padding: 0; margin: 0 0 var(--space-m); }
+  .version dependency-search input[type="search"] {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--surface-sunken);
+    color: var(--ink);
+  }
+  .version dependency-search input[type="search"]:focus-visible {
+    border-color: var(--brand);
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+  }
+  .version .card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: var(--space-2xs);
+    margin-block: var(--space-m);
+    padding: 0;
+  }
+  .version .card-list > * {
+    list-style: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-2xs) var(--space-s);
+    font-size: var(--step--1);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  .version .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    align-items: center;
+    margin-block-start: var(--space-m);
+  }
+  .version .pagination button {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+  }
+  .version .pagination button:hover:not(:disabled) { border-color: var(--brand); color: var(--brand); }
+  .version .pagination button:disabled { opacity: 0.4; cursor: default; }
+  .version .pagination button[aria-current="true"] {
+    background-color: var(--brand-tint);
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+}

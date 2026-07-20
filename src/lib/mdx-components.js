@@ -8,6 +8,7 @@
 // Legacy's `Directive` custom component (for `remark-directive` `:::`
 // syntax) isn't ported either: no article body uses that syntax.
 import Anchor from '@components/mdx/Anchor.astro'
+import ArticleImage from '@components/mdx/ArticleImage.astro'
 import Codepen from '@components/mdx/Codepen.astro'
 import DITAA from '@components/mdx/DITAA.astro'
 import Notice from '@components/mdx/Notice.astro'
@@ -21,6 +22,7 @@ export const mdxComponents = {
 	Notice,
 	Tweet,
 	a: Anchor,
+	img: ArticleImage,
 	ol: OrderedList,
 	ul: UnorderedList,
 }

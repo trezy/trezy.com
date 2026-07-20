@@ -82,11 +82,16 @@ class ArticleReactions extends HTMLElement {
 		this.renderCrossPostCounts()
 
 		if (!this.atUri) {
-			// Degraded state — see file-header note. Disable reacting, skip
-			// count-loading and auth wiring entirely.
+			// No atUri resolved — this post isn't on the Atmosphere yet, so there's
+			// nothing to react to. Hide the reaction buttons entirely (a greyed,
+			// disabled cluster reads as broken) rather than disabling them. The
+			// cross-post links keep their own show/hide; if nothing in the row is
+			// visible, hide the whole row so it leaves no empty gap.
 			for (const { button } of this.buttonsByType.values()) {
-				button.disabled = true
+				button.hidden = true
 			}
+			const row = this.querySelector('.reactions')
+			if (row && ![...row.children].some((el) => !el.hidden)) row.hidden = true
 			return
 		}
 

@@ -79,6 +79,52 @@ export function getCollectionTotal(links, collection) {
 	return Object.values(sources).reduce((sum, info) => sum + info.records, 0)
 }
 
+// --- Multi-target variants -------------------------------------------------
+//
+// An article can be mentioned under more than one target URL (e.g. the same
+// path on `trezy.com` and `trezy.codes` -- see `MENTION_TARGET_ORIGINS` in
+// `./mentions.js`). Constellation indexes strictly by exact target, so each
+// URL must be queried separately; these helpers query every target and merge
+// the results. Links can't simply be merged by source path before fetching
+// backlinks, because `fetchCollectionBacklinks` needs each source paired with
+// the exact target it links -- so results are kept per-target here and merged
+// only at the count / record-pointer level.
+
+// Fetches the links index for every target URL, returned as
+// `[{ url, links }]` so counts can be summed and backlinks fetched per-target.
+export async function fetchAllLinksMulti(targetURLs) {
+	return Promise.all(
+		targetURLs.map(async (url) => ({ url, links: await fetchAllLinks(url) })),
+	)
+}
+
+// Summed counts-only total for `collection` across every target. A single
+// record that links two targets would be counted once per target here; such
+// cross-domain duplicates are vanishingly rare in practice (an author linking
+// both domain variants of one article in one post), and the counts endpoint
+// carries no record identity to dedupe on -- the preview items themselves are
+// deduped by record URI in `fetchCollectionBacklinksMulti`.
+export function getCollectionTotalMulti(perTarget, collection) {
+	return perTarget.reduce((sum, t) => sum + getCollectionTotal(t.links, collection), 0)
+}
+
+// Backlink pointers for `collection` across every target, merged and deduped by
+// record URI (`at://<did>/<collection>/<rkey>`) so a record that links more
+// than one target appears once, then capped at `limit`.
+export async function fetchCollectionBacklinksMulti(perTarget, collection, limit = 100) {
+	const lists = await Promise.all(
+		perTarget.map(t => fetchCollectionBacklinks(t.url, t.links, collection, limit)),
+	)
+
+	const seen = new Set()
+	return lists.flat().filter(r => {
+		const uri = `at://${r.did}/${r.collection}/${r.rkey}`
+		if (seen.has(uri)) return false
+		seen.add(uri)
+		return true
+	}).slice(0, limit)
+}
+
 async function fetchBacklinksForSource(targetURL, source, limit = 100) {
 	const records = []
 	let cursor = null

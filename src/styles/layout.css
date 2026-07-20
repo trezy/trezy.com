@@ -1,0 +1,94 @@
+/* The signature `.block` band system: a vertical stack of full-bleed bands,
+   each its own surface, content capped at 80rem and inset by --edge (which
+   reserves the fixed sidebar rail on wide screens). Radial separators between
+   bands. Preserved from the original identity, rebuilt with logical props.
+
+   Heavy band treatment applies ONLY to top-level bands (direct children of
+   `main.page`); `.block` is also used nested (list items, sub-sections) where
+   it must stay a light layout primitive, so those are scoped out. */
+@layer layout {
+  /* --edge already self-centers at every width: max((100% - content-max)/2,
+     block-inset) yields equal side margins (centered column) and a minimum
+     gutter. An earlier override to a fixed `--gutter` below 1300px broke that —
+     it pinned the capped content column to the left on tablet/narrow-desktop. */
+
+  #application-wrapper {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 81.25rem) {
+    #application-wrapper { padding-inline-start: var(--sidebar-w); }
+  }
+
+  main.page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--island-gap);
+    padding: var(--island-gap);
+  }
+
+  /* ── Section islands: raised, rounded surfaces floating on --page, with
+        sizable gaps between them (the original's layered look). ── */
+  main.page > .block {
+    --vertical-padding: var(--space-xl);
+    position: relative;
+    padding-block: var(--vertical-padding);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-1);
+    overflow: clip;
+    isolation: isolate;
+  }
+  /* The home hero gets extra vertical breathing room. */
+  main.page > .block.home-hero { --vertical-padding: clamp(4.5rem, 15vh, 10rem); }
+
+  main.page > .block > * {
+    margin-inline: var(--edge);
+    max-width: var(--content-max);
+  }
+  main.page > .block > * + * { margin-block-start: var(--space-m); }
+
+  main.page > .block.no-pad { padding: 0; }
+  main.page > .block.no-pad > * { margin: 0; max-width: none; }
+  main.page > .block.no-top-margin { margin-top: 0; }
+  main.page > .block.center,
+  main.page > .block.hero {
+    align-items: center;
+    text-align: center;
+  }
+  main.page > .block.center > *,
+  main.page > .block.hero > * { margin-inline: auto; }
+
+  /* Article header image: full-bleed within its island, clipped to the radius. */
+  main.page > .block .block-header-image {
+    position: relative;
+    height: var(--block-header-h);
+    margin: calc(var(--vertical-padding) * -1) 0 var(--space-l);
+    max-width: none;
+    overflow: clip;
+  }
+  main.page > .block .block-header-image :is(img, picture) {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  main.page > .block .block-header-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to bottom, transparent 40%, var(--surface));
+  }
+
+  /* 80rem centered column used inside bands. */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
+  /* Prose measure for article bodies. */
+  .prose { max-width: var(--measure); }
+  .prose :is(p, ul, ol, blockquote, h2, h3, h4) { max-width: var(--measure); }
+}

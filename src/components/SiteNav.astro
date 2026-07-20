@@ -8,39 +8,264 @@ const links = [
   { icon: 'fa6-solid:book', title: 'Blog', href: '/blog' },
   { icon: 'fa6-solid:user', title: 'About', href: '/about' },
 ]
+const path = Astro.url.pathname
+const isCurrent = (href) => href === '/' ? path === '/' : path.startsWith(href)
 ---
 <site-nav data-open="false">
-  <header
-    class="banner"
-    role="banner">
-    <h1 class="brand">&lt;trezy-who/&gt;</h1>
+  {/* Fixed opener — hidden once the drawer is open; the in-panel close (below)
+      takes over so there's exactly one ✕ affordance. */}
+  <button
+    class="banner-toggle"
+    aria-expanded="false"
+    aria-controls="site-nav-drawer"
+    aria-label="Open navigation">
+    <Icon name="fa6-solid:bars" />
+  </button>
 
-    <ThemeToggle />
+  <header class="banner" role="banner">
+    <div class="banner-backdrop" data-nav-close aria-hidden="true"></div>
 
-    <button
-      class="banner-toggle"
-      aria-expanded="false"
-      aria-controls="site-nav-panel">
-      <Icon name="fa6-solid:bars" />
-    </button>
+    <div id="site-nav-drawer" class="banner-panel">
+      {/* Drawer-only close control — inside the dialog so it's reachable by
+          keyboard/AT (the fixed toggle outside is hidden by aria-modal). */}
+      <button class="banner-close" type="button" data-nav-close aria-label="Close navigation">
+        <Icon name="fa6-solid:xmark" />
+      </button>
 
-    <nav id="site-nav-panel">
-      <ul>
-        {links.map(({ icon, title, href }) => (
-          <li>
-            <a href={href}>
-              <Icon name={icon} />
-              <span>{title}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+      <div class="banner-card banner-card-top">
+        <p class="brand"><a href="/"><span class="wm-bracket">&lt;</span>trezy-who<span class="wm-bracket">/&gt;</span></a></p>
 
-    <SocialNav />
+        <nav id="site-nav-panel" class="app-nav" aria-label="Primary">
+          <ul>
+            {links.map(({ icon, title, href }) => (
+              <li>
+                <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                  <Icon name={icon} />
+                  <span>{title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="banner-card banner-card-bottom">
+        <div class="banner-social"><SocialNav /></div>
+        <div class="banner-foot"><ThemeToggle /></div>
+      </div>
+    </div>
   </header>
 </site-nav>
 
 <script>
   import '@islands/site-nav.js'
 </script>
+
+<style>
+  /* ── Shared panel internals (both rail + drawer) ── */
+  .banner-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Grouping wrappers. On the desktop rail these become raised surface
+     islands (matching the content sections); in the mobile drawer they're
+     transparent and the whole panel is one solid surface. */
+  .banner-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+  .banner-card-bottom { margin-top: auto; }
+
+  /* In-drawer close control — only exists in the mobile drawer (see media
+     query below); the desktop rail has no dialog to close. */
+  .banner-close { display: none; }
+
+  /* Wordmark — a logotype, not the page heading (the page's own <h1> owns that). */
+  .brand {
+    margin: 0;
+    padding-block: var(--space-s);
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand a {
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand a:hover { color: var(--brand); }
+
+  .app-nav ul { display: flex; flex-direction: column; gap: 0.125rem; }
+  .app-nav a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    /* Bleed the full-width hover/active fill out to the island's edges
+       (cancelling the card's horizontal padding), text stays inset. */
+    margin-inline: calc(var(--space-s) * -1);
+    padding: 0.55rem calc(var(--space-s) + var(--space-xs));
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      margin-inline-end var(--dur-fast) var(--ease-out);
+  }
+  .app-nav a :global(svg) { width: 1.15em; height: 1.15em; opacity: 0.7; flex: none; }
+  .app-nav a:hover {
+    background-color: var(--brand-tint);
+    color: var(--brand-strong);
+    /* extend the fill slightly past the island's right edge on hover */
+    margin-inline-end: calc(var(--space-s) * -1 - 0.4rem);
+  }
+  /* Current page: distinct from hover — a solid leading accent bar (works
+     without color), heavier weight, and a higher-contrast label. */
+  .app-nav a[aria-current="page"] {
+    background-color: var(--brand-tint);
+    color: var(--nav-active-ink);
+    font-weight: 700;
+  }
+  .app-nav a[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    inset-block: 0.3rem;
+    inset-inline-start: 0;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background-color: var(--brand);
+  }
+  .app-nav a[aria-current="page"] :global(svg) { opacity: 1; }
+
+  .banner-foot {
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Desktop (≥1300px): fixed rail, no toggle/backdrop ── */
+  @media (min-width: 81.25rem) {
+    .banner {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: var(--sidebar-w);
+      z-index: var(--z-nav);
+    }
+    .banner-panel {
+      gap: var(--island-gap);
+      padding: var(--island-gap);
+    }
+    /* Raised surface islands — same treatment as the content sections. */
+    .banner-card {
+      background-color: var(--surface);
+      box-shadow: var(--shadow-1);
+      padding: var(--space-s);
+    }
+    .banner-toggle, .banner-backdrop { display: none; }
+  }
+
+  /* ── Mobile (<1300px): slide-in drawer ── */
+  @media (max-width: 81.25rem) {
+    /* One control size shared by the opener, the close, and the wordmark row
+       they sit on — so the ✕ and <trezy-who/> line up on the same baseline. */
+    site-nav { --nav-control: 2.9rem; }
+
+    .banner-toggle {
+      position: fixed;
+      inset-block-start: var(--space-s);
+      inset-inline-start: var(--space-s);
+      z-index: calc(var(--z-modal) + 1);
+      display: grid;
+      place-items: center;
+      width: var(--nav-control);
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      box-shadow: var(--shadow-1);
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .banner-toggle :global(svg) { width: 1.25rem; height: 1.25rem; }
+    /* Once open, the in-panel close replaces the opener — one ✕, and the outer
+       button is fully out of the AT tree (not just hidden by aria-modal). */
+    site-nav[data-open="true"] .banner-toggle { display: none; }
+
+    .banner {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-modal);
+      pointer-events: none;
+    }
+    .banner-backdrop {
+      position: absolute;
+      inset: 0;
+      background-color: oklch(0 0 0 / 0.5);
+      backdrop-filter: blur(var(--blur));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ease-out);
+    }
+    .banner-panel {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: min(20rem, 82vw);
+      padding: var(--space-s);
+      background-color: var(--surface);
+      border-inline-end: 1px solid var(--border);
+      box-shadow: var(--shadow-2);
+      transform: translateX(-100%);
+      transition: transform var(--dur) var(--ease-out);
+    }
+    /* In-drawer close: reachable by keyboard/AT (first focusable inside the
+       dialog), pinned to the end of the wordmark's row. */
+    .banner-close {
+      display: grid;
+      place-items: center;
+      position: absolute;
+      inset-block-start: var(--space-s);
+      inset-inline-end: var(--space-s);
+      z-index: 1;
+      width: var(--nav-control);
+      aspect-ratio: 1;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .banner-close :global(svg) { width: 1.25rem; height: 1.25rem; }
+
+    /* The wordmark becomes the left half of that row: same height as the ✕ so
+       the two centre on one line, start-aligned for balance against it, and
+       inset at the end so long marks never run under the button. No rule under
+       it here — the row reads as a titlebar, and the panel gap already
+       separates it from the nav. */
+    .brand {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--nav-control);
+      padding-block: 0;
+      padding-inline-end: calc(var(--nav-control) + var(--space-s));
+      border-bottom: none;
+    }
+    site-nav[data-open="true"] .banner { pointer-events: auto; }
+    site-nav[data-open="true"] .banner-backdrop { opacity: 1; pointer-events: auto; }
+    site-nav[data-open="true"] .banner-panel { transform: translateX(0); }
+  }
+</style>

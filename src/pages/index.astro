@@ -9,12 +9,14 @@ const latest = (await getSortedArticles()).slice(0, 3)
 ---
 <BaseLayout
   title="Home"
-  description="Software engineer. UX designer. Accessibility expert. The web should be available to everyone, so Trezy uses JavaScript, React, and CSS to accomplish that goal."
+  description="Trezy is a software engineer and UX designer writing about accessibility, the open web, and the craft of building software that works for everyone."
   class="home">
-  <header class="block hero">
-    <h2>&lt;trezy-who/&gt;</h2>
+  <header class="block center home-hero">
+    <h1 class="home-wordmark"><span class="wm-bracket">&lt;</span>trezy-who<span class="wm-bracket">/&gt;</span></h1>
 
-    <p>Software engineer, UX designer, and <a href="https://a11yproject.com">#a11y</a>.</p>
+    <p class="home-lede">
+      Trezy is a software engineer and UX designer building on <a href="https://atproto.com" target="_blank" rel="noopener noreferrer">atproto</a>  and writing about the whole hopeful mess of it.
+    </p>
   </header>
 
   <section class="block">
@@ -23,9 +25,9 @@ const latest = (await getSortedArticles()).slice(0, 3)
 
       <ArticleList articles={latest} limit={3} />
 
-      <a href="/blog">
-        See more
-      </a>
+      <div class="home-see-all">
+        <a class="button-ghost" href="/blog">See all articles <span class="button-arrow" aria-hidden="true">→</span></a>
+      </div>
     </Container>
   </section>
 
@@ -34,4 +36,48 @@ const latest = (await getSortedArticles()).slice(0, 3)
 
     <ClientList />
   </section>
+
+  <section class="block center home-closer">
+    <p class="home-closer-line">Stick around — the blog is where I actually get into it.</p>
+
+    <div class="home-cta">
+      <a class="button" href="/blog">Start reading</a>
+      <a class="button-ghost" href="/rss.xml">Subscribe via RSS</a>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  /* ── Hero: a spacious, left-aligned identity beat — just the wordmark and an
+     orienting lede. (Generous vertical padding is set in layout.css, where it
+     has the specificity to override the default band padding.) ── */
+  .home-wordmark {
+    font-size: var(--step-5, var(--step-4));
+    letter-spacing: -0.04em;
+  }
+  .home-lede {
+    max-width: 48ch;
+    margin-block-start: var(--space-l);
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    text-wrap: pretty;
+  }
+  .home-lede strong { color: var(--ink); font-weight: 700; }
+
+  .home-see-all { margin-block-start: var(--space-l); }
+
+  /* ── Personal closer — its own section, so the page ends on Trezy. ── */
+  .home-closer-line {
+    font-size: var(--step-2);
+    font-weight: 700;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .home-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+  .home-closer .home-cta { justify-content: center; margin-block-start: var(--space-l); }
+</style>

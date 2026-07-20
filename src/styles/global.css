@@ -1,0 +1,11 @@
+/* Global stylesheet entry. Declares cascade-layer order first so component
+   and Astro-scoped styles (unlayered → highest priority) always win cleanly. */
+@layer tokens, base, layout, components, utilities;
+
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./buttons.css";
+@import "./article.css";
+@import "./reveal.css";

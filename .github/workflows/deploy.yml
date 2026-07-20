@@ -35,7 +35,7 @@ jobs:
       - name: Build site
         run: bun run build
         env:
-          SITE_URL: ${{ vars.SITE_URL || 'https://trezy.com' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://trezy.codes' }}
 
       - name: Sequoia inject (add site.standard.document <link> to built HTML)
         run: bun run inject:atproto

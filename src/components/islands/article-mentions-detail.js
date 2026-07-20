@@ -18,10 +18,10 @@
 // element always ends in a well-defined "no mentions found" state instead of
 // crashing the page.
 import {
-	fetchAllLinks,
-	fetchCollectionBacklinks,
+	fetchAllLinksMulti,
+	fetchCollectionBacklinksMulti,
 } from '../../lib/constellation.js'
-import { COLLECTION_GROUPS } from '../../lib/mentions.js'
+import { COLLECTION_GROUPS, buildMentionTargets } from '../../lib/mentions.js'
 import { resolveRecords, buildMentionCard } from '../../lib/mention-render.js'
 
 // Mirrors legacy `MentionsDetail.js`'s per-collection
@@ -43,14 +43,14 @@ function sortByDate(items) {
 	})
 }
 
-/** Fetches + resolves every mention across a group's collections for `articleURL`, sorted newest-first. Returns `[]` (rather than throwing) on any failure. */
+/** Fetches + resolves every mention across a group's collections for `articleURL`, sorted newest-first. Queries every origin the article has lived under (`buildMentionTargets`) and merges the results. Returns `[]` (rather than throwing) on any failure. */
 async function fetchGroupMentions(articleURL, group) {
 	try {
-		const links = await fetchAllLinks(articleURL)
+		const perTarget = await fetchAllLinksMulti(buildMentionTargets(articleURL))
 
 		const allItems = await Promise.all(
 			group.collections.map(async (collection) => {
-				const backlinks = await fetchCollectionBacklinks(articleURL, links, collection, FETCH_LIMIT)
+				const backlinks = await fetchCollectionBacklinksMulti(perTarget, collection, FETCH_LIMIT)
 				return resolveRecords(collection, backlinks)
 			}),
 		)

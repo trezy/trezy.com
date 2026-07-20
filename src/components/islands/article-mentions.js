@@ -22,33 +22,33 @@
 // `hidden` (its initial state in `ArticleMentions.astro`) instead of
 // crashing the page.
 import {
-	fetchAllLinks,
-	fetchCollectionBacklinks,
-	getCollectionTotal,
+	fetchAllLinksMulti,
+	fetchCollectionBacklinksMulti,
+	getCollectionTotalMulti,
 } from '../../lib/constellation.js'
 import {
 	COLLECTION_GROUPS,
 	SUPPORTED_COLLECTIONS,
+	buildMentionTargets,
 	getHighlightId,
 } from '../../lib/mentions.js'
 import { resolveRecords, buildMentionCard } from '../../lib/mention-render.js'
 
 const PREVIEW_LIMIT = 5
 
-/** Fetches + groups backlink previews for `articleURL`, per `COLLECTION_GROUPS`. Returns `{ groups: [] }` (rather than throwing) on any failure. */
+/** Fetches + groups backlink previews for `articleURL`, per `COLLECTION_GROUPS`. Queries every origin the article has lived under (`buildMentionTargets`) and merges the results. Returns `{ groups: [] }` (rather than throwing) on any failure. */
 async function fetchCollectionPreviews(articleURL, previewLimit = PREVIEW_LIMIT) {
 	try {
-		const links = await fetchAllLinks(articleURL)
+		const perTarget = await fetchAllLinksMulti(buildMentionTargets(articleURL))
 
-		const activeCollections = SUPPORTED_COLLECTIONS.filter(collection => {
-			if (!links[collection]) return false
-			return getCollectionTotal(links, collection) > 0
-		})
+		const activeCollections = SUPPORTED_COLLECTIONS.filter(collection =>
+			getCollectionTotalMulti(perTarget, collection) > 0,
+		)
 
 		const collectionResults = await Promise.all(
 			activeCollections.map(async (collection) => {
-				const total = getCollectionTotal(links, collection)
-				const backlinks = await fetchCollectionBacklinks(articleURL, links, collection, previewLimit)
+				const total = getCollectionTotalMulti(perTarget, collection)
+				const backlinks = await fetchCollectionBacklinksMulti(perTarget, collection, previewLimit)
 				const items = await resolveRecords(collection, backlinks)
 
 				return { collection, total, items }
@@ -82,10 +82,10 @@ async function fetchCollectionPreviews(articleURL, previewLimit = PREVIEW_LIMIT)
 			})
 			.filter(Boolean)
 
-		return { groups, links }
+		return { groups }
 	} catch (error) {
 		console.error('[Mentions] Failed to load mentions:', error)
-		return { groups: [], links: {} }
+		return { groups: [] }
 	}
 }
 
@@ -162,6 +162,14 @@ function highlightTextInDOM(container, highlight) {
 					return NodeFilter.FILTER_REJECT
 				}
 
+				// Never highlight inside the mentions section itself — its Margin
+				// cards quote the highlight text verbatim, so the walker would
+				// otherwise wrap that quote and drop a marginalia avatar into the
+				// card's own blockquote.
+				if (parent?.closest('.article-mentions')) {
+					return NodeFilter.FILTER_REJECT
+				}
+
 				return NodeFilter.FILTER_ACCEPT
 			},
 		},
@@ -198,6 +206,9 @@ function highlightTextInDOM(container, highlight) {
 				img.className = 'margin-inline-avatar'
 				img.src = author.avatar
 				img.alt = author.displayName || author.handle || ''
+				img.width = 28
+				img.height = 28
+				img.loading = 'lazy'
 				mark.parentNode.insertBefore(img, mark)
 			}
 

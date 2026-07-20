@@ -1,0 +1,530 @@
+/* Article surface: the reading experience. Global (reaches MDX-rendered
+   <Content>), scoped under the `.blog-article` page class. */
+@layer components {
+  /* The content column is now a consistent 50rem site-wide (--content-max),
+     centered, so article / home / everything share one width. Article
+     elements just fill it. */
+
+  /* ── Header ── */
+  .blog-article .article-head { max-width: var(--measure); }
+  .blog-article .article-head h1 {
+    font-size: var(--step-4);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-block-end: var(--space-s);
+  }
+  .blog-article .article-subtitle {
+    font-size: var(--step-1);
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-block-end: var(--space-xs);
+  }
+  /* The synopsis is metadata now (page description + OG card), not header
+     copy — so the meta block owns the gap the synopsis used to hold open.
+     It collapses with whichever margin precedes it (subtitle or h1), keeping
+     one rhythm whether or not the post has a subtitle. */
+  .blog-article .article-head .meta { margin-block-start: var(--space-m); }
+
+  /* ── Meta bar (shared shape with article summaries) ── */
+  .blog-article .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem var(--space-m);
+    padding-block-start: var(--space-2xs);
+    border-block-start: 1px solid var(--border);
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  .blog-article .meta-bar span { display: inline-flex; align-items: center; gap: 0.45em; }
+  .blog-article .meta-bar svg { width: 0.85em; height: 0.85em; opacity: 0.7; }
+
+  /* ── Meta tabs (changelog / dependencies) ── */
+  .blog-article .meta-tabs { margin-block-start: var(--space-m); }
+  .blog-article .meta-tabs details {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-xs) var(--space-s);
+    background-color: var(--surface-alt);
+  }
+  .blog-article .meta-tabs summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .blog-article .meta-tabs .changelog { margin-block-start: var(--space-s); font-size: var(--step--1); }
+  .blog-article .meta-tabs .changelog :is(ul, ol) { padding-inline-start: 1.2em; list-style: disc; }
+
+  /* ── Prose ── */
+  .prose {
+    max-width: var(--measure);
+    font-size: var(--step-0);
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  /* Let code/figures/embeds break wider than the ~64ch text column, centered.
+     Only on wide (rail) layouts, where the island has room for the ~117px
+     overhang each side; below that they stay at the text measure. The overhang
+     is a plain negative calc — a viewport/container % or a scalar-times-clamp
+     both fail to resolve here. */
+  @media (min-width: 82rem) {
+    .prose :is(pre, figure, .tweet, .codepen, iframe) {
+      margin-inline: -6.5rem; /* ~104px each side; keep in rem — `ch` shrinks in mono `pre` */
+      max-width: none;
+    }
+  }
+  .prose > * + * { margin-block-start: var(--space-m); }
+  .prose :is(h2, h3, h4) { margin-block-start: var(--space-xl); line-height: 1.2; }
+  .prose h2 { font-size: var(--step-2); }
+  .prose h3 { font-size: var(--step-1); }
+  .prose h4 { font-size: var(--step-0); text-transform: none; letter-spacing: -0.01em; }
+  .prose :is(h2, h3, h4) + * { margin-block-start: var(--space-s); }
+  .prose ul, .prose ol { padding-inline-start: 1.4em; }
+  .prose ul, .prose ul.bulleted { list-style: disc; }
+  .prose ol, .prose ol.numbered { list-style: decimal; }
+  .prose li { list-style: revert; }
+  .prose li + li { margin-block-start: var(--space-2xs); }
+  .prose li::marker { color: var(--muted); }
+  .prose blockquote {
+    margin-inline: 0;
+    padding: var(--space-xs) var(--space-m);
+    border-inline-start: 3px solid var(--brand);
+    background-color: var(--surface-alt);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--ink-soft);
+  }
+  .prose blockquote > * + * { margin-block-start: var(--space-xs); }
+
+  /* Images / figures — centered, captioned; figures may break wider (above). */
+  .prose img { margin-inline: auto; }
+  .prose figure { max-width: none; }
+  .prose img {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    max-width: 100%;
+  }
+  .prose figcaption {
+    margin-block-start: var(--space-2xs);
+    text-align: center;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+
+  /* ── Code (shiki github-dark; keepBackground:false stripped the bg) ── */
+  .prose pre {
+    padding: var(--space-l) var(--space-m);
+    margin-block: var(--space-l);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background-color: oklch(0.17 0.01 var(--brand-h)) !important;
+    overflow-x: auto;
+    font-size: var(--step--1);
+    line-height: 1.6;
+    tab-size: 2;
+  }
+  .prose pre code { background: none; padding: 0; font-size: inherit; }
+  /* shiki code-notation transformers */
+  .prose .line { display: inline-block; width: 100%; }
+  .prose pre .highlighted,
+  .prose pre .highlighted-word { background-color: oklch(1 0 0 / 0.08); }
+  .prose pre .diff.add { background-color: oklch(0.6 0.15 150 / 0.15); }
+  .prose pre .diff.remove { background-color: oklch(0.55 0.2 25 / 0.15); }
+  .prose pre .diff.add::before { content: "+"; color: var(--success); position: absolute; margin-inline-start: -1.1em; }
+  .prose pre .diff.remove::before { content: "-"; color: var(--danger); position: absolute; margin-inline-start: -1.1em; }
+  .prose pre:has(.diff) code { position: relative; }
+
+  /* ── Custom MDX components ── */
+  .prose .notice {
+    padding: var(--space-s) var(--space-m);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--brand-tint);
+    border-color: color-mix(in oklch, var(--brand) 30%, transparent);
+  }
+  .prose .notice > * + * { margin-block-start: var(--space-xs); }
+
+  .prose .codepen, .prose .tweet, .prose iframe {
+    border-radius: var(--radius);
+  }
+  .prose .tweet {
+    padding: var(--space-m);
+    border: 1px solid var(--border);
+    background-color: var(--surface-alt);
+  }
+
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+    display: block;
+    overflow-x: auto;
+  }
+  .prose :is(th, td) {
+    padding: var(--space-2xs) var(--space-s);
+    border-block-end: 1px solid var(--border);
+    text-align: start;
+  }
+  .prose th { font-weight: 700; color: var(--ink); }
+
+  .prose hr {
+    margin-block: var(--space-xl);
+    border: none;
+    border-block-start: 1px solid var(--border);
+  }
+
+  /* ── Footnotes (remark-gfm) — smaller, muted, set off by a rule ── */
+  .prose sup a[data-footnote-ref] {
+    font-weight: 700;
+    text-decoration: none;
+    padding-inline: 0.15em;
+  }
+  .prose .footnotes {
+    margin-block-start: var(--space-2xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--border);
+    font-size: var(--step--1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .prose .footnotes ol { padding-inline-start: 1.3em; }
+  .prose .footnotes li { max-width: none; }
+  .prose .footnotes li + li { margin-block-start: var(--space-xs); }
+  .prose .footnotes li::marker { color: var(--muted); }
+  .prose .footnotes p { max-width: none; }
+  .prose .footnotes a[data-footnote-backref] {
+    margin-inline-start: 0.4em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* ── "Before you leave…" responses aside ── */
+  .article-responses-wrapper {
+    max-width: var(--measure);
+    margin-block-start: var(--space-2xl);
+    padding-block-start: var(--space-l);
+    border-block-start: 1px solid var(--border);
+  }
+  .article-responses-wrapper h2 { font-size: var(--step-2); margin-block-end: var(--space-xs); }
+  .article-responses-wrapper > p { color: var(--ink-soft); }
+  .article-responses {
+    margin-block-start: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+  .share-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding: 0;
+  }
+  .share-links li { list-style: none; }
+  /* ── Unified pill treatment — share links and reaction buttons read as one
+       system: outlined pill, ≥44px target; active reactions fill with the tint. ── */
+  .share-links a,
+  .reaction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45em;
+    min-block-size: 2.75rem;
+    padding: 0.4rem 0.95rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--step--1);
+    transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .share-links a:hover,
+  .reaction:hover:not(:disabled) { color: var(--link); border-color: var(--brand); background-color: var(--brand-tint); }
+
+  /* ── Reaction buttons ── */
+  .reactions { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+  .reaction { cursor: pointer; font-variant-numeric: tabular-nums; }
+  /* Not `:global(svg)` — an Astro scoped-style construct that's invalid in a
+     plain stylesheet, so this rule was dropped entirely (and warned at build).
+     Height only: trophy is 576×512 and fire 448×512, so pinning both axes
+     would squash them. */
+  .reaction svg { block-size: 1.05em; inline-size: auto; }
+  .reaction:active:not(:disabled) { transform: scale(0.96); }
+  .reaction[aria-pressed="true"],
+  .reaction[data-active="true"] {
+    color: var(--link);
+    border-color: var(--brand);
+    background-color: var(--brand-tint);
+  }
+  .reaction:disabled { opacity: 0.5; cursor: default; }
+  .reaction .badge[hidden] { display: none; }
+
+  /* ── Mentions ("Mentions across the ATmosphere") — a compact two-column grid
+     of per-collection cards, each with a colored accent bar down its left edge,
+     an uppercase collection label + count, and tight avatar/name/date rows. ── */
+  .article-mentions { margin-block-start: var(--space-2xl); max-width: none; }
+  .article-mentions > h2 {
+    font-size: var(--step-1);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-block-end: var(--space-l);
+  }
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    align-items: start;
+    gap: var(--space-m);
+  }
+
+  /* Each collection is a card with a 3px accent bar; per-source accent colors. */
+  .collection-preview {
+    --mention-accent: var(--brand);
+    border-inline-start: 3px solid var(--mention-accent);
+  }
+  .collection-preview[data-collection="bluesky"] { --mention-accent: var(--accent-bluesky); }
+  .collection-preview[data-collection="articles"] { --mention-accent: var(--accent-articles); }
+  .collection-preview[data-collection="semble"] { --mention-accent: var(--accent-semble); }
+  .collection-preview[data-collection="margin"] { --mention-accent: var(--accent-margin); }
+
+  .collection-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-s);
+    padding: 0 var(--space-s) var(--space-3xs) 0.9rem;
+  }
+  .collection-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mention-accent);
+  }
+  .collection-total { color: var(--muted); font-size: 0.75rem; white-space: nowrap; }
+
+  .collection-preview-list { padding: 0; display: flex; flex-direction: column; }
+  .mention-card { list-style: none; }
+  .mention-card-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: 0.5rem 0.9rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+  .mention-card-link:hover { background-color: var(--surface-alt); }
+  .mention-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    font-size: 0.75rem;
+    min-width: 0;
+  }
+  .mention-avatar {
+    width: 1rem; height: 1rem;
+    border-radius: var(--radius-pill);
+    object-fit: cover;
+    flex: none;
+  }
+  .mention-display-name { font-size: 0.85rem; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .mention-handle { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .mention-meta time { margin-inline-start: auto; padding-inline-start: 0.5em; color: var(--muted); white-space: nowrap; }
+  .mention-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* Post media inside a mention — constrain, don't full-bleed. */
+  .mention-card img:not(.mention-avatar) {
+    max-height: 12rem;
+    width: auto;
+    max-width: 100%;
+    margin-block-start: var(--space-2xs);
+  }
+  /* "View all →" per collection. */
+  .collection-more {
+    display: block;
+    padding: var(--space-2xs) 0.9rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--mention-accent);
+    text-decoration: none;
+  }
+  .collection-more:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* Margin highlight quoted inside a mention card — thin gold rule + faint wash,
+     italic, clamped to three lines. Per-highlight `color` is applied inline by
+     the island; these are the gold defaults. */
+  .mention-highlight {
+    margin: 0;
+    padding: 0.4rem 0.6rem 0.4rem 0.8rem;
+    border-inline-start: 2px solid color-mix(in srgb, var(--accent-margin) 60%, transparent);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent-margin) 8%, transparent) 0%, transparent 100%);
+    font-size: 0.85rem;
+    font-style: italic;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mention-annotation {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* Inline avatar dropped into the left margin next to a Margin highlight
+     (client-injected); negative inline-start margin pulls it out of the
+     measure, hidden when the margin gutter disappears. */
+  .margin-inline-avatar {
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: var(--radius-pill);
+    object-fit: cover;
+    vertical-align: middle;
+    margin-inline-start: -2em;
+    margin-inline-end: 0.4em;
+  }
+  @media (max-width: 75rem) {
+    .margin-inline-avatar { display: none; }
+  }
+
+  /* Inline Margin highlight woven into the article body — a faint gold wash
+     under a gold underline, keeping the running text's own color. Per-highlight
+     `color` overrides the gold inline (set by the island). */
+  mark.margin-inline-highlight {
+    color: inherit;
+    cursor: default;
+    padding: 0.1em 0.2em;
+    background-color: color-mix(in srgb, var(--accent-margin) 15%, transparent);
+    border-block-end: 1.5px solid color-mix(in srgb, var(--accent-margin) 45%, transparent);
+    transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+  }
+  mark.margin-inline-highlight:hover {
+    background-color: color-mix(in srgb, var(--accent-margin) 30%, transparent);
+    border-block-end-color: color-mix(in srgb, var(--accent-margin) 70%, transparent);
+  }
+  mark.margin-inline-highlight.margin-inline-highlight--flash {
+    animation: margin-highlight-flash 1.2s var(--ease-out);
+  }
+
+  /* Annotation text trailing an inline Margin highlight. */
+  .margin-inline-note {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    mark.margin-inline-highlight.margin-inline-highlight--flash { animation: none; }
+  }
+
+  /* ── atproto login ── */
+  [data-role="atproto-status"] { margin-block-start: var(--space-l); }
+  [data-role="atproto-login-trigger"],
+  [data-role="atproto-logout"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--brand);
+    background-color: var(--brand-tint);
+    color: var(--brand);
+    font-weight: 700;
+    font-size: var(--step--1);
+    cursor: pointer;
+    transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  [data-role="atproto-login-trigger"]:hover,
+  [data-role="atproto-logout"]:hover { background-color: var(--brand); color: var(--surface); }
+  [data-role="atproto-identity"] { color: var(--ink-soft); display: inline-flex; gap: 0.35em; }
+  [data-role="atproto-identity-name"] { color: var(--ink); font-weight: 700; }
+
+  dialog[data-role="atproto-login-dialog"] {
+    margin: auto;
+    padding: 0;
+    max-width: min(28rem, 92vw);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--shadow-2);
+  }
+  dialog[data-role="atproto-login-dialog"]::backdrop {
+    background-color: oklch(0 0 0 / 0.5);
+    backdrop-filter: blur(var(--blur));
+  }
+  dialog[data-role="atproto-login-dialog"] .card-header { padding: var(--space-m) var(--space-m) 0; }
+  dialog[data-role="atproto-login-dialog"] .card-title { font-size: var(--step-2); }
+  dialog[data-role="atproto-login-dialog"] .card-description { color: var(--muted); margin-block-start: var(--space-3xs); }
+  dialog[data-role="atproto-login-dialog"] .card-content {
+    padding: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+  dialog[data-role="atproto-login-dialog"] .field { display: flex; flex-direction: column; gap: var(--space-3xs); }
+  dialog[data-role="atproto-login-dialog"] .field label { font-weight: 600; font-size: var(--step--1); }
+  dialog[data-role="atproto-login-dialog"] input {
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background-color: var(--surface-sunken);
+    color: var(--ink);
+  }
+  dialog[data-role="atproto-login-dialog"] menu[type="toolbar"] {
+    display: flex;
+    gap: var(--space-2xs);
+    padding: 0;
+    margin: 0;
+  }
+  dialog[data-role="atproto-login-dialog"] .connect-button {
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--brand);
+    background-color: var(--brand);
+    color: var(--surface);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  dialog[data-role="atproto-login-dialog"] [data-role="atproto-login-cancel"] {
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background-color: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  dialog[data-role="atproto-login-dialog"] .form-error { color: var(--danger); font-size: var(--step--1); }
+  dialog[data-role="atproto-login-dialog"] .info-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--link);
+    font-size: var(--step--1);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  dialog[data-role="atproto-login-dialog"] .info-text { color: var(--ink-soft); font-size: var(--step--1); }
+
+  /* Flash pulse when a mention's "jump to highlight" link lands on its mark. */
+  @keyframes margin-highlight-flash {
+    0% {
+      background-color: color-mix(in srgb, var(--accent-margin) 50%, transparent);
+      border-block-end-color: color-mix(in srgb, var(--accent-margin) 90%, transparent);
+    }
+    100% {
+      background-color: color-mix(in srgb, var(--accent-margin) 15%, transparent);
+      border-block-end-color: color-mix(in srgb, var(--accent-margin) 45%, transparent);
+    }
+  }
+}

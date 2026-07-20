@@ -23,7 +23,7 @@
 // so this derives the origin at runtime from `window.location.origin`, and
 // treats an `http://` origin as dev (matches legacy in practice: local dev
 // always ran on `http://127.0.0.1:3000`/`http://localhost:3000`, prod is
-// always `https://trezy.com`).
+// always `https://trezy.codes`).
 //
 // NOTE on `scope`: legacy's prod `clientMetadata.scope` was
 // `'atproto repo:codes.trezy.reaction?action=create repo:codes.trezy.reaction?action=delete'`,
