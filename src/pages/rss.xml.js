@@ -11,7 +11,7 @@ export async function GET(context) {
 	const articles = await getSortedArticles()
 
 	return rss({
-		title: 'Trezy.com',
+		title: 'trezy.codes',
 		description: 'New ideas, old ideas, and regular ideas can all be found below the titles of Trezy\'s titular technological tidings.',
 		site: context.site,
 		items: articles.map(entry => {
