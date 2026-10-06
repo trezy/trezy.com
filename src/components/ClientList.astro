@@ -1,8 +1,16 @@
 ---
-// A non-interactive credibility wall — muted brand marks, not links. Each logo
-// carries `alt={name}` (its accessible name) and intrinsic width/height (from
-// the source SVG viewBox) so the browser reserves aspect-ratio space and the
-// row doesn't reflow as logos decode.
+// A non-interactive credibility wall — monochrome brand marks, not links.
+//
+// Each mark is painted as `currentColor` through a CSS mask rather than drawn
+// by an `<img>`. `<img>` content can't inherit the page's ink, which is why
+// the previous version needed a per-theme `grayscale() brightness() invert()`
+// filter stack to make dark logos legible on the near-black surface. The
+// source files are single-colour silhouette paths with no background shapes,
+// so masking reproduces them exactly and lets the wall follow `--ink` for
+// free: near-white in dark, near-black in light.
+//
+// `--logo-ratio` comes from the source viewBox so each slot reserves its
+// space before the mask resolves and the rows don't reflow.
 const clients = [
   { name: 'Amazon', logo: '/images/logos/amazon.svg', width: 603, height: 182 },
   { name: 'American Family Insurance', logo: '/images/logos/amfam.svg', width: 2427, height: 726 },
@@ -23,39 +31,68 @@ const clients = [
 <ul class="client-list" aria-label="A few of the teams I've worked with">
   {clients.map(({ name, logo, width, height }) => (
     <li>
-      <img
-        src={logo}
-        alt={name}
-        width={width}
-        height={height}
-        loading="lazy" />
+      <span
+        class="client-logo"
+        role="img"
+        aria-label={name}
+        style={`--logo-src: url("${logo}"); --logo-ratio: ${width} / ${height};`} />
     </li>
   ))}
 </ul>
 
 <style>
+  /* Flex, not grid: a grid's fixed tracks strand the final row against the
+     left edge (or stretch it into columns that don't match the rows above).
+     Wrapping flex items centre every row independently, so the wall reads as
+     centred blocks of type rather than a table with a ragged last line. */
   .client-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+    /* Separation lives as padding *inside* each item, not as `gap` between
+       them. A gap leaves un-hoverable corridors: crossing one drops
+       `:has(li:hover)`, so every mark starts animating back to full strength
+       and then straight back down on the next logo — which reads as the whole
+       wall dimming, and flickers when you move along a row. With half the
+       separation on each side of every mark, adjacent items touch, so hover
+       passes from one directly to the next with no state in between.
+       Two neighbours still contribute a full `--space-xl` between them. */
+    --logo-pad-block: calc(var(--space-l) / 2);
+    --logo-pad-inline: calc(var(--space-xl) / 2);
+
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-items: center;
-    gap: var(--space-l) var(--space-xl);
-    margin-block-start: var(--space-l);
+    justify-content: center;
     width: 100%;
     max-width: var(--content-max);
-  }
-  .client-list li { display: grid; place-items: center; width: 100%; }
-  .client-list img {
-    height: 2.1rem;
-    width: auto;
-    max-width: 100%;
-    opacity: 0.6;
-    filter: grayscale(1);
+    /* The outermost ring of that padding has nothing to pair with, so cancel
+       it in the block direction to keep the original rhythm against the copy
+       above and the band's own padding below. */
+    margin-block-start: calc(var(--space-l) - var(--logo-pad-block));
+    margin-block-end: calc(var(--logo-pad-block) * -1);
   }
 
-  /* Dark themes: lift dark logos so they read on the near-black surface. */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .client-list img { filter: grayscale(1) brightness(0) invert(0.85); }
+  .client-list li {
+    display: flex;
+    align-items: center;
+    padding: var(--logo-pad-block) var(--logo-pad-inline);
   }
-  :root[data-theme="dark"] .client-list img { filter: grayscale(1) brightness(0) invert(0.85); }
+
+  .client-logo {
+    display: block;
+    /* Height drives the mark; `aspect-ratio` derives the width, so wide
+       wordmarks and square crests stay optically consistent. */
+    height: clamp(1.6rem, 1.25rem + 1.5vw, 2.1rem);
+    aspect-ratio: var(--logo-ratio);
+    background-color: currentColor;
+    -webkit-mask: var(--logo-src) center / contain no-repeat;
+    mask: var(--logo-src) center / contain no-repeat;
+    transition: opacity var(--dur) var(--ease-out);
+  }
+
+  /* Hovering any one mark recedes the rest of the wall, leaving the hovered
+     logo as the only thing at full strength. `:has()` scopes this to a real
+     mark hover, so tracking across the gaps between logos doesn't dim the
+     whole row with nothing picked out.
+     `--dur` collapses to ~0 under `prefers-reduced-motion`, per tokens.css. */
+  .client-list:has(li:hover) .client-logo { opacity: 0.25; }
+  .client-list li:hover .client-logo { opacity: 1; }
 </style>
