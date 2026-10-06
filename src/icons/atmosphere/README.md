@@ -9,6 +9,12 @@ set, so this is the creator's own `icon-monochrome-64.svg` — their flattened
 tray/menu-bar variant, which already ships `fill="currentColor"`. `sifa.svg` and
 the rest come from atmologos.
 
+`streamplace.svg` is off-set for a different reason: Stream Place updated their
+logo, so this is the newer mark rather than the atmologos import (which was an
+opacity-shaded isometric cube). It's the one file here that isn't on a 64×64
+grid — it keeps its native 18×18 viewBox, which costs nothing and avoids
+rescaling arc radii into repeating decimals. See the comment in the file.
+
 The atmologos marks are pure black on import, so astro-icon detects them as monochrome and
 rewrites every fill to `currentColor` — meaning they inherit `--muted`/`--brand`
 and the palette-wide `--hue-shift` exactly like the FontAwesome brand icons do.

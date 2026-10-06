@@ -59,10 +59,6 @@ const links = [
     text-decoration: none;
     transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
   }
-  /* 1.35rem, not 1.05: the `atmosphere/*` marks are 64×64 logomarks, not glyphs
-     drawn on an icon grid, and Stream Place (opacity-shaded cube) and Cartridge
-     (fine outlines) turn to mush below ~22px. The extra size suits the FA icons
-     too — they were sitting small inside a 2.75rem target. */
   .social a :global(svg) { block-size: 1.35rem; inline-size: auto; }
   .social a:hover {
     color: var(--brand);
