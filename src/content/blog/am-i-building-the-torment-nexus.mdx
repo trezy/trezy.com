@@ -1,0 +1,173 @@
+---
+title: Am I Building the Torment Nexus?
+subtitle: What happens when an AppView gets an easy window into atproto spaces.
+synopsis: I built a tool that lets HappyView operators browse the contents of atproto spaces, and the moment I saw it working I got a pit in my stomach. Here's what the community had to say about whether it should exist, and what it needs to look like if it does.
+createdAt: 2026-10-06T15:20:00.000Z
+updatedAt: 2026-10-06T15:20:00.000Z
+draft: false
+---
+
+Yesterday I built a new feature for [HappyView](https://happyview.dev): an inspector that lets operators browse the contents of atproto spaces right from the dashboard. I started testing it, watched it pull up somebody's permissioned records in a tidy little table, and immediately got a pit in my stomach.
+
+Did I do something bad? Is this too powerful? Am I creating the [torment nexus](https://knowyourmeme.com/memes/torment-nexus)? 😬
+
+So I did what any reasonable person does when they're having a crisis of conscience: I [posted a thread on Bluesky](https://bsky.app/profile/trezy.codes/post/3mx6cdlaqzs2i) and asked the HappyView Discord. Y'all showed up with some great thoughts, and I wanted to get all of it in one place.
+
+## TL;DR
+
+- Spaces are access control, not privacy. Anybody with access to the database can already read everything in them.
+- Operators need some way to see that data, because moderation is a real, legal, non-optional part of running a service.
+- A database and a dashboard aren't the same thing, though. Making something easy changes who does it and how often.
+- If HappyView ships an inspector, it should be opt-in, scoped, justified, and logged.
+- The hardest part isn't HappyView. It's that every AppView indexing a space ends up with one admin holding lots of people's data, and the people that data belongs to can't see what that admin is doing with it.
+
+## Wait, what's a space?
+
+Atproto nerds probably know this already, but here's a brief primer for the uninitiated: Spaces are atproto's take on [permissioned data](https://github.com/bluesky-social/proposals/tree/main/0016-permissioned-data). Most atproto data is public: your posts, your likes, your follows, all of it gets broadcast to the whole network. A space is a container for records that should only be visible to specific people. I use them in [Cartridge](https://cartridge.dev) when studios claim ownership of their games. It allows the studio to submit evidence that they made a game without broadcasting it to the whole network.
+
+The part that matters for this conversation is that spaces aren't encrypted. They decide who's allowed to _ask_ for the data. Anybody holding the data can still read it. If somebody has access to the database where a space lives, they can read anything in that space. That's true for spaces hosted by HappyView, and it'll be true for spaces on your PDS.
+
+If you want privacy from the people running the servers, you need some form of end-to-end encryption on top. Spaces don't do that by themselves.
+
+## Why operators need to see it
+
+From the server operator's side of the table, this access makes a lot of sense. The operator of a service needs to be able to moderate the content on that service. We do not need bad actors using spaces to store CSAM. That would be Very Bad™.
+
+[AngryDutchman](https://bsky.app/profile/angrydutchman.online/post/3mx74ikxpfk2a) put the operator's position about as bluntly as it can be put:
+
+> ...if I'm either running a [HappyView instance] for myself or hosting them as a managed thing, I still want to be able to make sure my ass is legally in the clear at all times (I'm too pretty to go to jail) and that means *needing* to be able to see what's going on.
+
+That's not new, either. [As AngryDutchman puts it](https://bsky.app/profile/angrydutchman.online/post/3mx74ilcnyc2a), web hosts can dig through the filesystem and database to see what's in there even if you password protect it... and they do, like during abuse investigations.
+
+[Victoria](https://bsky.app/profile/vicwalker.dev.br/post/3mx6dpftpw22q) made the same case from the other direction:
+
+> Admins need tools to help them moderate or Spaces will become a nightmare very quickly
+
+[Victoria also noted](https://bsky.app/profile/vicwalker.dev.br/post/3mx6dpg2bus2q) that we already make this trade all over atproto. Unless you self-host, your PDS admin holds a rotation key for your account. They have the power to be evil, and we trust them not to use it. We make the same call every time we authorize an app through OAuth.
+
+## The database and the dashboard aren't the same thing
+
+Nobody in the thread argued that operators shouldn't have access. The access already exists. As [Alex](https://bsky.app/profile/a2.co) put it in Discord:
+
+> Not adding it to HV's dashboard page can't stop an admin from reading through pg/sqlite. Or at worst forking HV and adding that themselves.
+
+[LemmaEOF](https://bsky.app/profile/lemmaeof.gay) agreed, and added that it's better to codify that this is the expectation than to pretend otherwise.
+
+I agree with both of them. The thing still bugging me is that having access via the database and having a polished UI for it are different situations. Cracking open the database and writing queries by hand takes effort, and that effort is a speed bump. A nice viewer removes the speed bump.
+
+[Ezra](https://bsky.app/profile/ezraboeth.com/post/3mx6mk6ca4s2i) drew the line exactly where my stomach did:
+
+> I as a user would expect that admins of the appview for my space would have the ability to run anything programmatically over my data in the space (for the purposes of moderation or indexing or anything else), but I would NOT expect them to have the ability to open individual records and inspect them (along with blobs) in a nice viewer. that to me makes inspection *too* easy, to the point where I would actually worry that admins would poke around in spaces just for the hell of it.
+
+[Evelyn](https://bsky.app/profile/kandake.africa) said something similar in Discord, and framed it as a social contract:
+
+> while we can we _shouldn't_. Similar to being a pds operator, while we technically have the keys to everything we shouldn't make it easy do the things people don't expect us to.
+
+The goal was never to hand operators a creepy tool for rifling through your private stuff. Any tool that provides this kind of auditability _can_ be used that way, though... and the easier it is to use, the more likely somebody will.
+
+## This isn't just a HappyView problem
+
+[sōm](https://bsky.app/profile/hyl.st/post/3mx6i2pflxc2p) asked a question that I think a lot of folks had: isn't the space hosted by the PDS? Why does HappyView have the data at all?
+
+The spaces spec says the data should be held by the repo host, which is typically the user's PDS. However, spaces aren't generally available yet. HappyView ships a polyfill that lets operators use spaces today, even for users whose PDS doesn't support them. While that polyfill is in place, HappyView is acting as a fractional repo host, holding the data for those spaces while the PDS holds the rest of the user's repo.
+
+The polyfill isn't really the issue, though. Once spaces are generally available and every PDS supports them, an AppView that's been granted access to a space will still index that data, and it'll still have a fully readable copy until access is revoked. Even after the access is revoked, the AppView can decide to hold on to that data anyway. This will be a concern for _every_ AppView, not just HappyView.
+
+[Paul Rohr](https://bsky.app/profile/pevohr.bsky.social/post/3mx7crkdsts2z) broke down why that feels so different from the PDS case. In theory, each piece of the stack has its own job:
+
+- **The user** decides which apps can do what
+- **The repo host (PDS)** decides which app/user combo can access what data (read or write)
+- **The space host (PDS _or_ AppView)** controls who can read from a space
+- **The space authority (AppView)** controls who can write to a space
+
+The protocol keeps those roles honest with each other. A standalone space host can't forge credentials to trick your PDS into handing data to the wrong app, and you can revoke access from an AppView that overshares. The trouble starts when [one entity plays multiple roles](https://bsky.app/profile/pevohr.bsky.social/post/3mx7crkqyps2z):
+
+> simplespace = one admin for my data + personal spaces ([RH] + SH)
+>
+> vs.
+>
+> happyview = one admin for everyone's data across lotsa spaces (AV + SH)
+
+With this, Paul put words to the pit in my stomach. A PDS admin peeking at your stuff is one person with access to one account's worth of trust. An AppView admin with a slick viewer is one person with a window into _everybody's_ spaces at once. The blast radius is way bigger.
+
+## What do users actually expect?
+
+My first instinct was that this is defensible because it's how every platform already works. If I make a private Facebook account and upload a bunch of sensitive photos, I know there are Meta employees who can see them. [Alex](https://bsky.app/profile/a2.co) brought up Twitter's private accounts: Twitter can still read those posts, because Twitter has to serve them.
+
+So if I sign into `VeryPrivateService.at` with my atproto account, I should have the same expectation, right?
+
+[Ricardo](https://bsky.app/profile/ricardo.bsky.social/post/3mx7dxr6jhk2b) pointed out that I was munging two separate things together: what users expect, and what admins need.
+
+> There is nothing skeevy about adding a tool admins could not only build themselves, but have a reasonable expectation for. It would only be sketchy if you were circumventing some basic spaces privacy capability
+
+And [user expectations](https://bsky.app/profile/ricardo.bsky.social/post/3mx7dxri34s2b) belong to the app:
+
+> User expectations MAY BE that admins do not get access to spaces, either because the feature was poorly communicated, they didn't check, or simply uninformed assumptions. But that's for VeryPrivateService to manage, not you (or anyone else on the network stack).
+
+I think Ricardo's right, and it lines up with something I keep coming back to. Spaces are an implementation detail. It doesn't make sense to expose spaces-as-a-concept to users, the same way it doesn't make sense to make atproto-as-a-concept a thing users have to understand. Nobody signing up for an app should need to know what a space is unless they decide to dig deeper into the infra.
+
+What users _do_ need to know is the difference between their public and "private" data (what's exposed to the whole network vs. what's exposed only to people they choose), and what "private" actually means in that app.
+
+Again, [Cartridge](https://cartridge.dev) is a good example. We're not storing anything sensitive in spaces. They're mostly for data that doesn't need to be broadcast to the network. It's reasonable for us to tell users that moderators can see their private data and move on.
+
+On the other hand, if somebody builds E2EE on top of spaces, the AppView shouldn't be able to decrypt anything. In that case private really does mean private, and an inspector would just show a pile of ciphertext.
+
+The awkward part is that nothing in the stack enforces any of this. An app could:
+
+- build on spaces with no extra privacy
+- tell users that admins can't see their data
+- exploit the undisclosed access anyway
+
+It's a weird system. Not really different from the way every other platform works, but still awkward.
+
+## So what am I responsible for?
+
+From where HappyView sits, I can't enforce anything for end users. HappyView is one layer of somebody else's stack, so I have to think about users in the abstract: how does a change in HappyView change the way apps are built on top of it?
+
+I also have to think about the ethics of building this tool at all. Somebody else could absolutely build it with the data that's already sitting there, but that doesn't absolve me of responsibility. Like [Evelyn](https://bsky.app/profile/kandake.africa) said, just because I _can_ build it doesn't mean I _should_.
+
+The overwhelming feedback, though, was that operators need it. [Nick](https://bsky.app/profile/ngerakines.me/post/3mx6ddhsktk2r) gave me a "Strong yes." [Jacky](https://bsky.app/profile/jacky.wtf/post/3mx6enqlrps2i) said I'm on the right path. Most of the Discord agreed. Even [Ezra](https://bsky.app/profile/ezraboeth.com), the most skeptical voice in the thread, was fine with operators having programmatic access. The disagreement was never really about whether admins can see space data, but about how easy it should be.
+
+## What it should look like
+
+Here's what came out of the conversation for how a space inspector should work, if it ships.
+
+### Off by default
+
+Evelyn's suggestion was to make it possible, but not the default. An admin has to intentionally turn the viewing feature on. Every operator who has it enabled made a conscious decision to enable it, and no operator ends up with a space browser just because they updated HappyView.
+
+This doesn't prevent the tool from being abused, but it's another speed bump that can push the operator toward thinking about the ethical implications of using it.
+
+### Scoped to one account at a time
+
+[Tamme](https://bsky.app/profile/tamme.schichler.de/post/3mx6wv34dfc2o) suggested limiting how broad the browsing can get:
+
+> checking one account's space records at a time is likely needed, but browsing all users at once by collection may not be.
+
+Moderation almost always starts with a specific report about a specific account. A tool that's built around "look at this one account" fits that workflow. A tool built around "show me every record in every space" fits rummaging around.
+
+I think there might be an alternative mode for reviewing one _space_ at a time, rather than one user, since that's likely to provide the context necessary to make decisions, whereas a single user's records in a space might not.
+
+### Justified and time-boxed
+
+Tamme [went further](https://bsky.app/profile/tamme.schichler.de/post/3mx6wv3vbak2o):
+
+> maybe with a click-through where the target and scope is selected, potentially with comment box, and then that's logged only once for the next hour or two where it's 'unlocked'.
+
+I really like this. You have to say who you're looking at and why before you can see anything, the access expires, and the reason is written down. A moderator handling a report won't mind filling in a box. Somebody poking around out of boredom hits another speed bump.
+
+### Logged
+
+[Boris](https://bsky.app/profile/bmann.ca/post/3mx6ewezi7s25) pointed to Discourse and other multi-user systems that log admin actions, and repeated it in Discord. HappyView already has an audit log so operators can keep each other in check, and space access absolutely needs to be in it.
+
+The audit log has a gap, though, and [Alex](https://bsky.app/profile/a2.co) found it right away: who's actually going to read those logs besides other admins? Boris agreed: if it's a single admin running a service lots of people use, that's a governance problem, and no amount of internal logging fixes it.
+
+That's the part I can't solve from inside HappyView. Since HappyView is only one part of the stack, I can't require apps to show their audit data to users. That would be the real win, though: being able to see when somebody looked at your stuff and why. What I _can_ do is make it easy for apps to expose the audit log to users. If I can make it easier to implement, apps are more likely to do so.
+
+## Where I've landed (for now)
+
+I'm leaning toward shipping it. Operators need some way to see what's in their spaces, and leaving it out of the dashboard won't make anybody safer. Admins who need to investigate a report would end up with worse tools, and the nosy ones would still have the database.
+
+I still don't think the pit in my stomach was wrong. How easy a tool is to use shapes how people use it, and its potential for abuse has to be weighed in that design. If the inspector ships, it'll be off until you turn it on, it'll limit the data that's visible at any one time, it'll ask why you're looking, and we'll store all of that in the logs.
+
+Thanks to everybody who weighed in on the thread and in the Discord. I have a much, _much_ better idea of how to build this tool safely, and I think the result is going to be a lot better than anything I came up with on my own. If you've got thoughts I didn't cover, ping me [on Bluesky](https://bsky.app/profile/trezy.codes). ✌️
