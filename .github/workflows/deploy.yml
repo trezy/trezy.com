@@ -28,8 +28,6 @@ jobs:
         env:
           ATP_IDENTIFIER: ${{ secrets.ATP_IDENTIFIER }}
           ATP_APP_PASSWORD: ${{ secrets.ATP_APP_PASSWORD }}
-          # trezy.codes lives on pds.kart.sh, not the bsky.social default, so
-          # the app-password login must target the account's real PDS.
           PDS_URL: ${{ vars.PDS_URL }}
 
       - name: Build site
