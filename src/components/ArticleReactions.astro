@@ -51,7 +51,7 @@ const {
 // legacy/components/ArticleReactions.js's `ALLOWED_REACTIONS` icon mapping,
 // converted from `@fortawesome/react-fontawesome` to astro-icon names (see
 // project constraints' port-transformation rules).
-const REACTION_ICONS = {
+const REACTION_ICONS: Record<string, string> = {
 	heart: 'fa6-solid:heart',
 	clap: 'fa6-solid:hands-clapping',
 	rocket: 'fa6-solid:rocket',
@@ -61,7 +61,7 @@ const REACTION_ICONS = {
 }
 
 // Accessible names for the icon-only reaction buttons (screen readers + tooltip).
-const REACTION_LABELS = {
+const REACTION_LABELS: Record<string, string> = {
 	heart: 'Love this',
 	clap: 'Applause',
 	rocket: 'To the moon',
@@ -94,7 +94,7 @@ blueskySearchURL.searchParams.append('q', absoluteArticleURL)
 <aside class="article-responses-wrapper">
 	<h2>Before you leave...</h2>
 
-	<p>This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a <ExternalLink href="https://ko-fi.com/trezy">monthly donation on Ko-fi</ExternalLink>. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash. If that's not in in the cards, make sure to share the article on Bluesky.</p>
+	<p>This article has no ads, no sponsors, and no bullshit. If you want to keep it that way, consider supporting me with a <ExternalLink href="https://ko-fi.com/trezy">monthly donation on Ko-fi</ExternalLink>. Your money buys me the time and independence to chase real stories, talk to the people who matter, and write without a leash. If financial support isn't in the cards, that's okay! You can also support me by sharing my articles on Bluesky and everywhere else. ❤️</p>
 
 	<div class="article-responses">
 		<ul class="share-links">
